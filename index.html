@@ -212,39 +212,38 @@
       <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
         <!-- Speed Selector Pill -->
         <div id="speedControlGroup" class="flex items-center bg-slate-800/90 border border-slate-600/80 rounded-xl p-0.5 shadow-inner">
-          <button id="btnPause" onclick="setSimSpeed(0)" class="px-1.5 sm:px-2 py-0.5 text-[11px] font-display font-bold transition bg-[#ff2a5f] text-white" title="หยุดเวลาชั่วคราว (Space)">⏸</button>
-          <button id="btnSpeed1" onclick="setSimSpeed(1)" class="px-1.5 sm:px-2 py-0.5 text-[11px] font-display font-bold transition text-slate-300 hover:text-white">1x</button>
-          <button id="btnSpeed2" onclick="setSimSpeed(2)" class="px-1.5 sm:px-2 py-0.5 text-[11px] font-display font-bold transition text-slate-300 hover:text-white">2x</button>
-          <button id="btnSpeed4" onclick="setSimSpeed(4)" class="px-1.5 sm:px-2 py-0.5 text-[11px] font-display font-bold transition text-slate-300 hover:text-white">4x</button>
-          <button id="btnSpeed8" onclick="setSimSpeed(8)" class="px-1.5 sm:px-2 py-0.5 text-[11px] font-display font-bold transition text-slate-300 hover:text-white">8x</button>
-          <button id="btnSpeed16" onclick="setSimSpeed(16)" class="px-1.5 sm:px-2 py-0.5 text-[11px] font-display font-bold transition text-slate-300 hover:text-white">16x</button>
+          <button id="btnPause" onclick="setSimSpeed(0)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition bg-[#ff2a5f] text-white rounded-lg" title="หยุดเวลาชั่วคราว (Space)">⏸</button>
+          <button id="btnSpeed1" onclick="setSimSpeed(1)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">1x</button>
+          <button id="btnSpeed2" onclick="setSimSpeed(2)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">2x</button>
+          <button id="btnSpeed4" onclick="setSimSpeed(4)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">4x</button>
+          <button id="btnSpeed8" onclick="setSimSpeed(8)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">8x</button>
+          <button id="btnSpeed16" onclick="setSimSpeed(16)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">16x</button>
         </div>
 
         <!-- Question Pacing / Destiny Mode Selector -->
-        <button id="btnQuestionMode" onclick="cycleQuestionMode()" class="manga-btn px-2 py-0.5 text-[11px] bg-indigo-950 text-cyan-200 border-cyan-400/70 flex items-center gap-1" title="สลับโหมดคำถาม: ถามทุกปี / ถามเฉพาะช่วงวัยสำคัญ / โหมดดูปลายทาง (ไม่ถามแทรก)">
+        <button id="btnQuestionMode" onclick="cycleQuestionMode()" class="manga-btn px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] bg-indigo-950 text-cyan-200 border-cyan-400/70 flex items-center gap-0.5 sm:gap-1" title="สลับโหมดคำถาม: ถามทุกปี / ถามเฉพาะช่วงวัยสำคัญ / โหมดดูปลายทาง (ไม่ถามแทรก)">
           <span>🎯</span>
           <span class="hidden lg:inline">โหมดคำถาม:</span>
           <strong id="questionModeStatus" class="text-[#ffd166]">ถามทุกปี</strong>
         </button>
 
         <!-- Auto Mode Toggle -->
-        <button id="btnAutoMode" onclick="toggleAutoMode()" class="manga-btn px-2 py-0.5 text-[11px] bg-slate-800 text-slate-200 flex items-center gap-1" title="เปิด/ปิด Auto Mode (ปุ่มลัด A)">
-          <span id="autoModeDot" class="w-2 h-2 rounded-full bg-slate-400"></span>
+        <button id="btnAutoMode" onclick="toggleAutoMode()" class="manga-btn px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] bg-slate-800 text-slate-200 flex items-center gap-1" title="เปิด/ปิด Auto Mode (ปุ่มลัด A)">
+          <span id="autoModeDot" class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
           <span class="hidden md:inline">Auto Mode:</span> <strong id="autoModeStatus">OFF</strong>
         </button>
 
         <!-- Akashic Karma Counter -->
-        <div class="flex items-center gap-1 bg-amber-500/15 border border-amber-400/50 rounded-full px-2.5 py-0.5 text-[11px]" title="แต้มกรรมสะสมข้ามชาติภพ">
+        <div class="flex items-center gap-0.5 bg-amber-500/15 border border-amber-400/50 rounded-full px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px]" title="แต้มกรรมสะสมข้ามชาติภพ">
           <span class="text-[#ffd166]">✦</span>
-          <span class="hidden xl:inline text-[#ffd166]">แต้มกรรม:</span>
           <strong id="karmaPointsTop" class="font-display text-white">20</strong>
         </div>
 
         <!-- Audio Mute Toggle -->
-        <button id="btnMute" onclick="toggleAudioMute()" class="manga-btn px-1.5 py-0.5 text-[11px] bg-[#181b2a] text-white" title="เปิด/ปิดเสียงเอฟเฟกต์">🔊</button>
+        <button id="btnMute" onclick="toggleAudioMute()" class="manga-btn px-1.5 py-0.5 text-[10px] sm:text-[11px] bg-[#181b2a] text-white" title="เปิด/ปิดเสียงเอฟเฟกต์">🔊</button>
 
         <!-- Encyclopedia & Settings (⋯) -->
-        <button id="btnMoreMenu" onclick="toggleMoreModal()" class="manga-btn px-2 py-0.5 text-[11px] bg-[#23273d] text-white font-black" title="สถิติดวงดาว & ตั้งค่า">⋯</button>
+        <button id="btnMoreMenu" onclick="toggleMoreModal()" class="manga-btn px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] bg-[#23273d] text-white font-black" title="สถิติดวงดาว & ตั้งค่า">⋯</button>
       </div>
     </div>
   </header>
@@ -262,6 +261,7 @@
         <span id="hudQuickName" class="font-bold text-white truncate max-w-[120px] sm:max-w-[200px]">ยังไม่ได้ถือกำเนิด</span>
         <span id="tamaMoodPill" class="bg-pink-500/25 border border-pink-300/60 text-pink-200 rounded-full px-2 py-0.5 font-display font-bold text-[10px] shrink-0">🐣 รอฟักไข่</span>
         <span id="tamaEvolutionBadge" class="bg-amber-500/25 border border-amber-300/70 text-amber-200 rounded-full px-2.5 py-0.5 font-display font-bold text-[10px] shrink-0">🧬 ร่าง: เบบี๋แรกเกิด</span>
+        <button id="hudActivePetPill" onclick="openRoomPetShopModal('pets')" class="bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-300/70 text-emerald-200 rounded-full px-2 py-0.5 font-display font-bold text-[10px] shrink-0 transition" title="คลิกเพื่อเปิดร้านค้าแต่งห้องและสัตว์เลี้ยงคู่หู">🐾 คู่หู: ยังไม่มี</button>
         <span id="stageLocationLabel" class="hidden md:inline text-slate-300 truncate max-w-[200px]">• ห้องพักไข่ดาว</span>
       </div>
 
@@ -323,14 +323,10 @@
         <div class="flex-1 min-h-[175px] w-full bg-[#0b0c14] relative overflow-hidden">
           <div id="phaserMangaContainer" class="w-full h-full"></div>
 
-          <!-- CRISP NATIVE HTML STORY NARRATION OVERLAY (100% Vector Sharp on Mobile & PC) -->
-          <div id="stageStoryOverlayBox" class="pointer-events-none absolute left-2.5 right-2.5 bottom-2 z-10 story-narration-box px-3 py-2 sm:px-3.5 sm:py-2.5">
-            <div class="flex items-start gap-2">
-              <span id="stageStoryBadge" class="shrink-0 mt-0.5 bg-[#00f0ff] text-slate-950 font-display font-extrabold text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md shadow">📖 เรื่องราว</span>
-              <p id="stageStoryOverlayText" class="text-[13px] sm:text-[14.5px] font-medium text-white leading-snug break-words">
-                กดปุ่ม "เกิดใหม่ / สุ่มชีวิตใหม่" เพื่อเปิดฉากชีวิตข้ามจักรวาลของคุณ!
-              </p>
-            </div>
+          <!-- Hidden overlay node (kept for DOM ID compatibility; story is shown in the dedicated bar below canvas so 2D stage is 100% unobstructed!) -->
+          <div id="stageStoryOverlayBox" class="hidden pointer-events-none absolute left-2 right-2 bottom-1.5 z-10">
+            <span id="stageStoryBadge">📖 เรื่องราว</span>
+            <p id="stageStoryOverlayText"></p>
           </div>
 
           <!-- ============================================================= -->
@@ -380,52 +376,49 @@
           </div>
         </div>
 
-        <!-- DAILY ROUTINE & MONTHLY PROGRESSION BAR (Shows daily life & 12-month progress clearly) -->
-        <div id="dailyRoutineBar" class="shrink-0 bg-[#0d1124] border-t border-slate-700/90 px-3 py-2 flex flex-col gap-1.5">
-          <div class="flex flex-wrap items-center justify-between gap-1.5">
-            <div class="flex items-center gap-1.5">
-              <span id="monthProgressBadge" class="bg-[#00f0ff] text-slate-950 font-display font-extrabold px-2 py-0.5 text-[11px] rounded shrink-0">เดือนที่ 1 / 12</span>
-              <span id="timeOfDayBadge" class="bg-indigo-950 border border-indigo-400/80 text-indigo-100 font-display font-bold px-2 py-0.5 text-[11px] rounded shrink-0">🌅 ยามเช้า</span>
+        <!-- UNIFIED CRISP STORY & ROUTINE BAR BELOW 2D STAGE (Compact, High-Contrast, Zero Redundancy) -->
+        <div id="dailyRoutineBar" class="shrink-0 bg-[#0c1022] border-t-2 border-pink-400/60 px-2.5 py-1.5 flex flex-col gap-1">
+          <div class="flex items-center justify-between gap-1.5">
+            <div class="flex items-center gap-1 min-w-0">
+              <span id="monthProgressBadge" class="bg-[#00f0ff] text-slate-950 font-display font-extrabold px-1.5 py-0.5 text-[10px] rounded shrink-0">เดือนที่ 1/12</span>
+              <span id="timeOfDayBadge" class="bg-indigo-950 border border-indigo-400/70 text-indigo-100 font-display font-bold px-1.5 py-0.5 text-[10px] rounded shrink-0">🌅 ยามเช้า</span>
+              <span id="futurePathBadge" class="text-[10px] font-display font-bold text-emerald-200 bg-emerald-950/90 border border-emerald-400/50 px-1.5 py-0.5 rounded truncate">🌱 รอการพัฒนา</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span id="futurePathBadge" class="text-[11px] font-display font-bold text-emerald-200 bg-emerald-950/90 border border-emerald-400/60 px-2 py-0.5 rounded">🌱 แนวโน้มอนาคต: รอการพัฒนา</span>
+            <div class="w-16 sm:w-28 h-1.5 bg-slate-800 border border-slate-700 rounded-full overflow-hidden shrink-0">
+              <div id="yearMonthProgressBar" class="h-full bg-gradient-to-r from-[#00f0ff] via-[#ffd166] to-[#ff2a5f] transition-all duration-300" style="width: 8%"></div>
             </div>
           </div>
-          <p id="dailyActivityText" class="text-[12.5px] sm:text-[13.5px] text-[#fde047] font-medium leading-snug break-words">
+          <p id="dailyActivityText" class="text-[12px] sm:text-[13px] text-white font-medium leading-snug line-clamp-2 break-words">
             กำลังเริ่มต้นกิจวัตรประจำวัน...
           </p>
-          <div class="w-full h-2 bg-slate-800/90 border border-slate-700 rounded-full overflow-hidden">
-            <div id="yearMonthProgressBar" class="h-full bg-gradient-to-r from-[#00f0ff] via-[#ffd166] to-[#ff2a5f] transition-all duration-300" style="width: 8%"></div>
-          </div>
         </div>
 
-        <!-- LIVE "GOD-HAND" FATE INTERVENTION BAR (Active even during Auto Mode!) -->
-        <div class="shrink-0 bg-slate-900/60 border-t border-slate-800/80 px-3 py-1.5 flex flex-wrap items-center justify-between gap-1.5">
-          <div class="flex items-center gap-1 text-[10px] sm:text-[11px]">
-            <span class="bg-pink-400 text-slate-950 font-display font-black px-2 py-0.5 slanted-header">🍼 ดูแลน้องสดๆ</span>
-            <span class="text-pink-200 font-bold hidden sm:inline">ปุ่มของเล่นทามาก็อตจิ:</span>
-          </div>
-
-          <div class="flex items-center gap-1.5 flex-1 sm:flex-initial justify-end">
-            <button id="btnGodSpawnOrbs" onclick="triggerGodHandIntervention('crystal_shower')" disabled class="manga-btn px-2 py-0.5 text-[10px] sm:text-[11px] bg-[#1b2238] hover:bg-[#25304d] text-[#00f0ff] font-bold" title="เสกคริสตัลและลูกแก้วชีวภาพลงบนฉาก Phaser 2D ให้กดเก็บสดๆ">
+        <!-- LIVE "GOD-HAND" FATE INTERVENTION BAR -->
+        <div class="shrink-0 bg-slate-900/70 border-t border-slate-800/80 px-2.5 py-1 flex items-center justify-between gap-1">
+          <span class="bg-pink-400 text-slate-950 font-display font-extrabold px-2 py-0.5 text-[10px] slanted-header shrink-0">🍼 ดูแลน้อง</span>
+          <div class="flex items-center gap-1 justify-end overflow-x-auto">
+            <button id="btnGodSpawnOrbs" onclick="triggerGodHandIntervention('crystal_shower')" disabled class="manga-btn px-2 py-0.5 text-[10px] bg-[#1b2238] hover:bg-[#25304d] text-[#00f0ff] font-bold shrink-0">
               🌠 เรียกฝนคริสตัลบนฉาก
             </button>
-            <button id="btnGodStartQte" onclick="triggerGodHandIntervention('start_qte')" disabled class="manga-btn px-2 py-0.5 text-[10px] sm:text-[11px] bg-[#2a182c] hover:bg-[#3d2040] text-[#ffd166] font-bold" title="เปิดศึกมินิเกม QTE ท้าดวลวิกฤตทันทีเพื่อชิงรางวัลใหญ่">
+            <button id="btnGodStartQte" onclick="triggerGodHandIntervention('start_qte')" disabled class="manga-btn px-2 py-0.5 text-[10px] bg-[#2a182c] hover:bg-[#3d2040] text-[#ffd166] font-bold shrink-0">
               ⚔️ ท้าดวลวิกฤต (QTE)
             </button>
-            <button id="btnGodPurge" onclick="triggerGodHandIntervention('purge_leeches')" disabled class="manga-btn px-2 py-0.5 text-[10px] sm:text-[11px] bg-[#182928] hover:bg-[#203836] text-emerald-300 font-bold" title="กวาดล้างปรสิตความเครียดทั้งหมดบนฉากและฮีลฉุกเฉิน">
-              ⚡ ชำระล้าง/ฮีลสด (2✦)
+            <button id="btnGodPurge" onclick="triggerGodHandIntervention('purge_leeches')" disabled class="manga-btn px-2 py-0.5 text-[10px] bg-[#182928] hover:bg-[#203836] text-emerald-300 font-bold shrink-0">
+              ⚡ <span class="hidden sm:inline">ชำระล้าง/</span>ฮีลสด (2✦)
+            </button>
+            <button id="btnOpenRoomPetShop" onclick="openRoomPetShopModal()" class="manga-btn px-2 py-0.5 text-[10px] bg-gradient-to-r from-pink-500 to-amber-400 text-slate-950 font-extrabold shrink-0" title="เปิดร้านค้าแต่งห้อง 2D เฟอร์นิเจอร์ และสัตว์เลี้ยงคู่หู">
+              🛍️ แต่งห้อง & สัตว์เลี้ยง
             </button>
           </div>
         </div>
 
-        <!-- Live Mini Chronicle Ticker (Full multi-line clarity on Mobile Stage so story events are never cut off!) -->
-        <div id="liveTickerBar" onclick="switchHudTab('log')" class="lg:hidden shrink-0 bg-[#090d1d] border-t border-slate-700/80 px-3 py-1.5 flex items-start justify-between gap-2 cursor-pointer hover:bg-[#16192b]">
-          <div class="flex items-start gap-2 min-w-0 flex-1">
-            <span class="mt-0.5 bg-[#00f0ff] text-slate-950 font-display font-extrabold text-[10px] px-1.5 py-0.5 rounded shrink-0">ล่าสุด</span>
-            <p id="mobileLiveLogTicker" class="text-[12.5px] text-white font-medium leading-snug break-words">กดปุ่ม "เกิดใหม่ / สุ่มชีวิตใหม่" เพื่อเริ่มบันทึกชีวิตข้ามจักรวาลของคุณ</p>
+        <!-- Live Mini Chronicle Ticker (Compact 1-2 line summary on Mobile Stage) -->
+        <div id="liveTickerBar" onclick="switchHudTab('log')" class="lg:hidden shrink-0 bg-[#080b18] border-t border-slate-800 px-2.5 py-1 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#16192b]">
+          <div class="flex items-center gap-1.5 min-w-0 flex-1">
+            <span class="bg-[#fde047] text-slate-950 font-display font-extrabold text-[9.5px] px-1.5 py-0.5 rounded shrink-0">บันทึก</span>
+            <p id="mobileLiveLogTicker" class="text-[11.5px] text-slate-200 font-normal leading-tight line-clamp-1 break-words">กดปุ่ม "เกิดใหม่ / สุ่มชีวิตใหม่" เพื่อเริ่มบันทึกชีวิตข้ามจักรวาล</p>
           </div>
-          <span class="mt-0.5 text-[11px] text-[#00f0ff] font-bold shrink-0">ดูบันทึก ▶</span>
+          <span class="text-[10px] text-[#00f0ff] font-bold shrink-0">ดูเพิ่ม ▶</span>
         </div>
 
         <!-- Interactive Command Deck Bottom Bar -->
@@ -998,6 +991,63 @@
   </div>
 
   <!-- ===================================================================== -->
+  <!-- MODAL 6: TAMAGOTCHI ROOM & COMPANION PET SHOP (ร้านค้าแต่งห้อง & สัตว์เลี้ยง) -->
+  <!-- ===================================================================== -->
+  <div id="roomPetShopModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+    <div class="max-w-2xl w-full max-h-[92dvh] flex flex-col manga-panel-gold bg-[#121426] overflow-hidden my-auto">
+      <!-- Sticky Header -->
+      <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#241744] via-[#1c254a] to-[#1a1836]">
+        <div>
+          <span class="bg-pink-400 text-slate-950 font-display font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase">TAMAGOTCHI BOUTIQUE & PET SANCTUARY</span>
+          <h3 class="text-base sm:text-xl font-black text-white font-display mt-0.5">🛍️ ร้านค้าแต่งห้องทามาก็อตจิ & สัตว์เลี้ยงคู่หู</h3>
+        </div>
+        <button id="btnCloseRoomPetShop" onclick="closeRoomPetShopModal()" class="manga-btn px-2.5 py-1 text-xs bg-slate-800 text-white">✕ ปิด</button>
+      </div>
+
+      <!-- Player Wallet & Equipped Summary Bar -->
+      <div class="shrink-0 bg-[#0b0e1d] border-b border-slate-700/80 px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-3">
+          <div class="bg-slate-900 border border-[#ffd166]/60 rounded-lg px-2.5 py-1 flex items-center gap-1">
+            <span class="text-slate-400 text-[10px]">เครดิตปัจจุบัน:</span>
+            <strong id="shopWalletCredits" class="font-display text-[#ffd166] text-sm">₡ 0</strong>
+          </div>
+          <div class="bg-slate-900 border border-pink-400/60 rounded-lg px-2.5 py-1 flex items-center gap-1">
+            <span class="text-slate-400 text-[10px]">แต้มกรรมสะสม:</span>
+            <strong id="shopWalletKarma" class="font-display text-pink-300 text-sm">✦ 20</strong>
+          </div>
+        </div>
+        <div class="text-[11px] text-cyan-200 font-medium truncate" id="shopEquippedSummaryText">
+          🏠 ห้องเริ่มต้น • 🛋️ เฟอร์นิเจอร์ 0 ชิ้น • 🐾 ยังไม่มีสัตว์เลี้ยง
+        </div>
+      </div>
+
+      <!-- Shop Category Tabs -->
+      <div class="shrink-0 bg-slate-900/90 px-3.5 py-2 border-b border-slate-800 grid grid-cols-3 gap-1.5 text-xs font-display font-bold">
+        <button id="shopTabBtn_rooms" onclick="switchShopCategoryTab('rooms')" class="manga-btn py-1.5 px-2 bg-[#ff2a5f] text-white text-center">
+          🏠 ธีมห้องพัก (5)
+        </button>
+        <button id="shopTabBtn_furniture" onclick="switchShopCategoryTab('furniture')" class="manga-btn py-1.5 px-2 bg-[#1a1f35] text-slate-300 hover:text-white text-center">
+          🛋️ เฟอร์นิเจอร์ 2D (5)
+        </button>
+        <button id="shopTabBtn_pets" onclick="switchShopCategoryTab('pets')" class="manga-btn py-1.5 px-2 bg-[#1a1f35] text-slate-300 hover:text-white text-center">
+          🐾 สัตว์เลี้ยงคู่หู (5)
+        </button>
+      </div>
+
+      <!-- Scrollable Shop Items List -->
+      <div id="shopItemsContainer" class="flex-1 min-h-0 overflow-y-auto p-3.5 space-y-2.5 text-xs">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- Sticky Footer Note -->
+      <div class="shrink-0 bg-[#16192b] border-t border-slate-700 px-4 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-300">
+        <span>💡 <b class="text-[#fde047]">ของที่ซื้อแล้วจะคงอยู่ถาวรข้ามชาติภพ!</b> สัตว์เลี้ยงบนฉาก 2D สามารถแตะลูบหัวเพื่อรับโบนัสพิเศษได้ทุกปี</span>
+        <button onclick="closeRoomPetShopModal()" class="manga-btn px-3 py-1 bg-[#00f0ff] text-slate-950 font-black text-xs">กลับสู่ห้อง 2D ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
   <!-- TOAST NOTIFICATION                                                    -->
   <!-- ===================================================================== -->
   <div id="mangaToast" class="fixed bottom-14 lg:bottom-4 right-4 z-50 hidden manga-panel-cyan bg-[#0e101a] px-3.5 py-2 text-xs font-bold text-white shadow-lg max-w-xs">
@@ -1487,6 +1537,15 @@
       annualFocus: 'balanced',
       logFilter: 'all',
       activeHudTab: 'stage',
+      activeShopTab: 'rooms',
+      shopState: {
+        ownedRooms: { room_default: true },
+        equippedRoom: 'room_default',
+        ownedFurniture: { furn_bonsai: true },
+        equippedFurniture: { furn_bonsai: true },
+        ownedPets: { pet_mochi_slime: true },
+        equippedPet: 'pet_mochi_slime'
+      },
       candidateCert: null,
       activeChar: null,
       simTimer: null,
@@ -1500,6 +1559,495 @@
         gameState.unlockedTitles = JSON.parse(savedTitles) || {};
       }
     } catch (e) {}
+
+    
+    // -----------------------------------------------------------------------
+    // 4B. TAMAGOTCHI ROOM THEMES, 2D FURNITURE & COMPANION PETS CATALOG
+    // -----------------------------------------------------------------------
+    const TAMA_ROOM_THEMES = [
+      {
+        id: 'room_default',
+        name: '🏠 ห้องพักแคปซูลมาตรฐาน (Standard Pod)',
+        costCredits: 0,
+        costKarma: 0,
+        wallTopCols: [0x2c224d, 0x262854, 0x36204c, 0x1c1738],
+        wallBotCols: [0x3d2c63, 0x31386e, 0x4a295f, 0x241d46],
+        trimCol: 0xf9a8d4,
+        rugOuter: 0xf472b6,
+        rugInner: 0xfde047,
+        desc: 'ห้องพักเริ่มต้นของพลเมืองดาราจักร มีหน้าต่างชมดาวบ้านเกิดและพรมวงรีแสนอบอุ่น',
+        buffDesc: 'ค่าสถานะมาตรฐานตามดวงดาว',
+        annualHealth: 0, annualMind: 0, annualInt: 0, annualFame: 0, annualWealth: 0, crisisReduce: 0
+      },
+      {
+        id: 'room_cozy_pastel',
+        name: '🌸 ห้องพาสเทลซากุระอวกาศ (Cozy Pastel Loft)',
+        costCredits: 1200,
+        costKarma: 6,
+        wallTopCols: [0x4a2545, 0x4c2952, 0x522242, 0x331832],
+        wallBotCols: [0x66335b, 0x5e3463, 0x6b2d52, 0x452042],
+        trimCol: 0xfde047,
+        rugOuter: 0xfb7185,
+        rugInner: 0xfef08a,
+        desc: 'ห้องพักโทนชมพูพาสเทลประดับโคมไฟดาวระย้า ช่วยปลอบประโลมจิตใจในวันที่โลกโหดร้าย',
+        buffDesc: '+3 ✨ ความสุขทุกปี • ลดความเครียดจากเหตุวิกฤตลง 20%',
+        annualHealth: 1, annualMind: 3, annualInt: 0, annualFame: 1, annualWealth: 0, crisisReduce: 0.20
+      },
+      {
+        id: 'room_cyber_lab',
+        name: '🔬 เพนต์เฮาส์แล็บควอนตัม (Cyber-Tech Studio)',
+        costCredits: 3200,
+        costKarma: 10,
+        wallTopCols: [0x0c2742, 0x0f3156, 0x112240, 0x08182b],
+        wallBotCols: [0x123a63, 0x164678, 0x1a345e, 0x0d2542],
+        trimCol: 0x00f0ff,
+        rugOuter: 0x00f0ff,
+        rugInner: 0x38bdf8,
+        desc: 'สตูดิโอวิจัยไฮเทคพร้อมฟิลด์โฮโลแกรมช่วยประมวลผลความรู้และสร้างรายได้ทางเทคโนโลยี',
+        buffDesc: '+3 🧠 ไอคิว, +2 🔬 วิทย์ทุกปี • โบนัสรายได้ +₡250/ปี',
+        annualHealth: 0, annualMind: 1, annualInt: 3, annualFame: 1, annualWealth: 250, aptSci: 2, crisisReduce: 0.15
+      },
+      {
+        id: 'room_zen_garden',
+        name: '🌿 โดมสวนพฤกษาชีวภาพ (Bio-Zen Sanctuary)',
+        costCredits: 5500,
+        costKarma: 14,
+        wallTopCols: [0x11382f, 0x14453a, 0x0f332b, 0x09241e],
+        wallBotCols: [0x185244, 0x1d5e4e, 0x16473b, 0x0f332a],
+        trimCol: 0x34d399,
+        rugOuter: 0x10b981,
+        rugInner: 0xa7f3d0,
+        desc: 'โดมธรรมชาติบำบัดที่ฟอกอากาศบริสุทธิ์ 100% ป้องกันเชื้อไวรัสและยืดอายุขัยให้ผู้อยู่อาศัย',
+        buffDesc: '+4 ❤️ สุขภาพ, +2 ✨ ความสุขทุกปี • ลดความเสียหายโรคระบาด/วิกฤต 30%',
+        annualHealth: 4, annualMind: 2, annualInt: 1, annualFame: 1, annualWealth: 0, aptVit: 2, crisisReduce: 0.30
+      },
+      {
+        id: 'room_royal_palace',
+        name: '👑 คฤหาสน์ทองคำเซเลสเทีย (Celestial Royal Suite)',
+        costCredits: 11000,
+        costKarma: 18,
+        wallTopCols: [0x3b1d5e, 0x46226e, 0x4f1f63, 0x281242],
+        wallBotCols: [0x582c87, 0x643299, 0x6e2b82, 0x3b1a61],
+        trimCol: 0xffd166,
+        rugOuter: 0xf59e0b,
+        rugInner: 0xfef08a,
+        desc: 'ห้องชุดระดับจักรพรรดิแห่งดาราจักร ประดับเสาทองคำและเกราะนิรภัยระดับสูงสุด',
+        buffDesc: '+₡800 ปันผลทุกปี, +4 🌟 ชื่อเสียง, +3 💼 ธุรกิจ • เกราะลดดาเมจวิกฤต 40%',
+        annualHealth: 3, annualMind: 3, annualInt: 2, annualFame: 4, annualWealth: 800, aptBiz: 3, crisisReduce: 0.40
+      }
+    ];
+
+    const TAMA_FURNITURE_ITEMS = [
+      {
+        id: 'furn_bonsai',
+        name: '🪴 ต้นบอนไซคริสตัลเรืองแสง',
+        slot: 'มุมซ้ายล่าง',
+        costCredits: 800,
+        costKarma: 4,
+        desc: 'ต้นไม้คริสตัลปล่อยประจุออกซิเจนบริสุทธิ์ในห้อง 2D ช่วยให้ร่างกายสดชื่นทุกปี',
+        buffDesc: '+2 ❤️ สุขภาพ & +2 ✨ ความสุขทุกปี',
+        annualHealth: 2, annualMind: 2, annualInt: 0, annualWealth: 0, crisisReduce: 0.05
+      },
+      {
+        id: 'furn_arcade',
+        name: '🕹️ ตู้เกมอาร์เคดทามาก็อตจิ 8-Bit',
+        slot: 'ผนังซ้าย',
+        costCredits: 1800,
+        costKarma: 7,
+        desc: 'ตู้เกมเรโทรสุดคิวท์ตั้งในห้อง 2D ช่วยคลายเครียดและฝึกทักษะศิลปะ-ความคิดสร้างสรรค์',
+        buffDesc: '+3 ✨ ความสุข & +2 🎨 ศิลป์ทุกปี',
+        annualHealth: 0, annualMind: 3, annualInt: 1, annualWealth: 0, aptArt: 2, crisisReduce: 0
+      },
+      {
+        id: 'furn_bookshelf',
+        name: '📚 ชั้นหนังสือโฮโลแกรมเอกภพ',
+        slot: 'ผนังกลาง-ซ้าย',
+        costCredits: 2500,
+        costKarma: 9,
+        desc: 'คลังตำราควอนตัมลอยฟ้าในห้อง 2D เพิ่มพูนสติปัญญาให้ทั้งเด็กและผู้ใหญ่',
+        buffDesc: '+3 🧠 ไอคิว & +3 🔬 วิทยาการทุกปี',
+        annualHealth: 0, annualMind: 1, annualInt: 3, annualWealth: 0, aptSci: 3, crisisReduce: 0
+      },
+      {
+        id: 'furn_gold_safe',
+        name: '🏦 ตู้เซฟควอนตัมผลิตดอกเบี้ย',
+        slot: 'มุมขวาล่าง',
+        costCredits: 4200,
+        costKarma: 12,
+        desc: 'ตู้เซฟนิรภัย खลิบทองตั้งอยู่มุมขวาของห้อง 2D สร้างดอกเบี้ยเครดิตอัตโนมัติทุกปี',
+        buffDesc: '+₡ 450 ดอกเบี้ยทุกปี & +2 💼 ธุรกิจ',
+        annualHealth: 0, annualMind: 1, annualInt: 0, annualWealth: 450, aptBiz: 2, crisisReduce: 0.05
+      },
+      {
+        id: 'furn_med_shield',
+        name: '🛡️ เสาเกราะชีวภาพต้านเอเลี่ยน',
+        slot: 'ผนังกลาง-ขวา',
+        costCredits: 5800,
+        costKarma: 15,
+        desc: 'เสาปล่อยคลื่นเกราะป้องกันภัยพิบัติ เอเลี่ยนบุก และโรคระบาดภายในห้องพัก 2D',
+        buffDesc: 'ลดความเสียหายจากวิกฤตลง 25% & +3 ⚔️ ยุทธวิธีทุกปี',
+        annualHealth: 2, annualMind: 1, annualInt: 0, annualWealth: 0, aptVit: 3, crisisReduce: 0.25
+      }
+    ];
+
+    const TAMA_COMPANION_PETS = [
+      {
+        id: 'pet_mochi_slime',
+        name: '💧 น้องสไลม์โมจิดารา (Mochi Slime)',
+        shortName: '💧 โมจิสไลม์',
+        costCredits: 900,
+        costKarma: 5,
+        colorMain: 0x38bdf8,
+        colorSub: 0xf472b6,
+        desc: 'สไลม์ตัวกลมดุ๊กดิ๊กเนื้อนุ่มเหมือนโมจิ คอยกระโดดดึ๋งๆ อยู่ข้างตัวละครบนพรม',
+        buffDesc: '+3 ❤️ สุขภาพ & +3 ✨ ความสุขทุกปี (แตะลูบหัวบนฉาก: +2 ❤️)',
+        annualHealth: 3, annualMind: 3, annualInt: 0, annualFame: 1, annualWealth: 0, crisisReduce: 0.10
+      },
+      {
+        id: 'pet_cyber_neko',
+        name: '🐱 เหมียวไซเบอร์นีออน (Cyber-Neko)',
+        shortName: '🐱 เหมียวไซเบอร์',
+        costCredits: 2400,
+        costKarma: 8,
+        colorMain: 0xfdf4ff,
+        colorSub: 0x00f0ff,
+        desc: 'แมวเหมียวหูกระดิกติดกระดิ่งควอนตัมนำโชค ช่วยกวักเหรียญเครดิตเข้าบ้านทุกปี!',
+        buffDesc: '+₡ 350 ทุกปี, +2 🤝 สังคม (แตะลูบหัวบนฉาก: สุ่มรับ +₡90)',
+        annualHealth: 1, annualMind: 3, annualInt: 1, annualFame: 2, annualWealth: 350, aptEmp: 2, crisisReduce: 0.10
+      },
+      {
+        id: 'pet_robo_pup',
+        name: '🐶 น้องหมาการ์เดี้ยน (Aegis Robo-Pup)',
+        shortName: '🐶 หมาการ์เดี้ยน',
+        costCredits: 4800,
+        costKarma: 12,
+        colorMain: 0xfde047,
+        colorSub: 0x38bdf8,
+        desc: 'สุนัขจักรกลผู้ซื่อสัตย์พร้อมโล่พลังงานจิ๋ว คอยเห่าเตือนภัยและกางเกราะปกป้องเจ้านาย',
+        buffDesc: 'ลดความเสียหายวิกฤต 30%, +3 ⚔️ ยุทธวิธี & +2 ❤️ ทุกปี',
+        annualHealth: 2, annualMind: 2, annualInt: 1, annualFame: 2, annualWealth: 0, aptVit: 3, crisisReduce: 0.30
+      },
+      {
+        id: 'pet_star_dragon',
+        name: '🐲 มังกรน้อยเนบิวลา (Nebula Dragon)',
+        shortName: '🐲 มังกรเนบิวลา',
+        costCredits: 8200,
+        costKarma: 16,
+        colorMain: 0xa855f7,
+        colorSub: 0xfde047,
+        desc: 'มังกรดาราจักรตัวจิ๋วบินกระพือปีกข้างตัวละคร มอบภูมิปัญญาโบราณและขุมทรัพย์ดวงดาว',
+        buffDesc: '+4 🧠 ไอคิว, +4 🌟 ชื่อเสียง, +₡ 600 ทุกปี & +3 🔬 วิทย์',
+        annualHealth: 2, annualMind: 3, annualInt: 4, annualFame: 4, annualWealth: 600, aptSci: 3, crisisReduce: 0.25
+      },
+      {
+        id: 'pet_phoenix',
+        name: '🦅 ฟีนิกซ์อมตะโซลาเรีย (Celestial Phoenix)',
+        shortName: '🦅 ฟีนิกซ์อมตะ',
+        costCredits: 14500,
+        costKarma: 20,
+        colorMain: 0xfb7185,
+        colorSub: 0xfde047,
+        desc: 'วิหคเพลิงสวรรค์คู่บุญระดับตำนาน มอบพลังแห่งชีวิตนิรันดร์และชุบชีวิตเจ้านายได้ 1 ครั้งต่อชาติภพ!',
+        buffDesc: '+5 ❤️/+5 ✨ ทุกปี, ยืดอายุขัย +8 ปี & ชุบชีวิตอัตโนมัติเมื่อพลังกายเหลือ 0 (1 ครั้ง/ชาติ)!',
+        annualHealth: 5, annualMind: 5, annualInt: 3, annualFame: 5, annualWealth: 500, lifespanBonus: 8, canRevive: true, crisisReduce: 0.35
+      }
+    ];
+
+    try {
+      const savedShop = localStorage.getItem('cosmic_8t_shop_v1');
+      if (savedShop) {
+        const parsed = JSON.parse(savedShop);
+        if (parsed && typeof parsed === 'object') {
+          gameState.shopState = {
+            ownedRooms: { room_default: true, ...(parsed.ownedRooms || {}) },
+            equippedRoom: parsed.equippedRoom || 'room_default',
+            ownedFurniture: { furn_bonsai: true, ...(parsed.ownedFurniture || {}) },
+            equippedFurniture: Object.keys(parsed.equippedFurniture || {}).length > 0 ? parsed.equippedFurniture : { furn_bonsai: true },
+            ownedPets: { pet_mochi_slime: true, ...(parsed.ownedPets || {}) },
+            equippedPet: parsed.equippedPet !== undefined ? parsed.equippedPet : 'pet_mochi_slime'
+          };
+        }
+      }
+    } catch (e) {}
+
+    function saveShopState() {
+      try {
+        localStorage.setItem('cosmic_8t_shop_v1', JSON.stringify(gameState.shopState));
+      } catch (e) {}
+      updateShopHudBadges();
+    }
+
+    function getEquippedRoomThemeObj() {
+      const eqId = (gameState.shopState && gameState.shopState.equippedRoom) || 'room_default';
+      return TAMA_ROOM_THEMES.find(r => r.id === eqId) || TAMA_ROOM_THEMES[0];
+    }
+
+    function getEquippedPetObj() {
+      const petId = gameState.shopState && gameState.shopState.equippedPet;
+      if (!petId) return null;
+      return TAMA_COMPANION_PETS.find(p => p.id === petId) || null;
+    }
+
+    function getEquippedFurnitureList() {
+      const eqMap = (gameState.shopState && gameState.shopState.equippedFurniture) || {};
+      return TAMA_FURNITURE_ITEMS.filter(f => !!eqMap[f.id]);
+    }
+
+    function getRoomAndPetCrisisShield() {
+      const room = getEquippedRoomThemeObj();
+      const pet = getEquippedPetObj();
+      const furns = getEquippedFurnitureList();
+      let reduce = (room.crisisReduce || 0) + (pet ? (pet.crisisReduce || 0) : 0);
+      furns.forEach(f => { reduce += (f.crisisReduce || 0); });
+      return Math.min(0.65, reduce);
+    }
+
+    function applyRoomAndPetAnnualBuffs(c) {
+      if (!c || !c.alive) return;
+      const room = getEquippedRoomThemeObj();
+      const pet = getEquippedPetObj();
+      const furns = getEquippedFurnitureList();
+
+      let dHealth = room.annualHealth || 0;
+      let dMind = room.annualMind || 0;
+      let dInt = room.annualInt || 0;
+      let dFame = room.annualFame || 0;
+      let dWealth = room.annualWealth || 0;
+
+      if (room.aptSci) c.aptitudes.sci += room.aptSci;
+      if (room.aptVit) c.aptitudes.vit += room.aptVit;
+      if (room.aptBiz) c.aptitudes.biz += room.aptBiz;
+
+      furns.forEach(f => {
+        dHealth += (f.annualHealth || 0);
+        dMind += (f.annualMind || 0);
+        dInt += (f.annualInt || 0);
+        dWealth += (f.annualWealth || 0);
+        if (f.aptSci) c.aptitudes.sci += f.aptSci;
+        if (f.aptArt) c.aptitudes.art += f.aptArt;
+        if (f.aptVit) c.aptitudes.vit += f.aptVit;
+        if (f.aptBiz) c.aptitudes.biz += f.aptBiz;
+      });
+
+      if (pet) {
+        dHealth += (pet.annualHealth || 0);
+        dMind += (pet.annualMind || 0);
+        dInt += (pet.annualInt || 0);
+        dFame += (pet.annualFame || 0);
+        dWealth += (pet.annualWealth || 0);
+        if (pet.aptSci) c.aptitudes.sci += pet.aptSci;
+        if (pet.aptVit) c.aptitudes.vit += pet.aptVit;
+        if (pet.aptEmp) c.aptitudes.emp += pet.aptEmp;
+      }
+
+      c.health = Math.min(100, c.health + dHealth);
+      c.mind = Math.min(100, c.mind + dMind);
+      c.intellect = Math.min(100, c.intellect + dInt);
+      c.fame = Math.min(100, c.fame + dFame);
+      c.wealth += dWealth;
+      if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+    }
+
+    function updateShopHudBadges() {
+      const pet = getEquippedPetObj();
+      const room = getEquippedRoomThemeObj();
+      const furns = getEquippedFurnitureList();
+
+      const petPill = document.getElementById('hudActivePetPill');
+      if (petPill) {
+        petPill.textContent = pet ? `🐾 ${pet.shortName}` : '🐾 คู่หู: ยังไม่มี (คลิกซื้อ)';
+      }
+
+      const sumEl = document.getElementById('shopEquippedSummaryText');
+      if (sumEl) {
+        sumEl.textContent = `${room.name.split(' (')[0]} • 🛋️ เฟอร์นิเจอร์ ${furns.length}/5 • ${pet ? pet.shortName : '🐾 ยังไม่มีสัตว์เลี้ยง'}`;
+      }
+
+      const credEl = document.getElementById('shopWalletCredits');
+      if (credEl) {
+        const w = gameState.activeChar ? gameState.activeChar.wealth : 0;
+        credEl.textContent = `₡ ${w.toLocaleString()}`;
+      }
+      const karmaEl = document.getElementById('shopWalletKarma');
+      if (karmaEl) {
+        karmaEl.textContent = `✦ ${gameState.karmaPoints}`;
+      }
+    }
+
+    function openRoomPetShopModal(initialTab) {
+      gameState.prevSpeedBeforeModal = gameState.simSpeed;
+      pauseSimulationLoop();
+      if (initialTab) {
+        gameState.activeShopTab = initialTab;
+      }
+      updateShopHudBadges();
+      switchShopCategoryTab(gameState.activeShopTab || 'rooms');
+      document.getElementById('roomPetShopModal').classList.remove('hidden');
+    }
+
+    function closeRoomPetShopModal() {
+      document.getElementById('roomPetShopModal').classList.add('hidden');
+      if (gameState.activeChar && gameState.activeChar.alive && gameState.prevSpeedBeforeModal > 0) {
+        setSimSpeed(gameState.prevSpeedBeforeModal);
+      }
+    }
+
+    function switchShopCategoryTab(tabKey) {
+      gameState.activeShopTab = tabKey;
+      ['rooms', 'furniture', 'pets'].forEach(k => {
+        const btn = document.getElementById('shopTabBtn_' + k);
+        if (!btn) return;
+        if (k === tabKey) {
+          btn.className = 'manga-btn py-1.5 px-2 bg-[#ff2a5f] text-white text-center';
+        } else {
+          btn.className = 'manga-btn py-1.5 px-2 bg-[#1a1f35] text-slate-300 hover:text-white text-center';
+        }
+      });
+      renderRoomPetShopItems();
+    }
+
+    function renderRoomPetShopItems() {
+      const container = document.getElementById('shopItemsContainer');
+      if (!container) return;
+      updateShopHudBadges();
+
+      const tab = gameState.activeShopTab || 'rooms';
+      const curCredits = gameState.activeChar ? gameState.activeChar.wealth : 0;
+      const curKarma = gameState.karmaPoints || 0;
+
+      let items = [];
+      if (tab === 'rooms') items = TAMA_ROOM_THEMES;
+      else if (tab === 'furniture') items = TAMA_FURNITURE_ITEMS;
+      else items = TAMA_COMPANION_PETS;
+
+      container.innerHTML = items.map(item => {
+        let isOwned = false;
+        let isEquipped = false;
+        if (tab === 'rooms') {
+          isOwned = !!gameState.shopState.ownedRooms[item.id];
+          isEquipped = gameState.shopState.equippedRoom === item.id;
+        } else if (tab === 'furniture') {
+          isOwned = !!gameState.shopState.ownedFurniture[item.id];
+          isEquipped = !!gameState.shopState.equippedFurniture[item.id];
+        } else {
+          isOwned = !!gameState.shopState.ownedPets[item.id];
+          isEquipped = gameState.shopState.equippedPet === item.id;
+        }
+
+        const canBuyCredits = curCredits >= item.costCredits && item.costCredits > 0;
+        const canBuyKarma = curKarma >= item.costKarma && item.costKarma > 0;
+
+        let actionButtonsHtml = '';
+        if (isOwned) {
+          if (tab === 'rooms') {
+            actionButtonsHtml = isEquipped
+              ? `<span class="manga-badge bg-emerald-400 text-slate-950 font-black px-3 py-1">✓ กำลังใช้งานห้องนี้</span>`
+              : `<button onclick="equipShopItem('rooms', '${item.id}')" class="manga-btn px-3 py-1.5 bg-[#00f0ff] text-slate-950 font-extrabold text-xs">🏠 เปลี่ยนมาใช้ห้องนี้</button>`;
+          } else if (tab === 'furniture') {
+            actionButtonsHtml = `<button onclick="equipShopItem('furniture', '${item.id}')" class="manga-btn px-3 py-1.5 ${isEquipped ? 'bg-emerald-400 text-slate-950' : 'bg-[#00f0ff] text-slate-950'} font-extrabold text-xs">
+              ${isEquipped ? '✓ ติดตั้งในห้องแล้ว (คลิกเพื่อถอด)' : '🛋️ ติดตั้งลงในห้อง 2D'}
+            </button>`;
+          } else {
+            actionButtonsHtml = `<button onclick="equipShopItem('pets', '${item.id}')" class="manga-btn px-3 py-1.5 ${isEquipped ? 'bg-emerald-400 text-slate-950' : 'bg-[#00f0ff] text-slate-950'} font-extrabold text-xs">
+              ${isEquipped ? '✓ เดินเคียงข้างน้องอยู่ (คลิกเพื่อพัก)' : '🐾 เรียกออกมาเดินคู่กับน้อง!'}
+            </button>`;
+          }
+        } else {
+          actionButtonsHtml = `
+            <div class="flex flex-wrap items-center gap-1.5">
+              <button onclick="purchaseShopItem('${tab}', '${item.id}', 'credits')" ${canBuyCredits ? '' : 'disabled'} class="manga-btn px-2.5 py-1.5 ${canBuyCredits ? 'bg-[#fde047] text-slate-950 font-black' : 'bg-slate-800 text-slate-400'} text-xs">
+                💰 ซื้อด้วย ₡${item.costCredits.toLocaleString()}
+              </button>
+              <button onclick="purchaseShopItem('${tab}', '${item.id}', 'karma')" ${canBuyKarma ? '' : 'disabled'} class="manga-btn px-2.5 py-1.5 ${canBuyKarma ? 'bg-pink-400 text-slate-950 font-black' : 'bg-slate-800 text-slate-400'} text-xs">
+                ✦ ซื้อถาวร ${item.costKarma} แต้มกรรม
+              </button>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="bg-[#181c34] border-2 ${isEquipped ? 'border-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.25)]' : isOwned ? 'border-cyan-400/60' : 'border-slate-700'} rounded-2xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+            <div class="space-y-1 min-w-0 flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <strong class="text-sm sm:text-base font-extrabold text-white">${item.name}</strong>
+                ${item.slot ? `<span class="text-[10px] bg-slate-800 border border-slate-600 text-slate-300 px-2 py-0.5 rounded-full">ตำแหน่ง: ${item.slot}</span>` : ''}
+                ${isOwned ? '<span class="text-[10px] bg-cyan-950 border border-cyan-400 text-cyan-200 px-2 py-0.5 rounded-full font-bold">เป็นเจ้าของแล้ว</span>' : ''}
+              </div>
+              <p class="text-xs text-slate-300 leading-snug">${item.desc}</p>
+              <div class="text-xs font-bold text-[#fde047]">✨ บัฟพิเศษ: ${item.buffDesc}</div>
+            </div>
+            <div class="shrink-0 w-full sm:w-auto flex justify-end">
+              ${actionButtonsHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function purchaseShopItem(tab, itemId, currency) {
+      let catalog = TAMA_ROOM_THEMES;
+      if (tab === 'furniture') catalog = TAMA_FURNITURE_ITEMS;
+      else if (tab === 'pets') catalog = TAMA_COMPANION_PETS;
+
+      const item = catalog.find(x => x.id === itemId);
+      if (!item) return;
+
+      if (currency === 'credits') {
+        if (!gameState.activeChar || gameState.activeChar.wealth < item.costCredits) {
+          showToast('เครดิต (₡) ไม่พอ! ทำงาน เก็บคริสตัลบนฉาก หรือใช้แต้มกรรม (✦) ซื้อแทนได้เลย');
+          return;
+        }
+        gameState.activeChar.wealth -= item.costCredits;
+      } else {
+        if (gameState.karmaPoints < item.costKarma) {
+          showToast('แต้มกรรม (✦) ไม่พอ!');
+          return;
+        }
+        gameState.karmaPoints -= item.costKarma;
+        saveKarmaPoints();
+      }
+
+      playMangaSfx('start');
+      if (tab === 'rooms') {
+        gameState.shopState.ownedRooms[item.id] = true;
+        gameState.shopState.equippedRoom = item.id;
+      } else if (tab === 'furniture') {
+        gameState.shopState.ownedFurniture[item.id] = true;
+        gameState.shopState.equippedFurniture[item.id] = true;
+      } else if (tab === 'pets') {
+        gameState.shopState.ownedPets[item.id] = true;
+        gameState.shopState.equippedPet = item.id;
+        if (item.lifespanBonus && gameState.activeChar) {
+          gameState.activeChar.expectedLifespan += item.lifespanBonus;
+        }
+      }
+
+      saveShopState();
+      renderRoomPetShopItems();
+      if (gameState.activeChar) {
+        gameState.activeChar.sfxWord = `購入! ได้รับ ${item.name.split(' (')[0]}!`;
+        spawnFloatingPopup(`✨ ติดตั้ง ${item.name.split(' (')[0]}!`, '#fde047');
+        addLifeLog(gameState.activeChar.age, 'milestone', `🛍️ ซื้อและติดตั้ง "${item.name}" ในห้องทามาก็อตจิสำเร็จ! (${item.buffDesc})`);
+        updateCharacterUI();
+      }
+      showToast(`🎉 ซื้อและติดตั้ง "${item.name}" เรียบร้อยแล้ว!`);
+    }
+
+    function equipShopItem(tab, itemId) {
+      playMangaSfx('roll');
+      if (tab === 'rooms') {
+        gameState.shopState.equippedRoom = itemId;
+      } else if (tab === 'furniture') {
+        gameState.shopState.equippedFurniture[itemId] = !gameState.shopState.equippedFurniture[itemId];
+      } else if (tab === 'pets') {
+        gameState.shopState.equippedPet = (gameState.shopState.equippedPet === itemId) ? null : itemId;
+      }
+      saveShopState();
+      renderRoomPetShopItems();
+      if (gameState.activeChar) {
+        updateCharacterUI();
+      }
+    }
 
     function getPermanentTitleBuffs() {
       let buffs = { health: 0, int: 0, wealth: 0, earth: 0, life: 0 };
@@ -2923,7 +3471,7 @@
     function triggerMidYearDailyEvent(c, monthNum) {
       const season = SEASON_NAMES[(monthNum - 1) % SEASON_NAMES.length];
       const tier = c.familyTier || 'middle';
-      const tacShield = c.aptitudes && c.aptitudes.vit >= 12 ? 3 : 0;
+      const tacShield = (c.aptitudes && c.aptitudes.vit >= 12 ? 3 : 0) + Math.round(getRoomAndPetCrisisShield() * 6);
       let pool = [];
 
       // BRACKET 1: INFANT & TODDLER (Ages 0 - 4) — Events happen to the household/parents while baby is in their care
@@ -3187,6 +3735,7 @@
       }
 
       applyAnnualFocusProgression(c);
+      applyRoomAndPetAnnualBuffs(c);
 
       const diedThisYear = evaluateStatisticalEventsAndMortality(c);
       if (diedThisYear) {
@@ -3353,7 +3902,7 @@
     function triggerStatisticalCrisisEvent(c) {
       const p = c.planet;
       const tier = c.familyTier || 'middle';
-      const tacShield = c.aptitudes && c.aptitudes.vit >= 15 ? 4 : 0;
+      const tacShield = (c.aptitudes && c.aptitudes.vit >= 15 ? 4 : 0) + Math.round(getRoomAndPetCrisisShield() * 8);
 
       // Age-bracketed Statistical Crises so babies/children never do adult actions!
       let crisisPool = [];
@@ -4824,6 +5373,22 @@
     function triggerCharacterDeath(reasonText) {
       const c = gameState.activeChar;
       if (!c) return;
+      const eqPet = getEquippedPetObj();
+      if (eqPet && eqPet.canRevive && !c.usedPhoenixRevive && c.age < 90) {
+        c.usedPhoenixRevive = true;
+        c.alive = true;
+        c.health = 65;
+        c.mind = 75;
+        c.expectedLifespan += 6;
+        playMangaSfx('start');
+        c.sfxWord = '不死鳥! ฟีนิกซ์ชุบชีวิต!';
+        c.speechText = `🦅 ปาฏิหาริย์แห่งฟีนิกซ์อมตะ! "${eqPet.name}" สละขนทองคำชุบชีวิตคุณขึ้นมาจากความตาย (${reasonText}) พร้อมฟื้นฟูพลังกาย 65%!`;
+        spawnFloatingPopup('🦅 ฟีนิกซ์ชุบชีวิต! +65 ❤️', '#fde047');
+        addLifeLog(c.age, 'milestone', c.speechText);
+        showToast('🦅 ปาฏิหาริย์! ฟีนิกซ์อมตะช่วยชุบชีวิตคุณจากวิกฤตมรณะสำเร็จ!');
+        updateCharacterUI();
+        return;
+      }
       c.alive = false;
       c.lastDeathReason = reasonText;
       closeQteOverlayCleanly();
@@ -5049,6 +5614,30 @@
       ctx.beginPath();
       ctx.arc(cx, cy + 7, 6, 0.15, Math.PI - 0.15);
       ctx.stroke();
+
+      // Also draw active Companion Pet inside the Share Card Medallion!
+      const sharePet = getEquippedPetObj();
+      if (sharePet) {
+        const px = cx + 48;
+        const py = cy + 26;
+        ctx.fillStyle = hexToCss(sharePet.colorSub || 0xfde047);
+        ctx.beginPath();
+        ctx.arc(px - 12, py - 14, 7, 0, Math.PI * 2);
+        ctx.arc(px + 12, py - 14, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = hexToCss(sharePet.colorMain || 0x38bdf8);
+        ctx.beginPath();
+        ctx.arc(px, py, 20, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+        ctx.fillStyle = '#090a0f';
+        ctx.beginPath();
+        ctx.arc(px - 6.5, py - 2, 3, 0, Math.PI * 2);
+        ctx.arc(px + 6.5, py - 2, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
       ctx.restore();
 
       // 4. Character Name, Form & Origin
@@ -5255,7 +5844,9 @@
 
       const ticker = document.getElementById('mobileLiveLogTicker');
       if (ticker) {
-        ticker.textContent = `[ปีที่ ${age}] ${text}`;
+        // Strip verbose prefix brackets so the 1-line mobile ticker shows the core story immediately
+        const cleanTicker = text.replace(/^🤖 \[Auto ตัดสินใจ • [^\]]+\]\s*/, '').replace(/^★ \[คุณตัดสินใจ • [^\]]+\]\s*/, '');
+        ticker.textContent = `[วัย ${age} ปี] ${cleanTicker}`;
       }
       renderLifeLogs();
     }
@@ -5410,30 +6001,24 @@
       const comboEl = document.getElementById('interactiveComboBadge');
       if (comboEl) comboEl.textContent = `COMBO x${gameState.interactiveCombo || 1}`;
 
-      // Update Daily Routine, Crisp Stage Story Overlay & Month Progress UI
+      // Update Unified Story & Routine Bar below 2D Stage
       const mBadge = document.getElementById('monthProgressBadge');
-      if (mBadge) mBadge.textContent = `เดือนที่ ${c.month || 1} / 12`;
+      if (mBadge) mBadge.textContent = `เดือน ${c.month || 1}/12`;
       const todBadge = document.getElementById('timeOfDayBadge');
       if (todBadge) todBadge.textContent = c.currentRoutineTime || '🌅 ยามเช้า';
       const actText = document.getElementById('dailyActivityText');
-      if (actText) actText.textContent = c.currentRoutineText || 'กำลังดำเนินชีวิตประจำวัน...';
-
-      const storyOverlayTxt = document.getElementById('stageStoryOverlayText');
-      if (storyOverlayTxt) {
-        storyOverlayTxt.textContent = c.speechText || c.currentRoutineText || 'กำลังดำเนินชีวิตประจำวัน...';
-      }
-      const storyBadge = document.getElementById('stageStoryBadge');
-      const storyBox = document.getElementById('stageStoryOverlayBox');
-      if (storyBadge && storyBox) {
-        if (c.crisisFlashTimer && c.crisisFlashTimer > 0) {
-          storyBadge.textContent = `🚨 เหตุวิกฤต • ปีที่ ${c.age}`;
-          storyBadge.className = 'shrink-0 mt-0.5 bg-[#ff2a5f] text-white font-display font-extrabold text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md shadow';
-          storyBox.style.borderColor = '#ff2a5f';
-        } else {
-          storyBadge.textContent = `📖 ปีที่ ${c.age} (เดือน ${c.month || 1}/12)`;
-          storyBadge.className = 'shrink-0 mt-0.5 bg-[#00f0ff] text-slate-950 font-display font-extrabold text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md shadow';
-          storyBox.style.borderColor = '#f472b6';
-        }
+      if (actText) {
+        const rawText = (c.crisisFlashTimer && c.crisisFlashTimer > 0 && c.speechText)
+          ? c.speechText
+          : (c.currentRoutineText || c.speechText || 'กำลังดำเนินชีวิตประจำวัน...');
+        // Strip redundant "[เดือนที่ X/12 • ...]" prefix and English city parentheses for clean reading
+        const cleanStory = rawText
+          .replace(/^\[เดือนที่ \d+\/12 • [^\]]+\]\s*/, '')
+          .replace(/\s*\([A-Za-z0-9\s\-]+\)/g, '');
+        actText.textContent = cleanStory;
+        actText.className = (c.crisisFlashTimer && c.crisisFlashTimer > 0)
+          ? 'text-[12px] sm:text-[13px] text-rose-300 font-semibold leading-snug line-clamp-2 break-words'
+          : 'text-[12px] sm:text-[13px] text-white font-medium leading-snug line-clamp-2 break-words';
       }
 
       const mBar = document.getElementById('yearMonthProgressBar');
@@ -5442,7 +6027,7 @@
       // Update Aptitudes & Future Trajectory Outlook
       const dom = getDominantAptitudeInfo(c);
       const fpBadge = document.getElementById('futurePathBadge');
-      if (fpBadge) fpBadge.textContent = `🌱 แนวโน้มอนาคต: ${dom.label}`;
+      if (fpBadge) fpBadge.textContent = `${dom.label}`;
       const outlookEl = document.getElementById('statFutureOutlook');
       if (outlookEl) outlookEl.textContent = dom.label;
 
@@ -5460,6 +6045,7 @@
       }
 
       checkAndUnlockTitles(c);
+      updateShopHudBadges();
       saveKarmaPoints();
     }
 
@@ -5608,36 +6194,34 @@
           });
         }
 
-        const dpr = Math.min(3, window.devicePixelRatio || 2);
-
-        this.sfxText = this.add.text(14, 10, '転生! COSMIC DESTINY', {
+        this.sfxText = this.add.text(10, 8, '転生! COSMIC DESTINY', {
           fontFamily: 'Kanit, Chakra Petch, sans-serif',
-          fontSize: '18px',
+          fontSize: '13px',
           fontStyle: 'bold',
           color: '#ffd166',
           stroke: '#000000',
-          strokeThickness: 4
-        }).setResolution(dpr);
+          strokeThickness: 3
+        });
 
-        this.planetLabelText = this.add.text(w * 0.74, h * 0.11, 'ดาวบ้านเกิด', {
+        this.planetLabelText = this.add.text(w * 0.78, h * 0.12, 'ดาวบ้านเกิด', {
           fontFamily: 'Kanit, sans-serif',
-          fontSize: '12px',
+          fontSize: '10.5px',
           fontStyle: 'bold',
-          color: '#00f0ff',
+          color: '#7dd3fc',
           align: 'center',
           stroke: '#000000',
-          strokeThickness: 4,
-          wordWrap: { width: 170 }
-        }).setOrigin(0.5).setResolution(dpr);
+          strokeThickness: 3,
+          wordWrap: { width: 140 }
+        }).setOrigin(0.5);
 
-        this.earthNodeLabel = this.add.text(w * 0.76, h * 0.66, '🌍 เยือนดาวโลก', {
+        this.earthNodeLabel = this.add.text(w * 0.78, h * 0.62, '🌍 เยือนดาวโลก', {
           fontFamily: 'Kanit, sans-serif',
-          fontSize: '11.5px',
+          fontSize: '10px',
           fontStyle: 'bold',
           color: '#ffffff',
           backgroundColor: '#1e3a8a',
-          padding: { x: 7, y: 3.5 }
-        }).setOrigin(0.5).setResolution(dpr).setInteractive({ useHandCursor: true });
+          padding: { x: 5, y: 2 }
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
         this.earthNodeLabel.on('pointerdown', () => {
           if (gameState.activeChar && gameState.activeChar.alive) {
@@ -5669,6 +6253,24 @@
             }
           }
 
+          // Check if player tapped their Companion Pet on the rug!
+          const eqPet = getEquippedPetObj();
+          if (eqPet && this.lastPetPos && Phaser.Math.Distance.Between(pointer.x, pointer.y, this.lastPetPos.x, this.lastPetPos.y) <= 48) {
+            playMangaSfx('start');
+            c.mind = Math.min(100, c.mind + 2);
+            c.health = Math.min(100, c.health + 1);
+            if (eqPet.id === 'pet_cyber_neko' || eqPet.id === 'pet_star_dragon') {
+              c.wealth += 60;
+              if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+              this.addFloatingText(`🐾 ลูบหัว ${eqPet.shortName}! +2✨ +₡60`, '#fde047');
+            } else {
+              this.addFloatingText(`🐾 ลูบหัว ${eqPet.shortName}! +2✨ +1❤️`, '#34d399');
+            }
+            c.sfxWord = `相棒! ${eqPet.shortName} อ้อนใหญ่เลย!`;
+            updateCharacterUI();
+            return;
+          }
+
           // Otherwise if tapped character area, cheer character (+1 Mind & small credit spark)
           if (pointer.x < w * 0.65) {
             playMangaSfx('roll');
@@ -5686,34 +6288,32 @@
       }
 
       spawnInteractiveObject(type) {
-        if (this.interactiveObjs.length >= 6) return;
+        if (this.interactiveObjs.length >= 3) return;
         const w = this.scale.width || 600;
         const h = this.scale.height || 300;
 
-        let x = 60 + Math.random() * (w - 120);
-        let y = 45 + Math.random() * (h - 115);
+        let x = 55 + Math.random() * (w - 110);
+        let y = 38 + Math.random() * (h - 85);
         if (type === 'leech') {
-          // Spawn leeches near the character portrait in the left panel
-          x = w * 0.16 + Math.random() * (w * 0.24);
-          y = h * 0.26 + Math.random() * (h * 0.34);
+          x = w * 0.18 + Math.random() * (w * 0.25);
+          y = h * 0.32 + Math.random() * (h * 0.32);
         }
 
         const labels = {
-          crystal: '💎 แตะเก็บแร่!',
-          bio: '❤️ แตะฮีล!',
-          ufo: '🛸 พัสดุโลก!',
-          leech: '👾 แตะกำจัด!'
+          crystal: '💎 เก็บแร่',
+          bio: '❤️ ฮีล',
+          ufo: '🛸 พัสดุ',
+          leech: '👾 กำจัด'
         };
 
-        const dpr = Math.min(3, window.devicePixelRatio || 2);
         const labelObj = this.add.text(x, y, labels[type] || '💎', {
           fontFamily: 'Kanit, sans-serif',
-          fontSize: '11.5px',
+          fontSize: '10px',
           fontStyle: 'bold',
           color: '#ffffff',
           backgroundColor: type === 'leech' ? '#991b1b' : '#0f172a',
-          padding: { x: 6, y: 3 }
-        }).setOrigin(0.5).setResolution(dpr);
+          padding: { x: 4, y: 1.5 }
+        }).setOrigin(0.5);
 
         this.interactiveObjs.push({
           type,
@@ -5829,30 +6429,33 @@
       addFloatingText(msg, colorStr) {
         const w = this.scale.width;
         const h = this.scale.height;
-        const dpr = Math.min(3, window.devicePixelRatio || 2);
-        const txt = this.add.text(w * 0.28 + (Math.random() * 50 - 25), h * 0.30, msg, {
-          fontFamily: 'Kanit, Chakra Petch, sans-serif',
-          fontSize: '14.5px',
+        if (this.floatingTexts.length >= 3) {
+          const oldest = this.floatingTexts.shift();
+          if (oldest && oldest.obj) oldest.obj.destroy();
+        }
+        const txt = this.add.text(w * 0.32 + (Math.random() * 40 - 20), h * 0.26, msg, {
+          fontFamily: 'Kanit, sans-serif',
+          fontSize: '11.5px',
           fontStyle: 'bold',
           color: colorStr || '#ffd166',
           stroke: '#000000',
-          strokeThickness: 4
-        }).setOrigin(0.5).setResolution(dpr);
+          strokeThickness: 3
+        }).setOrigin(0.5);
         this.floatingTexts.push({ obj: txt, life: 1.0 });
       }
 
       repositionLayout(w, h) {
         if (!this.planetLabelText || !this.earthNodeLabel || !this.speechBubbleText || !this.sfxText) return;
         const isCompact = w < 440;
-        this.sfxText.setFontSize(isCompact ? '14.5px' : '18.5px');
-        this.sfxText.setPosition(12, 8);
+        this.sfxText.setFontSize(isCompact ? '12.5px' : '15px');
+        this.sfxText.setPosition(10, 6);
 
-        this.planetLabelText.setFontSize(isCompact ? '11px' : '12.5px');
-        this.planetLabelText.setPosition(w * 0.79, h * 0.10);
-        this.planetLabelText.setWordWrapWidth(Math.max(125, w * 0.36));
+        this.planetLabelText.setFontSize(isCompact ? '10px' : '11.5px');
+        this.planetLabelText.setPosition(w * 0.78, h * 0.12);
+        this.planetLabelText.setWordWrapWidth(Math.max(115, w * 0.34));
 
-        this.earthNodeLabel.setFontSize(isCompact ? '10.5px' : '12px');
-        this.earthNodeLabel.setPosition(w * 0.79, h * 0.59);
+        this.earthNodeLabel.setFontSize(isCompact ? '9.5px' : '11px');
+        this.earthNodeLabel.setPosition(w * 0.78, h * 0.63);
       }
 
       update(time, delta) {
@@ -5871,34 +6474,38 @@
         this.charGraphics.clear();
         this.objGraphics.clear();
 
-        // 1. Cozy Tamagotchi Living Room Wallpaper + Time-of-Day Window Sky
+        // 1. Cozy Tamagotchi Living Room Wallpaper + Equipped Room Theme!
         const todIdx = c ? (c.timeOfDayIdx || 0) : 0;
-        // Cozy pastel-dark room wallpaper that changes warmth with time of day
-        const wallTopCols = [0x2c224d, 0x262854, 0x36204c, 0x1c1738];
-        const wallBotCols = [0x3d2c63, 0x31386e, 0x4a295f, 0x241d46];
+        const roomTheme = getEquippedRoomThemeObj();
+        const wallTopCols = roomTheme.wallTopCols || [0x2c224d, 0x262854, 0x36204c, 0x1c1738];
+        const wallBotCols = roomTheme.wallBotCols || [0x3d2c63, 0x31386e, 0x4a295f, 0x241d46];
         this.bgGraphics.fillStyle(wallTopCols[todIdx % 4], 1);
         this.bgGraphics.fillRect(0, 0, w, h);
 
-        // Cute polka-dot / star wallpaper pattern
-        this.bgGraphics.fillStyle(0xffffff, 0.06);
+        // Theme-specific wallpaper pattern
+        this.bgGraphics.fillStyle(roomTheme.trimCol || 0xffffff, 0.08);
         for (let wx = 28; wx < w; wx += 54) {
           for (let wy = 24; wy < h * 0.65; wy += 48) {
             this.bgGraphics.fillCircle(wx + ((wy % 96 === 0) ? 14 : 0), wy, 2.5);
           }
         }
 
-        // Cozy Tamagotchi Room Floor & Baseboard Trim
-        const floorY = h * 0.56;
+        // Cozy Tamagotchi Room Floor & Baseboard Trim (Unobstructed full room!)
+        const floorY = h * 0.70;
         this.bgGraphics.fillStyle(wallBotCols[todIdx % 4], 1);
         this.bgGraphics.fillRect(0, floorY, w, h - floorY);
-        this.bgGraphics.lineStyle(3, 0xf9a8d4, 0.65);
+        this.bgGraphics.lineStyle(3, roomTheme.trimCol || 0xf9a8d4, 0.75);
         this.bgGraphics.lineBetween(0, floorY, w, floorY);
 
-        // 2. Arched Space Window on the Upper-Right looking out at Home Planet & Earth
+        // Draw Equipped 2D Room Furniture (Neatly placed along walls/corners)
+        this.drawRoomFurniture(w, h, floorY, isCompact, roomTheme);
+
+        // 2. Arched Space Window on the Right looking out at Home Planet & Earth
+        const hRatio = Math.min(1.16, Math.max(0.84, h / 250));
         const winX = w * 0.79;
-        const winY = h * 0.34;
-        const winW = Math.min(w * 0.33, 195);
-        const winH = Math.min(h * 0.39, 132);
+        const winY = h * 0.36;
+        const winW = Math.min(w * 0.33, (isCompact ? 132 : 196) * hRatio);
+        const winH = Math.min(h * 0.44, (isCompact ? 105 : 142) * hRatio);
 
         // Window Deep Space Backdrop
         this.bgGraphics.fillStyle(0x090d1c, 0.95);
@@ -5933,7 +6540,7 @@
         const pColor2 = c ? c.planet.colorSecondary : 0x3b82f6;
         const planetX = winX - winW * 0.14;
         const planetY = winY - 3;
-        const planetRadius = Math.min(winW * 0.23, winH * 0.27);
+        const planetRadius = Math.min(winW * 0.24, winH * 0.28);
 
         this.planetGraphics.fillStyle(pColor1, 0.22);
         this.planetGraphics.fillCircle(planetX, planetY, planetRadius * 1.35);
@@ -5950,11 +6557,11 @@
         const shipX = planetX + Math.cos(this.orbitAngle * 2.0) * (planetRadius * 1.35);
         const shipY = planetY + Math.sin(this.orbitAngle * 2.0) * (planetRadius * 0.5);
         this.planetGraphics.fillStyle(0xfde047, 1);
-        this.planetGraphics.fillCircle(shipX, shipY, 3.8);
+        this.planetGraphics.fillCircle(shipX, shipY, 4.2);
 
         const earthX = winX + winW * 0.26;
         const earthY = winY + winH * 0.22;
-        const earthR = isCompact ? 10 : 12;
+        const earthR = (isCompact ? 11 : 13.5) * hRatio;
         this.planetGraphics.fillStyle(0x38bdf8, 1);
         this.planetGraphics.fillCircle(earthX, earthY, earthR);
         this.planetGraphics.fillStyle(0x34d399, 0.95);
@@ -5963,43 +6570,55 @@
         this.planetGraphics.lineStyle(2, 0xffffff, 0.9);
         this.planetGraphics.strokeCircle(earthX, earthY, earthR);
 
-        // 4. Prominent Pastel Oval Stage Rug & Large Centerpiece Tamagotchi Character!
-        const rugX = w * 0.35;
-        const rugY = floorY + (isCompact ? 22 : 28);
-        const rugW = isCompact ? 172 : 225;
-        const rugH = isCompact ? 38 : 48;
+        // 4. Plush Stage Rug, Character & Companion Pet with Harmonious Proportions!
+        const rugX = w * 0.40;
+        const rugY = floorY + (isCompact ? 22 : 28) * hRatio;
+        const rugW = (isCompact ? 172 : 228) * hRatio;
+        const rugH = (isCompact ? 38 : 46) * hRatio;
 
-        this.planetGraphics.fillStyle(0xf472b6, 0.38);
-        this.planetGraphics.fillEllipse(rugX, rugY, rugW + 16, rugH + 10);
-        this.planetGraphics.fillStyle(0xfde047, 0.48);
+        this.planetGraphics.fillStyle(roomTheme.rugOuter || 0xf472b6, 0.45);
+        this.planetGraphics.fillEllipse(rugX, rugY, rugW + 18, rugH + 10);
+        this.planetGraphics.fillStyle(roomTheme.rugInner || 0xfde047, 0.55);
         this.planetGraphics.fillEllipse(rugX, rugY, rugW, rugH);
-        this.planetGraphics.lineStyle(3, 0xffffff, 0.82);
+        this.planetGraphics.lineStyle(2.5, 0xffffff, 0.88);
         this.planetGraphics.strokeEllipse(rugX, rugY, rugW, rugH);
 
-        // Calculate stage-aware vertical offset so feet rest right on the rug!
+        // Calculate stage-aware vertical offset so feet rest squarely on the rug!
         const evoForPos = getCharacterEvolutionForm(c);
         const stIdx = evoForPos.stageIdx || 0;
-        const hRatio = Math.min(1.22, Math.max(0.88, h / 265));
-        const charLift = (stIdx === 0 ? 48 : stIdx === 1 ? 58 : 68) * (isCompact ? 0.96 : 1.12) * hRatio;
+        const charLift = (stIdx === 0 ? 36 : stIdx === 1 ? 44 : 52) * (isCompact ? 0.92 : 1.06) * hRatio;
 
         // Tamagotchi Bouncy Walk & Cheerful Hop!
-        const waddleX = (c && c.alive) ? Math.sin(this.pulseTime * 1.4) * (isCompact ? 9 : 14) : 0;
-        const hopY = (c && c.alive) ? Math.abs(Math.sin(this.pulseTime * 3.0)) * 8 : 0;
-        const charCenterX = rugX + waddleX;
+        const waddleX = (c && c.alive) ? Math.sin(this.pulseTime * 1.4) * (isCompact ? 7 : 10) : 0;
+        const hopY = (c && c.alive) ? Math.abs(Math.sin(this.pulseTime * 3.0)) * 5.5 : 0;
+        const charCenterX = rugX - (isCompact ? 12 : 16) * hRatio + waddleX;
         const charCenterY = rugY - charLift - hopY;
 
-        // Soft shadow on rug proportional to larger character
-        this.planetGraphics.fillStyle(0x090a14, 0.44);
-        this.planetGraphics.fillEllipse(charCenterX, rugY - 2, isCompact ? 86 : 112, 16);
+        // Soft shadow on rug
+        this.planetGraphics.fillStyle(0x090a14, 0.45);
+        this.planetGraphics.fillEllipse(charCenterX, rugY - 2, (isCompact ? 72 : 92) * hRatio, 14 * hRatio);
 
         this.drawMangaCharacter(charCenterX, charCenterY, c, isCompact);
+
+        // Draw Active 2D Companion Pet standing prominently on the right side of the rug!
+        const eqPet = getEquippedPetObj();
+        if (eqPet) {
+          const petOffsetX = (isCompact ? 54 : 72) * hRatio;
+          const petBounce = (c && c.alive) ? Math.abs(Math.cos(this.pulseTime * 3.8)) * 6 : 0;
+          const petX = charCenterX + petOffsetX;
+          const petY = rugY - (isCompact ? 20 : 25) * hRatio - petBounce;
+          this.lastPetPos = { x: petX, y: petY };
+          this.drawCompanionPet(petX, petY, eqPet, isCompact, hRatio);
+        } else {
+          this.lastPetPos = null;
+        }
         if (c && c.alive) {
-          const propOffsetX = (isCompact ? 68 : 88) * hRatio;
-          this.drawDailyRoutineProp(charCenterX + propOffsetX, charCenterY - 8 + Math.cos(this.pulseTime * 3) * 4, c.currentRoutineProp || 'star', isCompact);
+          const propOffsetX = (isCompact ? 46 : 58) * hRatio;
+          const propOffsetY = (isCompact ? 34 : 44) * hRatio;
+          this.drawDailyRoutineProp(charCenterX + propOffsetX, charCenterY - propOffsetY + Math.cos(this.pulseTime * 3) * 4, c.currentRoutineProp || 'star', isCompact, hRatio);
         }
 
-        // 5. Speech Bubble is now rendered by crisp native HTML #stageStoryOverlayBox
-        // 6. Update & Draw Interactive Floating Objects (Crystals, Bio-Orbs, UFOs, Leeches)
+        // 5. Update & Draw Interactive Floating Objects (Crystals, Bio-Orbs, UFOs, Leeches)
         for (let i = this.interactiveObjs.length - 1; i >= 0; i--) {
           const obj = this.interactiveObjs[i];
           obj.ttl -= delta * 0.001;
@@ -6010,10 +6629,11 @@
           if (obj.y < 35 || obj.y > h - 75) obj.vy *= -1;
 
           const glowColor = obj.type === 'leech' ? 0xff2a5f : obj.type === 'crystal' ? 0xffd166 : obj.type === 'bio' ? 0x10b981 : 0x00f0ff;
-          this.objGraphics.fillStyle(glowColor, 0.32);
-          this.objGraphics.fillCircle(obj.x, obj.y, 20 + Math.sin(this.pulseTime * 5) * 3);
-          this.objGraphics.lineStyle(2, 0xffffff, 0.9);
-          this.objGraphics.strokeCircle(obj.x, obj.y, 18);
+          const orbR = (isCompact ? 19 : 22) * hRatio;
+          this.objGraphics.fillStyle(glowColor, 0.35);
+          this.objGraphics.fillCircle(obj.x, obj.y, orbR + Math.sin(this.pulseTime * 5) * 3);
+          this.objGraphics.lineStyle(2.2, 0xffffff, 0.92);
+          this.objGraphics.strokeCircle(obj.x, obj.y, orbR - 2);
 
           if (obj.labelObj) {
             obj.labelObj.setPosition(obj.x, obj.y);
@@ -6071,12 +6691,12 @@
         const sKey = evo.secondKey;
         const seed = evo.seed || 1;
 
-        // Prominent, Expressive Scale & Body Proportions per Life Stage (~85% larger!)
-        const h = this.scale.height || 270;
-        const hFactor = Math.min(1.22, Math.max(0.88, h / 265));
-        const baseScale = (isCompact ? 1.18 : 1.38) * hFactor;
-        const stageScales = [0.88, 0.98, 1.08, 1.18, 1.14];
-        const scale = baseScale * (stageScales[stageIdx] || 1.0);
+        // Balanced, Clear Scale & Body Proportions per Life Stage (Fits comfortably on mobile & PC!)
+        const h = this.scale.height || 250;
+        const hFactor = Math.min(1.12, Math.max(0.82, h / 250));
+        const baseScale = (isCompact ? 0.94 : 1.10) * hFactor;
+        const stageScales = [0.82, 0.90, 0.98, 1.06, 1.02];
+        const scale = baseScale * (stageScales[stageIdx] || 0.95);
         const rHead = 36 * scale;
 
         const auraColor = c ? c.planet.colorPrimary : 0xf472b6;
@@ -6573,9 +7193,322 @@
         }
       }
 
-      drawDailyRoutineProp(px, py, propType, isCompact) {
+      drawRoomFurniture(w, h, floorY, isCompact, roomTheme) {
+        const g = this.bgGraphics;
+        const eqMap = (gameState.shopState && gameState.shopState.equippedFurniture) || {};
+        const hRatio = Math.min(1.18, Math.max(0.85, h / 250));
+        const s = (isCompact ? 1.18 : 1.48) * hRatio;
+
+        // Room Theme Ceiling Chandelier / Ambient Decor (Proportioned & Clear)
+        if (roomTheme && roomTheme.id === 'room_cozy_pastel') {
+          const cx = w * 0.36;
+          g.lineStyle(2.2, 0xfde047, 0.85);
+          g.lineBetween(cx, 0, cx, 26 * hRatio);
+          g.lineBetween(cx - 24 * hRatio, 18 * hRatio, cx + 24 * hRatio, 18 * hRatio);
+          g.lineBetween(cx - 24 * hRatio, 18 * hRatio, cx - 24 * hRatio, 30 * hRatio);
+          g.lineBetween(cx + 24 * hRatio, 18 * hRatio, cx + 24 * hRatio, 30 * hRatio);
+          g.fillStyle(0xfde047, 0.95);
+          g.fillCircle(cx, 28 * hRatio, 8 * hRatio);
+          g.fillStyle(0xf472b6, 0.95);
+          g.fillCircle(cx - 24 * hRatio, 32 * hRatio, 6 * hRatio);
+          g.fillCircle(cx + 24 * hRatio, 32 * hRatio, 6 * hRatio);
+        } else if (roomTheme && roomTheme.id === 'room_royal_palace') {
+          const cx = w * 0.38;
+          g.fillStyle(0xfde047, 0.9);
+          g.fillTriangle(cx - 32 * hRatio, 0, cx + 32 * hRatio, 0, cx, 28 * hRatio);
+          g.lineStyle(2, 0xffffff, 0.85);
+          g.strokeTriangle(cx - 32 * hRatio, 0, cx + 32 * hRatio, 0, cx, 28 * hRatio);
+          g.fillStyle(0x38bdf8, 0.95);
+          g.fillCircle(cx, 32 * hRatio, 7.5 * hRatio);
+          g.fillCircle(cx - 18 * hRatio, 20 * hRatio, 5 * hRatio);
+          g.fillCircle(cx + 18 * hRatio, 20 * hRatio, 5 * hRatio);
+        } else if (roomTheme && roomTheme.id === 'room_zen_garden') {
+          // Hanging glowing bio-vines from ceiling
+          g.lineStyle(3, 0x34d399, 0.65);
+          g.lineBetween(w * 0.28, 0, w * 0.28, 28 * hRatio);
+          g.lineBetween(w * 0.48, 0, w * 0.48, 22 * hRatio);
+          g.fillStyle(0xa7f3d0, 0.9);
+          g.fillCircle(w * 0.28, 30 * hRatio, 5.5 * hRatio);
+          g.fillCircle(w * 0.48, 24 * hRatio, 5 * hRatio);
+        }
+
+        // 1. Hologram Bookshelf (2-Tier Wall Bookcase on Upper-Left Wall)
+        if (eqMap['furn_bookshelf']) {
+          const kx = isCompact ? w * 0.20 : w * 0.19;
+          const ky = floorY - 76 * s;
+          const kw = 64 * s;
+          const kh = 42 * s;
+          // Drop shadow & frame
+          g.fillStyle(0x090d1c, 0.92);
+          g.fillRoundedRect(kx - kw / 2, ky - kh / 2, kw, kh, 7);
+          g.lineStyle(2.8, 0x38bdf8, 0.95);
+          g.strokeRoundedRect(kx - kw / 2, ky - kh / 2, kw, kh, 7);
+          // Middle shelf divider
+          g.lineStyle(2.2, 0x7dd3fc, 0.85);
+          g.lineBetween(kx - kw / 2 + 4, ky, kx + kw / 2 - 4, ky);
+          // Top & Bottom row colorful books
+          const bookCols = [0xf472b6, 0xfde047, 0x34d399, 0x38bdf8, 0xa855f7, 0xfb7185];
+          for (let bi = 0; bi < 6; bi++) {
+            g.fillStyle(bookCols[bi], 0.95);
+            g.fillRoundedRect(kx - kw / 2 + 6 * s + bi * 9 * s, ky - kh / 2 + 4 * s, 7 * s, kh / 2 - 6 * s, 1.5);
+            g.fillStyle(bookCols[(bi + 2) % 6], 0.95);
+            g.fillRoundedRect(kx - kw / 2 + 6 * s + bi * 9 * s, ky + 3 * s, 7 * s, kh / 2 - 5 * s, 1.5);
+          }
+        }
+
+        // 2. Arcade Cabinet (Full-Size Tamagotchi 8-Bit Arcade Machine on Left Floor)
+        if (eqMap['furn_arcade']) {
+          const ax = isCompact ? 34 : 52;
+          const ay = floorY - 22 * s;
+          const aw = 44 * s;
+          const ah = 74 * s;
+          // Floor shadow
+          g.fillStyle(0x090a14, 0.45);
+          g.fillEllipse(ax, ay + ah / 2 + 2, aw * 1.15, 10 * hRatio);
+          // Cabinet body
+          g.fillStyle(0x312e81, 1);
+          g.fillRoundedRect(ax - aw / 2, ay - ah / 2, aw, ah, 8);
+          g.lineStyle(2.8, 0xf472b6, 0.98);
+          g.strokeRoundedRect(ax - aw / 2, ay - ah / 2, aw, ah, 8);
+          // Top Neon Marquee Banner
+          g.fillStyle(0xfde047, 1);
+          g.fillRoundedRect(ax - aw / 2 + 4 * s, ay - ah / 2 + 4 * s, aw - 8 * s, 10 * s, 3);
+          // Glowing Cyan CRT Screen
+          g.fillStyle(0x090d1c, 1);
+          g.fillRoundedRect(ax - aw / 2 + 5 * s, ay - ah / 2 + 17 * s, aw - 10 * s, 24 * s, 4);
+          g.fillStyle(0x00f0ff, 0.92);
+          g.fillRoundedRect(ax - aw / 2 + 7 * s, ay - ah / 2 + 19 * s, aw - 14 * s, 20 * s, 3);
+          // Animated pixel star on arcade screen
+          const pxStarX = ax + Math.sin(this.pulseTime * 4) * 5 * s;
+          g.fillStyle(0xfde047, 1);
+          g.fillCircle(pxStarX, ay - ah / 2 + 29 * s, 4 * s);
+          // Control deck & joystick + buttons
+          g.fillStyle(0x1e1b4b, 1);
+          g.fillRect(ax - aw / 2 + 3 * s, ay + 6 * s, aw - 6 * s, 10 * s);
+          g.lineStyle(2.2, 0xffffff, 1);
+          g.lineBetween(ax - 8 * s, ay + 10 * s, ax - 8 * s, ay + 2 * s);
+          g.fillStyle(0xff2a5f, 1);
+          g.fillCircle(ax - 8 * s, ay + 1 * s, 3.8 * s);
+          g.fillStyle(0xfde047, 1);
+          g.fillCircle(ax + 5 * s, ay + 9 * s, 3 * s);
+          g.fillStyle(0x34d399, 1);
+          g.fillCircle(ax + 12 * s, ay + 7 * s, 3 * s);
+          // Coin door at bottom
+          g.fillStyle(0x0f172a, 1);
+          g.fillRoundedRect(ax - 9 * s, ay + 20 * s, 18 * s, 13 * s, 2);
+          g.lineStyle(1.5, 0xf59e0b, 0.9);
+          g.strokeRoundedRect(ax - 9 * s, ay + 20 * s, 18 * s, 13 * s, 2);
+        }
+
+        // 3. Crystal Bonsai Tree (Lush Sculpted Bonsai in Left-Front Floor Corner)
+        if (eqMap['furn_bonsai']) {
+          const bx = isCompact ? 76 : 114;
+          const by = floorY + 20 * hRatio;
+          // Shadow
+          g.fillStyle(0x090a14, 0.42);
+          g.fillEllipse(bx, by + 6 * s, 38 * s, 9 * hRatio);
+          // Ornate Ceramic Planter Pot
+          g.fillStyle(0xf472b6, 1);
+          g.fillRoundedRect(bx - 16 * s, by - 12 * s, 32 * s, 16 * s, 5);
+          g.lineStyle(2.4, 0xfef08a, 0.95);
+          g.strokeRoundedRect(bx - 16 * s, by - 12 * s, 32 * s, 16 * s, 5);
+          // Sculpted Wooden Trunk & Branches
+          g.lineStyle(4.5 * hRatio, 0x92400e, 1);
+          g.lineBetween(bx, by - 12 * s, bx, by - 32 * s);
+          g.lineBetween(bx, by - 22 * s, bx - 12 * s, by - 30 * s);
+          g.lineBetween(bx, by - 24 * s, bx + 12 * s, by - 31 * s);
+          // Lush Glowing Emerald & Mint Canopies
+          g.fillStyle(0x10b981, 0.96);
+          g.fillCircle(bx, by - 38 * s, 15 * s);
+          g.fillStyle(0x34d399, 0.96);
+          g.fillCircle(bx - 13 * s, by - 31 * s, 11.5 * s);
+          g.fillCircle(bx + 13 * s, by - 31 * s, 11.5 * s);
+          g.lineStyle(2, 0xa7f3d0, 0.9);
+          g.strokeCircle(bx, by - 38 * s, 15 * s);
+          // Glowing crystal fruits on bonsai
+          g.fillStyle(0xfde047, 1);
+          g.fillCircle(bx - 5 * s, by - 40 * s, 3 * s);
+          g.fillCircle(bx + 8 * s, by - 32 * s, 2.8 * s);
+        }
+
+        // 4. Bio-Shield Generator Pylon (Futuristic Defense Tower between Rug & Window)
+        if (eqMap['furn_med_shield']) {
+          const sx = w * 0.59;
+          const sy = floorY - 18 * s;
+          const sw = 24 * s;
+          const sh = 58 * s;
+          // Base Shadow
+          g.fillStyle(0x090a14, 0.42);
+          g.fillEllipse(sx, sy + sh / 2 + 2, sw * 1.4, 8 * hRatio);
+          // Pylon Pedestal & Core Column
+          g.fillStyle(0x064e3b, 1);
+          g.fillRoundedRect(sx - sw / 2, sy - sh / 2, sw, sh, 7);
+          g.lineStyle(2.5, 0x34d399, 0.98);
+          g.strokeRoundedRect(sx - sw / 2, sy - sh / 2, sw, sh, 7);
+          // Glowing Energy Stripes inside Tower
+          g.fillStyle(0x00f0ff, 0.85);
+          g.fillRect(sx - sw * 0.28, sy - sh * 0.28, sw * 0.56, 6 * s);
+          g.fillRect(sx - sw * 0.28, sy - 2 * s, sw * 0.56, 6 * s);
+          g.fillRect(sx - sw * 0.28, sy + sh * 0.22, sw * 0.56, 6 * s);
+          // Levitating Energy Shield Orb above Tower
+          const orbHover = Math.sin(this.pulseTime * 4) * 3.5 * hRatio;
+          g.fillStyle(0x34d399, 0.32);
+          g.fillCircle(sx, sy - sh / 2 - 12 * s + orbHover, 14 * s);
+          g.fillStyle(0x34d399, 0.98);
+          g.fillCircle(sx, sy - sh / 2 - 12 * s + orbHover, 9 * s);
+          g.lineStyle(2, 0xffffff, 0.95);
+          g.strokeCircle(sx, sy - sh / 2 - 12 * s + orbHover, 9 * s);
+        }
+
+        // 5. Quantum Golden Safe (Luxury Vault in Right-Front Floor Corner under Window)
+        if (eqMap['furn_gold_safe']) {
+          const gx = w * 0.86;
+          const gy = floorY + 18 * hRatio;
+          const gw = 44 * s;
+          const gh = 38 * s;
+          // Shadow
+          g.fillStyle(0x090a14, 0.48);
+          g.fillEllipse(gx, gy + gh / 2 + 3, gw * 1.15, 9 * hRatio);
+          // Vault Body
+          g.fillStyle(0xd97706, 1);
+          g.fillRoundedRect(gx - gw / 2, gy - gh / 2, gw, gh, 6);
+          g.lineStyle(2.8, 0xfef08a, 1);
+          g.strokeRoundedRect(gx - gw / 2, gy - gh / 2, gw, gh, 6);
+          // Inner Vault Door Frame
+          g.fillStyle(0xb45309, 1);
+          g.fillRoundedRect(gx - gw / 2 + 4 * s, gy - gh / 2 + 4 * s, gw - 8 * s, gh - 8 * s, 4);
+          // Spinning Combination Dial Wheel
+          g.fillStyle(0x090a0f, 1);
+          g.fillCircle(gx - 3 * s, gy, 9.5 * s);
+          g.lineStyle(2.4, 0xfde047, 1);
+          g.strokeCircle(gx - 3 * s, gy, 9.5 * s);
+          const dialAngle = this.pulseTime * 1.5;
+          g.lineBetween(
+            gx - 3 * s - Math.cos(dialAngle) * 7 * s,
+            gy - Math.sin(dialAngle) * 7 * s,
+            gx - 3 * s + Math.cos(dialAngle) * 7 * s,
+            gy + Math.sin(dialAngle) * 7 * s
+          );
+          // Glowing green LED status bar
+          g.fillStyle(0x34d399, 1);
+          g.fillRect(gx + 9 * s, gy - 8 * s, 5 * s, 16 * s);
+        }
+      }
+
+      drawCompanionPet(px, py, pet, isCompact, hRatio = 1) {
         const g = this.charGraphics;
-        const s = isCompact ? 1.05 : 1.25;
+        const s = (isCompact ? 1.22 : 1.45) * hRatio;
+        const r = 16.5 * s;
+
+        // Soft shadow under pet
+        g.fillStyle(0x090a14, 0.42);
+        g.fillEllipse(px, py + r * 0.95, r * 2.1, 6.5 * s);
+
+        if (pet.id === 'pet_mochi_slime') {
+          // Cute Bouncy Mochi Star-Slime with Crown-Drop & Star Core
+          g.fillStyle(0x38bdf8, 0.94);
+          g.fillEllipse(px, py, r * 2.2, r * 1.82);
+          g.lineStyle(2.5, 0xffffff, 0.98);
+          g.strokeEllipse(px, py, r * 2.2, r * 1.82);
+          // Top slime droplet antenna
+          g.fillStyle(0x7dd3fc, 1);
+          g.fillCircle(px, py - r * 1.02, 5 * s);
+          // Star inside slime
+          g.fillStyle(0xfde047, 0.95);
+          g.fillCircle(px + 5 * s, py - 5 * s, 3.8 * s);
+        } else if (pet.id === 'pet_cyber_neko') {
+          // Cute Cyber-Neko Cat with Waving Tail, Pointy Neon Ears, Paws & Golden Bell
+          const tailWag = Math.sin(this.pulseTime * 5) * 5 * s;
+          g.lineStyle(4 * hRatio, 0xf472b6, 1);
+          g.lineBetween(px + r * 0.75, py + 4 * s, px + r * 1.45, py - 8 * s + tailWag);
+          // Ears
+          g.fillStyle(0x00f0ff, 1);
+          g.fillTriangle(px - 12 * s, py - 5 * s, px - 15 * s, py - 21 * s, px - 2 * s, py - 12 * s);
+          g.fillTriangle(px + 12 * s, py - 5 * s, px + 15 * s, py - 21 * s, px + 2 * s, py - 12 * s);
+          g.lineStyle(2, 0x090a0f, 1);
+          g.strokeTriangle(px - 12 * s, py - 5 * s, px - 15 * s, py - 21 * s, px - 2 * s, py - 12 * s);
+          g.strokeTriangle(px + 12 * s, py - 5 * s, px + 15 * s, py - 21 * s, px + 2 * s, py - 12 * s);
+          // Head/Body
+          g.fillStyle(0xfdf4ff, 1);
+          g.fillCircle(px, py, r);
+          g.lineStyle(2.5, 0x090a0f, 1);
+          g.strokeCircle(px, py, r);
+          // Red Collar & Golden Bell
+          g.lineStyle(3, 0xff2a5f, 1);
+          g.lineBetween(px - r * 0.65, py + r * 0.72, px + r * 0.65, py + r * 0.72);
+          g.fillStyle(0xfde047, 1);
+          g.fillCircle(px, py + r * 0.82, 4.8 * s);
+        } else if (pet.id === 'pet_robo_pup') {
+          // Cute Aegis Robo-Pup with Floppy Cyber Ears, Shield Badge & Visor
+          g.fillStyle(0x0284c7, 1);
+          g.fillEllipse(px - 15 * s, py - 1 * s, 8.5 * s, 15 * s);
+          g.fillEllipse(px + 15 * s, py - 1 * s, 8.5 * s, 15 * s);
+          g.lineStyle(2, 0x090a0f, 1);
+          g.strokeEllipse(px - 15 * s, py - 1 * s, 8.5 * s, 15 * s);
+          g.strokeEllipse(px + 15 * s, py - 1 * s, 8.5 * s, 15 * s);
+          // Body
+          g.fillStyle(0xfde047, 1);
+          g.fillCircle(px, py, r);
+          g.lineStyle(2.5, 0x090a0f, 1);
+          g.strokeCircle(px, py, r);
+          // Cute Puppy Snout & Aegis Forehead Crest
+          g.fillStyle(0xffffff, 0.95);
+          g.fillEllipse(px, py + 3.5 * s, 10 * s, 6.5 * s);
+          g.fillStyle(0x38bdf8, 1);
+          g.fillTriangle(px - 5 * s, py - r * 0.6, px + 5 * s, py - r * 0.6, px, py - r * 1.15);
+        } else if (pet.id === 'pet_star_dragon') {
+          // Nebula Mini-Dragon with Flapping Golden Wings & Horns
+          const wingY = Math.sin(this.pulseTime * 6) * 4.5 * s;
+          g.fillStyle(0xfde047, 0.96);
+          g.fillTriangle(px - 8 * s, py, px - 26 * s, py - 13 * s + wingY, px - 17 * s, py + 9 * s);
+          g.fillTriangle(px + 8 * s, py, px + 26 * s, py - 13 * s + wingY, px + 17 * s, py + 9 * s);
+          g.lineStyle(1.8, 0x090a0f, 1);
+          g.strokeTriangle(px - 8 * s, py, px - 26 * s, py - 13 * s + wingY, px - 17 * s, py + 9 * s);
+          g.strokeTriangle(px + 8 * s, py, px + 26 * s, py - 13 * s + wingY, px + 17 * s, py + 9 * s);
+          // Dragon Horns
+          g.fillStyle(0xfde047, 1);
+          g.fillTriangle(px - 9 * s, py - r * 0.75, px - 13 * s, py - r * 1.38, px - 3 * s, py - r * 0.9);
+          g.fillTriangle(px + 9 * s, py - r * 0.75, px + 13 * s, py - r * 1.38, px + 3 * s, py - r * 0.9);
+          // Dragon Body
+          g.fillStyle(0xa855f7, 1);
+          g.fillCircle(px, py, r);
+          g.lineStyle(2.5, 0xfde047, 1);
+          g.strokeCircle(px, py, r);
+        } else {
+          // Celestial Phoenix with Radiant Wings, Halo & Golden Crest
+          const wingY = Math.sin(this.pulseTime * 7) * 5 * s;
+          g.lineStyle(2, 0xfde047, 0.75);
+          g.strokeEllipse(px, py - r * 1.35, r * 1.2, 5 * s);
+          g.fillStyle(0xfde047, 0.96);
+          g.fillTriangle(px - 8 * s, py, px - 28 * s, py - 14 * s + wingY, px - 15 * s, py + 9 * s);
+          g.fillTriangle(px + 8 * s, py, px + 28 * s, py - 14 * s + wingY, px + 15 * s, py + 9 * s);
+          g.fillStyle(0xfb7185, 1);
+          g.fillCircle(px, py, r);
+          g.lineStyle(2.5, 0xfde047, 1);
+          g.strokeCircle(px, py, r);
+          g.fillStyle(0xfde047, 1);
+          g.fillTriangle(px - 5 * s, py - r, px + 5 * s, py - r, px, py - r - 11 * s);
+        }
+
+        // Expressive Pet Eyes with Catchlights, Rosy Cheeks & Cute Smile
+        g.fillStyle(0x090a0f, 1);
+        g.fillCircle(px - 5.8 * s, py - 1.2 * s, 2.9 * s);
+        g.fillCircle(px + 5.8 * s, py - 1.2 * s, 2.9 * s);
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(px - 6.6 * s, py - 2.2 * s, 1.2 * s);
+        g.fillCircle(px + 5.0 * s, py - 2.2 * s, 1.2 * s);
+        g.fillStyle(0xf43f5e, 0.6);
+        g.fillEllipse(px - 9.5 * s, py + 3.2 * s, 4.5 * s, 2.8 * s);
+        g.fillEllipse(px + 9.5 * s, py + 3.2 * s, 4.5 * s, 2.8 * s);
+        g.lineStyle(1.8, 0x090a0f, 1);
+        g.beginPath();
+        g.arc(px, py + 2.5 * s, 3.2 * s, 0.15, Math.PI - 0.15, false);
+        g.strokePath();
+      }
+
+      drawDailyRoutineProp(px, py, propType, isCompact, hRatio = 1) {
+        const g = this.charGraphics;
+        const s = (isCompact ? 0.96 : 1.15) * hRatio;
 
         // Floating routine badge frame
         g.fillStyle(0x0b0e1c, 0.9);
@@ -6621,6 +7554,7 @@
 
     window.addEventListener('load', () => {
       saveKarmaPoints();
+      updateShopHudBadges();
       rollNewBirthCandidate();
       switchHudTab('stage');
 
