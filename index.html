@@ -239,6 +239,7 @@
         <span id="stageLifeStageBadge" class="bg-black border border-[#00f0ff]/60 text-[#00f0ff] px-1.5 py-0.5 font-display text-[10px] shrink-0">รอการสุ่มเกิด</span>
         <span id="hudQuickName" class="font-bold text-white truncate max-w-[120px] sm:max-w-[200px]">ยังไม่ได้ถือกำเนิด</span>
         <span id="tamaMoodPill" class="bg-pink-500/25 border border-pink-300/60 text-pink-200 rounded-full px-2 py-0.5 font-display font-bold text-[10px] shrink-0">🐣 รอฟักไข่</span>
+        <span id="tamaEvolutionBadge" class="bg-amber-500/25 border border-amber-300/70 text-amber-200 rounded-full px-2.5 py-0.5 font-display font-bold text-[10px] shrink-0">🧬 ร่าง: เบบี๋แรกเกิด</span>
         <span id="stageLocationLabel" class="hidden md:inline text-slate-300 truncate max-w-[200px]">• ห้องพักไข่ดาว</span>
       </div>
 
@@ -1558,9 +1559,46 @@
       const religion = COSMIC_RELIGIONS[Math.floor(Math.random() * COSMIC_RELIGIONS.length)];
       const trait = INNATE_TRAITS[Math.floor(Math.random() * INNATE_TRAITS.length)];
 
+      // Roll Family Socio-Economic Tier ('poor', 'middle', 'wealthy') weighted by planet poverty rate!
+      const tierRoll = Math.random() * 100;
+      let familyTier = 'middle';
+      if (gameState.useKarmaBlessing) {
+        familyTier = tierRoll < 18 ? 'poor' : tierRoll < 62 ? 'middle' : 'wealthy';
+      } else {
+        const poorThreshold = Math.min(82, Math.max(15, planet.povertyRate + 10));
+        const richThreshold = Math.min(96, poorThreshold + Math.max(12, Math.round((100 - planet.povertyRate) * 0.55)));
+        if (tierRoll < poorThreshold) familyTier = 'poor';
+        else if (tierRoll < richThreshold) familyTier = 'middle';
+        else familyTier = 'wealthy';
+      }
+
       const minInc = planet.incomeRange[0];
       const maxInc = planet.incomeRange[1];
-      const familyIncome = Math.floor(minInc + Math.random() * (maxInc - minInc));
+      let familyIncome = Math.floor(minInc + Math.random() * (maxInc - minInc));
+      if (familyTier === 'poor') {
+        familyIncome = Math.max(90, Math.floor(minInc * (0.45 + Math.random() * 0.45)));
+      } else if (familyTier === 'wealthy') {
+        familyIncome = Math.floor(maxInc * (1.35 + Math.random() * 1.4));
+      }
+
+      const familyArchetypes = {
+        poor: [
+          { tag: '🏚️ ครอบครัวยากจนข้นแค้น (อดมื้อกินมื้อ)', desc: 'พ่อแม่เป็นแรงงานรายวันที่มีหนี้นอกระบบท่วมหัว บางสัปดาห์แทบไม่มีอาหารสังเคราะห์ตกถึงท้องและต้องคอยหลบแก๊งทวงหนี้' },
+          { tag: '🏚️ ครอบครัวสลัมแออัด (ขาดแคลนน้ำ-ไฟ)', desc: 'อาศัยในห้องเช่าแคบๆ เขตสลัมที่ถูกตัดไฟและออกซิเจนบ่อยครั้ง เสี่ยงต่อโรคระบาดและอาชญากรรมรายวัน' },
+          { tag: '🏚️ ครอบครัวผู้ลี้ภัยสงคราม (ไร้หลักประกัน)', desc: 'ครอบครัวพลัดถิ่นจากภัยสงครามจักรวาล ต้องหาเช้ากินค่ำและเผชิญการเลือกปฏิบัติในเขตเมือง' }
+        ],
+        middle: [
+          { tag: '🏢 ครอบครัวชนชั้นกลางดิ้นรน (หนี้ผ่อนบ้าน)', desc: 'พ่อแม่เป็นพนักงานกินเงินเดือนที่ต้องทำงานล่วงเวลาหนักเพื่อผ่อนบ้านแคปซูลและค่าเทอม เสี่ยงตกงานหากเศรษฐกิจพัง' },
+          { tag: '🏢 ครอบครัวร้านค้ารายย่อย (สู้ค่าครองชีพ)', desc: 'เปิดร้านค้าเล็กๆ ในย่านการค้าที่ต้องรับมือทั้งภาษีรัฐบาล การประท้วงปิดเมือง และแก๊งรีดไถค่าคุ้มครอง' },
+          { tag: '🏢 ครอบครัวเจ้าหน้าที่รัฐชั้นผู้น้อย', desc: 'รายได้พอมีพอกินแต่พ่อแม่ต้องเผชิญแรงกดดันจากการเมืองภายในและการทุจริตของผู้มีอิทธิพลในเซกเตอร์' }
+        ],
+        wealthy: [
+          { tag: '🏰 ตระกูลมหาเศรษฐีนายทุน (ศึกชิงมรดก)', desc: 'เกิดบนกองเงินกองทองแต่ญาติพี่น้องจ้องหักหลังชิงมรดก และตกเป็นเป้าหมายของการประท้วงต่อต้านนายทุน' },
+          { tag: '🏰 ตระกูลนักการเมืองทรงอิทธิพล (เสี่ยงถูกลอบสังหาร)', desc: 'ครอบครัวกุมอำนาจทางการเมืองแต่มีศัตรูรอบด้าน เสี่ยงต่อการรัฐประหาร ข่าวฉาว และการถูกลักพาตัวเรียกค่าไถ่' },
+          { tag: '🏰 ตระกูลเจ้าพ่อเทคโนโลยีดาราจักร (กดดันสูง)', desc: 'ร่ำรวยมั่งคั่งแต่พ่อแม่เข้มงวดกดดันให้ต้องสมบูรณ์แบบ และถูกแก๊งอาชญากรข้ามดวงดาวจ้องจารกรรมทรัพย์สิน' }
+        ]
+      };
+      const pickedFamilyArch = familyArchetypes[familyTier][Math.floor(Math.random() * familyArchetypes[familyTier].length)];
 
       const fatherAge = Math.floor(19 + Math.random() * 28);
       const motherAge = Math.max(18, fatherAge - Math.floor(Math.random() * 6) + Math.floor(Math.random() * 4));
@@ -1584,6 +1622,8 @@
         era,
         religion,
         familyIncome,
+        familyTier,
+        familyArchetype: pickedFamilyArch,
         fatherAge,
         motherAge,
         expectedLifespan,
@@ -1601,7 +1641,7 @@
       document.getElementById('certPlanetCity').textContent = `${cert.planet.shortName} (${cert.city})`;
       document.getElementById('certEraName').textContent = cert.era.short;
       document.getElementById('certReligion').textContent = cert.religion;
-      document.getElementById('certFamilyIncome').textContent = `₡ ${cert.familyIncome.toLocaleString()}/ปี (${cert.planet.classLabel})`;
+      document.getElementById('certFamilyIncome').textContent = `₡ ${cert.familyIncome.toLocaleString()}/ปี • ${cert.familyArchetype ? cert.familyArchetype.tag : cert.planet.classLabel}`;
       document.getElementById('certParentsAge').textContent = `ผู้ให้กำเนิดอายุ ${cert.fatherAge} ปี และ ${cert.motherAge} ปี`;
       document.getElementById('certLifeExpectancy').textContent = `${cert.expectedLifespan} ปีมาตรฐานอวกาศ`;
       document.getElementById('certUnder5Risk').textContent = `${cert.under5Mortality}%`;
@@ -1754,6 +1794,9 @@
         earthRelation: cert.planet.id === 'earth' ? 100 : Math.min(100, permBuffs.earth),
         addictionFlag: false,
         aptitudes: { sci: 0, art: 0, vit: 0, emp: 0, biz: 0 },
+        visualSeed: Math.floor(1 + Math.random() * 999),
+        lastEvolutionFormId: 'st0_none_sec_none_w0',
+        evoFlashTimer: 0,
         futureFlags: {},
         choiceHistory: [],
         currentRoutineTime: '🌅 ยามเช้า',
@@ -1771,7 +1814,7 @@
       addLifeLog(
         0,
         'milestone',
-        `🌟 ถือกำเนิดใหม่ในชื่อ "${cert.fullName}" (${cert.planet.species}) ณ ${cert.city} บน ${cert.planet.name} ใน${cert.era.short} รายได้ครอบครัว ₡${cert.familyIncome.toLocaleString()}/ปี โอกาสเสียชีวิตก่อนวัย 5 ขวบอยู่ที่ ${cert.under5Mortality}%`
+        `🌟 ถือกำเนิดใหม่ในชื่อ "${cert.fullName}" ณ ${cert.city} (${cert.planet.shortName}) • พื้นเพ: ${cert.familyArchetype ? cert.familyArchetype.tag : 'ทั่วไป'} (${cert.familyArchetype ? cert.familyArchetype.desc : ''}) รายได้ครอบครัว ₡${cert.familyIncome.toLocaleString()}/ปี`
       );
 
       document.getElementById('btnManualStepYear').disabled = false;
@@ -2121,23 +2164,207 @@
       ];
       entries.sort((x, y) => y.val - x.val);
       if (entries[0].val <= 0) {
-        return { key: 'none', label: '🌱 กำลังบ่มเพาะนิสัย (เลือกตัดสินใจทุกปี)', career6: 'นักเรียนชั้นประถมดาราจักร', career18: 'พลเมืองปฏิบัติการทั่วไป', career30: 'ผู้เชี่ยวชาญประจำเซกเตอร์' };
+        return { key: 'none', val: 0, secondKey: 'none', secondVal: 0, label: '🌱 กำลังบ่มเพาะนิสัย (เลือกตัดสินใจทุกปี)', career6: 'นักเรียนชั้นประถมดาราจักร', career18: 'พลเมืองปฏิบัติการทั่วไป', career30: 'ผู้เชี่ยวชาญประจำเซกเตอร์' };
       }
-      return entries[0];
+      return {
+        ...entries[0],
+        secondKey: entries[1].val >= 8 ? entries[1].key : 'none',
+        secondVal: entries[1].val
+      };
+    }
+
+    // Multi-Branch 2D Tamagotchi Evolution Resolver (Stage x Dominant Choice Path x Secondary Hybrid x DNA Seed)
+    function getCharacterEvolutionForm(c) {
+      if (!c) {
+        return {
+          formId: 'egg_wait',
+          stageIdx: 0,
+          primaryKey: 'none',
+          secondKey: 'none',
+          formName: '🥚 ไข่ดาราจักร',
+          outfitColor: 0x312e81,
+          trimColor: 0xf472b6,
+          headgear: 'sprout',
+          eyeStyle: 'round_sparkle',
+          mouthStyle: 'cat_smile',
+          hairStyle: 'fluffy',
+          propWeapon: 'none',
+          wingStyle: 'none'
+        };
+      }
+
+      const age = c.age || 0;
+      const stageIdx = age < 5 ? 0 : age < 13 ? 1 : age < 20 ? 2 : age < 55 ? 3 : 4;
+      const dom = getDominantAptitudeInfo(c);
+      const pKey = dom.key || 'none';
+      const sKey = dom.secondKey || 'none';
+      const seed = c.visualSeed || 1;
+
+      // Stage Names & Branching Titles
+      const formNamesByStage = {
+        0: {
+          none: '🐣 เบบี๋ทามาก็อตจิแรกแย้ม',
+          sci: '🐣 เบบี๋นักคิดเสาอากาศคู่',
+          art: '🐣 เบบี๋ไอดอลติดโบว์ดาว',
+          vit: '🐣 เบบี๋จอมพลังผ้าคาดหัว',
+          emp: '🐣 เบบี๋นางฟ้าใจดี',
+          biz: '🐣 เบบี๋เถ้าแก่หูกระต่ายทอง'
+        },
+        1: {
+          none: '🎒 วัยเด็กนักสำรวจน้อย',
+          sci: '🔬 วัยเด็กอัจฉริยะแว่นควอนตัม',
+          art: '🎨 วัยเด็กจิตรกรหมวกเบเร่ต์',
+          vit: '⚔️ วัยเด็กจอมยุทธ์น้อย',
+          emp: '🤝 วัยเด็กทูตดอกไม้ดารา',
+          biz: '💼 วัยเด็กพ่อค้าน้อยหมวกสูท'
+        },
+        2: {
+          none: '🌟 วัยรุ่นนักเดินทางอวกาศ',
+          sci: '🥽 วัยรุ่นไซเบอร์สเกาเตอร์',
+          art: '🎧 วัยรุ่นสตรีมเมอร์หูฟังแมว',
+          vit: '🗡️ วัยรุ่นอัศวินพลาสม่า',
+          emp: '👑 วัยรุ่นผู้พิทักษ์รัดเกล้าจันทร์',
+          biz: '🕶️ วัยรุ่นนักลงทุนแว่นทอง'
+        },
+        3: {
+          none: '🚀 ร่างสมบูรณ์: กัปตันนักสำรวจเอกภพ',
+          sci: '🌌 ร่างสมบูรณ์: จอมเวทสถาปนิกควอนตัม',
+          art: '🎤 ร่างสมบูรณ์: ซุปเปอร์สตาร์ปีกนีออน',
+          vit: '🛡️ ร่างสมบูรณ์: ขุนพลเกราะราชันย์ดารา',
+          emp: '🪽 ร่างสมบูรณ์: ทูตสวรรค์สภาสันติภาพ',
+          biz: '💎 ร่างสมบูรณ์: จักรพรรดิทุนดาราจักร'
+        },
+        4: {
+          none: '⏳ ร่างปรมาจารย์ผู้ข้ามกาลเวลา',
+          sci: '🧙‍♂️ ร่างปรมาจารย์มหาปราชญ์ควอนตัม',
+          art: '🌟 ร่างปรมาจารย์ตำนานศิลปินเอกภพ',
+          vit: '⚔️ ร่างปรมาจารย์จอมทัพผู้พิทักษ์',
+          emp: '🕊️ ร่างปรมาจารย์นักบุญแห่งดวงดาว',
+          biz: '👑 ร่างปรมาจารย์เจ้าสัวอมตะ'
+        }
+      };
+
+      const hybridSuffix = {
+        none: '',
+        sci: ' + ไซเบอร์',
+        art: ' + ไอดอล',
+        vit: ' + จอมยุทธ์',
+        emp: ' + ทูตสวรรค์',
+        biz: ' + นักบริหาร'
+      };
+
+      let formName = (formNamesByStage[stageIdx] && formNamesByStage[stageIdx][pKey]) || '🌟 ร่างนักเดินทาง';
+      if (stageIdx >= 2 && sKey !== 'none' && sKey !== pKey) {
+        formName += hybridSuffix[sKey] || '';
+      }
+
+      // Palette per path
+      const paletteMap = {
+        none: { outfit: 0x3b336a, trim: 0x7dd3fc },
+        sci:  { outfit: 0x0f2942, trim: 0x00f0ff },
+        art:  { outfit: 0x4a1d46, trim: 0xf472b6 },
+        vit:  { outfit: 0x45121b, trim: 0xfb7185 },
+        emp:  { outfit: 0x0f3933, trim: 0x34d399 },
+        biz:  { outfit: 0x2e2310, trim: 0xfde047 }
+      };
+      const pal = paletteMap[pKey] || paletteMap.none;
+
+      // Distinct Hairstyles based on path + seed
+      const hairMap = {
+        none: (seed % 2 === 0) ? 'spiky_explorer' : 'fluffy_bob',
+        sci:  'asymmetric_cyber',
+        art:  'twintail_idol',
+        vit:  'wild_hero_spikes',
+        emp:  'flowing_angel',
+        biz:  'slick_ceo'
+      };
+
+      // Distinct Eyes based on path + seed
+      const eyeMap = {
+        none: (seed % 2 === 0) ? 'round_sparkle' : 'cheerful_arc',
+        sci:  'cyber_grid',
+        art:  'star_idol',
+        vit:  'fierce_slit',
+        emp:  'gentle_shine',
+        biz:  'confident_sharp'
+      };
+
+      // Distinct Mouths
+      const mouthMap = {
+        none: 'cat_smile',
+        sci:  'smirk_focused',
+        art:  'open_idol_happy',
+        vit:  'fang_grin',
+        emp:  'serene_smile',
+        biz:  'confident_smirk'
+      };
+
+      const formId = `st${stageIdx}_${pKey}_sec_${sKey}_w${c.wealth >= 10000 ? 1 : 0}`;
+      return {
+        formId,
+        stageIdx,
+        primaryKey: pKey,
+        secondKey: sKey,
+        formName,
+        outfitColor: pal.outfit,
+        trimColor: pal.trim,
+        hairStyle: hairMap[pKey] || 'fluffy_bob',
+        eyeStyle: eyeMap[pKey] || 'round_sparkle',
+        mouthStyle: mouthMap[pKey] || 'cat_smile',
+        seed
+      };
     }
 
     function generateDailyRoutineForMonth(c) {
       const tod = DAILY_TIMES[c.timeOfDayIdx % DAILY_TIMES.length];
       c.currentRoutineTime = tod.label;
+      const tier = c.familyTier || 'middle';
 
       if (c.age < 5) {
-        const infantRoutines = [
-          { text: `ตื่นนอนในเปลพลังงาน ฝึกคลานและจ้องมองแสงดาวนอกหน้าต่างเขต ${c.city}`, prop: 'cradle' },
-          { text: `กินอาหารเสริมภูมิคุ้มกันสำหรับทารกและหัดออกเสียงพูดคุยกับพ่อแม่`, prop: 'heart' },
-          { text: `เล่นของเล่นฝึกประสาทสัมผัสและฝึกยืนตั้งไข่ท่ามกลางสายตาเอ็นดูของครอบครัว`, prop: 'star' },
-          { text: `ฟังเสียงกล่อมจากกล่องดนตรีควอนตัมและนอนหลับสะสมพลังชีวิตวัยทารก`, prop: 'cradle' }
+        if (tier === 'poor' || c.wealth < 250) {
+          const poorInfant = [
+            { text: `นอนในลังพลาสติกบุผ้าเก่าๆ ฟังเสียงท่อระบายอากาศดังครืดคราดในสลัม ${c.city}`, prop: 'cradle' },
+            { text: `ดื่มนมสังเคราะห์เจือจางเพราะครอบครัวต้องประหยัดงบอาหารไว้จ่ายค่าเช่าห้อง`, prop: 'heart' },
+            { text: `คลานเล่นของเล่นที่พ่อแม่เก็บมาซ่อมให้ ท่ามกลางเสียงไซเรนตำรวจนอกหน้าต่าง`, prop: 'shield' },
+            { text: `สะดุ้งตื่นกลางดึกเพราะเสียงแก๊งทวงหนี้เคาะประตูห้องข้างๆ ก่อนที่แม่จะกอดปลอบ`, prop: 'cradle' }
+          ];
+          const pick = poorInfant[c.month % poorInfant.length];
+          c.currentRoutineText = pick.text;
+          c.currentRoutineProp = pick.prop;
+          return;
+        } else if (tier === 'wealthy') {
+          const richInfant = [
+            { text: `ตื่นนอนในเปลควอนตัมปรับอุณหภูมิอัตโนมัติ มีหุ่นยนต์พี่เลี้ยงและบอดี้การ์ดเฝ้าหน้าห้อง`, prop: 'cradle' },
+            { text: `รับประทานอาหารเสริมระดับพรีเมียม ขณะที่เครือญาติกำลังถกเถียงเรื่องหุ้นและมรดกตระกูล`, prop: 'coin' },
+            { text: `ฝึกประสาทสัมผัสด้วยโฮโลแกรมจำลองดาราจักรส่วนตัวในคฤหาสน์ ${c.city}`, prop: 'star' },
+            { text: `นอนหลับภายใต้ระบบเกราะป้องกันการลอบสังหารระดับสูงสุดของตระกูล`, prop: 'shield' }
+          ];
+          const pick = richInfant[c.month % richInfant.length];
+          c.currentRoutineText = pick.text;
+          c.currentRoutineProp = pick.prop;
+          return;
+        }
+        const midInfant = [
+          { text: `ตื่นนอนในห้องพักแคปซูลของครอบครัว ขณะพ่อแม่รีบแต่งตัวออกไปทำงานแต่เช้าตรู่`, prop: 'cradle' },
+          { text: `กินอาหารทารกมาตรฐานสหพันธ์และหัดเดินเตาะแตะในห้องนั่งเล่น`, prop: 'heart' },
+          { text: `ดูการ์ตูนโฮโลแกรมสลับกับข่าวด่วนเรื่องราคาพลังงานและม็อบประท้วงในเมือง ${c.city}`, prop: 'star' },
+          { text: `นอนหลับฟังเสียงพ่อแม่นั่งคิดเลขคำนวณค่าผ่อนบ้านและค่าน้ำไฟก่อนนอน`, prop: 'cradle' }
         ];
-        const pick = infantRoutines[c.month % infantRoutines.length];
+        const pick = midInfant[c.month % midInfant.length];
+        c.currentRoutineText = pick.text;
+        c.currentRoutineProp = pick.prop;
+        return;
+      }
+
+      // If starving / broke, override routine with survival struggle!
+      if (c.wealth < 150) {
+        const brokeRoutines = [
+          { text: `🥣 ท้องร้องจ๊อกเพราะเงินติดกระเป๋าเหลือแค่ ₡${c.wealth} ต้องดื่มน้ำก๊อกประทังความหิวช่วงเช้า`, prop: 'shield' },
+          { text: `🥣 ออกเดินหางานรับจ้างรายวันและต่อคิวรับซุปสังเคราะห์แจกฟรีสำหรับผู้ยากไร้ใน ${c.city}`, prop: 'coin' },
+          { text: `🥣 เก็บเศษอะไหล่ควอนตัมตามตรอกมืดไปขายแลกข้าวกล่องลดราคาตอนดึก`, prop: 'coin' },
+          { text: `🥣 นอนขดตัวในห้องที่ถูกตัดฮีตเตอร์ พยายามข่มตาหลับเพื่อลืมความหิวโหย`, prop: 'cradle' }
+        ];
+        const pick = brokeRoutines[(c.month + c.timeOfDayIdx) % brokeRoutines.length];
         c.currentRoutineText = pick.text;
         c.currentRoutineProp = pick.prop;
         return;
@@ -2146,40 +2373,40 @@
       const focus = gameState.annualFocus || 'balanced';
       const routineMap = {
         study: [
-          { text: `ตื่นเช้าทบทวนตำราดาราศาสตร์และฝึกคำนวณสมการควอนตัมก่อนเข้าเรียน/ทำงาน`, prop: 'book' },
-          { text: `เข้าห้องแล็บจำลองสภาวะไร้แรงโน้มถ่วง ทดลองประกอบวงจรร่วมกับเพื่อนร่วมชั้น`, prop: 'book' },
-          { text: `ค้นคว้าคลังข้อมูลดิจิทัลที่เชื่อมต่อกับหอสมุดดาวโลกเพื่อต่อยอดความรู้`, prop: 'book' },
-          { text: `จดสรุปสิ่งที่ได้เรียนรู้ในวันนี้ลงในสมุดบันทึกโฮโลแกรมก่อนเข้านอน`, prop: 'book' }
+          { text: `ตื่นเช้าอ่านตำราควอนตัมท่ามกลางเสียงประกาศเคอร์ฟิวและข่าวความตึงเครียดบริเวณชายแดนดวงดาว`, prop: 'book' },
+          { text: `เข้าห้องแล็บฝึกวิเคราะห์ไวรัสกลายพันธุ์และระบบป้องกันภัยอวกาศร่วมกับเพื่อนร่วมชั้น`, prop: 'book' },
+          { text: `ค้นคว้าฐานข้อมูลดาวโลกเพื่อหาทางยกระดับชีวิตให้พ้นจากวิกฤตของเมือง ${c.city}`, prop: 'book' },
+          { text: `ทบทวนบทเรียนใต้แสงไฟสำรองขณะเกิดไฟตกในเซกเตอร์ที่พักอาศัย`, prop: 'book' }
         ],
         career: [
-          { text: `เช็กราคาตลาดแร่ควอนตัมและวางแผนตารางงานในฐานะ "${c.career}"`, prop: 'coin' },
-          { text: `ทุ่มเททำงานประจำวันอย่างขะมักเขม้นในเขต ${c.city} เพื่อสร้างผลงานและรายได้`, prop: 'coin' },
-          { text: `เจรจาต่อรองงานพิเศษหลังเลิกงานเพื่อเก็บออมเครดิตสร้างอนาคต`, prop: 'coin' },
-          { text: `ทำบัญชีรายรับ-รายจ่ายประจำเดือนและวางแผนการเงินระยะยาว`, prop: 'coin' }
+          { text: `ฝ่าการจราจรและขบวนประท้วงออกไปทำงานในฐานะ "${c.career}" เพื่อหาเงินเลี้ยงชีพ`, prop: 'coin' },
+          { text: `รับมือกับลูกค้าและแรงกดดันทางเศรษฐกิจในเขต ${c.city} อย่างกัดฟันสู้`, prop: 'coin' },
+          { text: `รับงานกะดึกเพิ่มพิเศษท่ามกลางข่าวลือเรื่องแก๊งอาชญากรรมและสงครามการค้า`, prop: 'coin' },
+          { text: `นับเงินเครดิตที่หามาได้ด้วยความเหนื่อยยากและแบ่งเก็บสำรองเผื่อเหตุฉุกเฉิน`, prop: 'coin' }
         ],
         romance: [
-          { text: `แต่งตัวสดใสออกจากบ้าน ทักทายเพื่อนบ้านและผู้คนต่างเผ่าพันธุ์ด้วยรอยยิ้ม`, prop: 'heart' },
-          { text: `ใช้เวลาพักเที่ยงนั่งพูดคุยแลกเปลี่ยนความฝันกับเพื่อนสนิทและคนรู้ใจ (${c.partner})`, prop: 'heart' },
-          { text: `เดินเล่นชมแสงไฟนีออนยามเย็นในเมือง ${c.city} เติมเต็มความอบอุ่นให้หัวใจ`, prop: 'heart' },
-          { text: `ส่งข้อความทักทายคนที่ห่วงใยและดูแลความสัมพันธ์ในครอบครัวก่อนนอน`, prop: 'heart' }
+          { text: `แบ่งปันมื้อเช้าเรียบง่ายกับคนสำคัญ คอยให้กำลังใจกันท่ามกลางโลกที่วุ่นวาย`, prop: 'heart' },
+          { text: `พูดคุยปรับทุกข์กับคนรู้ใจ (${c.partner}) เรื่องความปลอดภัยและอนาคตของครอบครัว`, prop: 'heart' },
+          { text: `ช่วยเพื่อนบ้านในชุมชน ${c.city} แบ่งปันเสบียงอาหารยามเกิดวิกฤตข้าวยากหมากแพง`, prop: 'heart' },
+          { text: `ตรวจสอบสัญญาณเตือนภัยประตูบ้านให้แน่นหนาก่อนเข้านอนพร้อมคนที่รัก`, prop: 'heart' }
         ],
         explore: [
-          { text: `ตรวจเช็กอุปกรณ์สำรวจและรับฟังข่าวสารความเคลื่อนไหวจากสหพันธ์ดาวโลก`, prop: 'ufo' },
-          { text: `ออกเดินทางสำรวจพื้นที่ใหม่ๆ รอบเขต ${c.city} ค้นหาโบราณวัตถุและแร่หายาก`, prop: 'ufo' },
-          { text: `ฝึกทักษะการบังคับโดรนและการเอาตัวรอดในสภาพแวดล้อมต่างดาว`, prop: 'shield' },
-          { text: `ตั้งเสาอากาศรับคลื่นวิทยุจากอวกาศห้วงลึกด้วยความตื่นเต้น`, prop: 'ufo' }
+          { text: `เช็กเรดาร์ตรวจจับยานรบต่างดาวและฝูงเอเลี่ยนก่อนออกลาดตระเวนสำรวจนอกเขตโดม`, prop: 'ufo' },
+          { text: `เดินทางสำรวจซากปรักหักพังและตลาดมืดชายขอบเมือง ${c.city} เพื่อหาทรัพยากรหายาก`, prop: 'ufo' },
+          { text: `ฝึกใช้อาวุธป้องกันตัวและอุปกรณ์ฉุกเฉินรับมืออุบัติเหตุหรือการบุกรุกจากอวกาศ`, prop: 'shield' },
+          { text: `ดักฟังคลื่นวิทยุการเมืองและข่าวสารลับจากสหพันธ์ดาวโลกยามค่ำคืน`, prop: 'ufo' }
         ],
         health: [
-          { text: `ตื่นเช้าสูดอากาศบริสุทธิ์ ฝึกการหายใจปรับสมดุลพลังงานและยืดเหยียดกล้ามเนื้อ`, prop: 'shield' },
-          { text: `เลือกรับประทานอาหารชีวภาพที่มีประโยชน์และหลีกเลี่ยงสารพิษในสิ่งแวดล้อม`, prop: 'heart' },
-          { text: `ออกกำลังกายเสริมสร้างภูมิคุ้มกันและทำสมาธิผ่อนคลายความตึงเครียด`, prop: 'shield' },
-          { text: `เข้านอนแต่หัวค่ำในห้องพักเพื่อซ่อมแซมเซลล์ร่างกายให้แข็งแรง`, prop: 'cradle' }
+          { text: `สวมหน้ากากกรองฝุ่นพิษและเชื้อโรคระบาดก่อนออกไปวิ่งฝึกความอึดของร่างกาย`, prop: 'shield' },
+          { text: `ปรุงอาหารชีวภาพสะอาดทานเองเพื่อหลีกเลี่ยงอาหารปนเปื้อนสารเคมีราคาถูก`, prop: 'heart' },
+          { text: `ฝึกทักษะปฐมพยาบาลฉุกเฉินและทำสมาธิบำบัดความเครียดจากข่าวร้ายรายวัน`, prop: 'shield' },
+          { text: `ตรวจเช็กระดับภูมิคุ้มกันและพักผ่อนฟื้นฟูร่างกายในห้องนิรภัย`, prop: 'cradle' }
         ],
         balanced: [
-          { text: `ตื่นเช้ารับประทานมื้อเช้าพร้อมหน้าครอบครัว ก่อนออกไปทำหน้าที่ "${c.career}"`, prop: 'star' },
-          { text: `ตั้งใจทำภารกิจประจำวันในเมือง ${c.city} อย่างสมดุลทั้งเรื่องงานและการเรียนรู้`, prop: 'book' },
-          { text: `แวะพักผ่อนเดินตลาดยามเย็น พูดคุยกับผู้คนและซึมซับบรรยากาศบน ${c.planet.shortName}`, prop: 'heart' },
-          { text: `ทบทวนเป้าหมายชีวิตและพักผ่อนเติมพลังสำหรับวันพรุ่งนี้`, prop: 'star' }
+          { text: `ตื่นเช้าเช็กข่าวสารบ้านเมืองและสถานการณ์สงคราม ก่อนออกไปทำหน้าที่ "${c.career}"`, prop: 'star' },
+          { text: `ดิ้นรนทำภารกิจประจำวันในเขต ${c.city} อย่างระมัดระวังทั้งเรื่องปากท้องและความปลอดภัย`, prop: 'book' },
+          { text: `แวะซื้อเสบียงลดราคาในตลาดยามเย็นท่ามกลางบรรยากาศตึงเครียดของเมือง`, prop: 'coin' },
+          { text: `ล็อกประตูห้องพักสองชั้นและวางแผนรับมือกับสิ่งไม่คาดฝันในวันพรุ่งนี้`, prop: 'shield' }
         ]
       };
 
@@ -2213,7 +2440,6 @@
       }
 
       if (speed > 0 && gameState.activeChar && gameState.activeChar.alive) {
-        // Slower, immersive pacing: 1 tick = 1 month (1,550ms at 1x speed -> ~18.6s per full year)
         const intervalMs = Math.max(105, Math.floor(1550 / speed));
         gameState.simTimer = setInterval(() => {
           stepOneMonth();
@@ -2310,21 +2536,24 @@
       c.timeOfDayIdx = (c.timeOfDayIdx + 1) % 4;
       generateDailyRoutineForMonth(c);
 
-      // Monthly micro-progression from daily routine
       applyMonthlyRoutineMicroProgress(c);
 
-      // Periodically spawn interactive items on the 2D canvas during the months
       if (gameState.phaserScene && (c.month === 2 || c.month === 7 || c.month === 10)) {
-        if (Math.random() < 0.45) {
+        if (Math.random() < 0.55) {
           const types = ['crystal', 'bio', 'ufo', 'leech'];
           const picked = types[Math.floor(Math.random() * types.length)];
           gameState.phaserScene.spawnInteractiveObject(picked);
         }
       }
 
-      // Mid-year slice-of-life events in Month 3 & Month 9
+      // Dramatic Mid-Year Incidents in Month 3 & Month 9!
       if (c.month === 3 || c.month === 9) {
         triggerMidYearDailyEvent(c, c.month);
+        if (c.health <= 0) {
+          triggerCharacterDeath(`เสียชีวิตในวัย ${c.age} ปี (เดือนที่ ${c.month}) จากเหตุวิกฤตรุนแรงระหว่างปีบน ${c.planet.shortName}`);
+          updateCharacterUI();
+          return;
+        }
       }
 
       // Mid-year interactive event or QTE at Month 6!
@@ -2332,7 +2561,7 @@
         c.month += 1;
         updateCharacterUI();
         if (c.age >= c.nextQteAge) {
-          c.nextQteAge = c.age + Math.floor(6 + Math.random() * 5);
+          c.nextQteAge = c.age + Math.floor(5 + Math.random() * 4);
           startInteractiveQteCrisis();
           return;
         } else {
@@ -2341,7 +2570,6 @@
         }
       }
 
-      // Advance month; when reaching 12, complete the year and trigger Annual Interactive Popup!
       if (c.month < 12) {
         c.month += 1;
         c.speechText = `[เดือนที่ ${c.month}/12 • ${c.currentRoutineTime}] ${c.currentRoutineText}`;
@@ -2355,16 +2583,19 @@
       const monthlyIncome = Math.max(5, Math.floor((c.familyIncome * (c.age < 16 ? 0.01 : 0.045 + c.intellect * 0.0012))));
       const bizBonus = 1 + (c.aptitudes.biz * 0.012);
 
+      // Monthly cost of living / food expense pressure for poor or high-cost worlds!
+      const livingCost = c.age < 15 ? Math.floor(monthlyIncome * 0.35) : Math.floor(monthlyIncome * 0.55);
+
       if (gameState.annualFocus === 'study') {
         if (c.month % 4 === 0) {
           c.intellect = Math.min(100, c.intellect + 1);
           c.aptitudes.sci += 1;
           spawnFloatingPopup('+1 🧠 / +1 🔬 กิจวัตรเรียน', '#00f0ff');
         }
-        c.wealth += Math.floor(monthlyIncome * 0.6);
+        c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * 0.6) - livingCost);
       } else if (gameState.annualFocus === 'career') {
         const earned = Math.floor(monthlyIncome * 1.65 * bizBonus);
-        c.wealth += earned;
+        c.wealth = Math.max(0, c.wealth + earned - livingCost);
         if (c.month % 4 === 0) {
           c.aptitudes.biz += 1;
           spawnFloatingPopup(`+₡${earned} 💼 กิจวัตรทำงาน`, '#ffd166');
@@ -2375,7 +2606,7 @@
           c.aptitudes.emp += 1;
           spawnFloatingPopup('+1 ✨ / +1 🤝 มนุษยสัมพันธ์', '#f472b6');
         }
-        c.wealth += Math.floor(monthlyIncome * 0.8);
+        c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * 0.8) - livingCost);
       } else if (gameState.annualFocus === 'explore') {
         if (c.month % 4 === 0) {
           c.fame = Math.min(100, c.fame + 1);
@@ -2383,7 +2614,7 @@
           c.aptitudes.art += 1;
           spawnFloatingPopup('+1 🪐 / +1 🎨 สำรวจโลกกว้าง', '#34d399');
         }
-        c.wealth += Math.floor(monthlyIncome * 0.9);
+        c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * 0.9) - livingCost);
       } else if (gameState.annualFocus === 'health') {
         if (c.month % 4 === 0) {
           c.health = Math.min(100, c.health + 1);
@@ -2391,9 +2622,9 @@
           c.aptitudes.vit += 1;
           spawnFloatingPopup('+1 ❤️ / +1 ⚔️ ฝึกกายภาพ', '#fb7185');
         }
-        c.wealth += Math.floor(monthlyIncome * 0.5);
+        c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * 0.5) - livingCost);
       } else {
-        c.wealth += Math.floor(monthlyIncome * bizBonus);
+        c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * bizBonus) - livingCost);
         if (c.month === 5 || c.month === 11) {
           c.intellect = Math.min(100, c.intellect + 1);
         }
@@ -2402,61 +2633,113 @@
       if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
     }
 
+    // DRAMATIC MID-YEAR INCIDENTS (Months 3 & 9: Hunger, Accidents, Crime, Alien Raids, Protests, Plagues, Class Struggles)
     function triggerMidYearDailyEvent(c, monthNum) {
       const season = SEASON_NAMES[(monthNum - 1) % SEASON_NAMES.length];
+      const tier = c.familyTier || 'middle';
+      const tacShield = c.aptitudes && c.aptitudes.vit >= 12 ? 3 : 0;
       let pool = [];
 
-      if (c.age < 5) {
-        pool = [
-          { cat: 'normal', text: `🍼 [เดือนที่ ${monthNum} • ${season}] คุณเริ่มจำใบหน้าและน้ำเสียงของพ่อแม่ได้ชัดเจนขึ้น คลานไปคว้าของเล่นชิ้นโปรดด้วยความอยากรู้อยากเห็น (+1 🧠)` , int: 1 },
-          { cat: 'normal', text: `🧸 [เดือนที่ ${monthNum} • ${season}] พ่อแม่พาคุณไปฉีดวัคซีนป้องกันโรคประจำดาว ${c.planet.shortName} ร้องไห้จ้าแต่ร่างกายแข็งแรงขึ้น (+2 ❤️)`, health: 2 },
-          { cat: 'cosmic', text: `🌠 [เดือนที่ ${monthNum} • ${season}] คืนที่มีฝนดาวตกเหนือเมือง ${c.city} คุณจ้องมองแสงไฟระยิบระยับตาแป๋วอย่างไม่กลัวความมืด (+2 ✨)`, mind: 2 }
-        ];
-      } else if (c.age < 15) {
-        pool = [
-          { cat: 'normal', text: `🎒 [เดือนที่ ${monthNum} • ${season}] กิจกรรมกลุ่มที่โรงเรียนในเขต ${c.city} คุณได้ร่วมมือกับเพื่อนต่างเผ่าพันธุ์ทำโครงงานวิทยาศาสตร์จำลอง (+2 🧠)`, int: 2 },
-          { cat: 'normal', text: `🍱 [เดือนที่ ${monthNum} • ${season}] ช่วยพ่อแม่จัดเตรียมมื้อเย็นและแบ่งปันขนมให้เพื่อนข้างบ้าน สร้างนิสัยอ่อนโยนและมีน้ำใจ (+2 ✨)`, mind: 2 },
-          { cat: 'cosmic', text: `📡 [เดือนที่ ${monthNum} • ${season}] ดูรายการสารคดีสำรวจดาวโลก (Earth) หลังเลิกเรียน จุดประกายความฝันอยากเดินทางข้ามอวกาศ (+3% 🌍)`, earth: 3 }
-        ];
-      } else if (c.age < 30) {
-        pool = [
-          { cat: 'normal', text: `☕ [เดือนที่ ${monthNum} • ${season}] นั่งติวหนังสือและแลกเปลี่ยนแผนอนาคตกับเพื่อนๆ ที่คาเฟ่ไร้แรงโน้มถ่วงหลังเลิกงาน (+2 🧠 / +2 ✨)`, int: 2, mind: 2 },
-          { cat: 'cosmic', text: `💼 [เดือนที่ ${monthNum} • ${season}] ได้รับมอบหมายงานสำคัญในฐานะ "${c.career}" คำแนะนำและทักษะที่คุณสะสมมาช่วยให้ผ่านงานไปได้ด้วยดี (+₡350)`, wealth: 350 },
-          { cat: 'normal', text: `🎸 [เดือนที่ ${monthNum} • ${season}] เข้าร่วมเทศกาลดนตรีและวัฒนธรรมประจำฤดูกาลของเมือง ${c.city} ผ่อนคลายจากความเหนื่อยล้า (+3 ✨)`, mind: 3 }
-        ];
+      // 1. Family Tier & Hunger / Class-Specific Events
+      if (tier === 'poor' || c.wealth < 350) {
+        pool.push(
+          {
+            cat: 'crisis',
+            text: `🥣 [วิกฤตปากท้อง • เดือนที่ ${monthNum}] ข้าวสารและอาหารสังเคราะห์ในบ้านหมดเกลี้ยง! ครอบครัวไม่มีเงินซื้อข้าวมื้อเย็น ต้องต้มน้ำซุปเศษผักประทังความหิว (-6 ❤️ / -5 ✨)`,
+            health: -6 + tacShield, mind: -5
+          },
+          {
+            cat: 'crisis',
+            text: `🔪 [แก๊งทวงหนี้บุก • เดือนที่ ${monthNum}] นักเลงทวงหนี้นอกระบบบุกมาทุบประตูห้องเช่าใน ${c.city} ข่มขู่เรียกเก็บดอกเบี้ยโหดจนคนในบ้านขวัญผวา (-7 ✨ / -₡180)`,
+            mind: -7, wealth: -180
+          },
+          {
+            cat: 'normal',
+            text: `🤝 [น้ำใจคนจน • เดือนที่ ${monthNum}] เพื่อนบ้านในสลัมแบ่งปันก้อนโปรตีนอัดแท่งและยาลดไข้มาให้ยามยากลำบาก ทำให้พอมีแรงสู้ชีวิตต่อ (+4 ❤️ / +5 ✨)`,
+            health: 4, mind: 5
+          }
+        );
+      } else if (tier === 'wealthy') {
+        pool.push(
+          {
+            cat: 'crisis',
+            text: `🐍 [ศึกชิงมรดกตระกูล • เดือนที่ ${monthNum}] ญาติสายรองแอบจ้างนักสืบและปล่อยข่าวฉาวโจมตีครอบครัวคุณเพื่อฮุบหุ้นบริษัทตระกูล (-7 ✨ / -₡850)`,
+            mind: -7, wealth: -850
+          },
+          {
+            cat: 'crisis',
+            text: `🪧 [ม็อบบุกล้อมคฤหาสน์ • เดือนที่ ${monthNum}] กลุ่มผู้ประท้วงต่อต้านความเหลื่อมล้ำบุกพ่นสีและปาหินใส่ขบวนรถของตระกูลคุณใน ${c.city} (-5 ❤️ / -6 ✨)`,
+            health: -5 + tacShield, mind: -6
+          },
+          {
+            cat: 'cosmic',
+            text: `💎 [เงินปันผลตระกูล • เดือนที่ ${monthNum}] กองทุนสัมปทานอวกาศของครอบครัวทำกำไรประจำไตรมาส ได้รับเงินเบี้ยเลี้ยงพิเศษ (+₡1,100)`,
+            wealth: 1100
+          }
+        );
       } else {
-        pool = [
-          { cat: 'normal', text: `🏡 [เดือนที่ ${monthNum} • ${season}] ใช้เวลาวันหยุดสุดสัปดาห์ดูแลสุขภาพและพูดคุยปรับทุกข์กับคนสำคัญ (${c.partner}) อย่างอบอุ่น (+3 ✨)`, mind: 3 },
-          { cat: 'cosmic', text: `📈 [เดือนที่ ${monthNum} • ${season}] ประสบการณ์ชีวิตและชื่อเสียงที่สั่งสมมาทำให้มีคนมาขอคำปรึกษา ได้รับค่าตอบแทนพิเศษ (+₡650 / +2 🪐)`, wealth: 650, fame: 2 },
-          { cat: 'normal', text: `🍵 [เดือนที่ ${monthNum} • ${season}] จิบชาสมุนไพรดาราจักรยามเช้า ตรวจสุขภาพประจำครึ่งปีและปรับสมดุลชีวิต (+2 ❤️)`, health: 2 }
-        ];
+        pool.push(
+          {
+            cat: 'crisis',
+            text: `📉 [พิษเศรษฐกิจชนชั้นกลาง • เดือนที่ ${monthNum}] ค่าไฟและค่าออกซิเจนในเขต ${c.city} พุ่งสูงขึ้นกะทันหัน ครอบครัวต้องตัดค่าใช้จ่ายฟุ่มเฟือยทั้งหมด (-4 ✨ / -₡320)`,
+            mind: -4, wealth: -320
+          },
+          {
+            cat: 'crisis',
+            text: `🤖 [วิกฤต AI แย่งงาน • เดือนที่ ${monthNum}] บริษัทในเซกเตอร์ประกาศลดพนักงานและนำหุ่นยนต์มาแทนที่ สร้างความตึงเครียดให้ครอบครัวอย่างหนัก (-6 ✨)`,
+            mind: -6
+          }
+        );
       }
 
-      // Add special echo event if player has accumulated high aptitudes!
-      const dom = getDominantAptitudeInfo(c);
-      if (dom.key === 'sci' && c.aptitudes.sci >= 15 && Math.random() < 0.45) {
-        pool.push({
-          cat: 'milestone',
-          text: `🔬 [ผลพวงสายวิทยาการ • เดือนที่ ${monthNum}] ความรู้ด้านวิทยาการที่คุณฝึกฝนมาตลอดทำให้คุณคิดค้นอุปกรณ์ทุ่นแรงในชีวิตประจำวันได้สำเร็จ! (+₡550 / +2 🧠)`,
-          wealth: 550, int: 2
-        });
-      } else if (dom.key === 'biz' && c.aptitudes.biz >= 15 && Math.random() < 0.45) {
-        pool.push({
-          cat: 'milestone',
-          text: `💼 [ผลพวงสายธุรกิจ • เดือนที่ ${monthNum}] พอร์ตการลงทุนและเครือข่ายการค้าที่คุณปูรากฐานไว้สร้างเงินปันผลระหว่างปี! (+₡900)`,
-          wealth: 900
-        });
-      }
+      // 2. Universal High-Stakes World Crises (Accidents, Crime, Aliens, War, Politics/Protests, Diseases)
+      pool.push(
+        {
+          cat: 'crisis',
+          text: `💥 [อุบัติเหตุไม่คาดฝัน • เดือนที่ ${monthNum}] เกิดเหตุหม้อแปลงพลาสม่าของสถานีขนส่งใน ${c.city} ระเบิดไฟลุกท่วม! คุณโดนสะเก็ดระเบิดเฉี่ยวขณะเดินทาง (-8 ❤️ / -4 ✨)`,
+          health: -8 + tacShield, mind: -4
+        },
+        {
+          cat: 'crisis',
+          text: `🔪 [อาชญากรรมข้างถนน • เดือนที่ ${monthNum}] แก๊งโจรไซเบอร์ดักปล้นผู้คนในตรอกมืดช่วงไฟดับ คุณต้องวิ่งหนีสุดชีวิตและทำกระเป๋าเครดิตตกหาย (-4 ❤️ / -₡280)`,
+          health: -4 + tacShield, wealth: -280
+        },
+        {
+          cat: 'crisis',
+          text: `👽 [เอเลี่ยนปรสิตบุกเจาะโดม • เดือนที่ ${monthNum}] ฝูงแมลงอวกาศ Void-Swarm ลักลอบเจาะท่อระบายอากาศเข้ามากัดทำร้ายพลเมืองในเขต ${c.city} โกลาหลไปทั่ว! (-9 ❤️ / -5 ✨)`,
+          health: -9 + tacShield, mind: -5
+        },
+        {
+          cat: 'crisis',
+          text: `⚔️ [ลูกหลงสงครามจักรวาล • เดือนที่ ${monthNum}] ยานรบฝ่ายกบฏปะทะกับกองยานสหพันธ์เหนือชั้นบรรยากาศ เศษซากยานร่วงลงมาถล่มอาคารใกล้บ้านคุณ! (-7 ❤️ / -6 ✨)`,
+          health: -7 + tacShield, mind: -6
+        },
+        {
+          cat: 'crisis',
+          text: `🪧 [ประท้วงใหญ่ & จลาจล • เดือนที่ ${monthNum}] ประชาชนนับหมื่นเดินขบวนประท้วงรัฐบาลคอรัปชันใน ${c.city} เกิดการปะทะกับหุ่นยนต์ปราบจลาจลจนต้องปิดเมือง (-5 ✨ / -₡220)`,
+          mind: -5, wealth: -220
+        },
+        {
+          cat: 'crisis',
+          text: `🦠 [โรคระบาดตามฤดูกาล • เดือนที่ ${monthNum}] เชื้อไวรัสไข้หวัดเนบิวลาระบาดหนักใน ${season} คุณติดเชื้อมีอาการไข้สูงและต้องซื้อยารักษาแพงลิ่ว (-8 ❤️ / -₡300)`,
+          health: -8 + tacShield, wealth: -300
+        }
+      );
 
       const ev = pool[Math.floor(Math.random() * pool.length)];
-      c.intellect = Math.min(100, c.intellect + (ev.int || 0));
-      c.health = Math.min(100, c.health + (ev.health || 0));
-      c.mind = Math.min(100, c.mind + (ev.mind || 0));
-      c.wealth += (ev.wealth || 0);
-      c.fame = Math.min(100, c.fame + (ev.fame || 0));
-      c.earthRelation = Math.min(100, c.earthRelation + (ev.earth || 0));
+      c.intellect = Math.min(100, Math.max(0, c.intellect + (ev.int || 0)));
+      c.health = Math.min(100, Math.max(0, c.health + (ev.health || 0)));
+      c.mind = Math.min(100, Math.max(5, c.mind + (ev.mind || 0)));
+      c.wealth = Math.max(0, c.wealth + (ev.wealth || 0));
+      c.fame = Math.min(100, Math.max(0, c.fame + (ev.fame || 0)));
+      c.earthRelation = Math.min(100, Math.max(0, c.earthRelation + (ev.earth || 0)));
       if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
 
+      if (ev.cat === 'crisis') {
+        c.crisisFlashTimer = 2.8;
+        c.sfxWord = '危機! เหตุวิกฤต!';
+        spawnFloatingPopup(`${ev.health || 0} ❤️ / ${ev.mind || 0} ✨`, '#ff2a5f');
+      }
       c.speechText = ev.text;
       addLifeLog(c.age, ev.cat, ev.text);
     }
@@ -2467,7 +2750,6 @@
         pauseSimulationLoop();
         return;
       }
-      // Fast-forward remaining months of the current year straight to the Annual Interactive Decision!
       while (c.month < 12) {
         c.timeOfDayIdx = (c.timeOfDayIdx + 1) % 4;
         applyMonthlyRoutineMicroProgress(c);
@@ -2489,21 +2771,20 @@
       generateDailyRoutineForMonth(c);
       playMangaSfx('tick');
 
-      // Dynamic career evolution shaped by the player's past choices (Aptitudes & Flags)!
       const dom = getDominantAptitudeInfo(c);
       if (c.age === 6) {
         c.career = dom.career6;
-        addLifeLog(c.age, 'milestone', `🎒 เข้าสู่วัยเรียนประถม! จากการเลี้ยงดูในช่วงปฐมวัย ทำให้คุณเริ่มต้นในสถานะ "${c.career}"`);
+        addLifeLog(c.age, 'milestone', `🎒 เข้าสู่วัยเรียนประถม! ท่ามกลางมรสุมชีวิตของครอบครัว คุณเริ่มต้นในสถานะ "${c.career}"`);
       } else if (c.age === 18) {
         c.career = dom.career18;
-        addLifeLog(c.age, 'milestone', `🎓 ก้าวสู่วัยผู้ใหญ่ตอนต้น (อายุ 18 ปี)! ทักษะที่คุณเลือกสะสมมาตลอดวัยเด็กและวัยรุ่น ส่งผลให้คุณได้ก้าวสู่อาชีพ "${c.career}"!`);
+        addLifeLog(c.age, 'milestone', `🎓 ก้าวสู่วัยผู้ใหญ่ตอนต้น (อายุ 18 ปี)! ทักษะที่คุณเลือกเอาตัวรอดมาตลอด ส่งผลให้คุณก้าวสู่อาชีพ "${c.career}"!`);
       } else if (c.age === 30 && !c.futureFlags.customCareerLocked) {
         c.career = dom.career30;
         addLifeLog(c.age, 'milestone', `🌟 ความเชี่ยวชาญที่สั่งสมมาตั้งแต่วัยเยาว์ผลิดอกออกผลในวัย 30 ปี คุณได้รับการแต่งตั้งเป็น "${c.career}"!`);
       }
 
       if (gameState.phaserScene) {
-        if (Math.random() < 0.65) {
+        if (Math.random() < 0.72) {
           const types = ['crystal', 'bio', 'ufo', 'leech'];
           const picked = types[Math.floor(Math.random() * types.length)];
           gameState.phaserScene.spawnInteractiveObject(picked);
@@ -2524,7 +2805,6 @@
       }
 
       updateCharacterUI();
-      // ALWAYS open the Annual Interactive Decision Popup every single year!
       triggerMilestoneQuestion(c.age);
     }
 
@@ -2581,10 +2861,9 @@
           break;
       }
 
-      if (c.age > 58) {
-        // High vitality aptitude slows down aging wear!
+      if (c.age > 55) {
         const vitProtection = c.aptitudes && c.aptitudes.vit >= 20 ? 1 : 0;
-        const ageWear = Math.max(0, Math.floor((c.age - 52) / 12) - vitProtection);
+        const ageWear = Math.max(0, Math.floor((c.age - 50) / 10) - vitProtection);
         c.health = Math.max(0, c.health - ageWear);
       }
       if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
@@ -2594,44 +2873,44 @@
       const p = c.planet;
 
       if (c.age <= 5) {
-        // High vitality/empathy from early parenting choices protects the child!
         const careShield = (c.aptitudes.vit + c.aptitudes.emp) * 0.002;
         const annualChildRisk = Math.max(0.002, ((c.under5Mortality / 5) / 100) - careShield);
         if (Math.random() < annualChildRisk && c.health < 68) {
           triggerCharacterDeath(
-            `เสียชีวิตในวัยทารก (${c.age} ขวบ) จากภาวะแทรกซ้อนและระบบสาธารณสุขที่ขาดแคลนบน ${p.shortName} (สถิติความเสี่ยงวัยเด็ก ${c.under5Mortality}%)`
+            `เสียชีวิตในวัยทารก (${c.age} ขวบ) จากภาวะขาดสารอาหาร โรคระบาด และระบบสาธารณสุขที่ขาดแคลนบน ${p.shortName} (สถิติความเสี่ยงวัยเด็ก ${c.under5Mortality}%)`
           );
           return true;
         }
       }
 
       if (c.age >= 15 && c.mind <= 12) {
-        if (Math.random() < 0.12) {
+        if (Math.random() < 0.14) {
           triggerCharacterDeath(
-            `จบชีวิตลงด้วยตนเองในวัย ${c.age} ปี จากภาวะความกดดันและมรสุมชีวิตตามสถิติของดวงดาว (ขอให้ดวงจิตได้พักผ่อนอย่างสงบในอ้อมกอดแห่งดาราจักร)`
+            `จบชีวิตลงด้วยตนเองในวัย ${c.age} ปี จากภาวะความกดดันทางเศรษฐกิจและมรสุมชีวิตของดวงดาว (ขอให้ดวงจิตได้พักผ่อนอย่างสงบในอ้อมกอดแห่งดาราจักร)`
           );
           return true;
         }
       }
 
-      if (c.health <= 0 || (c.age > c.expectedLifespan && Math.random() < 0.18)) {
+      if (c.health <= 0 || (c.age > c.expectedLifespan && Math.random() < 0.20)) {
         triggerCharacterDeath(
-          `สิ้นอายุขัยอย่างสงบในวัย ${c.age} ปี (อายุขัยเฉลี่ยของดาวคือ ${c.expectedLifespan} ปี) ท่ามกลางแสงดาวแห่ง ${p.shortName}`
+          `สิ้นอายุขัยในวัย ${c.age} ปี (อายุขัยเฉลี่ยของดาวคือ ${c.expectedLifespan} ปี) หลังผ่านมรสุมชีวิตและสงครามดวงดาวมาอย่างโชกโชน`
         );
         return true;
       }
 
+      // Much higher chance of dramatic crisis events (62% crisis, 23% cosmic/alien, 15% everyday) so life is never flat!
       const roll = Math.random();
-      if (roll < 0.20) {
+      if (roll < 0.62) {
         triggerStatisticalCrisisEvent(c);
-      } else if (roll < 0.48) {
+      } else if (roll < 0.85) {
         triggerCosmicWorldEvent(c);
       } else {
         triggerEverydayMangaEvent(c);
       }
 
       if (c.health <= 0) {
-        triggerCharacterDeath(`เสียชีวิตในวัย ${c.age} ปี จากเหตุวิกฤตสุขภาพและภัยพิบัติบน ${p.shortName}`);
+        triggerCharacterDeath(`เสียชีวิตในวัย ${c.age} ปี จากเหตุวิกฤตโรคระบาด อุบัติเหตุ หรือภัยสงครามบน ${p.shortName}`);
         return true;
       }
 
@@ -2640,42 +2919,59 @@
 
     function triggerStatisticalCrisisEvent(c) {
       const p = c.planet;
+      const tier = c.familyTier || 'middle';
       const tacShield = c.aptitudes && c.aptitudes.vit >= 15 ? 4 : 0;
       const crisisPool = [
         {
-          cond: p.warRisk >= 35,
-          text: `⚔️ เกิดการปะทะด้วยอาวุธพลาสม่าในเขต ${c.city} (ดัชนีสงคราม ${p.warRisk}%) คุณต้องหลบภัยในบังเกอร์ใต้ดิน${tacShield ? ' (ทักษะยุทธวิธีที่ฝึกมาช่วยลดความเสียหาย!)' : ''}`,
-          health: -10 + tacShield, mind: -8 + tacShield, wealth: -300
+          cond: tier === 'poor' || c.wealth < 500,
+          text: `🥣 [ความอดอยากรุนแรง] ราคาอาหารสังเคราะห์พุ่งสูงเป็นประวัติการณ์ ครอบครัวของคุณไม่มีเงินพอซื้อข้าวกินครบมื้อ ต้องทนหิวโหยหลายสัปดาห์ติดกัน!`,
+          health: -12 + tacShield, mind: -10, wealth: -250
         },
         {
-          cond: p.povertyRate >= 30,
-          text: `📉 วิกฤตเศรษฐกิจข้าวดาราจักรแพงและภาวะยากจน (${p.povertyRate}%) ทำให้ครอบครัวต้องประหยัดอาหารสังเคราะห์`,
-          health: -5, mind: -7, wealth: -450
-        },
-        {
-          cond: c.age >= 14,
-          text: `🧪 สภาพแวดล้อมที่ตึงเครียดทำให้คุณเผลอพึ่งพาเครื่องดื่มมึนเมาควอนตัมและสารกระตุ้นไซเบอร์ตามสถิติพื้นที่เสี่ยง`,
-          health: -9, mind: -10, wealth: -350, setAddiction: true
+          cond: tier === 'wealthy' || c.wealth >= 4000,
+          text: `🔪 [แผนลักพาตัว & รีดไถตระกูลดัง] แก๊งอาชญากรข้ามดวงดาวดักซุ่มโจมตีขบวนรถของครอบครัวคุณเพื่อเรียกค่าไถ่ ต้องจ่ายเงินก้อนโตแลกความปลอดภัย!`,
+          health: -7 + tacShield, mind: -11, wealth: -1400
         },
         {
           cond: true,
-          text: `🦠 การระบาดของไข้ละอองเนบิวลาในเซกเตอร์ที่อยู่อาศัย ระบบสาธารณสุขของดาว (${p.healthcare}/100) รับมือได้เพียงบางส่วน`,
-          health: -11 + tacShield, mind: -5, wealth: -400
+          text: `💥 [อุบัติเหตุโครงสร้างถล่ม] ลิฟต์วงโคจรและท่อพลังงานหลักในเขต ${c.city} เกิดระเบิดขัดข้องอย่างรุนแรง ผู้คนบาดเจ็บล้มตายจำนวนมาก!`,
+          health: -11 + tacShield, mind: -8, wealth: -400
         },
         {
-          cond: p.povertyRate >= 25,
-          text: `🌩️ เผชิญปัญหาความขัดแย้งรุนแรงในชุมชนและแรงกดดันในครอบครัว ส่งผลกระทบต่อสภาพจิตใจอย่างหนัก`,
-          health: -4, mind: -11, wealth: 0
+          cond: true,
+          text: `👽 [ฝูงเอเลี่ยนบุกโจมตีเซกเตอร์] กองทัพปรสิตต่างดาว (Xenomorph Swarm) บุกทะลวงแนวป้องกันของ ${p.shortName} เข้ามาอาละวาดกลางเมือง!`,
+          health: -12 + tacShield, mind: -9, wealth: -500
+        },
+        {
+          cond: p.warRisk >= 20,
+          text: `⚔️ [สงครามจักรวาลปะทุ] กองยานรบฝ่ายตรงข้ามเปิดฉากยิงขีปนาวุธพลาสม่าถล่มเขต ${c.city} (ดัชนีสงคราม ${p.warRisk}%) คุณต้องหนีตายลงหลุมหลบภัยใต้ดิน!`,
+          health: -11 + tacShield, mind: -10, wealth: -550
+        },
+        {
+          cond: true,
+          text: `🪧 [วิกฤตการเมือง & จลาจลเผาเมือง] รัฐบาลท้องถิ่นประกาศกฎอัยการศึกและขึ้นภาษีขูดรีด มวลชนลุกฮือประท้วงปะทะเดือดกับกองกำลังความมั่นคงทั่วถนน!`,
+          health: -6 + tacShield, mind: -11, wealth: -600
+        },
+        {
+          cond: true,
+          text: `🦠 [โรคระบาดไวรัสกลายพันธุ์] เชื้อไวรัสกินเซลล์สายพันธุ์ใหม่ระบาดหนักในเขต ${c.city} โรงพยาบาลเตียงเต็มและยารักษาขาดแคลนอย่างหนัก!`,
+          health: -13 + tacShield, mind: -7, wealth: -450
+        },
+        {
+          cond: c.age >= 13,
+          text: `🧪 [อาชญากรรมยาเสพติดไซเบอร์] แก๊งค้ายาเสพติดดิจิทัลระบาดหนักในกลุ่มวัยรุ่นและคนทำงานที่เครียดจัด ดึงดูดให้ผู้คนหลงผิดไปพึ่งพาสารกระตุ้นประสาท`,
+          health: -9, mind: -10, wealth: -400, setAddiction: true
         }
       ].filter(item => item.cond);
 
       const ev = crisisPool[Math.floor(Math.random() * crisisPool.length)];
       c.health = Math.max(0, c.health + ev.health);
-      c.mind = Math.max(0, c.mind + ev.mind);
+      c.mind = Math.max(5, c.mind + ev.mind);
       c.wealth = Math.max(0, c.wealth + ev.wealth);
       if (ev.setAddiction) c.addictionFlag = true;
-      c.speechText = 'อึก... ชีวิตบนดาวดวงนี้มีบททดสอบเสมอ แต่เราจะผ่านมันไปให้ได้!';
-      c.sfxWord = 'ゴゴゴ วิกฤต!';
+      c.crisisFlashTimer = 3.2;
+      c.speechText = ev.text;
+      c.sfxWord = '大危機! มรสุมชีวิต!';
       spawnFloatingPopup(`${ev.health} ❤️ / ${ev.mind} ✨`, '#ff2a5f');
       addLifeLog(c.age, 'crisis', ev.text);
     }
@@ -2683,48 +2979,44 @@
     function triggerCosmicWorldEvent(c) {
       const events = [
         {
-          text: `🛸 ได้รับสัญญาณถ่ายทอดสดดนตรีและสารคดีจาก "ดาวโลก (Earth)" ผ่านเครือข่ายรูหนอน ทำให้คุณหลงใหลวัฒนธรรมมนุษย์โลก!`,
-          int: 4, mind: 8, fame: 4, earth: 10
+          text: `🛸 ยานลาดตระเวนของสหพันธ์ดาวโลก (Earth) เข้ามาตั้งจุดแจกจ่ายเวชภัณฑ์และแลกเปลี่ยนเทคโนโลยีหลังเกิดเหตุความไม่สงบใน ${c.city}`,
+          int: 4, health: 5, mind: 6, fame: 4, earth: 12
         },
         {
-          text: `🌌 คาราวานพ่อค้าต่างดาวจาก Solaria Celestia แวะมาเปิดตลาดแลกเปลี่ยนคริสตัลพลังงานในเมือง ${c.city}`,
-          int: 3, mind: 5, wealth: 750, fame: 3, earth: 0
+          text: `🌌 ตลาดมืดอวกาศเปิดประมูลสินค้ารอดตายและแร่ควอนตัมที่ยึดมาจากสมรภูมิรบในเมือง ${c.city}`,
+          int: 3, mind: 4, wealth: 850, fame: 4, earth: 0
         },
         {
-          text: `🤖 ได้ช่วยเหลือหุ่นยนต์สำรวจขององค์การอวกาศดาวโลกที่ลงจอดฉุกเฉินใกล้เขตที่พักของคุณ`,
+          text: `🤖 หุ่นยนต์กู้ภัยจากองค์การอวกาศดาวโลกช่วยสกัดกั้นโดรนอาชญากรที่บินหลบหนีเข้ามาใกล้เขตที่พักของคุณ`,
           int: 6, mind: 6, wealth: 500, fame: 8, earth: 15
-        },
-        {
-          text: `✨ ปรากฏการณ์ฝนดาวตกควอนตัมส่องสว่างเหนือท้องฟ้า ${c.planet.shortName} มอบแรงบันดาลใจในการใช้ชีวิต`,
-          int: 2, mind: 10, wealth: 200, fame: 2, earth: 5
         }
       ];
       const ev = events[Math.floor(Math.random() * events.length)];
       c.intellect = Math.min(100, c.intellect + (ev.int || 0));
+      c.health = Math.min(100, c.health + (ev.health || 0));
       c.mind = Math.min(100, c.mind + (ev.mind || 0));
       c.wealth += (ev.wealth || 0);
       c.fame = Math.min(100, c.fame + (ev.fame || 0));
       c.earthRelation = Math.min(100, c.earthRelation + (ev.earth || 0));
-      c.speechText = 'จักรวาลนี้กว้างใหญ่จริงๆ แตะไอเทมที่ลอยมาบนฉากเพื่อรับโบนัสกันเถอะ!';
+      c.speechText = ev.text;
       addLifeLog(c.age, 'cosmic', ev.text);
     }
 
     function triggerEverydayMangaEvent(c) {
       const dom = getDominantAptitudeInfo(c);
       const events = [
-        `📖 ใช้เวลาว่างฝึกฝนทักษะประจำตัว "${c.trait.name}" และพัฒนา${dom.label}อย่างต่อเนื่อง`,
-        `🍜 แวะกินราเม็งอวกาศร้อนๆ กับคนสนิทหลังเสร็จภารกิจประจำวัน ช่วยคลายความเหนื่อยล้า`,
-        `🏆 ได้รับคำชมเชยจากคนรอบข้างในฐานะ "${c.career}" ที่มีความรับผิดชอบและมุ่งมั่น`,
-        `🌠 นั่งมองวงแหวนดาวเคราะห์ยามค่ำคืน ทบทวนสิ่งที่ได้เรียนรู้ตลอดทั้งปี`
+        `📖 ท่ามกลางสังคมที่เต็มไปด้วยความเหลื่อมล้ำและอันตราย คุณยังคงกัดฟันฝึกฝน "${c.trait.name}" และพัฒนา${dom.label}เพื่อเอาชีวิตรอด`,
+        `🍜 ได้กินบะหมี่สังเคราะห์ร้อนๆ ในคืนที่เสียงไซเรนสงบลงชั่วคราว เป็นความสุขเล็กๆ ท่ามกลางมรสุมชีวิต`,
+        `🏆 ความไม่ย่อท้อต่ออุปสรรคทำให้คุณได้รับความนับถือในฐานะ "${c.career}" ผู้ผ่านร้อนผ่านหนาว`
       ];
       const txt = events[Math.floor(Math.random() * events.length)];
       c.mind = Math.min(100, c.mind + 2);
-      c.speechText = `ก้าวสู่วัย ${c.age} ปีแล้ว! มาตัดสินใจเลือกเส้นทางพัฒนาตัวเองในปีนี้กันเถอะ!`;
+      c.speechText = txt;
       addLifeLog(c.age, 'normal', txt);
     }
 
     // -----------------------------------------------------------------------
-    // 10. EVERY-YEAR & MID-YEAR INTERACTIVE POPUP GENERATOR + CONSEQUENCES
+    // 10. DRAMATIC MID-YEAR & ANNUAL INTERACTIVE POPUP GENERATOR
     // -----------------------------------------------------------------------
     let decisionAutoTimerId = null;
 
@@ -2738,93 +3030,271 @@
     }
 
     function generateMidYearInteractiveQuestion(c) {
-      const season = 'กลางปี (เดือนที่ 6)';
-      if (c.age < 5) {
-        return {
-          tag: `MID-YEAR EVENT • อายุ ${c.age} ปี (เดือน 6)`,
-          title: `🍼 เหตุการณ์ระหว่างปี: พัฒนาการก้าวเล็กๆ ในบ้าน (${season})`,
-          echoNote: c.aptitudes.vit >= 5 ? '🌟 สุขภาพวัยทารกที่คุณดูแลมาอย่างดีทำให้ลูกน้อยพร้อมเรียนรู้สิ่งใหม่เร็วขึ้น!' : null,
-          prompt: `ในช่วงกลางปีที่เขต ${c.city} พ่อแม่สังเกตเห็นว่าคุณเริ่มสนใจสิ่งรอบตัวมากขึ้นในชีวิตประจำวัน คุณอยากตอบสนองต่อสิ่งใดเป็นพิเศษ?`,
+      const tier = c.familyTier || 'middle';
+      const archTag = c.familyArchetype ? c.familyArchetype.tag : 'ครอบครัวทั่วไป';
+
+      // Pool of 7 High-Stakes Mid-Year Dramatic Events (Starvation/Class, Accident, Crime, Alien Invasion, Galactic War, Political Protest, Epidemic)
+      const midYearCrises = [
+        // 0: Family Class & Starvation / Financial / Inheritance Drama
+        (() => {
+          if (tier === 'poor' || c.wealth < 450) {
+            return {
+              tag: `🚨 วิกฤตปากท้องกลางปี • อายุ ${c.age} ปี (เดือน 6)`,
+              title: `🥣 ไม่มีจะกิน! ตู้เสบียงว่างเปล่าและแก๊งทวงหนี้บุกประชิดบ้าน`,
+              echoNote: `พื้นเพของคุณคือ ${archTag} • เงินติดตัวเหลือเพียง ₡${c.wealth.toLocaleString()}`,
+              prompt: `เข้าสู่เดือนที่ 6 ของปี! เงินซื้ออาหารของครอบครัวหมดเกลี้ยงมาหลายวันจนทุกคนท้องกิ่ว ซ้ำร้ายแก๊งทวงหนี้นอกระบบยังบุกมาทุบประตูขู่จะยึดของในบ้าน คุณจะตัดสินใจรับมือวิกฤตนี้อย่างไร?`,
+              choices: [
+                {
+                  label: '⚔️ ยืนหยัดขวางหน้าปกป้องครอบครัว และออกไปทำงานเสี่ยงตายในเหมืองมืดหาเงินซื้อข้าว',
+                  effect: { health: -6, mind: 5, wealth: 750, apt: { vit: 9, biz: 5 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: ได้เงินซื้ออาหาร ₡750 ทันที & +9 ⚔️ ยุทธวิธี (แลกกับร่างกายบาดเจ็บ -6 ❤️)',
+                  log: 'กัดฟันออกไปทำงานหนักเสี่ยงอันตรายเพื่อหาเงินมาซื้อข้าวมื้อแรกให้ครอบครัวรอดตาย!'
+                },
+                {
+                  label: '🧠 ใช้ไหวพริบเจรจาผัดผ่อนหนี้ และประดิษฐ์เครื่องกรองน้ำ-เพาะสาหร่ายกินเองในบ้าน',
+                  effect: { int: 8, health: 4, wealth: 250, apt: { sci: 9 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: รอดพ้นความอดอยาก (+4 ❤️) & +9 🔬 วิทยาการ ปูทางสู่นักประดิษฐ์สู้ชีวิต',
+                  log: 'ใช้ความรู้ทางวิทยาศาสตร์ดัดแปลงระบบเพาะอาหารชีวภาพในบ้าน ช่วยให้ครอบครัวมีกินโดยไม่ต้องกู้เพิ่ม!'
+                },
+                {
+                  label: '🤝 ขอความช่วยเหลือจากเครือข่ายวัด/มูลนิธิชุมชน และรวมกลุ่มคนจนต่อรองกับเจ้าหนี้',
+                  effect: { health: 6, mind: 8, fame: 6, apt: { emp: 10 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: ได้รับเสบียงยังชีพ (+6 ❤️ / +8 ✨) & +10 🤝 สังคม กลายเป็นขวัญใจคนรากหญ้า',
+                  log: 'รวมพลังคนในสลัมและพึ่งพาโรงทานชุมชนจนผ่านพ้นวิกฤตความอดอยากมาได้ด้วยดี'
+                }
+              ]
+            };
+          } else if (tier === 'wealthy') {
+            return {
+              tag: `🚨 วิกฤตตระกูลคนรวย • อายุ ${c.age} ปี (เดือน 6)`,
+              title: `🐍 แผนลอบวางยาพิษและศึกสายเลือดชิงมรดกหมื่นล้าน!`,
+              echoNote: `พื้นเพของคุณคือ ${archTag} • ความมั่งคั่งดึงดูดแผนร้ายในตระกูล`,
+              prompt: `กลางปีนี้เกิดเรื่องฉาวโฉ่ในคฤหาสน์! ญาติผู้ใหญ่ฝ่ายตรงข้ามแอบติดสินบนบอดี้การ์ดและพยายามใส่ร้ายครอบครัวคุณเพื่อฮุบกิจการตระกูล แถมยังมีกลุ่มผู้ประท้วงบุกมาปิดล้อมหน้าคฤหาสน์ คุณจะทำอย่างไร?`,
+              choices: [
+                {
+                  label: '💼 เปิดเกมรุกฮุบหุ้นสวนกลับ! จ้างนักกฎหมายมือฉมังและหน่วยรบพิเศษกวาดล้างหนอนบ่อนไส้',
+                  effect: { wealth: 1600, mind: -5, fame: 8, apt: { biz: 10, vit: 5 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: ยึดทรัพย์สินเพิ่ม +₡1,600 & +10 💼 ธุรกิจ (แต่จิตใจตึงเครียด -5 ✨)',
+                  log: 'เดินหมากเด็ดขาดโค่นอำนาจญาติฝ่ายศัตรู ยึดหุ้นตระกูลมาครองได้สำเร็จ!'
+                },
+                {
+                  label: '🔬 ใช้เครื่องสแกนควอนตัมแฉหลักฐานการวางยาพิษต่อสภาความมั่นคงอย่างรัดกุม',
+                  effect: { int: 9, fame: 10, wealth: 600, apt: { sci: 10 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: +10 🔬 วิทยาการ & ชื่อเสียงพุ่งกระฉูดจากการเปิดโปงแผนร้ายด้วยหลักฐานนิติวิทยาศาสตร์',
+                  log: 'ใช้เทคโนโลยีนิติวิทยาศาสตร์ควอนตัมมัดตัวคนร้ายในตระกูลจนดิ้นไม่หลุด!'
+                },
+                {
+                  label: '🤝 แบ่งทรัพย์สินตระกูลบริจาคช่วยม็อบคนยากไร้นอกคฤหาสน์เพื่อซื้อใจประชาชนเป็นเกราะคุ้มกัน',
+                  effect: { wealth: -800, mind: 14, fame: 15, apt: { emp: 11, art: 4 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: เปลี่ยนศัตรูเป็นมวลชนหนุนหลัง (+15 🌟 / +11 🤝 สังคม)',
+                  log: 'เปลี่ยนวิกฤตเป็นศรัทธา! มวลชนนอกคฤหาสน์หันมาปกป้องคุณจากแผนลอบทำร้ายของเครือญาติ'
+                }
+              ]
+            };
+          }
+          // Middle class crisis
+          return {
+            tag: `🚨 วิกฤตครอบครัวชนชั้นกลาง • อายุ ${c.age} ปี (เดือน 6)`,
+            title: `📉 พายุเศรษฐกิจถล่ม! ครอบครัวเสี่ยงถูกยึดบ้านและตกงานกะทันหัน`,
+            echoNote: `พื้นเพของคุณคือ ${archTag} • วิกฤตค่าครองชีพพุ่งทะลุเพดาน`,
+            prompt: `เข้าสู่กลางปี ธนาคารกลางดาราจักรประกาศขึ้นดอกเบี้ยโหดพร้อมกับที่บริษัทใหญ่ปลดคนงานออกครึ่งหนึ่ง! ครอบครัวของคุณหมุนเงินไม่ทันและกำลังจะถูกตัดน้ำ-ไฟและยึดที่พักในเขต ${c.city} คุณจะแก้เกมอย่างไร?`,
+            choices: [
+              {
+                label: '💼 ลุยทำงานเสริม 3 กะควบคู่ค้าขายออนไลน์ข้ามดวงดาวเพื่อหาเงินโปะหนี้บ้าน',
+                effect: { wealth: 1100, health: -6, mind: -3, apt: { biz: 10 } },
+                futurePreview: '🔮 ผลต่ออนาคต: รักษาบ้านไว้ได้ (+₡1,100) & +10 💼 ธุรกิจ (แลกกับความเหนื่อยล้า -6 ❤️)',
+                log: 'ทำงานหามรุ่งหามค่ำจนหาเงินมาจ่ายค่าบ้านทันเวลา รอดพ้นการถูกฟ้องล้มละลาย!'
+              },
+              {
+                label: '🔬 พัฒนาซอฟต์แวร์ AI และรับจ้างซ่อมอุปกรณ์ควอนตัมให้คนในชุมชนเป็นรายได้ใหม่',
+                effect: { int: 8, wealth: 750, apt: { sci: 10 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +10 🔬 วิทยาการ & สร้างอาชีพเสริมไฮเทคที่ไม่มีวันตกงาน',
+                log: 'เปลี่ยนวิกฤตตกงานเป็นโอกาสทางเทคโนโลยี สร้างรายได้ใหม่เข้าบ้านอย่างมั่นคง'
+              },
+              {
+                label: '🪧 เข้าร่วมขบวนการสหภาพแรงงานประท้วงเรียกร้องให้รัฐบาลพักชำระหนี้ประชาชน',
+                effect: { fame: 10, mind: 8, wealth: 350, apt: { emp: 9, vit: 5 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +9 🤝 สังคม & +5 ⚔️ ยุทธวิธี ก้าวสู่แกนนำต่อสู้เพื่อความเป็นธรรม',
+                log: 'ลุกขึ้นสู้ร่วมกับเพื่อนบ้านชนชั้นกลางจนธนาคารยอมลดดอกเบี้ยและยืดเวลาผ่อนชำระ!'
+              }
+            ]
+          };
+        })(),
+
+        // 1: Alien Invasion & Xenomorph Breach
+        {
+          tag: `👽 ALIEN INVASION • อายุ ${c.age} ปี (เดือน 6)`,
+          title: `👽 ฝูงเอเลี่ยนกลืนกินดวงดาวบุกทะลวงโดมเมือง ${c.city}!`,
+          echoNote: c.aptitudes.vit >= 15 ? '🌟 ทักษะยุทธวิธีที่คุณฝึกมาช่วยให้คุณตั้งสติรับมือการบุกรุกได้ทันที!' : null,
+          prompt: `สัญญาณเตือนภัยสีแดงดังกึกก้อง! ฝูงอสูรเอเลี่ยนต่างมิติ (Xenomorph Swarm) เจาะทะลุเกราะป้องกันของ ${c.planet.shortName} ลงมาอาละวาดกลางย่านที่พักอาศัย ผู้คนวิ่งหนีตายอลหม่าน คุณจะทำอย่างไร?`,
           choices: [
             {
-              label: '🧩 เอื้อมมือไปต่อบล็อกเรขาคณิตเรืองแสงและสำรวจกลไกของเล่น',
-              effect: { int: 5, mind: 3, apt: { sci: 6 } },
-              futurePreview: '🔮 ผลต่ออนาคต: สะสมแต้ม 🔬 วิทยาการ (+6) ปูรากฐานสู่ทุนวิจัยและอาชีพสายเทคโนโลยี',
-              log: 'ใช้เวลาช่วงกลางปีฝึกสังเกตของเล่นเรขาคณิต พัฒนาสมองซีกวิเคราะห์ตั้งแต่วัยเตาะแตะ'
+              label: '⚔️ คว้าอาวุธพลาสม่าเข้าประจำป้อมปราการอาสา ยิงสกัดกั้นฝูงเอเลี่ยนเปิดทางหนีให้ชาวเมือง!',
+              effect: { health: -7, fame: 16, wealth: 950, karmaBonus: 3, apt: { vit: 12 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +12 ⚔️ ยุทธวิธี, เงินรางวัลนำจับเอเลี่ยน +₡950 และ +3✦ แต้มกรรมผู้กล้า',
+              log: 'ต่อสู้สกัดกั้นฝูงเอเลี่ยนอย่างห้าวหาญจนได้รับเหรียญกล้าหาญและเงินรางวัลจากทางการ!'
             },
             {
-              label: '🎵 ยิ้มหัวเราะและขยับตัวตามจังหวะเพลงกล่อมจากดาวโลก',
-              effect: { mind: 6, health: 3, earthRel: 4, apt: { art: 6, emp: 4 } },
-              futurePreview: '🔮 ผลต่ออนาคต: สะสมแต้ม 🎨 ศิลปะ (+6) & 🤝 สังคม (+4) เพิ่มเสน่ห์และสายสัมพันธ์ดาวโลก',
-              log: 'หัวเราะอารมณ์ดีไปกับเสียงดนตรี สร้างพื้นฐานอารมณ์ที่มั่นคงและอ่อนโยน'
+              label: '🔬 วิเคราะห์คลื่นความถี่ของฝูงเอเลี่ยนและดัดแปลงเสาส่งสัญญาณโซนาร์ไล่พวกมันออกไป',
+              effect: { int: 10, fame: 12, wealth: 650, apt: { sci: 11 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +11 🔬 วิทยาการ & ผลงานวิจัยคลื่นสกัดกั้นเอเลี่ยนระดับสหพันธ์',
+              log: 'ใช้สติปัญญาปล่อยคลื่นความถี่รบกวนประสาทสัมผัสของฝูงเอเลี่ยนจนพวกมันถอยร่นไป!'
             },
             {
-              label: '💪 พยายามเกาะขอบเตียงลุกขึ้นยืนและก้าวเดินด้วยตัวเองอย่างมุ่งมั่น',
-              effect: { health: 6, mind: 2, apt: { vit: 7 } },
-              futurePreview: '🔮 ผลต่ออนาคต: สะสมแต้ม ⚔️ ยุทธวิธี/กายภาพ (+7) ลดความเสี่ยงโรคภัยในวัยเด็ก',
-              log: 'ฝึกก้าวเดินอย่างแข็งขันในช่วงกลางปี ทำให้กล้ามเนื้อและภูมิคุ้มกันแข็งแรงขึ้น'
+              label: '🛡️ พาครอบครัวและเด็กๆ ที่พลัดหลงหนีลงบังเกอร์นิรภัยใต้ดินพร้อมปฐมพยาบาลผู้บาดเจ็บ',
+              effect: { health: 5, mind: 10, fame: 8, apt: { emp: 10, vit: 4 } },
+              futurePreview: '🔮 ผลต่ออนาคต: ปลอดภัยไร้รอยขีดข่วน (+5 ❤️ / +10 ✨) & +10 🤝 สังคม',
+              log: 'ช่วยชีวิตเด็กและผู้สูงอายุลงหลุมหลบภัยได้ทันเวลาท่ามกลางการโจมตีของเอเลี่ยน'
             }
           ]
-        };
-      } else if (c.age < 15) {
-        return {
-          tag: `MID-YEAR EVENT • อายุ ${c.age} ปี (เดือน 6)`,
-          title: `🏫 เหตุการณ์ระหว่างปี: กิจกรรมพิเศษช่วงกลางเทอม (${season})`,
-          echoNote: c.aptitudes.sci >= 12 ? '🌟 ทักษะวิทยาการที่คุณสะสมมาทำให้ครูที่ปรึกษาเชิญคุณเข้าทีมตัวแทนโรงเรียน!' : null,
-          prompt: `เข้าสู่เดือนที่ 6 ของปี! โรงเรียนในเขต ${c.city} จัดสัปดาห์กิจกรรมพัฒนาศักยภาพเยาวชนควบคู่กับการใช้ชีวิตประจำวัน คุณจะเลือกทุ่มเทเวลาว่างช่วงเย็นไปกับอะไร?`,
+        },
+
+        // 2: Severe Accident & Disaster
+        {
+          tag: `💥 SEVERE ACCIDENT • อายุ ${c.age} ปี (เดือน 6)`,
+          title: `💥 อุบัติเหตุร้ายแรง! รถไฟแม่เหล็กตกรางและเตาปฏิกรณ์รั่วไหล`,
+          echoNote: null,
+          prompt: `ขณะเดินทางในเมือง ${c.city} เกิดอุบัติเหตุรถไฟแม่เหล็กความเร็วสูงชนประสานงากับท่อส่งพลังงานพลาสม่า! เปลวเพลิงและสารเคมีรั่วไหลปกคลุมทั่วสถานี คุณติดอยู่ในพื้นที่เกิดเหตุและต้องตัดสินใจภายในเสี้ยววินาที!`,
           choices: [
             {
-              label: '🔬 เข้าชมรมประดิษฐ์โดรนและเขียนโค้ดควอนตัมจำลอง',
-              effect: { int: 7, wealth: 150, apt: { sci: 8 } },
-              futurePreview: '🔮 ผลต่ออนาคต: 🔬 วิทยาการ (+8) เพิ่มโอกาสสอบติดวิทยาลัยสหพันธ์และอาชีพวิศวกร',
-              log: 'ใช้เวลาหลังเลิกเรียนประดิษฐ์โดรนขนาดเล็กจนได้รับรางวัลชมเชยประจำภาคเรียน'
+              label: '🛠️ พุ่งเข้าไปปิดวาล์วเตาปฏิกรณ์ฉุกเฉินด้วยความรู้ทางเทคนิคก่อนที่มันจะระเบิดซ้ำ!',
+              effect: { health: -5, int: 9, fame: 15, wealth: 800, apt: { sci: 10, vit: 5 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +10 🔬 วิทยาการ & ได้รับเงินชดเชยวีรบุรุษกู้ภัย +₡800',
+              log: 'เสี่ยงชีวิตเข้าไปตัดวงจรเตาปฏิกรณ์สำเร็จ หยุดยั้งการระเบิดครั้งใหญ่ของสถานีได้ทันเวลา!'
             },
             {
-              label: '🤝 อาสาเป็นหัวหน้ากลุ่มดูแลเพื่อนใหม่และจัดกิจกรรมแลกเปลี่ยนวัฒนธรรม',
-              effect: { mind: 7, fame: 5, apt: { emp: 8, art: 4 } },
-              futurePreview: '🔮 ผลต่ออนาคต: 🤝 สังคม (+8) ปูทางสู่ตำแหน่งผู้นำเยาวชนและทูตสหพันธ์ในอนาคต',
-              log: 'ดูแลเพื่อนร่วมชั้นด้วยความจริงใจ ทำให้เป็นที่รักของเพื่อนๆ และครูอาจารย์'
+              label: '🚑 แบกผู้บาดเจ็บที่ติดอยู่ใต้ซากรถไฟออกมาส่งโดรนพยาบาลและช่วยปั๊มหัวใจฉุกเฉิน',
+              effect: { health: -4, mind: 12, fame: 14, karmaBonus: 4, apt: { emp: 11 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +11 🤝 สังคม & +4✦ แต้มกรรมสะสมจากการช่วยชีวิตเพื่อนมนุษย์',
+              log: 'ช่วยดึงผู้รอดชีวิตออกจากซากรถไฟที่กำลังไฟไหม้ ได้รับคำขอบคุณและแต้มบุญก้อนใหญ่'
             },
             {
-              label: '💰 เปิดร้านเล็กๆ แลกเปลี่ยนการ์ดสะสมและช่วยงานร้านค้าในตลาดหลังเลิกเรียน',
-              effect: { wealth: 550, int: 3, apt: { biz: 8 } },
-              futurePreview: '🔮 ผลต่ออนาคต: 💼 ธุรกิจ (+8) เพิ่มโบนัสรายได้ประจำเดือนและหัวการค้าในวัยผู้ใหญ่',
-              log: 'เรียนรู้การค้าขายจริงในตลาดท้องถิ่นช่วงกลางปี เก็บออมเครดิตก้อนเล็กๆ ได้สำเร็จ'
+              label: '💨 ทุบกระจกนิรภัยกระโดดหนีออกจากจุดเกิดเหตุและเรียกร้องเงินประกันอุบัติเหตุสูงสุด',
+              effect: { health: 4, wealth: 950, mind: -2, apt: { biz: 9, vit: 4 } },
+              futurePreview: '🔮 ผลต่ออนาคต: ร่างกายปลอดภัย (+4 ❤️), ได้เงินเคลมประกัน +₡950 & +9 💼 ธุรกิจ',
+              log: 'เอาตัวรอดจากอุบัติเหตุได้อย่างหวุดหวิดและเดินเรื่องฟ้องเรียกค่าเสียหายจากบริษัทรถไฟได้เงินก้อนโต'
             }
           ]
-        };
-      } else {
-        return {
-          tag: `MID-YEAR EVENT • อายุ ${c.age} ปี (เดือน 6)`,
-          title: `🌠 เหตุการณ์ระหว่างปี: โอกาสและทางเลือกกลางปี (${season})`,
-          echoNote: c.aptitudes.biz >= 15 ? '🌟 เครือข่ายธุรกิจที่คุณสร้างไว้ทำให้คุณได้รับข้อเสนอผลตอบแทนสูงกว่าคนทั่วไป!' : null,
-          prompt: `ผ่านมาครึ่งปีในวัย ${c.age} ปี ขณะที่คุณกำลังดำเนินชีวิตประจำวันในฐานะ "${c.career}" ได้เกิดเหตุการณ์ไม่คาดคิดขึ้นในเซกเตอร์ ${c.city} คุณจะจัดการอย่างไร?`,
+        },
+
+        // 3: Violent Crime, Mafia & Underworld
+        {
+          tag: `🔪 CRIME & SYNDICATE • อายุ ${c.age} ปี (เดือน 6)`,
+          title: `🔪 แก๊งอาชญากรรมไซเบอร์บุกปล้นและยื่นข้อเสนอมืด!`,
+          echoNote: null,
+          prompt: `อัตราอาชญากรรมใน ${c.city} พุ่งสูงขึ้น! คืนหนึ่งแก๊งมาเฟียตลาดมืดบุกเข้ามาปิดล้อมย่านพักอาศัยของคุณ พวกมันทั้งปล้นทรัพย์สินและชักชวนคนในพื้นที่ให้ช่วยขนส่งชิปเถื่อนแลกเงินก้อนโต คุณจะเลือกทางใด?`,
           choices: [
             {
-              label: '🚀 อาสารับโปรเจกต์พิเศษเชื่อมสัญญาณการค้าและวิทยาการกับดาวโลก',
-              effect: { int: 5, wealth: 900 + (c.aptitudes.biz * 25), earthRel: 8, apt: { sci: 6, biz: 6 } },
-              futurePreview: '🔮 ผลต่ออนาคต: 🔬 วิทย์ (+6) & 💼 ธุรกิจ (+6) เพิ่มฐานเงินเดือนและความก้าวหน้า',
-              log: 'ลุยโปรเจกต์พิเศษช่วงกลางปีสำเร็จ ได้รับทั้งเครดิตและประสบการณ์ล้ำค่า'
+              label: '⚔️ ต่อสู้ขัดขวางแก๊งโจรและร่วมมือกับหน่วยลาดตระเวนทลายรังอาชญากร!',
+              effect: { health: -6, fame: 14, wealth: 900, apt: { vit: 11 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +11 ⚔️ ยุทธวิธี & รับเงินสินบนนำจับอาชญากร +₡900',
+              log: 'เปิดฉากดวลปราบแก๊งอาชญากรจนพวกมันถูกจับกุม ย่านที่พักกลับมาปลอดภัยอีกครั้ง!'
             },
             {
-              label: '🛡️ เข้าร่วมหน่วยอาสาป้องกันภัยประจำเขตและฝึกยุทธวิธีรับมือวิกฤต',
-              effect: { health: 6, fame: 7, wealth: 400, apt: { vit: 8, emp: 5 } },
-              futurePreview: '🔮 ผลต่ออนาคต: ⚔️ ยุทธวิธี (+8) ลดความเสียหายจากสงคราม/ภัยพิบัติในปีต่อๆ ไป',
-              log: 'ฝึกซ้อมแผนรับมือภัยพิบัติร่วมกับชุมชน ทำให้ร่างกายแข็งแกร่งและได้รับความเคารพ'
+              label: '💼 แกล้งเจรจาตกลงทำธุรกิจสีเทาหลอกล่อเอากำไรจากพวกมาเฟียโดยไม่ให้ถูกจับได้',
+              effect: { wealth: 1850, mind: -8, int: 5, apt: { biz: 12 } },
+              futurePreview: '🔮 ผลต่ออนาคต: ได้เงินก้อนโตไวมาก +₡1,850 & +12 💼 ธุรกิจ (แลกกับความเครียด -8 ✨)',
+              log: 'ใช้เล่ห์เหลี่ยมนักธุรกิจฮุบส่วนแบ่งจากตลาดมืดมาได้ถึง ₡1,850 แม้จะต้องระแวงหลังตลอดเวลา'
             },
             {
-              label: '🌿 จัดทริปพักผ่อนกลางปีกับคนสำคัญ (${c.partner}) และสร้างสรรค์ผลงานศิลปะ',
-              effect: { mind: 12, health: 5, wealth: -200, apt: { art: 7, emp: 5 } },
-              futurePreview: '🔮 ผลต่ออนาคต: 🎨 ศิลป์ (+7) & ฟื้นฟูสมดุลจิตใจป้องกันภาวะหมดไฟระยะยาว',
-              log: 'ใช้เวลาช่วงกลางปีเติมความสุขให้ชีวิตและคนที่รัก ทำให้จิตใจสดชื่นพร้อมลุยต่อ'
+              label: '🎨 แอบบันทึกภาพโฮโลแกรมลับส่งให้สื่อมวลชนและองค์กรตำรวจสหพันธ์ดาวโลกเปิดโปง',
+              effect: { int: 6, fame: 15, earthRel: 10, wealth: 500, apt: { art: 10, sci: 4 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +10 🎨 สื่อสารมวลชน & +10% 🌍 สายสัมพันธ์ดาวโลก',
+              log: 'คลิปแฉแก๊งมาเฟียของคุณกลายเป็นข่าวดังระดับดาราจักร ตำรวจสหพันธ์ส่งกำลังเข้ามากวาดล้างทันที!'
             }
           ]
-        };
-      }
+        },
+
+        // 4: Galactic War & Conscription Crisis
+        {
+          tag: `⚔️ GALACTIC WAR • อายุ ${c.age} ปี (เดือน 6)`,
+          title: `⚔️ สงครามจักรวาลปะทุ! กองยานข้าศึกปิดล้อมดวงดาว`,
+          echoNote: null,
+          prompt: `ไฟสงครามระหว่างดวงดาวลุกลามมาถึง ${c.planet.shortName}! ท้องฟ้าเหนือเมือง ${c.city} เต็มไปด้วยแสงเลเซอร์จากยานประจัญบาน เสบียงอาหารเริ่มถูกปันส่วนและทางการประกาศระดมพลฉุกเฉิน คุณจะทำอย่างไร?`,
+          choices: [
+            {
+              label: '🛡️ อาสาเข้าร่วมหน่วยป้องกันดวงดาวและควบคุมป้อมปืนต่อต้านอากาศยาน!',
+              effect: { health: -8, fame: 18, wealth: 1100, apt: { vit: 12, sci: 4 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +12 ⚔️ ยุทธวิธี, เบี้ยเลี้ยงสงคราม +₡1,100 และยศทหารผ่านศึก',
+              log: 'เข้าร่วมแนวหน้าปกป้องบ้านเกิดจากกองยานข้าศึก ได้รับเบี้ยเลี้ยงสงครามและเกียรติยศสูงสุด!'
+            },
+            {
+              label: '🕊️ ก่อตั้งขบวนการทูตสันติภาพและจัดตั้งค่ายช่วยเหลือผู้ลี้ภัยสงครามร่วมกับดาวโลก',
+              effect: { mind: 10, fame: 15, earthRel: 14, karmaBonus: 4, apt: { emp: 12 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +12 🤝 การทูต, +14% 🌍 สายสัมพันธ์โลก และ +4✦ แต้มกรรม',
+              log: 'ประสานงานเปิดเส้นทางมนุษยธรรมช่วยเหลือผู้ประสบภัยสงครามนับพันชีวิต!'
+            },
+            {
+              label: '💰 กักตุนเสบียงและเปิดเส้นทางค้าขายยุทธปัจจัยในภาวะสงครามเพื่อสร้างความมั่งคั่ง',
+              effect: { wealth: 1700, mind: -5, int: 5, apt: { biz: 11 } },
+              futurePreview: '🔮 ผลต่ออนาคต: กำไรจากภาวะสงคราม +₡1,700 & +11 💼 ธุรกิจ',
+              log: 'ค้าขายเวชภัณฑ์และเสบียงในช่วงสงคราม ฟันกำไรก้อนโตมาสร้างความมั่นคงให้ครอบครัว'
+            }
+          ]
+        },
+
+        // 5: Political Upheaval, Protests & Coup
+        {
+          tag: `🪧 POLITICAL CRISIS • อายุ ${c.age} ปี (เดือน 6)`,
+          title: `🏛️ วิกฤตการเมืองเดือด! ม็อบประท้วงใหญ่ปะทะกฎอัยการศึก`,
+          echoNote: null,
+          prompt: `ผู้ว่าการเซกเตอร์ ${c.city} ถูกจับได้ว่าทุจริตงบประมาณสาธารณสุขและสั่งขึ้นภาษีออกซิเจน! ประชาชนนับแสนคนออกมารวมตัวประท้วงปิดถนน ขณะที่ทางการส่งหุ่นยนต์รบออกมาสลายการชุมนุม คุณจะเลือกยืนอยู่จุดไหน?`,
+          choices: [
+            {
+              label: '📢 ขึ้นเวทีปราศรัยและถ่ายทอดสดโฮโลแกรมเรียกร้องประชาธิปไตยและความโปร่งใส!',
+              effect: { fame: 18, mind: 8, health: -5, apt: { art: 10, emp: 8 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +10 🎨 ศิลปะการสื่อสาร & +8 🤝 ผู้นำมวลชน (ชื่อเสียงพุ่ง +18 🌟)',
+              log: 'คำปราศรัยของคุณปลุกพลังประชาชนทั้งดวงดาวจนผู้ว่าการที่ทุจริตต้องยอมจำนน!'
+            },
+            {
+              label: '🔬 แฮ็กเข้าระบบโดรนปราบจลาจลเพื่อสั่งระงับการยิงอาวุธใส่ประชาชนอย่างลับๆ',
+              effect: { int: 10, mind: 8, wealth: 500, karmaBonus: 3, apt: { sci: 12 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +12 🔬 วิทยาการไซเบอร์ & ช่วยชีวิตผู้ชุมนุมไว้ได้นับร้อยคน',
+              log: 'ใช้ทักษะแฮ็กเกอร์ระดับสูงปิดระบบอาวุธของหุ่นยนต์ปราบจลาจล หยุดการนองเลือดได้สำเร็จ!'
+            },
+            {
+              label: '💼 เจรจากับกลุ่มการเมืองทั้งสองขั้วเพื่อรับงานจัดหาเสบียงและรักษาผลประโยชน์ของครอบครัว',
+              effect: { wealth: 1350, int: 5, mind: -2, apt: { biz: 11 } },
+              futurePreview: '🔮 ผลต่ออนาคต: +11 💼 ธุรกิจการเมือง & รับผลตอบแทน +₡1,350',
+              log: 'อ่านเกมการเมืองขาดและวางตัวเป็นตัวกลางเจรจาธุรกิจ ทำกำไรท่ามกลางความขัดแย้งทางการเมือง'
+            }
+          ]
+        },
+
+        // 6: Deadly Epidemic / Bio-Plague
+        {
+          tag: `🦠 PANDEMIC OUTBREAK • อายุ ${c.age} ปี (เดือน 6)`,
+          title: `🦠 ไวรัสมรณะกลายพันธุ์ระบาดหนัก! โรงพยาบาลล้นและยาขาดตลาด`,
+          echoNote: null,
+          prompt: `เชื้อไวรัส "Crimson-Nebula" กลายพันธุ์แพร่ระบาดทางอากาศในเมือง ${c.city}! ผู้คนล้มป่วยมีไข้สูงเกือบครึ่งเมือง หน้ากากกรองเชื้อและยาวัคซีนในตลาดมีราคาพุ่งขึ้น 10 เท่า คุณจะเอาชีวิตรอดอย่างไร?`,
+          choices: [
+            {
+              label: '🧬 เข้าร่วมทีมอาสาวิจัยสังเคราะห์วัคซีนต้นทุนต่ำในห้องแล็บฉุกเฉินเพื่อแจกจ่ายชุมชน',
+              effect: { int: 10, health: 8, fame: 14, karmaBonus: 4, apt: { sci: 11, emp: 5 } },
+              futurePreview: '🔮 ผลต่ออนาคต: สร้างภูมิคุ้มกัน (+8 ❤️), +11 🔬 วิทยาการ และ +4✦ แต้มกรรม',
+              log: 'ร่วมทีมคิดค้นสูตรยับยั้งไวรัสสำเร็จ ช่วยเซฟชีวิตทั้งครอบครัวและผู้คนในเมือง!'
+            },
+            {
+              label: '💪 กักตัวเข้มงวด ฟิตซ้อมภูมิคุ้มกันร่างกาย และตั้งจุดคัดกรองป้องกันเชื้อหน้าเขตที่พัก',
+              effect: { health: 12, mind: 6, wealth: -250, apt: { vit: 11 } },
+              futurePreview: '🔮 ผลต่ออนาคต: ร่างกายแข็งแกร่งปลอดโรค (+12 ❤️) & +11 ⚔️ กายภาพ',
+              log: 'ดูแลสุขอนามัยและออกกำลังกายเสริมภูมิคุ้มกันอย่างเคร่งครัดจนรอดพ้นการติดเชื้อ 100%!'
+            },
+            {
+              label: '💊 นำเงินเก็บไปเหมาเวชภัณฑ์จากต่างดาวมาจำหน่ายและสำรองให้ครอบครัว',
+              effect: { health: 8, wealth: 1200, mind: -3, apt: { biz: 10 } },
+              futurePreview: '🔮 ผลต่ออนาคต: ครอบครัวมียารักษา (+8 ❤️), กำไรค้าเวชภัณฑ์ +₡1,200 & +10 💼 ธุรกิจ',
+              log: 'สั่งนำเข้าเวชภัณฑ์ข้ามดวงดาวได้ทันเวลา ช่วยให้ครอบครัวปลอดภัยและได้กำไรจากการกระจายสินค้า'
+            }
+          ]
+        }
+      ];
+
+      const idx = (c.age + (c.visualSeed || 0)) % midYearCrises.length;
+      return midYearCrises[idx];
     }
 
     function generateAnnualInteractiveQuestion(age, c) {
-      // Keep the iconic milestone questions at 5, 15, 30, 50, 70 enhanced with aptitudes & future previews!
       if (MILESTONE_QUESTIONS[age]) {
         const baseQ = MILESTONE_QUESTIONS[age];
         const dom = getDominantAptitudeInfo(c);
@@ -2849,254 +3319,276 @@
         };
       }
 
-      // Dynamic Year-by-Year Interactive Development Scenarios for ALL other ages!
+      const tier = c.familyTier || 'middle';
+      const archTag = c.familyArchetype ? c.familyArchetype.tag : 'ครอบครัวทั่วไป';
       const dom = getDominantAptitudeInfo(c);
 
-      // Stage A: Childhood & Early Nurturing (Ages 1 - 4)
+      // Stage A: Ages 1 - 4 (Early Childhood Survival: Malnutrition/Disease vs Middle Class Pressure vs Rich Family Intrigue)
       if (age <= 4) {
-        const themes = [
+        const earlyScenarios = [
           {
-            title: `วัย ${age} ขวบ: ก้าวสำคัญของการเรียนรู้ในบ้าน`,
-            prompt: `ครบปีที่ ${age} ของชีวิตบน ${c.planet.shortName}! ในแต่ละวันคุณเติบโตขึ้นท่ามกลางสภาพแวดล้อมของ ${c.city} (ความเสี่ยงวัยเด็ก ${c.under5Mortality}%) ปีนี้ผู้ปกครองและตัวคุณจะเน้นเสริมสร้างพัฒนาการด้านใด?`,
+            title: `วัย ${age} ขวบ: บททดสอบการเอาชีวิตรอดในครอบครัว (${archTag})`,
+            prompt: tier === 'poor'
+              ? `ในวัย ${age} ขวบ ครอบครัวของคุณยากจนข้นแค้น (รายได้ ₡${c.familyIncome}/ปี) เดือนนี้แทบไม่มีนมและอาหารดีๆ กิน แถมเกิดโรคระบาดและแก๊งอันธพาลกวนเมืองใน ${c.city} พ่อแม่และตัวคุณจะเลือกสู้เพื่อเอาชีวิตรอดอย่างไร?`
+              : tier === 'wealthy'
+              ? `ในวัย ${age} ขวบ คุณเกิดในตระกูลร่ำรวย (₡${c.familyIncome.toLocaleString()}/ปี) แต่ปีนี้เกิดเหตุคนร้ายพยายามลอบเข้ามาในคฤหาสน์และเครือญาติกดดันทดสอบความสามารถของคุณตั้งแต่วัยทารก คุณจะตอบสนองอย่างไร?`
+              : `ในวัย ${age} ขวบ พ่อแม่ชนชั้นกลางต้องทำงานหนักท่ามกลางปัญหาเศรษฐกิจและมลพิษโรคระบาดใน ${c.city} (ความเสี่ยงเสียชีวิตวัยเด็ก ${c.under5Mortality}%) ปีนี้คุณจะพัฒนาทักษะใดเพื่อรับมือโลกที่โหดร้าย?`,
             choices: [
               {
-                label: '🧠 ฝึกทักษะการคิด การจำสัญลักษณ์ดวงดาว และฟังนิทานวิทยาการก่อนนอน',
-                effect: { int: 7, mind: 4, apt: { sci: 8, art: 4 }, flag: 'early_reader' },
-                futurePreview: '🔮 ผลต่ออนาคต: +8 🔬 วิทยาการ • ปูทางสู่นักเรียนทุนอัจฉริยะเมื่อเข้าสู่วัยเรียน',
-                log: `ในวัย ${age} ขวบ คุณเรียนรู้คำศัพท์และสัญลักษณ์ดวงดาวได้ไวกว่าเด็กทั่วไปมาก`
+                label: '🛡️ ฝึกความอึดของร่างกาย กินอาหารทุกหยดไม่ให้เหลือ และส่งเสียงเตือนภัยเมื่อมีคนแปลกหน้า/อันตราย!',
+                effect: { health: 11, mind: 4, apt: { vit: 10 }, flag: 'survivor_child' },
+                futurePreview: '🔮 ผลต่ออนาคต: +10 ⚔️ กายภาพ/ยุทธวิธี • สร้างเกราะคุ้มกันโรคระบาดและอุบัติเหตุวัยเด็ก',
+                log: `ในวัย ${age} ขวบ สัญชาตญาณการเอาตัวรอดของคุณช่วยให้ผ่านพ้นวิกฤตสุขภาพและอันตรายในบ้านมาได้!`
               },
               {
-                label: '❤️ เน้นโภชนาการชีวภาพ ฝึกเดินวิ่งรับแสงแดด และเสริมภูมิคุ้มกันโรคอย่างใกล้ชิด',
-                effect: { health: 9, mind: 4, apt: { vit: 9 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +9 ⚔️ กายภาพ • ลดโอกาสเสียชีวิตก่อนวัย 5 ขวบและเพิ่มความอึดระยะยาว',
-                log: `ในวัย ${age} ขวบ คุณได้รับการดูแลสุขภาพอย่างดีจนร่างกายแข็งแรงสมบูรณ์`
+                label: '🔬 สังเกตเรียนรู้สิ่งรอบตัว แยกแยะเสียงสัญญาณเตือนภัย และจดจำวิธีเปิดระบบนิรภัยในบ้าน',
+                effect: { int: 9, mind: 4, apt: { sci: 10 }, flag: 'early_reader' },
+                futurePreview: '🔮 ผลต่ออนาคต: +10 🔬 วิทยาการ • เปลี่ยนรูปลักษณ์สู่สายนักคิดอัจฉริยะตั้งแต่วัยเยาว์',
+                log: `ในวัย ${age} ขวบ คุณฉายแววอัจฉริยะในการเรียนรู้และเอาตัวรอดจากภัยพิบัติรอบตัว`
               },
               {
-                label: '🤝 พาไปพบปะญาติมิตรและเล่นกับเพื่อนวัยเดียวกันในชุมชนเพื่อฝึกการเข้าสังคม',
-                effect: { mind: 8, fame: 3, apt: { emp: 9, art: 3 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +9 🤝 สังคม • สร้างเกราะป้องกันความเครียดและเพิ่มโอกาสมิตรภาพที่ดี',
-                log: `ในวัย ${age} ขวบ คุณเป็นเด็กยิ้มแย้มแจ่มใสและเข้ากับผู้อื่นได้ง่าย`
+                label: '💖 อ้อนให้กำลังใจพ่อแม่ที่กำลังเครียดจัด และสร้างรอยยิ้มเชื่อมความสัมพันธ์กับเพื่อนบ้าน',
+                effect: { mind: 10, health: 4, fame: 4, apt: { emp: 9, art: 5 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +9 🤝 สังคม & +5 🎨 ศิลป์ • ป้องกันปัญหาครอบครัวแตกแยกและได้รับความเมตตา',
+                log: `ในวัย ${age} ขวบ รอยยิ้มและความไร้เดียงสาของคุณช่วยเยียวยาหัวใจพ่อแม่ท่ามกลางมรสุมชีวิต`
               }
             ]
           },
           {
-            title: `วัย ${age} ขวบ: ของขวัญวันเกิดครบรอบปีและการค้นพบความถนัด`,
-            prompt: `ในวันคล้ายวันเกิดอายุครบ ${age} ขวบ ครอบครัวได้นำของสามสิ่งมาวางตรงหน้าเพื่อดูว่าดวงจิตของคุณจะเลือกคว้าสิ่งใดเป็นอันดับแรก คุณจะเลือกสิ่งใด?`,
+            title: `วัย ${age} ขวบ: ภัยโรคระบาดวัยเด็กและวิกฤตความปลอดภัยในเมือง ${c.city}`,
+            prompt: `ครบปีที่ ${age}! ปีนี้เกิดการระบาดของไวรัสปอดอักเสบคอสมิกควบคู่กับเหตุจลาจลตัดกระแสไฟฟ้าใน ${c.city} ทารกหลายคนล้มป่วยหนัก คุณจะเลือกพัฒนาตนเองไปในทิศทางใด?`,
             choices: [
               {
-                label: '🔭 ลูกแก้วจำลองแผนที่ดาราจักรและกลไกฟันเฟืองควอนตัม',
-                effect: { int: 8, apt: { sci: 9 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +9 🔬 วิทยาการ • เพิ่มความถนัดด้านวิศวกรรมและการวิจัยอวกาศ',
-                log: `เลือกคว้าลูกแก้วดาราจักรในวัย ${age} ขวบ แสดงถึงแววนักคิดวิเคราะห์ตั้งแต่เด็ก`
+                label: '💰 ช่วยพ่อแม่คัดแยกชิ้นส่วนคริสตัล/เล่นเกมจำลองการค้าเพื่อสะสมแต้มแลกเสบียงอาหาร',
+                effect: { wealth: 450, int: 5, apt: { biz: 10 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +10 💼 ธุรกิจ • มีเงินสำรองซื้อยาและอาหาร (+₡450) พัฒนาสู่เบบี๋เถ้าแก่',
+                log: `ในวัย ${age} ขวบ คุณเรียนรู้คุณค่าของเงินและเสบียงอาหารตั้งแต่วัยเตาะแตะ`
               },
               {
-                label: '🎨 พู่กันแสงโฮโลแกรมและกล่องดนตรีจากดาวโลก (Earth)',
-                effect: { mind: 7, earthRel: 6, apt: { art: 9 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +9 🎨 ศิลปะ • เชื่อมโยงพรสวรรค์ความคิดสร้างสรรค์และดาวโลก',
-                log: `เลือกพู่กันแสงโฮโลแกรมในวัย ${age} ขวบ สร้างจินตนาการอันไร้ขีดจำกัด`
+                label: '🎨 ใช้เสียงเพลงและการวาดภาพแสงโฮโลแกรมปลอบโยนคนในบ้านยามไฟดับและเกิดเสียงระเบิด',
+                effect: { mind: 9, earthRel: 6, apt: { art: 10 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +10 🎨 ศิลปะ • พัฒนารูปลักษณ์สู่สายไอดอลสร้างแรงบันดาลใจ',
+                log: `ในวัย ${age} ขวบ พรสวรรค์ด้านศิลปะและเสียงเพลงของคุณช่วยคลายความหวาดกลัวให้ทุกคนในบ้าน`
               },
               {
-                label: '🪙 เหรียญตราพ่อค้าสหพันธ์และกระปุกออมสินคริสตัล',
-                effect: { wealth: 350, int: 4, apt: { biz: 9 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +9 💼 ธุรกิจ • เพิ่มโบนัสเงินออมและโอกาสร่ำรวยในอนาคต',
-                log: `เลือกเหรียญตราสหพันธ์ในวัย ${age} ขวบ ฉายแววนักบริหารและการค้าตั้งแต่เยาว์วัย`
+                label: '⚔️ ฝึกคลาน-เดิน-วิ่งหลบสิ่งกีดขวางและสร้างภูมิคุ้มกันร่างกายให้แข็งแกร่งเหนือเด็กทั่วไป',
+                effect: { health: 10, mind: 3, apt: { vit: 10 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +10 ⚔️ กายภาพ • ร่างกายแข็งแรงต้านทานไวรัสกลายพันธุ์',
+                log: `ในวัย ${age} ขวบ ร่างกายของคุณแข็งแกร่งจนไม่ล้มป่วยแม้ไวรัสจะระบาดหนักทั่วเซกเตอร์`
               }
             ]
           }
         ];
         return {
-          tag: `ANNUAL GROWTH • อายุครบ ${age} ปี`,
-          echoNote: c.futureFlags.early_reader ? '🌟 จากการที่คุณเริ่มฝึกอ่านสัญลักษณ์ตั้งแต่ขวบปีแรก ทำให้พัฒนาการสมองก้าวหน้าอย่างต่อเนื่อง!' : null,
-          ...themes[age % themes.length]
+          tag: `ANNUAL SURVIVAL • อายุครบ ${age} ปี`,
+          echoNote: `พื้นเพครอบครัว: ${archTag}`,
+          ...earlyScenarios[age % earlyScenarios.length]
         };
       }
 
-      // Stage B: School & Childhood Years (Ages 6 - 14)
+      // Stage B: Ages 6 - 14 (School Bullying, Class Inequality, Gang Crime, Alien Alerts, Protests)
       if (age <= 14) {
-        const schoolThemes = [
+        const childScenarios = [
           {
-            title: `วัย ${age} ปี: เส้นทางการเรียนรู้และชีวิตในรั้วโรงเรียน`,
-            prompt: `อายุครบ ${age} ปีแล้ว! การใช้ชีวิตประจำวันในโรงเรียนเขต ${c.city} เต็มไปด้วยการเรียนรู้และบททดสอบใหม่ๆ ปีนี้คุณต้องการวางแผนพัฒนาตัวเองในทิศทางใด?`,
+            title: `วัย ${age} ปี: ความเหลื่อมล้ำในโรงเรียน แก๊งอันธพาล และปัญหาปากท้อง`,
+            prompt: tier === 'poor'
+              ? `อายุครบ ${age} ปี! ในฐานะเด็กจากครอบครัวยากจน คุณต้องไปโรงเรียนด้วยชุดเก่าๆ บางวันไม่มีเงินกินมื้อเที่ยง และถูกแก๊งเด็กอันธพาลลูกคนมีอิทธิพลไถเงินและดูถูก คุณจะเลือกโต้ตอบและพัฒนาตัวเองอย่างไร?`
+              : tier === 'wealthy'
+              ? `อายุครบ ${age} ปี! ในฐานะทายาทตระกูลร่ำรวย คุณตกเป็นเป้าของแก๊งลักพาตัวหน้าโรงเรียน และถูกเพื่อนบางกลุ่มหมั่นไส้จากกระแสการเมืองต่อต้านนายทุน คุณจะวางตัวอย่างไร?`
+              : `อายุครบ ${age} ปี! โรงเรียนในเขต ${c.city} เผชิญทั้งการตัดงบประมาณ ข่าวการบุกรุกของเอเลี่ยนชายแดน และแก๊งวัยรุ่นมั่วสุมอาชญากรรม คุณจะเลือกเส้นทางใดในปีนี้?`,
             choices: [
               {
-                label: '📚 ลงเรียนวิชาเสริมขั้นสูงและเข้าแข่งขันโอลิมปิกวิชาการระดับเซกเตอร์',
-                effect: { int: 9, mind: -2, fame: 5, apt: { sci: 10 }, flag: 'honor_student' },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 🔬 วิทยาการ • สะสมโปรไฟล์ชิงทุนสหพันธ์และอาชีพนักวิจัยเอกภพ',
-                log: `ในวัย ${age} ปี คุณมุ่งมั่นตั้งใจเรียนจนคว้าเกียรติบัตรนักเรียนดีเด่นของเซกเตอร์!`
+                label: '⚔️ ฝึกศิลปะการต่อสู้ป้องกันตัวและลุกขึ้นสู้ปกป้องตัวเองและเพื่อนที่ถูกรังแกอย่างเด็ดเดี่ยว!',
+                effect: { health: 8, fame: 8, mind: 6, apt: { vit: 11 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 ⚔️ ยุทธวิธี • วิวัฒนาการสู่ร่างจอมยุทธ์น้อยผู้ไม่ยอมก้มหัวให้ใคร',
+                log: `ในวัย ${age} ปี คุณอัดแก๊งอันธพาลจนไม่กล้ามารังแกคนอ่อนแอในโรงเรียนอีกต่อไป!`
               },
               {
-                label: '⚽ เข้าร่วมทีมกีฬาเยาวชนและชมรมศิลปะป้องกันตัวประจำดวงดาว',
-                effect: { health: 8, mind: 5, fame: 4, apt: { vit: 10, emp: 4 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 ⚔️ ยุทธวิธี • ร่างกายแข็งแกร่งและปลดล็อกสายงานกองยานอวกาศ',
-                log: `ในวัย ${age} ปี คุณฝึกซ้อมกีฬาและยุทธวิธีทุกเย็นจนร่างกายกำยำแข็งแรง`
+                label: '🔬 มุ่งมั่นสอบชิงทุนวิจัยวิทยาศาสตร์และสร้างสิ่งประดิษฐ์ขายเพื่อลบคำสบประมาทด้วยความสามารถ',
+                effect: { int: 10, wealth: 550, fame: 6, apt: { sci: 11 }, flag: 'honor_student' },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🔬 วิทยาการ & รับทุนการศึกษา +₡550 วิวัฒนาการสู่ร่างอัจฉริยะแล็บ',
+                log: `ในวัย ${age} ปี คุณคว้าอันดับ 1 การแข่งขันสิ่งประดิษฐ์ระดับเซกเตอร์ รับเงินทุนมาจุนเจือครอบครัว!`
               },
               {
-                label: '🎨 ทำช่องรายการเด็กข้ามดวงดาวและช่วยงานธุรกิจครอบครัวในวันหยุด',
-                effect: { wealth: 650, mind: 5, earthRel: 6, apt: { art: 7, biz: 7 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +7 🎨 ศิลป์ & +7 💼 ธุรกิจ • มีเงินเก็บส่วนตัวและฐานแฟนคลับตั้งแต่เด็ก',
-                log: `ในวัย ${age} ปี คุณแบ่งเวลาทำกิจกรรมสร้างสรรค์และช่วยหาเงินเข้าครอบครัวอย่างน่าชื่นชม`
+                label: '💼 แอบเปิดเครือข่ายค้าขายสินค้าหายากและรับจ้างทำภารกิจในโรงเรียนเพื่อสร้างฐานะด้วยตัวเอง',
+                effect: { wealth: 950, int: 4, apt: { biz: 11 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 💼 ธุรกิจ & มีเงินเก็บ +₡950 ไม่ต้องอดมื้อกินมื้ออีกต่อไป',
+                log: `ในวัย ${age} ปี หัวการค้าของคุณทำให้คุณหาเงินได้มากกว่าผู้ใหญ่บางคนเสียอีก!`
               }
             ]
           },
           {
-            title: `วัย ${age} ปี: บททดสอบมิตรภาพและการแก้ปัญหาในชีวิตประจำวัน`,
-            prompt: `ในปีที่ ${age} ของชีวิต เกิดเหตุการณ์ที่เพื่อนสนิทในชั้นเรียนถูกเข้าใจผิดและครอบครัวของคุณก็มีเรื่องต้องใช้จ่ายพอดี คุณจะเลือกจัดการกับสถานการณ์ปีนี้อย่างไร?`,
+            title: `วัย ${age} ปี: ภัยสงครามการเมือง โรคระบาด และคลื่นเอเลี่ยนบุกประชิดเมือง`,
+            prompt: `ในปีที่ ${age} ของชีวิต เกิดเหตุจลาจลทางการเมืองควบคู่กับการพบเชื้อปรสิตต่างดาวในระบบน้ำประปาของเมือง ${c.city} โรงเรียนต้องปิดชั่วคราว คุณจะใช้เวลานี้ทำสิ่งใด?`,
             choices: [
               {
-                label: '🤝 ออกหน้าปกป้องเพื่อนด้วยเหตุผลและช่วยไกล่เกลี่ยจนความจริงปรากฏ',
-                effect: { mind: 8, fame: 7, int: 4, apt: { emp: 11 }, flag: 'trusted_leader' },
-                futurePreview: '🔮 ผลต่ออนาคต: +11 🤝 สังคม • ได้รับความไว้วางใจสูง ปูทางสู่ผู้นำสภาและคู่ครองที่ดี',
-                log: `ในวัย ${age} ปี ความกล้าหาญและยุติธรรมของคุณทำให้เพื่อนๆ ยกย่องให้เป็นผู้นำกลุ่ม`
+                label: '🤝 ตั้งหน่วยเยาวชนอาสาแจกจ่ายน้ำสะอาดและดูแลผู้ป่วยในชุมชนที่ขาดแคลน',
+                effect: { mind: 9, fame: 10, karmaBonus: 3, apt: { emp: 11 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🤝 สังคม & +3✦ แต้มกรรม วิวัฒนาการสู่ร่างทูตสันติภาพวัยเยาว์',
+                log: `ในวัย ${age} ปี น้ำใจและความกล้าหาญของคุณช่วยชีวิตเพื่อนบ้านจากวิกฤตน้ำปนเปื้อนปรสิต`
               },
               {
-                label: '💡 ใช้ความรู้ประดิษฐ์อุปกรณ์ตรวจจับหลักฐานจำลองเพื่อคลี่คลายปัญหาอย่างชาญฉลาด',
-                effect: { int: 8, wealth: 300, apt: { sci: 9, biz: 4 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +9 🔬 วิทยาการ • พัฒนาทักษะการแก้ปัญหาเชิงวิศวกรรมขั้นสูง',
-                log: `ในวัย ${age} ปี คุณใช้ไหวพริบและเทคโนโลยีแก้ปัญหาได้อย่างเฉียบคม`
+                label: '🎨 ผลิตสื่อโฮโลแกรมรายงานความจริงจากพื้นที่วิกฤตส่งไปยังเครือข่ายดาวโลก (Earth)',
+                effect: { fame: 12, earthRel: 12, wealth: 500, apt: { art: 11 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🎨 ศิลปะ/สื่อสาร & +12% 🌍 สายสัมพันธ์ดาวโลก',
+                log: `ในวัย ${age} ปี รายงานข่าวจากมุมมองเด็กของคุณโด่งดังไปถึงดาวโลก ได้รับเงินสนับสนุน +₡500!`
               },
               {
-                label: '💼 รับงานพิเศษหลังเลิกเรียนเพื่อหาเครดิตมาจุนเจือครอบครัวและแบ่งเบาภาระพ่อแม่',
-                effect: { wealth: 850, health: -2, mind: 4, apt: { biz: 10, vit: 3 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 💼 ธุรกิจ • สร้างวินัยทางการเงินและเพิ่มโบนัสรายได้ในอนาคต',
-                log: `ในวัย ${age} ปี ความกตัญญูและขยันขันแข็งทำให้คุณหาเงินช่วยครอบครัวได้ถึง ₡850`
+                label: '🔬 ดัดแปลงเครื่องกรองรังสีและวิเคราะห์ตัวอย่างปรสิตเอเลี่ยนส่งให้ศูนย์วิจัยการแพทย์',
+                effect: { int: 10, health: 5, wealth: 450, apt: { sci: 11 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🔬 วิทยาการ & เพิ่มภูมิคุ้มกันโรคระบาด (+5 ❤️)',
+                log: `ในวัย ${age} ปี ข้อมูลตัวอย่างเชื้อที่คุณวิเคราะห์ช่วยให้ศูนย์การแพทย์สกัดยารักษาได้เร็วขึ้น!`
               }
             ]
           }
         ];
         return {
-          tag: `ANNUAL GROWTH • อายุครบ ${age} ปี`,
-          echoNote: c.futureFlags.honor_student ? `🌟 ผลการเรียนดีเด่นที่คุณสะสมมา ทำให้ปีนี้คุณได้รับสิทธิ์เข้าใช้ห้องปฏิบัติการพิเศษของเมือง ${c.city}!` : null,
-          ...schoolThemes[age % schoolThemes.length]
+          tag: `ANNUAL CRISIS & GROWTH • อายุครบ ${age} ปี`,
+          echoNote: `พื้นเพครอบครัว: ${archTag}`,
+          ...childScenarios[age % childScenarios.length]
         };
       }
 
-      // Stage C: Youth & Young Adult (Ages 16 - 29)
+      // Stage C: Ages 16 - 29 (Young Adult High-Stakes: Galactic War Draft, Political Revolution, Syndicate Crime, Alien Frontline, Economic Collapse)
       if (age <= 29) {
         const hasHighSci = c.aptitudes.sci >= 25;
+        const hasHighVit = c.aptitudes.vit >= 25;
         const hasHighBiz = c.aptitudes.biz >= 25;
-        const youthThemes = [
+
+        const youthScenarios = [
           {
-            title: `วัย ${age} ปี: การสร้างตัวตน อาชีพ และความฝันสู่อนาคต`,
-            prompt: `ก้าวสู่อายุ ${age} ปี ในฐานะ "${c.career}" บน ${c.planet.shortName}! ทุกก้าวที่คุณเลือกในช่วงวัยนี้จะกำหนดความสำเร็จในวัยผู้ใหญ่ คุณจะทุ่มเทให้กับสิ่งใดในปีนี้?`,
+            title: `วัย ${age} ปี: สงครามจักรวาล การเกณฑ์ทหาร และการบุกรุกของเอเลี่ยน`,
+            prompt: `ก้าวสู่วัย ${age} ปี! สถานการณ์ในเซกเตอร์ ${c.city} ตึงเครียดถึงขีดสุดเมื่อกองทัพเอเลี่ยนและกองยานกบฏเปิดฉากโจมตีแนวชายแดน ทางการประกาศระดมพลและควบคุมเศรษฐกิจ ในฐานะ "${c.career}" คุณจะเลือกเส้นทางใด?`,
             choices: [
               {
+                label: hasHighVit
+                  ? '🌟 [โบนัสสายยุทธวิธี!] นำหน่วยรบพิเศษบุกทะลวงยานแม่เอเลี่ยนและปกป้องเมืองหลวง!'
+                  : '⚔️ อาสาออกรบแนวหน้าและฝึกยุทธวิธีเกราะพลาสม่าเพื่อปกป้องดวงดาวและรับเบี้ยเลี้ยงสูง',
+                effect: {
+                  health: hasHighVit ? 4 : -7,
+                  wealth: hasHighVit ? 3400 : 1800,
+                  fame: hasHighVit ? 20 : 12,
+                  career: hasHighVit ? 'ผู้บัญชาการรบแนวหน้าดาราจักร' : undefined,
+                  apt: { vit: 12 },
+                  flag: 'customCareerLocked'
+                },
+                futurePreview: '🔮 ผลต่ออนาคต: +12 ⚔️ ยุทธวิธี • วิวัฒนาการสู่ร่างขุนพลเกราะราชันย์และรับเงินศึกก้อนโต',
+                log: `ในวัย ${age} ปี คุณสร้างวีรกรรมกลางสมรภูมิสงครามอวกาศจนชื่อเสียงเกรียงไกรทั่วเซกเตอร์!`
+              },
+              {
                 label: hasHighSci
-                  ? '🌟 [โบนัสสายวิทยาการ!] เป็นหัวหน้าทีมวิจัยโครงการรูหนอนควอนตัมระดับสหพันธ์'
-                  : '🔬 ศึกษาต่อเฉพาะทางและทำวิจัยนวัตกรรมควอนตัมเพื่อยกระดับตำแหน่ง',
+                  ? '🌟 [โบนัสสายวิทยาการ!] เป็นหัวหน้านักวิจัยพัฒนาเกราะสนามพลังและวัคซีนต้านอาวุธชีวภาพ!'
+                  : '🔬 ทำงานในศูนย์วิจัยยุทโธปกรณ์และระบบการแพทย์ฉุกเฉินแนวหลัง',
                 effect: {
-                  int: 9,
-                  wealth: hasHighSci ? 2600 : 1200,
-                  fame: hasHighSci ? 12 : 6,
-                  career: hasHighSci ? 'นักวิจัยเอกภพระดับแนวหน้า' : undefined,
-                  apt: { sci: 11 },
+                  int: 10,
+                  wealth: hasHighSci ? 3100 : 1600,
+                  fame: 14,
+                  career: hasHighSci ? 'หัวหน้าสถาปนิกควอนตัมกลาโหม' : undefined,
+                  apt: { sci: 12 },
                   flag: 'customCareerLocked'
                 },
-                futurePreview: '🔮 ผลต่ออนาคต: +11 🔬 วิทยาการ • ยกระดับรายได้ประจำปีและชื่อเสียงในวงการวิทยาศาสตร์',
-                log: `ในวัย ${age} ปี คุณทุ่มเทพัฒนาองค์ความรู้จนก้าวหน้าในสายงานอย่างก้าวกระโดด!`
+                futurePreview: '🔮 ผลต่ออนาคต: +12 🔬 วิทยาการ • วิวัฒนาการสู่ร่างจอมเวทสถาปนิกควอนตัมรายได้สูง',
+                log: `ในวัย ${age} ปี นวัตกรรมป้องกันภัยสงครามของคุณช่วยชีวิตผู้คนนับแสนและสร้างรายได้มหาศาล!`
               },
               {
-                label: hasHighBiz
-                  ? '🌟 [โบนัสสายธุรกิจ!] ขยายกิจการการค้าข้ามดวงดาวและร่วมทุนกับพ่อค้าดาวโลก'
-                  : '💼 ลงทุนทำธุรกิจส่วนตัวและสร้างเครือข่ายการค้าแลกเปลี่ยนระหว่างเซกเตอร์',
-                effect: {
-                  wealth: hasHighBiz ? 3800 : 1800,
-                  int: 4,
-                  earthRel: 8,
-                  career: hasHighBiz ? 'ผู้บริหารเครือข่ายการค้าดาราจักร' : undefined,
-                  apt: { biz: 12 },
-                  flag: 'customCareerLocked'
-                },
-                futurePreview: '🔮 ผลต่ออนาคต: +12 💼 ธุรกิจ • เพิ่มผลตอบแทนรายเดือนถาวรจากพอร์ตธุรกิจ',
-                log: `ในวัย ${age} ปี การตัดสินใจลงทุนอย่างมีวิสัยทัศน์สร้างผลกำไรก้อนงามให้คุณ!`
-              },
-              {
-                label: '💕 ทุ่มเทเวลาดูแลความรัก ครอบครัว และสร้างสมดุลชีวิตที่มีความสุข',
+                label: '🕊️ ลี้ภัยทางการเมือง/เชื่อมสัมพันธ์กับทูตดาวโลก และดูแลคนรัก (${c.partner}) ให้ปลอดภัย',
                 effect: {
                   mind: 14,
                   health: 8,
-                  wealth: 600,
-                  partner: c.partner === 'โสด' ? 'คู่คิดนักเดินทางแห่งดวงดาว' : c.partner,
-                  apt: { emp: 10, art: 6 }
+                  earthRel: 15,
+                  wealth: 900,
+                  partner: c.partner === 'โสด' ? 'คู่ชีวิตผู้ร่วมฝ่าวิกฤตสงคราม' : c.partner,
+                  apt: { emp: 11, art: 6 }
                 },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 🤝 สังคม • ได้คู่ชีวิตคอยซัพพอร์ตและลดโอกาสเกิดวิกฤตสุขภาพจิต',
-                log: `ในวัย ${age} ปี คุณให้ความสำคัญกับความรักและคนรอบข้าง ทำให้ชีวิตอบอุ่นและมั่นคง`
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🤝 สังคม, +15% 🌍 ดาวโลก และได้คู่ชีวิตเคียงข้างยามยาก',
+                log: `ในวัย ${age} ปี คุณเลือกปกป้องความรักและสร้างเครือข่ายสันติภาพเชื่อมกับดาวโลกท่ามกลางไฟสงคราม`
               }
             ]
           },
           {
-            title: `วัย ${age} ปี: โอกาสท้าทายตัวเองและบทบาทในสังคมดาราจักร`,
-            prompt: `ในปีที่ ${age} ของชีวิต เมือง ${c.city} กำลังเผชิญการเปลี่ยนแปลงทางเศรษฐกิจและเทคโนโลยี คุณมองเห็นโอกาสที่จะพัฒนาตัวเองไปอีกขั้น คุณจะเลือกทำสิ่งใด?`,
+            title: `วัย ${age} ปี: วิกฤตการเมือง ประท้วงใหญ่ อาชญากรรม และความอดอยาก`,
+            prompt: `ในปีที่ ${age} ของชีวิต เกิดวิกฤตข้าวยากหมากแพงและการประท้วงขับไล่สภาผู้ปกครองที่ทุจริตใน ${c.city} ขณะที่แก๊งอาชญากรรมฉวยโอกาสปล้นสะดมและยึดตลาดเสบียง คุณจะตัดสินใจอย่างไร?`,
             choices: [
               {
-                label: '🛸 สมัครเข้าร่วมโครงการแลกเปลี่ยนบุคลากรกับ "ดาวโลก (Earth)" เป็นเวลา 1 ปี',
-                effect: { earthRel: 18, int: 6, fame: 10, wealth: 1400, apt: { art: 9, emp: 7 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +18% 🌍 สายสัมพันธ์โลก • ปลดล็อกฉายาทูตวัฒนธรรมและโอกาสย้ายดาวง่ายขึ้น',
-                log: `ในวัย ${age} ปี คุณได้ร่วมงานกับทีมดาวโลก เปิดโลกทัศน์และสร้างชื่อเสียงข้ามดวงดาว!`
+                label: hasHighBiz
+                  ? '🌟 [โบนัสสายธุรกิจ!] กว้านซื้อกิจการที่กำลังล้มละลายและผูกขาดเครือข่ายขนส่งเสบียงข้ามดวงดาว!'
+                  : '💼 พลิกวิกฤตเป็นโอกาส! ลงทุนเปิดบริษัทขนส่งเสบียงและเก็งกำไรแร่ควอนตัม',
+                effect: {
+                  wealth: hasHighBiz ? 4200 : 2100,
+                  int: 5,
+                  mind: -4,
+                  career: hasHighBiz ? 'เจ้าสัวเครือข่ายเสบียงดาราจักร' : undefined,
+                  apt: { biz: 12 },
+                  flag: 'customCareerLocked'
+                },
+                futurePreview: '🔮 ผลต่ออนาคต: +12 💼 ธุรกิจ & รับกำไรก้อนโต (+₡2,100~4,200) สู่ร่างจักรพรรดิทุน',
+                log: `ในวัย ${age} ปี คุณอ่านจังหวะวิกฤตเศรษฐกิจขาดกระจุย กอบโกยกำไรสร้างฐานะร่ำรวยขึ้นทันตา!`
               },
               {
-                label: '⚔️ เข้ารับการฝึกยุทธวิธีขั้นสูงและปฏิบัติภารกิจคุ้มกันขบวนยานพาณิชย์',
-                effect: { health: 8, wealth: 2100, fame: 9, apt: { vit: 12 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +12 ⚔️ ยุทธวิธี • เพิ่มเกราะป้องกันภัยสงครามและยืดอายุขัยในระยะยาว',
-                log: `ในวัย ${age} ปี คุณผ่านภารกิจคุ้มกันยานอวกาศ ได้รับทั้งเงินรางวัลและความแข็งแกร่ง!`
+                label: '🎤 ใช้พลังสื่อโฮโลแกรมและศิลปะปลุกกระแสสังคม ตีแผ่การทุจริตและระดมทุนช่วยคนอดอยาก',
+                effect: { fame: 18, mind: 10, wealth: 1400, earthRel: 10, apt: { art: 12, emp: 5 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +12 🎨 ศิลปะ • วิวัฒนาการสู่ร่างซุปเปอร์สตาร์กระบอกเสียงประชาชน',
+                log: `ในวัย ${age} ปี ผลงานของคุณเขย่าบัลลังก์นักการเมืองโกงกินและระดมทุนช่วยคนหิวโหยได้สำเร็จ!`
               },
               {
-                label: '🎨 สร้างสรรค์ผลงานสื่อโฮโลแกรมถ่ายทอดเรื่องราวชีวิตจริงของผู้คนบนดาว',
-                effect: { fame: 14, mind: 10, wealth: 1500, apt: { art: 12 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +12 🎨 ศิลปะ • สร้างแรงบันดาลใจและเพิ่มแต้มกรรมสะสมเมื่อจบชาติภพ',
-                log: `ในวัย ${age} ปี ผลงานสร้างสรรค์ของคุณโด่งดังและสร้างแรงบันดาลใจให้ผู้คนทั่วเซกเตอร์!`
+                label: '⚖️ ลงสมัครเป็นตัวแทนสภาประชาชน ปราบปรามแก๊งอาชญากรรมและปฏิรูปสวัสดิการอาหารฟรี',
+                effect: { fame: 16, mind: 12, wealth: 1100, karmaBonus: 4, apt: { emp: 12, vit: 5 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +12 🤝 การเมือง/สังคม & +4✦ แต้มกรรม สู่ร่างทูตสวรรค์สภาสันติภาพ',
+                log: `ในวัย ${age} ปี คุณก้าวเข้าสู่สนามการเมืองด้วยมือสะอาด ปราบแก๊งมาเฟียและแจกจ่ายอาหารให้คนยากไร้!`
               }
             ]
           }
         ];
         return {
-          tag: `ANNUAL DECISION • อายุครบ ${age} ปี`,
-          echoNote: (hasHighSci || hasHighBiz) ? `🌟 แต้มพัฒนาการที่คุณสะสมมาตั้งแต่วัยเด็ก (${dom.label}) ได้ปลดล็อกตัวเลือกโบนัสพิเศษในปีนี้!` : null,
-          ...youthThemes[age % youthThemes.length]
+          tag: `ANNUAL DESTINY • อายุครบ ${age} ปี`,
+          echoNote: (hasHighSci || hasHighVit || hasHighBiz) ? `🌟 ทักษะที่คุณปั้นมา (${dom.label}) ปลดล็อกทางเลือกพิเศษระดับมาสเตอร์ในปีนี้!` : `พื้นเพครอบครัว: ${archTag}`,
+          ...youthScenarios[age % youthScenarios.length]
         };
       }
 
-      // Stage D: Mature Adulthood & Mastery (Ages 31+)
+      // Stage D: Ages 31+ (Mature Adulthood & Elder: Political Power, Pandemic Defense, Alien Mega-War, Protecting Dynasty Wealth)
       const isMaster = (c.aptitudes.sci + c.aptitudes.biz + c.aptitudes.emp + c.aptitudes.vit + c.aptitudes.art) >= 65;
-      const adultThemes = [
+      const adultScenarios = [
         {
-          title: `วัย ${age} ปี: ความรับผิดชอบ ความมั่งคั่ง และมรดกแห่งชีวิต`,
-          prompt: `ในวัย ${age} ปี คุณก้าวเดินมาไกลในฐานะ "${c.career}" (ทรัพย์สินปัจจุบัน ₡${c.wealth.toLocaleString()}) การตัดสินใจในปีนี้จะส่งผลต่อความมั่นคงในช่วงครึ่งหลังของชีวิตและทายาทรุ่นต่อไป คุณจะเลือกทางใด?`,
+          title: `วัย ${age} ปี: มรสุมการเมืองระดับดวงดาว ภัยเอเลี่ยนรุกราน และโรคระบาดวัยผู้ใหญ่`,
+          prompt: `ในวัย ${age} ปี คุณผ่านโลกมามากในฐานะ "${c.career}" (ทรัพย์สิน ₡${c.wealth.toLocaleString()}) แต่ปีนี้เกิดวิกฤตซ้อนวิกฤต ทั้งคลื่นไวรัสกลายพันธุ์ระลอกใหม่ การประท้วงทางการเมือง และฝูงเอเลี่ยนที่คุกคามเส้นทางเดินยาน คุณจะนำพาครอบครัวและตัวเองผ่านปีนี้ไปอย่างไร?`,
           choices: [
             {
               label: isMaster
-                ? '🌟 [โบนัสผู้เชี่ยวชาญระดับสูง!] บริหารโครงการเมกะโปรเจกต์แห่งสหพันธ์ดาราจักร'
-                : '💼 ขยายกองทุนสินทรัพย์ตระกูลและบริหารงานระดับอาวุโส',
+                ? '🌟 [โบนัสปรมาจารย์!] บัญชาการเมกะโปรเจกต์ป้องกันดวงดาวและกอบกู้เศรษฐกิจทั้งเซกเตอร์!'
+                : '💼 บริหารจัดการทรัพย์สินตระกูล ลงทุนในระบบเกราะนิรภัยและธุรกิจเวชภัณฑ์ความมั่นคง',
               effect: {
-                wealth: isMaster ? 4800 : 2400,
-                fame: 10,
-                int: 4,
-                apt: { biz: 10, sci: 6 }
+                wealth: isMaster ? 5200 : 2600,
+                fame: 14,
+                int: 5,
+                apt: { biz: 11, sci: 6 }
               },
-              futurePreview: '🔮 ผลต่ออนาคต: เพิ่มพูนทรัพย์สินก้อนใหญ่เพื่อใช้ฟื้นฟูสุขภาพและส่งต่อมรดก 35% ให้ทายาท',
-              log: `ในวัย ${age} ปี คุณบริหารโครงการใหญ่ด้วยความเชี่ยวชาญ สร้างความมั่งคั่งให้ตระกูลอย่างมั่นคง!`
+              futurePreview: '🔮 ผลต่ออนาคต: ความมั่งคั่งพุ่งทะยาน (+₡2,600~5,200) เพื่อส่งต่อมรดก 35% ให้ทายาท',
+              log: `ในวัย ${age} ปี วิสัยทัศน์ระดับปรมาจารย์ของคุณเปลี่ยนวิกฤตดวงดาวให้เป็นความมั่งคั่งและมั่นคงของตระกูล!`
             },
             {
-              label: '🧬 เข้ารับโปรแกรมดูแลสุขภาพองค์รวมและยืดอายุขัยระดับเซลล์ควบคู่การพักผ่อน',
+              label: '🧬 เข้ารับการผ่าตัดฟื้นฟูเซลล์ต้านไวรัส ฝึกยุทธวิธีป้องกันตัว และดูแลสุขภาพองค์รวม',
               effect: {
-                health: 16,
+                health: 18,
                 mind: 14,
-                wealth: -400,
+                wealth: -500,
                 lifespanBonus: 3,
-                apt: { vit: 10 }
+                apt: { vit: 11, sci: 4 }
               },
-              futurePreview: '🔮 ผลต่ออนาคต: +3 ปี อายุขัยคาดการณ์ & ฟื้นฟูพลังชีวิตให้พร้อมอยู่ดูความสำเร็จของลูกหลาน',
-              log: `ในวัย ${age} ปี คุณเลือกลงทุนกับสุขภาพกายและใจ ทำให้ดูอ่อนเยาว์และอายุยืนยาวขึ้น +3 ปี!`
+              futurePreview: '🔮 ผลต่ออนาคต: +3 ปี อายุขัยคาดการณ์ & ฟื้นฟูพลังกาย (+18 ❤️) รอดพ้นโรคระบาด',
+              log: `ในวัย ${age} ปี คุณดูแลฟื้นฟูร่างกายด้วยวิทยาการสูงสุด ทำให้แข็งแกร่งและอายุยืนยาวขึ้น +3 ปี!`
             },
             {
-              label: '🤝 ตั้งกองทุนช่วยเหลือเยาวชนและถ่ายทอดวิชาความรู้ให้คนรุ่นใหม่ในเมือง ' + c.city,
+              label: '🕊️ ใช้บารมีทางการเมืองและสังคมตั้งโรงทาน-โรงพยาบาลสนามช่วยเหลือผู้ประสบภัยสงครามและคนจน',
               effect: {
-                mind: 15,
-                fame: 15,
-                karmaBonus: 4,
+                mind: 16,
+                fame: 18,
+                wealth: -600,
+                karmaBonus: 5,
                 apt: { emp: 12, art: 6 }
               },
-              futurePreview: '🔮 ผลต่ออนาคต: +4✦ แต้มกรรมสะสมทันที & ได้รับการยกย่องเป็นปราชญ์แห่งดวงดาว',
-              log: `ในวัย ${age} ปี คุณแบ่งปันความรู้และเมตตาต่อคนรุ่นหลัง ได้รับความเคารพรักและแต้มกรรม +4✦!`
+              futurePreview: '🔮 ผลต่ออนาคต: +5✦ แต้มกรรมสะสมทันที & ได้รับการเชิดชูเป็นมหาปราชญ์ผู้เมตตา',
+              log: `ในวัย ${age} ปี คุณสละทรัพย์สินช่วยเหลือผู้หิวโหยและผู้บาดเจ็บจากสงคราม ได้รับแต้มกรรม +5✦!`
             }
           ]
         }
@@ -3104,8 +3596,8 @@
 
       return {
         tag: `ANNUAL DESTINY • อายุครบ ${age} ปี`,
-        echoNote: isMaster ? `🌟 ประสบการณ์ชีวิตที่สั่งสมมาอย่างยาวนาน (${dom.label}) ทำให้คุณได้รับเกียรติสูงสุดในวงการ!` : null,
-        ...adultThemes[age % adultThemes.length]
+        echoNote: isMaster ? `🌟 ประสบการณ์ชีวิตที่สั่งสมมาอย่างยาวนาน (${dom.label}) ทำให้คุณกุมชะตาของทั้งเซกเตอร์!` : `พื้นเพครอบครัว: ${archTag}`,
+        ...adultScenarios[age % adultScenarios.length]
       };
     }
 
@@ -3605,6 +4097,19 @@
           moodEl.textContent = '😊 ร่าเริงสดใส';
           moodEl.className = 'bg-emerald-500/25 border border-emerald-300 text-emerald-100 rounded-full px-2 py-0.5 font-display font-bold text-[10px] shrink-0';
         }
+      }
+
+      const evoInfo = getCharacterEvolutionForm(c);
+      const evoBadge = document.getElementById('tamaEvolutionBadge');
+      if (evoBadge) {
+        evoBadge.textContent = `🧬 ${evoInfo.formName}`;
+      }
+      if (c.alive && c.lastEvolutionFormId && c.lastEvolutionFormId !== evoInfo.formId) {
+        c.lastEvolutionFormId = evoInfo.formId;
+        c.evoFlashTimer = 2.5;
+        c.sfxWord = `進化! วิวัฒนาการร่างใหม่!`;
+        spawnFloatingPopup(`✨ วิวัฒนาการ: ${evoInfo.formName}!`, '#fde047');
+        showToast(`🧬 น้องพัฒนารูปลักษณ์สู่ "${evoInfo.formName}" ตามเส้นทางที่คุณเลือก!`);
       }
 
       const cdBadge = document.getElementById('actionCooldownBadge');
@@ -4142,8 +4647,13 @@
           }
         }
 
-        // Window Frame & Cute Curtains
-        this.bgGraphics.lineStyle(4, 0x7dd3fc, 0.9);
+        // Window Frame & Red Alert Crisis Beacon when a crisis hits!
+        const isCrisisAlert = c && c.crisisFlashTimer && c.crisisFlashTimer > 0;
+        if (isCrisisAlert) {
+          c.crisisFlashTimer = Math.max(0, c.crisisFlashTimer - 0.03);
+        }
+        const winBorderCol = (isCrisisAlert && Math.sin(this.pulseTime * 10) > 0) ? 0xff2a5f : 0x7dd3fc;
+        this.bgGraphics.lineStyle(4, winBorderCol, 0.95);
         this.bgGraphics.strokeRoundedRect(winX - winW / 2, winY - winH / 2, winW, winH, 22);
         this.bgGraphics.lineStyle(1.5, 0xffffff, 0.35);
         this.bgGraphics.lineBetween(winX, winY - winH / 2, winX, winY + winH / 2);
@@ -4281,59 +4791,204 @@
       drawMangaCharacter(cx, cy, c, isCompact) {
         const g = this.charGraphics;
         const speciesCode = c ? c.planet.speciesCode : 'human';
-        const age = c ? c.age : 20;
+        const age = c ? c.age : 0;
         const alive = c ? c.alive : true;
+        const evo = getCharacterEvolutionForm(c);
+        const stageIdx = evo.stageIdx; // 0:Baby, 1:Child, 2:Teen, 3:Adult, 4:Elder
+        const pKey = evo.primaryKey;   // sci, art, vit, emp, biz, none
+        const sKey = evo.secondKey;
+        const seed = evo.seed || 1;
 
-        const baseScale = isCompact ? 0.76 : 0.92;
-        const ageScale = age < 5 ? 0.74 : age < 15 ? 0.88 : 1.0;
-        const scale = baseScale * ageScale;
-        const rHead = 38 * scale;
+        // Distinct Scale & Body Proportions per Life Stage!
+        const baseScale = isCompact ? 0.75 : 0.90;
+        const stageScales = [0.72, 0.84, 0.94, 1.04, 1.0];
+        const scale = baseScale * (stageScales[stageIdx] || 0.9);
+        const rHead = 36 * scale;
 
         const auraColor = c ? c.planet.colorPrimary : 0xf472b6;
+        const trimCol = evo.trimColor || 0x7dd3fc;
+        const outfitCol = evo.outfitColor || 0x312e81;
 
-        // Soft Pastel Tamagotchi Aura Ring
-        g.fillStyle(auraColor, 0.16);
-        g.fillCircle(cx, cy + 4 * scale, rHead * 1.55 + Math.sin(this.pulseTime * 3) * 3);
+        // Evolution Burst Ring when recently evolved!
+        if (c && c.evoFlashTimer && c.evoFlashTimer > 0) {
+          c.evoFlashTimer = Math.max(0, c.evoFlashTimer - 0.03);
+          g.lineStyle(4, 0xfde047, Math.min(1, c.evoFlashTimer));
+          g.strokeCircle(cx, cy, rHead * (1.8 + (2.5 - c.evoFlashTimer) * 0.6));
+        }
 
-        // Chibi Egg-Shaped Tamagotchi Body + Cute Stubby Legs & Waving Arms!
-        const bodyY = cy + rHead * 0.92;
-        const bodyW = rHead * 1.45;
-        const bodyH = rHead * 1.15;
+        // -----------------------------------------------------------------
+        // A. BACK LAYER: WINGS / CAPES / AURAS BASED ON STAGE & CHOICE PATH
+        // -----------------------------------------------------------------
+        g.fillStyle(trimCol, 0.15);
+        g.fillCircle(cx, cy + 4 * scale, rHead * 1.62 + Math.sin(this.pulseTime * 3) * 3.5);
 
-        // Cute stubby feet
-        const footSwing = alive ? Math.sin(this.pulseTime * 3.0) * 3 * scale : 0;
-        g.fillStyle(0x1e1b4b, 1);
-        g.fillEllipse(cx - 11 * scale, bodyY + bodyH * 0.42 + footSwing, 14 * scale, 9 * scale);
-        g.fillEllipse(cx + 11 * scale, bodyY + bodyH * 0.42 - footSwing, 14 * scale, 9 * scale);
+        if (stageIdx >= 2) {
+          if (pKey === 'emp' || sKey === 'emp' || speciesCode === 'celestial') {
+            // Angelic Diplomat Wings!
+            const wingSpread = rHead * (stageIdx >= 3 ? 1.85 : 1.45);
+            const wingFlap = Math.sin(this.pulseTime * 3.5) * 6 * scale;
+            g.fillStyle(0xfef08a, 0.88);
+            g.fillTriangle(cx - 10 * scale, cy + 12 * scale, cx - wingSpread, cy - 18 * scale + wingFlap, cx - wingSpread * 0.75, cy + 28 * scale);
+            g.fillTriangle(cx + 10 * scale, cy + 12 * scale, cx + wingSpread, cy - 18 * scale + wingFlap, cx + wingSpread * 0.75, cy + 28 * scale);
+            g.lineStyle(2, 0xffffff, 0.95);
+            g.strokeTriangle(cx - 10 * scale, cy + 12 * scale, cx - wingSpread, cy - 18 * scale + wingFlap, cx - wingSpread * 0.75, cy + 28 * scale);
+            g.strokeTriangle(cx + 10 * scale, cy + 12 * scale, cx + wingSpread, cy - 18 * scale + wingFlap, cx + wingSpread * 0.75, cy + 28 * scale);
+          }
+          if (pKey === 'art' || sKey === 'art') {
+            // Neon Butterfly / Idol Hologram Ribbons!
+            const ribWave = Math.cos(this.pulseTime * 4) * 5 * scale;
+            g.fillStyle(0xf472b6, 0.75);
+            g.fillEllipse(cx - rHead * 1.35, cy + 8 * scale + ribWave, 26 * scale, 14 * scale);
+            g.fillEllipse(cx + rHead * 1.35, cy + 8 * scale - ribWave, 26 * scale, 14 * scale);
+            g.lineStyle(2, 0xfde047, 0.9);
+            g.strokeEllipse(cx - rHead * 1.35, cy + 8 * scale + ribWave, 26 * scale, 14 * scale);
+            g.strokeEllipse(cx + rHead * 1.35, cy + 8 * scale - ribWave, 26 * scale, 14 * scale);
+          }
+          if (pKey === 'vit' || (stageIdx >= 3 && pKey === 'biz')) {
+            // Flowing Hero / Tycoon Royal Cape!
+            const capeCol = pKey === 'vit' ? 0xe11d48 : 0xb45309;
+            g.fillStyle(capeCol, 0.92);
+            g.fillTriangle(cx, cy + 4 * scale, cx - rHead * 1.45, cy + rHead * 1.65, cx + rHead * 1.45, cy + rHead * 1.65);
+            g.lineStyle(2, 0xfde047, 0.9);
+            g.strokeTriangle(cx, cy + 4 * scale, cx - rHead * 1.45, cy + rHead * 1.65, cx + rHead * 1.45, cy + rHead * 1.65);
+          }
+          if (pKey === 'sci' && stageIdx >= 3) {
+            // Quantum Gyro-Ring behind Adult Scientist!
+            g.lineStyle(2.5, 0x00f0ff, 0.85);
+            g.strokeEllipse(cx, cy + 8 * scale, rHead * 3.1, rHead * 0.9);
+          }
+        }
+
+        // -----------------------------------------------------------------
+        // B. BODY, TORSO & OUTFIT MORPHING BY STAGE & PATH
+        // -----------------------------------------------------------------
+        const bodyY = stageIdx === 0 ? cy + rHead * 0.78 : cy + rHead * 0.96;
+        const bodyW = stageIdx === 0 ? rHead * 1.30 : stageIdx === 1 ? rHead * 1.38 : rHead * 1.52;
+        const bodyH = stageIdx === 0 ? rHead * 0.95 : stageIdx === 1 ? rHead * 1.12 : rHead * 1.28;
+
+        // Feet / Boots
+        const footSwing = alive ? Math.sin(this.pulseTime * 3.0) * 3.5 * scale : 0;
+        const bootCol = pKey === 'vit' ? 0x991b1b : pKey === 'sci' ? 0x0284c7 : pKey === 'biz' ? 0x78350f : 0x1e1b4b;
+        g.fillStyle(bootCol, 1);
+        g.fillEllipse(cx - 12 * scale, bodyY + bodyH * 0.44 + footSwing, 15 * scale, 9.5 * scale);
+        g.fillEllipse(cx + 12 * scale, bodyY + bodyH * 0.44 - footSwing, 15 * scale, 9.5 * scale);
         g.lineStyle(2, 0xffffff, 0.9);
-        g.strokeEllipse(cx - 11 * scale, bodyY + bodyH * 0.42 + footSwing, 14 * scale, 9 * scale);
-        g.strokeEllipse(cx + 11 * scale, bodyY + bodyH * 0.42 - footSwing, 14 * scale, 9 * scale);
+        g.strokeEllipse(cx - 12 * scale, bodyY + bodyH * 0.44 + footSwing, 15 * scale, 9.5 * scale);
+        g.strokeEllipse(cx + 12 * scale, bodyY + bodyH * 0.44 - footSwing, 15 * scale, 9.5 * scale);
 
-        // Waving Chibi Arms
+        // Waving Arms
         const armWave = alive ? Math.sin(this.pulseTime * 4.0) * 6 * scale : 0;
-        g.fillStyle(auraColor, 1);
+        g.fillStyle(stageIdx === 0 ? 0xffedd5 : trimCol, 1);
         g.fillEllipse(cx - bodyW * 0.56, bodyY - 2 * scale - armWave, 15 * scale, 11 * scale);
         g.fillEllipse(cx + bodyW * 0.56, bodyY - 2 * scale + armWave, 15 * scale, 11 * scale);
         g.lineStyle(2, 0x090a0f, 1);
         g.strokeEllipse(cx - bodyW * 0.56, bodyY - 2 * scale - armWave, 15 * scale, 11 * scale);
         g.strokeEllipse(cx + bodyW * 0.56, bodyY - 2 * scale + armWave, 15 * scale, 11 * scale);
 
-        // Rounded Chibi Outfit Torso
-        g.fillStyle(0x312e81, 1);
-        g.fillEllipse(cx, bodyY, bodyW, bodyH);
-        g.lineStyle(2.5, 0xffffff, 0.95);
-        g.strokeEllipse(cx, bodyY, bodyW, bodyH);
+        // Main Torso Outfit
+        if (stageIdx === 0) {
+          // Stage 0 Baby Diaper / Romper + Cute Bib!
+          g.fillStyle(0xfef9c3, 1);
+          g.fillEllipse(cx, bodyY, bodyW, bodyH);
+          g.lineStyle(2.5, 0xf472b6, 1);
+          g.strokeEllipse(cx, bodyY, bodyW, bodyH);
+          // Baby Bib colored by early choice
+          g.fillStyle(trimCol, 0.95);
+          g.fillEllipse(cx, bodyY - bodyH * 0.18, bodyW * 0.65, bodyH * 0.45);
+          g.lineStyle(1.5, 0xffffff, 1);
+          g.strokeEllipse(cx, bodyY - bodyH * 0.18, bodyW * 0.65, bodyH * 0.45);
+        } else {
+          // Child / Teen / Adult / Elder Evolved Outfit
+          g.fillStyle(outfitCol, 1);
+          g.fillEllipse(cx, bodyY, bodyW, bodyH);
+          g.lineStyle(2.5, trimCol, 0.95);
+          g.strokeEllipse(cx, bodyY, bodyW, bodyH);
 
-        // Cute Star/Heart Belly Badge on Outfit
-        g.fillStyle(0xfde047, 1);
-        g.fillCircle(cx, bodyY + 2 * scale, 6.5 * scale);
-        g.lineStyle(1.5, 0x090a0f, 1);
-        g.strokeCircle(cx, bodyY + 2 * scale, 6.5 * scale);
+          // Path-specific Outfit Details
+          if (pKey === 'sci') {
+            // Lab Coat lapels & glowing core
+            g.fillStyle(0xe0f2fe, 0.92);
+            g.fillTriangle(cx - bodyW * 0.35, bodyY - bodyH * 0.35, cx - 4 * scale, bodyY + bodyH * 0.4, cx - bodyW * 0.45, bodyY + bodyH * 0.35);
+            g.fillTriangle(cx + bodyW * 0.35, bodyY - bodyH * 0.35, cx + 4 * scale, bodyY + bodyH * 0.4, cx + bodyW * 0.45, bodyY + bodyH * 0.35);
+            g.fillStyle(0x00f0ff, 1);
+            g.fillCircle(cx, bodyY, 6.5 * scale);
+          } else if (pKey === 'vit') {
+            // Shoulder Pauldrons & Chest Armor X-Strap
+            g.fillStyle(0xfde047, 1);
+            g.fillEllipse(cx - bodyW * 0.48, bodyY - bodyH * 0.28, 18 * scale, 11 * scale);
+            g.fillEllipse(cx + bodyW * 0.48, bodyY - bodyH * 0.28, 18 * scale, 11 * scale);
+            g.lineStyle(2.5, 0xfde047, 0.95);
+            g.lineBetween(cx - bodyW * 0.3, bodyY - bodyH * 0.3, cx + bodyW * 0.3, bodyY + bodyH * 0.3);
+            g.lineBetween(cx + bodyW * 0.3, bodyY - bodyH * 0.3, cx - bodyW * 0.3, bodyY + bodyH * 0.3);
+          } else if (pKey === 'biz') {
+            // Executive Suit V-Neck + Golden Tie
+            g.fillStyle(0xffffff, 0.95);
+            g.fillTriangle(cx - 10 * scale, bodyY - bodyH * 0.38, cx + 10 * scale, bodyY - bodyH * 0.38, cx, bodyY + 6 * scale);
+            g.fillStyle(0xf59e0b, 1);
+            g.fillTriangle(cx - 3.5 * scale, bodyY - bodyH * 0.3, cx + 3.5 * scale, bodyY - bodyH * 0.3, cx, bodyY + 12 * scale);
+          } else if (pKey === 'art') {
+            // Idol Ribbon Bow on Chest
+            g.fillStyle(0xf472b6, 1);
+            g.fillTriangle(cx, bodyY - 4 * scale, cx - 12 * scale, bodyY - 11 * scale, cx - 12 * scale, bodyY + 3 * scale);
+            g.fillTriangle(cx, bodyY - 4 * scale, cx + 12 * scale, bodyY - 11 * scale, cx + 12 * scale, bodyY + 3 * scale);
+            g.fillStyle(0xfde047, 1);
+            g.fillCircle(cx, bodyY - 4 * scale, 4.5 * scale);
+          } else if (pKey === 'emp') {
+            // Diplomat Sash & Heart Emblem
+            g.lineStyle(4, 0xfef08a, 0.9);
+            g.lineBetween(cx - bodyW * 0.35, bodyY - bodyH * 0.32, cx + bodyW * 0.32, bodyY + bodyH * 0.32);
+            g.fillStyle(0x34d399, 1);
+            g.fillCircle(cx, bodyY - 2 * scale, 6.5 * scale);
+          } else {
+            // Star Explorer Badge
+            g.fillStyle(0xfde047, 1);
+            g.fillCircle(cx, bodyY + 2 * scale, 6.5 * scale);
+          }
+        }
 
-        // Species Ears / Wings / Halo
+        // Held Weapon / Master Tool in Left Hand for Teen/Adult/Elder!
+        if (stageIdx >= 2 && alive) {
+          const toolX = cx - bodyW * 0.72;
+          const toolY = bodyY - 6 * scale - armWave;
+          if (pKey === 'vit') {
+            // Glowing Plasma Energy Blade!
+            g.lineStyle(4, 0xfb7185, 1);
+            g.lineBetween(toolX, toolY + 12 * scale, toolX - 14 * scale, toolY - 28 * scale);
+            g.lineStyle(2, 0xffffff, 0.9);
+            g.lineBetween(toolX, toolY + 12 * scale, toolX - 14 * scale, toolY - 28 * scale);
+          } else if (pKey === 'sci') {
+            // Quantum Floating Tablet / Orb Staff
+            g.fillStyle(0x00f0ff, 0.9);
+            g.fillRoundedRect(toolX - 12 * scale, toolY - 10 * scale, 16 * scale, 20 * scale, 4);
+            g.lineStyle(1.5, 0xffffff, 1);
+            g.strokeRoundedRect(toolX - 12 * scale, toolY - 10 * scale, 16 * scale, 20 * scale, 4);
+          } else if (pKey === 'art') {
+            // Starlight Idol Microphone / Holo-Brush
+            g.lineStyle(3, 0xfde047, 1);
+            g.lineBetween(toolX, toolY + 10 * scale, toolX - 8 * scale, toolY - 12 * scale);
+            g.fillStyle(0xf472b6, 1);
+            g.fillCircle(toolX - 8 * scale, toolY - 14 * scale, 6 * scale);
+          } else if (pKey === 'biz') {
+            // Golden Quantum Briefcase / Scepter
+            g.fillStyle(0xfde047, 1);
+            g.fillRoundedRect(toolX - 14 * scale, toolY - 4 * scale, 18 * scale, 14 * scale, 3);
+            g.lineStyle(1.5, 0x090a0f, 1);
+            g.strokeRoundedRect(toolX - 14 * scale, toolY - 4 * scale, 18 * scale, 14 * scale, 3);
+          } else if (pKey === 'emp' || stageIdx === 4) {
+            // Cosmic Peace Staff
+            g.lineStyle(3, 0xfef08a, 1);
+            g.lineBetween(toolX - 4 * scale, toolY + 18 * scale, toolX - 4 * scale, toolY - 26 * scale);
+            g.fillStyle(0x34d399, 1);
+            g.fillCircle(toolX - 4 * scale, toolY - 28 * scale, 6.5 * scale);
+          }
+        }
+
+        // -----------------------------------------------------------------
+        // C. HEAD, EARS & SPECIES FEATURES
+        // -----------------------------------------------------------------
         if (speciesCode === 'celestial') {
           g.lineStyle(3.5, 0xfde047, 1);
-          g.strokeEllipse(cx, cy - rHead * 1.32, rHead * 1.4, 10);
+          g.strokeEllipse(cx, cy - rHead * 1.38, rHead * 1.45, 10);
         } else if (speciesCode === 'xylosian') {
           g.lineStyle(2.5, 0x34d399, 1);
           g.lineBetween(cx - 14 * scale, cy - rHead * 0.85, cx - 26 * scale, cy - rHead * 1.48);
@@ -4350,7 +5005,6 @@
           g.fillTriangle(cx - 20 * scale, cy - rHead * 0.75, cx - 32 * scale, cy - rHead * 1.42, cx - 8 * scale, cy - rHead * 0.95);
           g.fillTriangle(cx + 20 * scale, cy - rHead * 0.75, cx + 32 * scale, cy - rHead * 1.42, cx + 8 * scale, cy - rHead * 0.95);
         } else {
-          // Cute Tamagotchi Chibi Round Ears
           g.fillStyle(0xffedd5, 1);
           g.fillCircle(cx - rHead * 0.95, cy + 2 * scale, 7.5 * scale);
           g.fillCircle(cx + rHead * 0.95, cy + 2 * scale, 7.5 * scale);
@@ -4359,7 +5013,7 @@
           g.strokeCircle(cx + rHead * 0.95, cy + 2 * scale, 7.5 * scale);
         }
 
-        // Big Cute Chibi Head
+        // Head Base
         let skinColor = 0xfff1e6;
         if (speciesCode === 'voidborn') skinColor = 0xddd6fe;
         if (speciesCode === 'xylosian') skinColor = 0xd1fae5;
@@ -4370,35 +5024,127 @@
         g.lineStyle(3, 0x090a0f, 1);
         g.strokeCircle(cx, cy, rHead);
 
-        // Rounded Fluffy Chibi Hair
-        const hairColor = age >= 55 ? 0xe2e8f0 : auraColor;
+        // -----------------------------------------------------------------
+        // D. DISTINCT HAIRSTYLES & EVOLVED HEADGEAR PER PATH & STAGE
+        // -----------------------------------------------------------------
+        const hairColor = stageIdx === 4 ? 0xe2e8f0 : auraColor;
         g.fillStyle(hairColor, 1);
-        g.beginPath();
-        g.moveTo(cx - rHead * 1.02, cy - rHead * 0.12);
-        g.lineTo(cx - rHead * 0.85, cy - rHead * 1.05);
-        g.lineTo(cx - rHead * 0.3, cy - rHead * 0.88);
-        g.lineTo(cx, cy - rHead * 1.22);
-        g.lineTo(cx + rHead * 0.35, cy - rHead * 0.88);
-        g.lineTo(cx + rHead * 0.88, cy - rHead * 1.05);
-        g.lineTo(cx + rHead * 1.02, cy - rHead * 0.12);
-        g.closePath();
-        g.fillPath();
-        g.lineStyle(2.5, 0x090a0f, 1);
-        g.strokePath();
 
-        // Cute Tamagotchi Baby Sprout / Antenna on Top of Head!
-        g.lineStyle(2.5, 0x34d399, 1);
-        g.lineBetween(cx, cy - rHead * 1.18, cx, cy - rHead * 1.52);
-        g.fillStyle(0x4ade80, 1);
-        g.fillEllipse(cx - 6 * scale, cy - rHead * 1.52, 10 * scale, 5.5 * scale);
-        g.fillEllipse(cx + 6 * scale, cy - rHead * 1.52, 10 * scale, 5.5 * scale);
+        if (stageIdx === 0) {
+          // Baby tuft of hair + Baby Sprout!
+          g.fillCircle(cx, cy - rHead * 0.92, 10 * scale);
+          g.lineStyle(2.5, 0x34d399, 1);
+          g.lineBetween(cx, cy - rHead * 1.05, cx, cy - rHead * 1.45);
+          g.fillStyle(0x4ade80, 1);
+          g.fillEllipse(cx - 6 * scale, cy - rHead * 1.45, 10 * scale, 5.5 * scale);
+          g.fillEllipse(cx + 6 * scale, cy - rHead * 1.45, 10 * scale, 5.5 * scale);
+        } else if (pKey === 'art') {
+          // Twin-tails Idol Hair!
+          g.fillEllipse(cx - rHead * 1.08, cy - rHead * 0.15, 16 * scale, 32 * scale);
+          g.fillEllipse(cx + rHead * 1.08, cy - rHead * 0.15, 16 * scale, 32 * scale);
+          g.lineStyle(2, 0x090a0f, 1);
+          g.strokeEllipse(cx - rHead * 1.08, cy - rHead * 0.15, 16 * scale, 32 * scale);
+          g.strokeEllipse(cx + rHead * 1.08, cy - rHead * 0.15, 16 * scale, 32 * scale);
+          // Front bangs
+          g.fillStyle(hairColor, 1);
+          g.fillEllipse(cx, cy - rHead * 0.78, rHead * 1.75, rHead * 0.65);
+        } else if (pKey === 'vit') {
+          // Wild Spiky Shonen Battle Hair!
+          g.beginPath();
+          g.moveTo(cx - rHead * 1.05, cy - rHead * 0.1);
+          g.lineTo(cx - rHead * 1.25, cy - rHead * 0.75);
+          g.lineTo(cx - rHead * 0.65, cy - rHead * 0.85);
+          g.lineTo(cx - rHead * 0.55, cy - rHead * 1.38);
+          g.lineTo(cx, cy - rHead * 0.95);
+          g.lineTo(cx + rHead * 0.45, cy - rHead * 1.42);
+          g.lineTo(cx + rHead * 0.75, cy - rHead * 0.85);
+          g.lineTo(cx + rHead * 1.25, cy - rHead * 0.72);
+          g.lineTo(cx + rHead * 1.05, cy - rHead * 0.1);
+          g.closePath();
+          g.fillPath();
+          g.lineStyle(2.5, 0x090a0f, 1);
+          g.strokePath();
+        } else if (pKey === 'sci') {
+          // Sleek Cyber Swept Hair
+          g.beginPath();
+          g.moveTo(cx - rHead * 0.98, cy - rHead * 0.25);
+          g.lineTo(cx - rHead * 0.75, cy - rHead * 1.05);
+          g.lineTo(cx + rHead * 0.85, cy - rHead * 1.12);
+          g.lineTo(cx + rHead * 1.12, cy + rHead * 0.05);
+          g.lineTo(cx - rHead * 0.35, cy - rHead * 0.45);
+          g.closePath();
+          g.fillPath();
+          g.lineStyle(2.5, 0x090a0f, 1);
+          g.strokePath();
+        } else if (pKey === 'biz') {
+          // Slicked-Back CEO Pompadour / Crown Hair
+          g.fillEllipse(cx, cy - rHead * 0.85, rHead * 1.85, rHead * 0.68);
+          g.lineStyle(2.5, 0x090a0f, 1);
+          g.strokeEllipse(cx, cy - rHead * 0.85, rHead * 1.85, rHead * 0.68);
+        } else {
+          // Fluffy Rounded Hair + Side locks
+          g.beginPath();
+          g.moveTo(cx - rHead * 1.02, cy - rHead * 0.12);
+          g.lineTo(cx - rHead * 0.85, cy - rHead * 1.05);
+          g.lineTo(cx - rHead * 0.3, cy - rHead * 0.88);
+          g.lineTo(cx, cy - rHead * 1.22);
+          g.lineTo(cx + rHead * 0.35, cy - rHead * 0.88);
+          g.lineTo(cx + rHead * 0.88, cy - rHead * 1.05);
+          g.lineTo(cx + rHead * 1.02, cy - rHead * 0.12);
+          g.closePath();
+          g.fillPath();
+          g.lineStyle(2.5, 0x090a0f, 1);
+          g.strokePath();
+        }
 
-        // Glossy Hair Shine
-        g.lineStyle(2.2, 0xffffff, 0.65);
-        g.beginPath();
-        g.arc(cx, cy - rHead * 0.25, rHead * 0.75, Math.PI * 1.18, Math.PI * 1.82, false);
-        g.strokePath();
+        // Evolving Headgear & Crowns!
+        if (stageIdx >= 1) {
+          if (pKey === 'vit') {
+            // Battle Headband / Commander Crest
+            g.fillStyle(0xe11d48, 1);
+            g.fillRect(cx - rHead * 0.92, cy - rHead * 0.58, rHead * 1.84, 7 * scale);
+            g.fillStyle(0xfde047, 1);
+            g.fillTriangle(cx - 8 * scale, cy - rHead * 0.55, cx + 8 * scale, cy - rHead * 0.55, cx, cy - rHead * 0.92);
+          } else if (pKey === 'art') {
+            if (stageIdx === 1) {
+              // Artist Beret
+              g.fillStyle(0xf472b6, 1);
+              g.fillEllipse(cx + 10 * scale, cy - rHead * 1.02, 34 * scale, 14 * scale);
+            } else {
+              // Neon Cat-Ear Idol Headphones!
+              g.lineStyle(3.5, 0x38bdf8, 1);
+              g.strokeEllipse(cx, cy - rHead * 0.15, rHead * 2.1, rHead * 1.95);
+              g.fillStyle(0xf472b6, 1);
+              g.fillEllipse(cx - rHead * 1.02, cy, 10 * scale, 18 * scale);
+              g.fillEllipse(cx + rHead * 1.02, cy, 10 * scale, 18 * scale);
+            }
+          } else if (pKey === 'biz' && (stageIdx >= 3 || (c && c.wealth >= 8000))) {
+            // Golden Tycoon Crown!
+            g.fillStyle(0xfde047, 1);
+            g.beginPath();
+            g.moveTo(cx - 18 * scale, cy - rHead * 0.95);
+            g.lineTo(cx - 14 * scale, cy - rHead * 1.38);
+            g.lineTo(cx - 5 * scale, cy - rHead * 1.12);
+            g.lineTo(cx, cy - rHead * 1.45);
+            g.lineTo(cx + 5 * scale, cy - rHead * 1.12);
+            g.lineTo(cx + 14 * scale, cy - rHead * 1.38);
+            g.lineTo(cx + 18 * scale, cy - rHead * 0.95);
+            g.closePath();
+            g.fillPath();
+            g.lineStyle(2, 0x090a0f, 1);
+            g.strokePath();
+          } else if (pKey === 'emp' && stageIdx >= 2) {
+            // Starlight Tiara / Circlet
+            g.lineStyle(2.5, 0xfef08a, 1);
+            g.strokeEllipse(cx, cy - rHead * 0.65, rHead * 1.6, 10 * scale);
+            g.fillStyle(0x34d399, 1);
+            g.fillCircle(cx, cy - rHead * 0.72, 5.5 * scale);
+          }
+        }
 
+        // -----------------------------------------------------------------
+        // E. DISTINCT FACES, EYES, GLASSES & EXPRESSIONS BY PATH & DNA SEED
+        // -----------------------------------------------------------------
         const eyeY = cy + 3 * scale;
         const eyeOffsetX = 14.5 * scale;
 
@@ -4406,48 +5152,150 @@
           g.lineStyle(2.5, 0x090a0f, 1);
           g.lineBetween(cx - eyeOffsetX - 6, eyeY, cx - eyeOffsetX + 6, eyeY);
           g.lineBetween(cx + eyeOffsetX - 6, eyeY, cx + eyeOffsetX + 6, eyeY);
-        } else if (speciesCode === 'cyborg') {
-          g.fillStyle(0x38bdf8, 0.95);
-          g.fillRoundedRect(cx - rHead * 0.72, eyeY - 7 * scale, rHead * 1.44, 14 * scale, 6);
-          g.lineStyle(2, 0x090a0f, 1);
-          g.strokeRoundedRect(cx - rHead * 0.72, eyeY - 7 * scale, rHead * 1.44, 14 * scale, 6);
         } else {
-          // Big Kawaii Tamagotchi Eyes!
-          g.fillStyle(0x090a0f, 1);
-          g.fillEllipse(cx - eyeOffsetX, eyeY, 12.5 * scale, 14.5 * scale);
-          g.fillEllipse(cx + eyeOffsetX, eyeY, 12.5 * scale, 14.5 * scale);
+          // Draw Eyes according to evolved eyeStyle & DNA seed!
+          const eyeColor = pKey === 'sci' ? 0x00f0ff : pKey === 'vit' ? 0xfb7185 : pKey === 'biz' ? 0xfde047 : pKey === 'emp' ? 0x34d399 : auraColor;
 
-          g.fillStyle(auraColor, 0.92);
-          g.fillEllipse(cx - eyeOffsetX, eyeY + 1.5 * scale, 9.5 * scale, 10 * scale);
-          g.fillEllipse(cx + eyeOffsetX, eyeY + 1.5 * scale, 9.5 * scale, 10 * scale);
+          if (evo.eyeStyle === 'fierce_slit') {
+            // Sharp Battle Eyes + Bold Eyebrows
+            g.fillStyle(0x090a0f, 1);
+            g.fillEllipse(cx - eyeOffsetX, eyeY, 13 * scale, 11 * scale);
+            g.fillEllipse(cx + eyeOffsetX, eyeY, 13 * scale, 11 * scale);
+            g.fillStyle(eyeColor, 1);
+            g.fillEllipse(cx - eyeOffsetX, eyeY + 1 * scale, 8.5 * scale, 8 * scale);
+            g.fillEllipse(cx + eyeOffsetX, eyeY + 1 * scale, 8.5 * scale, 8 * scale);
+            g.fillStyle(0xffffff, 1);
+            g.fillCircle(cx - eyeOffsetX - 2 * scale, eyeY - 2 * scale, 2.5 * scale);
+            g.fillCircle(cx + eyeOffsetX - 2 * scale, eyeY - 2 * scale, 2.5 * scale);
+            // Fierce angled eyebrows + warrior cheek scar!
+            g.lineStyle(2.8, 0x090a0f, 1);
+            g.lineBetween(cx - eyeOffsetX - 7 * scale, eyeY - 10 * scale, cx - eyeOffsetX + 6 * scale, eyeY - 6 * scale);
+            g.lineBetween(cx + eyeOffsetX + 7 * scale, eyeY - 10 * scale, cx + eyeOffsetX - 6 * scale, eyeY - 6 * scale);
+            if (stageIdx >= 2) {
+              g.lineStyle(1.8, 0xbe123c, 0.85);
+              g.lineBetween(cx + eyeOffsetX + 4 * scale, eyeY + 6 * scale, cx + eyeOffsetX + 10 * scale, eyeY + 12 * scale);
+            }
+          } else if (evo.eyeStyle === 'gentle_shine' && (seed % 3 === 0)) {
+            // Happy Closed-Arc Serene Eyes (^ ^)
+            g.lineStyle(3, 0x090a0f, 1);
+            g.beginPath();
+            g.arc(cx - eyeOffsetX, eyeY + 2 * scale, 6.5 * scale, Math.PI * 1.1, Math.PI * 1.9, false);
+            g.strokePath();
+            g.beginPath();
+            g.arc(cx + eyeOffsetX, eyeY + 2 * scale, 6.5 * scale, Math.PI * 1.1, Math.PI * 1.9, false);
+            g.strokePath();
+          } else {
+            // Big Kawaii / Star / Cyber Eyes
+            g.fillStyle(0x090a0f, 1);
+            g.fillEllipse(cx - eyeOffsetX, eyeY, 12.5 * scale, 14.5 * scale);
+            g.fillEllipse(cx + eyeOffsetX, eyeY, 12.5 * scale, 14.5 * scale);
 
-          g.fillStyle(0x090a0f, 1);
-          g.fillCircle(cx - eyeOffsetX, eyeY + 1 * scale, 5 * scale);
-          g.fillCircle(cx + eyeOffsetX, eyeY + 1 * scale, 5 * scale);
+            // Heterochromia right eye if dual aptitude or odd seed!
+            const rightIrisCol = (sKey !== 'none' && sKey !== pKey) ? 0xfde047 : eyeColor;
+            g.fillStyle(eyeColor, 0.95);
+            g.fillEllipse(cx - eyeOffsetX, eyeY + 1.5 * scale, 9.5 * scale, 10 * scale);
+            g.fillStyle(rightIrisCol, 0.95);
+            g.fillEllipse(cx + eyeOffsetX, eyeY + 1.5 * scale, 9.5 * scale, 10 * scale);
 
-          // Big Sparkling Starlight Catchlights
-          g.fillStyle(0xffffff, 1);
-          g.fillCircle(cx - eyeOffsetX - 2.5 * scale, eyeY - 3 * scale, 3.4 * scale);
-          g.fillCircle(cx + eyeOffsetX - 2.5 * scale, eyeY - 3 * scale, 3.4 * scale);
-          g.fillCircle(cx - eyeOffsetX + 2.2 * scale, eyeY + 2.5 * scale, 1.6 * scale);
-          g.fillCircle(cx + eyeOffsetX + 2.2 * scale, eyeY + 2.5 * scale, 1.6 * scale);
+            g.fillStyle(0x090a0f, 1);
+            g.fillCircle(cx - eyeOffsetX, eyeY + 1 * scale, 4.8 * scale);
+            g.fillCircle(cx + eyeOffsetX, eyeY + 1 * scale, 4.8 * scale);
+
+            // Catchlights (Star-shaped for Art path!)
+            g.fillStyle(0xffffff, 1);
+            g.fillCircle(cx - eyeOffsetX - 2.5 * scale, eyeY - 3 * scale, 3.4 * scale);
+            g.fillCircle(cx + eyeOffsetX - 2.5 * scale, eyeY - 3 * scale, 3.4 * scale);
+            if (pKey === 'art') {
+              g.fillStyle(0xfde047, 1);
+              g.fillCircle(cx - eyeOffsetX + 2.2 * scale, eyeY + 2.5 * scale, 2.3 * scale);
+              g.fillCircle(cx + eyeOffsetX + 2.2 * scale, eyeY + 2.5 * scale, 2.3 * scale);
+            }
+          }
+
+          // Eyewear / Scouters / Shades based on Path & Stage!
+          if ((pKey === 'sci' || sKey === 'sci') && stageIdx >= 1) {
+            if (stageIdx === 1) {
+              // Round Smart Glasses
+              g.lineStyle(2.2, 0x38bdf8, 0.95);
+              g.strokeCircle(cx - eyeOffsetX, eyeY, 9 * scale);
+              g.strokeCircle(cx + eyeOffsetX, eyeY, 9 * scale);
+              g.lineBetween(cx - eyeOffsetX + 9 * scale, eyeY, cx + eyeOffsetX - 9 * scale, eyeY);
+            } else {
+              // Glowing Cyan Holo-Scouter Visor!
+              g.fillStyle(0x00f0ff, 0.42);
+              g.fillRoundedRect(cx - eyeOffsetX - 11 * scale, eyeY - 8 * scale, 24 * scale, 16 * scale, 4);
+              g.lineStyle(2, 0x00f0ff, 1);
+              g.strokeRoundedRect(cx - eyeOffsetX - 11 * scale, eyeY - 8 * scale, 24 * scale, 16 * scale, 4);
+            }
+          } else if (pKey === 'biz' && stageIdx >= 2) {
+            // Cool Tycoon Golden Monocle or Shades
+            g.lineStyle(2.2, 0xfde047, 1);
+            g.strokeCircle(cx + eyeOffsetX, eyeY, 9.5 * scale);
+            g.lineBetween(cx + eyeOffsetX + 9 * scale, eyeY + 2 * scale, cx + eyeOffsetX + 12 * scale, eyeY + 16 * scale);
+          }
         }
 
-        // Rosy Pink Tamagotchi Cheeks!
-        g.fillStyle(0xf43f5e, 0.55);
+        // Rosy Cheeks
+        g.fillStyle(0xf43f5e, 0.52);
         g.fillEllipse(cx - eyeOffsetX - 4 * scale, eyeY + 9 * scale, 10 * scale, 5.5 * scale);
         g.fillEllipse(cx + eyeOffsetX + 4 * scale, eyeY + 9 * scale, 10 * scale, 5.5 * scale);
 
-        // Cute Cat-Smile / Happy Mouth
+        // Mouth / Pacifier / Elder Beard
         const mouthY = cy + 15 * scale;
-        g.lineStyle(2.2, 0x090a0f, 1);
-        if (c && (c.mind < 35 || c.health < 35)) {
+        if (stageIdx === 0 && alive) {
+          // Cute Baby Pacifier!
+          g.fillStyle(trimCol, 1);
+          g.fillEllipse(cx, mouthY, 11 * scale, 8 * scale);
+          g.lineStyle(2, 0xffffff, 0.95);
+          g.strokeCircle(cx, mouthY + 2 * scale, 4.5 * scale);
+        } else if (c && (c.mind < 35 || c.health < 35)) {
+          g.lineStyle(2.2, 0x090a0f, 1);
           g.strokeEllipse(cx, mouthY + 2, 7.5 * scale, 4 * scale);
+        } else if (evo.mouthStyle === 'open_idol_happy') {
+          g.fillStyle(0xf43f5e, 1);
+          g.fillEllipse(cx, mouthY, 9 * scale, 6.5 * scale);
+          g.lineStyle(1.8, 0x090a0f, 1);
+          g.strokeEllipse(cx, mouthY, 9 * scale, 6.5 * scale);
+        } else if (evo.mouthStyle === 'confident_smirk' || evo.mouthStyle === 'smirk_focused') {
+          g.lineStyle(2.4, 0x090a0f, 1);
+          g.lineBetween(cx - 5 * scale, mouthY + 1 * scale, cx + 6 * scale, mouthY - 2.5 * scale);
         } else {
+          // Cute Cat Smile (:3)
+          g.lineStyle(2.2, 0x090a0f, 1);
           g.beginPath();
           g.arc(cx - 3.5 * scale, mouthY - 1, 4 * scale, 0.1, Math.PI - 0.1, false);
           g.arc(cx + 3.5 * scale, mouthY - 1, 4 * scale, 0.1, Math.PI - 0.1, false);
           g.strokePath();
+        }
+
+        // Cosmic Sage Beard / Mustache at Stage 4 (Age 55+)!
+        if (stageIdx === 4) {
+          g.fillStyle(0xf8fafc, 0.92);
+          g.fillTriangle(cx - 10 * scale, mouthY + 3 * scale, cx + 10 * scale, mouthY + 3 * scale, cx, mouthY + 20 * scale);
+        }
+
+        // -----------------------------------------------------------------
+        // F. FLOATING COMPANIONS (PARTNER HEART SPRITE & EARTH MINI-DRONE)
+        // -----------------------------------------------------------------
+        if (c && c.alive) {
+          if (c.partner && c.partner !== 'โสด') {
+            // Floating Pink Partner Love Sprite on Left!
+            const lx = cx - (isCompact ? 46 : 58);
+            const ly = cy - 18 * scale + Math.sin(this.pulseTime * 3.5) * 5;
+            g.fillStyle(0xf472b6, 0.95);
+            g.fillCircle(lx - 3.5, ly - 2, 5);
+            g.fillCircle(lx + 3.5, ly - 2, 5);
+            g.fillTriangle(lx - 8, ly, lx + 8, ly, lx, ly + 8);
+          }
+          if (c.earthRelation >= 50) {
+            // Orbiting Earth Mini-Drone above Left Shoulder!
+            const dx = cx - (isCompact ? 42 : 52);
+            const dy = cy - 42 * scale + Math.cos(this.pulseTime * 4) * 4;
+            g.fillStyle(0x38bdf8, 1);
+            g.fillEllipse(dx, dy, 16 * scale, 8 * scale);
+            g.fillStyle(0xfde047, 1);
+            g.fillCircle(dx, dy - 3 * scale, 4 * scale);
+          }
         }
       }
 
