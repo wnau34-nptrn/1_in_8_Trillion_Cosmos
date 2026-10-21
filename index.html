@@ -239,8 +239,19 @@
           <strong id="karmaPointsTop" class="font-display text-white">20</strong>
         </div>
 
+        <!-- 8-Bit Chiptune BGM Controls -->
+        <div class="flex items-center bg-slate-800/90 border border-pink-400/60 rounded-xl p-0.5 shadow-inner">
+          <button id="btnBgmToggle" onclick="toggleBgmPlayback()" class="px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition bg-pink-500 text-white rounded-lg flex items-center gap-1" title="เปิด/ปิดเพลงประกอบ 8-Bit BGM (ปุ่มลัด M)">
+            <span id="bgmNoteIcon" class=" inline-block animate-bounce">🎵</span>
+            <span id="bgmStatusLabel" class="hidden md:inline">8-Bit: ON</span>
+          </button>
+          <button id="btnBgmTrack" onclick="cycleBgmTrack()" class="px-1.5 py-0.5 text-[10px] sm:text-[11px] font-display font-bold text-amber-300 hover:text-white transition rounded-lg" title="เปลี่ยนเพลง 8-Bit Chiptune (มี 4 สไตล์)">
+            🎶 <span id="bgmTrackShortName" class="hidden xl:inline">ทามาก็อตจิ</span>
+          </button>
+        </div>
+
         <!-- Audio Mute Toggle -->
-        <button id="btnMute" onclick="toggleAudioMute()" class="manga-btn px-1.5 py-0.5 text-[10px] sm:text-[11px] bg-[#181b2a] text-white" title="เปิด/ปิดเสียงเอฟเฟกต์">🔊</button>
+        <button id="btnMute" onclick="toggleAudioMute()" class="manga-btn px-1.5 py-0.5 text-[10px] sm:text-[11px] bg-[#181b2a] text-white" title="เปิด/ปิดเสียงทั้งหมด (Master Mute)">🔊</button>
 
         <!-- Encyclopedia & Settings (⋯) -->
         <button id="btnMoreMenu" onclick="toggleMoreModal()" class="manga-btn px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] bg-[#23273d] text-white font-black" title="สถิติดวงดาว & ตั้งค่า">⋯</button>
@@ -262,6 +273,7 @@
         <span id="tamaMoodPill" class="bg-pink-500/25 border border-pink-300/60 text-pink-200 rounded-full px-2 py-0.5 font-display font-bold text-[10px] shrink-0">🐣 รอฟักไข่</span>
         <span id="tamaEvolutionBadge" class="bg-amber-500/25 border border-amber-300/70 text-amber-200 rounded-full px-2.5 py-0.5 font-display font-bold text-[10px] shrink-0">🧬 ร่าง: เบบี๋แรกเกิด</span>
         <button id="hudActivePetPill" onclick="openRoomPetShopModal('pets')" class="bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-300/70 text-emerald-200 rounded-full px-2 py-0.5 font-display font-bold text-[10px] shrink-0 transition" title="คลิกเพื่อเปิดร้านค้าแต่งห้องและสัตว์เลี้ยงคู่หู">🐾 คู่หู: ยังไม่มี</button>
+        <button id="hudRelationshipPill" onclick="openSocialFamilyModal('bonds')" class="bg-pink-500/20 hover:bg-pink-500/35 border border-pink-300/70 text-pink-200 rounded-full px-2 py-0.5 font-display font-bold text-[10px] shrink-0 transition" title="คลิกเพื่อดูความสัมพันธ์ ครอบครัว คนรัก และผังตระกูล">💞 สายสัมพันธ์ & ตระกูล</button>
         <span id="stageLocationLabel" class="hidden md:inline text-slate-300 truncate max-w-[200px]">• ห้องพักไข่ดาว</span>
       </div>
 
@@ -408,6 +420,9 @@
             </button>
             <button id="btnOpenRoomPetShop" onclick="openRoomPetShopModal()" class="manga-btn px-2 py-0.5 text-[10px] bg-gradient-to-r from-pink-500 to-amber-400 text-slate-950 font-extrabold shrink-0" title="เปิดร้านค้าแต่งห้อง 2D เฟอร์นิเจอร์ และสัตว์เลี้ยงคู่หู">
               🛍️ แต่งห้อง & สัตว์เลี้ยง
+            </button>
+            <button id="btnOpenSocialModal" onclick="openSocialFamilyModal()" class="manga-btn px-2 py-0.5 text-[10px] bg-gradient-to-r from-cyan-400 to-indigo-400 text-slate-950 font-extrabold shrink-0" title="เปิดระบบความสัมพันธ์ ครอบครัว คนรัก ทายาท และผังตระกูลข้ามชาติภพ">
+              💞 สายสัมพันธ์ & ผังตระกูล
             </button>
           </div>
         </div>
@@ -965,12 +980,24 @@
       </div>
 
       <!-- Quick Mobile Controls inside ⋯ Menu -->
-      <div class="bg-[#181b2e] border border-slate-700 p-2.5 mb-3 flex flex-wrap items-center justify-between gap-2">
+      <div class="bg-[#181b2e] border border-slate-700 p-2.5 mb-2.5 flex flex-wrap items-center justify-between gap-2">
         <div class="text-xs">
           <strong class="text-white block">โหมดเฝ้าดูชีวิตอัตโนมัติ (Auto Mode)</strong>
           <span class="text-slate-400 text-[11px]">ตอบคำถามอายุ 5, 15, 30, 50, 70 ปีอัตโนมัติ แต่คุณยังต้องกดเก็บไอเทมและเล่นมินิเกมวิกฤต QTE บนฉาก!</span>
         </div>
         <button id="btnAutoModeMenuModal" onclick="toggleAutoMode()" class="manga-btn px-3 py-1.5 text-xs bg-[#00f0ff] text-black font-black">สลับ Auto Mode</button>
+      </div>
+
+      <!-- 8-Bit Chiptune Jukebox inside ⋯ Menu -->
+      <div class="bg-[#1e1636] border border-pink-400/60 rounded-xl p-2.5 mb-3 flex flex-wrap items-center justify-between gap-2">
+        <div class="text-xs">
+          <strong class="text-pink-300 block">🎵 ตู้เพลง 8-Bit Chiptune Jukebox</strong>
+          <span id="jukeboxCurrentTrackLabel" class="text-[#fde047] text-[11px] font-bold">เพลงปัจจุบัน: 🐣 ทามาก็อตจิเด้งดึ๋ง (Happy Tama Pop)</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="toggleBgmPlayback()" class="manga-btn px-2.5 py-1 text-xs bg-pink-500 text-white font-bold">เปิด/ปิด BGM</button>
+          <button onclick="cycleBgmTrack()" class="manga-btn px-2.5 py-1 text-xs bg-[#fde047] text-slate-950 font-extrabold">🎶 เปลี่ยนเพลงถัดไป</button>
+        </div>
       </div>
 
       <div class="mb-2.5">
@@ -1043,6 +1070,81 @@
       <div class="shrink-0 bg-[#16192b] border-t border-slate-700 px-4 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-300">
         <span>💡 <b class="text-[#fde047]">ของที่ซื้อแล้วจะคงอยู่ถาวรข้ามชาติภพ!</b> สัตว์เลี้ยงบนฉาก 2D สามารถแตะลูบหัวเพื่อรับโบนัสพิเศษได้ทุกปี</span>
         <button onclick="closeRoomPetShopModal()" class="manga-btn px-3 py-1 bg-[#00f0ff] text-slate-950 font-black text-xs">กลับสู่ห้อง 2D ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 7: DEEP RELATIONSHIPS & DYNASTY FAMILY TREE (สายสัมพันธ์ & ผังตระกูล) -->
+  <!-- ===================================================================== -->
+  <div id="relationshipFamilyModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+    <div class="max-w-3xl w-full max-h-[93dvh] flex flex-col manga-panel-cyan bg-[#101426] overflow-hidden my-auto">
+      <!-- Sticky Header -->
+      <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#1c1c42] via-[#2b1948] to-[#132544]">
+        <div>
+          <span class="bg-[#00f0ff] text-slate-950 font-display font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase">AKASHIC BONDS & DYNASTY LINEAGE</span>
+          <h3 class="text-base sm:text-xl font-black text-white font-display mt-0.5">💞 ระบบความสัมพันธ์เชิงลึก & ผังตระกูลข้ามชาติภพ</h3>
+        </div>
+        <button id="btnCloseSocialModal" onclick="closeSocialFamilyModal()" class="manga-btn px-2.5 py-1 text-xs bg-slate-800 text-white">✕ ปิด</button>
+      </div>
+
+      <!-- Summary Banner: Dynasty Legacy Buff & Active Room Visitor -->
+      <div class="shrink-0 bg-[#0a0d1c] border-b border-slate-700/80 px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span id="socialModalDynastyBadge" class="bg-amber-400 text-slate-950 font-display font-extrabold px-2.5 py-0.5 rounded-full text-[11px]">🧬 ตระกูลรุ่นที่ 1</span>
+          <span id="socialModalLegacyBuffText" class="text-emerald-300 font-semibold text-[11px]">บัฟสายเลือดตระกูล: เริ่มต้นสร้างตระกูล</span>
+        </div>
+        <div class="flex items-center gap-1.5 text-[11px]">
+          <span class="text-slate-400">คนสำคัญในห้อง 2D:</span>
+          <strong id="socialModalVisitorName" class="text-pink-300">ดูแลตามช่วงวัย</strong>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs inside Modal -->
+      <div class="shrink-0 bg-slate-900/90 px-3.5 py-2 border-b border-slate-800 grid grid-cols-2 gap-2 text-xs font-display font-bold">
+        <button id="socialTabBtn_bonds" onclick="switchSocialModalTab('bonds')" class="manga-btn py-1.5 px-3 bg-[#ff2a5f] text-white text-center">
+          💞 สายสัมพันธ์ & คนสำคัญในชีวิตนี้
+        </button>
+        <button id="socialTabBtn_tree" onclick="switchSocialModalTab('tree')" class="manga-btn py-1.5 px-3 bg-[#1a1f35] text-slate-300 hover:text-white text-center">
+          🌳 ผังตระกูล & ประวัติสายเลือดข้ามรุ่น
+        </button>
+      </div>
+
+      <!-- Tab 1 Content: Active Relationships & Family Actions -->
+      <div id="socialTabView_bonds" class="flex-1 min-h-0 overflow-y-auto p-3.5 space-y-3 text-xs">
+        <!-- Quick Family Actions Bar (Find Romance / Marriage / Have Child) -->
+        <div class="bg-[#171c36] border border-pink-400/50 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <strong class="text-pink-300 text-xs sm:text-sm block">💍 การสร้างครอบครัว & ทายาทสืบทอดตระกูล</strong>
+            <span id="socialFamilyStatusHint" class="text-[11px] text-slate-300">เมื่ออายุ 16+ ปีสามารถค้นหาคนรัก แต่งงาน และมีบุตรเพื่อสืบทอดมรดกตระกูลได้</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button id="btnSocialFindPartner" onclick="triggerSocialSpecialAction('find_partner')" class="manga-btn px-2.5 py-1.5 bg-pink-500 text-white text-xs font-bold">
+              💘 ออกเดต/ค้นหาคนรัก (₡250)
+            </button>
+            <button id="btnSocialHaveChild" onclick="triggerSocialSpecialAction('have_child')" class="manga-btn px-2.5 py-1.5 bg-[#fde047] text-slate-950 text-xs font-extrabold">
+              🍼 มีบุตร / รับทายาทสืบทอด
+            </button>
+          </div>
+        </div>
+
+        <!-- NPC Cards Container -->
+        <div id="socialBondsListContainer" class="space-y-2.5">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Tab 2 Content: Multi-Generational Visual Family Tree -->
+      <div id="socialTabView_tree" class="hidden flex-1 min-h-0 overflow-y-auto p-3.5 space-y-3.5 text-xs">
+        <div id="familyTreeVisualContainer" class="space-y-3">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Sticky Footer -->
+      <div class="shrink-0 bg-[#16192b] border-t border-slate-700 px-4 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-300">
+        <span>💡 <b class="text-[#00f0ff]">เชิญคนสำคัญเข้าห้อง 2D ได้!</b> แตะที่ตัวละครคู่หู/ครอบครัวบนพรมในฉาก 2D เพื่อพูดคุยรับโบนัสความสุขสดๆ</span>
+        <button onclick="closeSocialFamilyModal()" class="manga-btn px-3 py-1 bg-[#00f0ff] text-slate-950 font-black text-xs">กลับสู่ฉากชีวิต 2D ▶</button>
       </div>
     </div>
   </div>
@@ -1389,10 +1491,119 @@
     };
 
     // -----------------------------------------------------------------------
-    // 3. SOUND SYNTHESIS ENGINE (Web Audio API)
+    // 3. SOUND SYNTHESIS ENGINE & 8-BIT CHIPTUNE BGM SEQUENCER (Web Audio API)
     // -----------------------------------------------------------------------
     let audioCtx = null;
     let isMuted = false;
+    let bgmEnabled = true;
+    let bgmPlaying = false;
+    let bgmTrackIdx = 0; // 0: Happy Tama Pop, 1: Starlight Arcade, 2: Boss Crisis, 3: Cozy Lullaby
+    let bgmStepIdx = 0;
+    let bgmTimerId = null;
+    let noiseBuffer = null;
+
+    // MIDI Note to Frequency helper
+    function midiToFreq(m) {
+      if (!m || m <= 0) return 0;
+      return 440 * Math.pow(2, (m - 69) / 12);
+    }
+
+    // 4 Fun 8-Bit Chiptune Tracks (32-step loops with Lead, Arp, Bass, and Drums)
+    const CHIPTUNE_TRACKS = [
+      {
+        id: 'tama_pop',
+        shortName: 'ทามาก็อตจิ',
+        fullName: '🐣 ทามาก็อตจิเด้งดึ๋ง (Happy Tama Pop 8-Bit)',
+        stepMs: 135, // ~111 BPM 16th-note feel
+        leadWave: 'square',
+        // C major / G major cheerful bouncy melody (C5=72, D5=74, E5=76, F5=77, G5=79, A5=81, B5=83, C6=84)
+        lead: [
+          72, 76, 79, 0,  81, 79, 76, 72,  74, 77, 81, 0,  79, 0, 84, 0,
+          81, 84, 81, 79, 76, 79, 76, 72,  74, 76, 74, 71, 72, 79, 84, 0
+        ],
+        arp: [
+          60, 64, 67, 64, 60, 65, 69, 65,  62, 65, 69, 65, 67, 71, 74, 71,
+          65, 69, 72, 69, 60, 64, 67, 64,  62, 67, 71, 67, 60, 64, 67, 72
+        ],
+        bass: [
+          48, 0, 55, 0,   48, 0, 55, 0,    50, 0, 57, 0,   55, 0, 50, 53,
+          53, 0, 60, 0,   48, 0, 55, 0,    50, 0, 55, 0,   48, 55, 48, 0
+        ],
+        drums: [
+          'K', 'H', 'S', 'H', 'K', 'K', 'S', 'H', 'K', 'H', 'S', 'H', 'K', 'S', 'K', 'H',
+          'K', 'H', 'S', 'H', 'K', 'K', 'S', 'H', 'K', 'H', 'S', 'K', 'S', 'S', 'K', 'H'
+        ]
+      },
+      {
+        id: 'star_arcade',
+        shortName: 'อวกาศ 8-Bit',
+        fullName: '🚀 ผจญภัยข้ามดาราจักร (Starlight Arcade 8-Bit)',
+        stepMs: 120, // Upbeat 125 BPM space shooter chiptune (A minor / F / G / C)
+        leadWave: 'square',
+        lead: [
+          69, 0, 72, 76,  81, 0, 79, 76,   77, 0, 76, 72,  74, 76, 74, 0,
+          69, 0, 72, 76,  81, 84, 83, 79,  81, 0, 76, 0,   81, 81, 0,  0
+        ],
+        arp: [
+          57, 60, 64, 69, 57, 60, 64, 69,  53, 57, 60, 65, 55, 59, 62, 67,
+          57, 60, 64, 69, 60, 64, 67, 72,  55, 59, 62, 67, 57, 64, 69, 57
+        ],
+        bass: [
+          45, 45, 57, 45, 45, 45, 57, 45,  41, 41, 53, 41, 43, 43, 55, 43,
+          45, 45, 57, 45, 48, 48, 60, 48,  43, 43, 55, 43, 45, 52, 45, 0
+        ],
+        drums: [
+          'K', 'H', 'S', 'H', 'K', 'H', 'S', 'H', 'K', 'K', 'S', 'H', 'K', 'H', 'S', 'S',
+          'K', 'H', 'S', 'H', 'K', 'H', 'S', 'H', 'K', 'K', 'S', 'K', 'S', 'S', 'K', 'H'
+        ]
+      },
+      {
+        id: 'boss_qte',
+        shortName: 'บอสไฟต์!',
+        fullName: '⚔️ บอสไฟต์วิกฤตจักรวาล (Boss Crisis 8-Bit)',
+        stepMs: 105, // Fast 142 BPM intense 8-bit battle
+        leadWave: 'sawtooth',
+        lead: [
+          74, 77, 81, 74, 73, 76, 81, 73,  74, 81, 86, 84, 82, 81, 79, 77,
+          76, 79, 82, 76, 74, 77, 81, 74,  73, 76, 79, 81, 86, 0,  86, 0
+        ],
+        arp: [
+          62, 65, 69, 74, 61, 64, 69, 73,  62, 65, 70, 74, 60, 64, 67, 72,
+          58, 62, 67, 70, 57, 62, 65, 69,  57, 61, 64, 69, 62, 69, 74, 62
+        ],
+        bass: [
+          50, 50, 62, 50, 49, 49, 61, 49,  50, 50, 62, 50, 48, 48, 60, 48,
+          46, 46, 58, 46, 45, 45, 57, 45,  45, 49, 52, 57, 50, 38, 50, 0
+        ],
+        drums: [
+          'K', 'H', 'S', 'K', 'K', 'H', 'S', 'H', 'K', 'K', 'S', 'K', 'S', 'H', 'S', 'S',
+          'K', 'H', 'S', 'K', 'K', 'H', 'S', 'H', 'K', 'S', 'K', 'S', 'K', 'S', 'K', 'S'
+        ]
+      },
+      {
+        id: 'cozy_lullaby',
+        shortName: 'กล่อมดาว',
+        fullName: '🌙 กล่อมดาวพาสเทล (Cozy Starlight Lullaby 8-Bit)',
+        stepMs: 185, // Gentle, dreamy 8-bit chiptune
+        leadWave: 'triangle',
+        lead: [
+          76, 0, 79, 0,   84, 0, 83, 79,   81, 0, 76, 0,   79, 0, 0,  0,
+          74, 0, 77, 0,   81, 0, 79, 76,   74, 0, 71, 0,   72, 0, 0,  0
+        ],
+        arp: [
+          60, 64, 67, 72, 60, 64, 67, 71,  57, 60, 64, 69, 55, 59, 64, 67,
+          53, 57, 62, 65, 60, 64, 67, 72,  55, 59, 62, 67, 60, 64, 67, 72
+        ],
+        bass: [
+          48, 0, 0, 0,    47, 0, 0, 0,     45, 0, 0, 0,    43, 0, 0, 0,
+          41, 0, 0, 0,    48, 0, 0, 0,     43, 0, 0, 0,    48, 0, 0, 0
+        ],
+        drums: [
+          'K', '.', 'H', '.', 'S', '.', 'H', '.', 'K', '.', 'H', '.', 'S', '.', 'H', '.',
+          'K', '.', 'H', '.', 'S', '.', 'H', '.', 'K', '.', 'H', '.', 'S', '.', '.', '.'
+        ]
+      }
+    ];
 
     function initAudio() {
       if (!audioCtx) {
@@ -1404,7 +1615,205 @@
       if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
+      if (audioCtx && !noiseBuffer) {
+        const bufSize = audioCtx.sampleRate * 0.15;
+        noiseBuffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+        const data = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+      }
     }
+
+    function playChiptuneStep() {
+      if (isMuted || !bgmEnabled || !audioCtx || audioCtx.state !== 'running') return;
+
+      // Automatically play Boss Crisis track while QTE overlay is active!
+      const activeTrack = gameState.activeQte
+        ? CHIPTUNE_TRACKS[2]
+        : (CHIPTUNE_TRACKS[bgmTrackIdx] || CHIPTUNE_TRACKS[0]);
+
+      const step = bgmStepIdx % 32;
+      bgmStepIdx = (bgmStepIdx + 1) % 32;
+      const now = audioCtx.currentTime;
+      const stepDur = (activeTrack.stepMs || 135) / 1000;
+
+      // 1. Lead 8-Bit Channel (Square / Triangle with crisp chiptune envelope)
+      const leadMidi = activeTrack.lead[step];
+      if (leadMidi > 0) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = activeTrack.leadWave || 'square';
+        const freq = midiToFreq(leadMidi);
+        osc.frequency.setValueAtTime(freq * 0.995, now);
+        osc.frequency.exponentialRampToValueAtTime(freq, now + 0.018);
+
+        gain.gain.setValueAtTime(0.032, now);
+        gain.gain.exponentialRampToValueAtTime(0.002, now + stepDur * 0.92);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + stepDur * 0.95);
+      }
+
+      // 2. Arpeggio / Harmony Channel (Classic NES/GameBoy pulse chord sparkle)
+      const arpMidi = activeTrack.arp[step];
+      if (arpMidi > 0) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(midiToFreq(arpMidi), now);
+
+        gain.gain.setValueAtTime(0.014, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + stepDur * 0.75);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + stepDur * 0.78);
+      }
+
+      // 3. Triangle Bass Channel (Warm 8-bit bouncy bass)
+      const bassMidi = activeTrack.bass[step];
+      if (bassMidi > 0) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(midiToFreq(bassMidi), now);
+
+        gain.gain.setValueAtTime(0.055, now);
+        gain.gain.exponentialRampToValueAtTime(0.004, now + stepDur * 0.9);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + stepDur * 0.92);
+      }
+
+      // 4. 8-Bit Percussion Channel (Kick 'K', Snare 'S', Hi-Hat 'H')
+      const drumHit = activeTrack.drums ? activeTrack.drums[step] : '.';
+      if (drumHit === 'K') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(135, now);
+        osc.frequency.exponentialRampToValueAtTime(36, now + 0.065);
+        gain.gain.setValueAtTime(0.065, now);
+        gain.gain.exponentialRampToValueAtTime(0.002, now + 0.07);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.075);
+      } else if ((drumHit === 'S' || drumHit === 'H') && noiseBuffer) {
+        const src = audioCtx.createBufferSource();
+        src.buffer = noiseBuffer;
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = drumHit === 'S' ? 'bandpass' : 'highpass';
+        filter.frequency.setValueAtTime(drumHit === 'S' ? 1800 : 5200, now);
+
+        const gain = audioCtx.createGain();
+        const dur = drumHit === 'S' ? 0.065 : 0.025;
+        gain.gain.setValueAtTime(drumHit === 'S' ? 0.028 : 0.012, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        src.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        src.start(now);
+        src.stop(now + dur);
+      }
+    }
+
+    function restartBgmLoopTimer() {
+      if (bgmTimerId) {
+        clearInterval(bgmTimerId);
+        bgmTimerId = null;
+      }
+      if (!bgmEnabled || isMuted) {
+        bgmPlaying = false;
+        updateBgmHudUI();
+        return;
+      }
+      initAudio();
+      const activeTrack = gameState.activeQte
+        ? CHIPTUNE_TRACKS[2]
+        : (CHIPTUNE_TRACKS[bgmTrackIdx] || CHIPTUNE_TRACKS[0]);
+      bgmPlaying = true;
+      bgmTimerId = setInterval(playChiptuneStep, activeTrack.stepMs || 135);
+      updateBgmHudUI();
+    }
+
+    function ensureBgmStartedOnInteraction() {
+      initAudio();
+      if (bgmEnabled && !isMuted && !bgmTimerId) {
+        restartBgmLoopTimer();
+      }
+    }
+
+    function toggleBgmPlayback() {
+      initAudio();
+      bgmEnabled = !bgmEnabled;
+      if (bgmEnabled) {
+        isMuted = false;
+        const muteBtn = document.getElementById('btnMute');
+        if (muteBtn) muteBtn.textContent = '🔊';
+        bgmStepIdx = 0;
+        restartBgmLoopTimer();
+        const tr = CHIPTUNE_TRACKS[bgmTrackIdx];
+        showToast(`🎵 เปิดเพลง 8-Bit BGM: ${tr.fullName}`);
+      } else {
+        restartBgmLoopTimer();
+        showToast('🔇 ปิดเพลงประกอบ 8-Bit BGM แล้ว (เสียงเอฟเฟกต์ยังเปิดอยู่)');
+      }
+    }
+
+    function cycleBgmTrack() {
+      initAudio();
+      bgmTrackIdx = (bgmTrackIdx + 1) % CHIPTUNE_TRACKS.length;
+      bgmEnabled = true;
+      isMuted = false;
+      bgmStepIdx = 0;
+      restartBgmLoopTimer();
+      const tr = CHIPTUNE_TRACKS[bgmTrackIdx];
+      showToast(`🎶 เปลี่ยนเพลง 8-Bit เป็น: ${tr.fullName}`);
+    }
+
+    function updateBgmHudUI() {
+      const btnToggle = document.getElementById('btnBgmToggle');
+      const statusLbl = document.getElementById('bgmStatusLabel');
+      const noteIcon = document.getElementById('bgmNoteIcon');
+      const trackShort = document.getElementById('bgmTrackShortName');
+      const jukeboxLbl = document.getElementById('jukeboxCurrentTrackLabel');
+      const tr = CHIPTUNE_TRACKS[bgmTrackIdx] || CHIPTUNE_TRACKS[0];
+
+      if (trackShort) trackShort.textContent = tr.shortName;
+      if (jukeboxLbl) {
+        jukeboxLbl.textContent = bgmEnabled && !isMuted
+          ? `กำลังเล่น: ${tr.fullName}`
+          : `ปิดเพลง BGM ชั่วคราว (${tr.fullName})`;
+      }
+      if (btnToggle && statusLbl && noteIcon) {
+        if (bgmEnabled && !isMuted) {
+          btnToggle.className = 'px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition bg-pink-500 text-white rounded-lg flex items-center gap-1';
+          statusLbl.textContent = '8-Bit: ON';
+          noteIcon.textContent = '🎵';
+          noteIcon.className = 'inline-block animate-bounce';
+        } else {
+          btnToggle.className = 'px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition bg-slate-700 text-slate-300 rounded-lg flex items-center gap-1';
+          statusLbl.textContent = '8-Bit: OFF';
+          noteIcon.textContent = '🔇';
+          noteIcon.className = 'inline-block';
+        }
+      }
+    }
+
+    // Unlock & start 8-bit BGM on first user gesture anywhere in the document!
+    ['pointerdown', 'keydown'].forEach(evtName => {
+      window.addEventListener(evtName, () => {
+        ensureBgmStartedOnInteraction();
+      }, { once: false, passive: true });
+    });
 
     function playMangaSfx(type) {
       if (isMuted) return;
@@ -1476,7 +1885,8 @@
       isMuted = !isMuted;
       const btn = document.getElementById('btnMute');
       if (btn) btn.textContent = isMuted ? '🔇' : '🔊';
-      showToast(isMuted ? 'ปิดเสียงเอฟเฟกต์แล้ว' : 'เปิดเสียงเอฟเฟกต์แล้ว');
+      restartBgmLoopTimer();
+      showToast(isMuted ? '🔇 ปิดเสียงทั้งหมด (BGM & SFX) แล้ว' : '🔊 เปิดเสียง 8-Bit BGM & เอฟเฟกต์แล้ว');
     }
 
     // -----------------------------------------------------------------------
@@ -1538,6 +1948,9 @@
       logFilter: 'all',
       activeHudTab: 'stage',
       activeShopTab: 'rooms',
+      activeSocialTab: 'bonds',
+      dynastyHistory: [],
+      selectedHeirId: null,
       shopState: {
         ownedRooms: { room_default: true },
         equippedRoom: 'room_default',
@@ -2049,6 +2462,684 @@
       }
     }
 
+    
+    // -----------------------------------------------------------------------
+    // 4C. DEEP RELATIONSHIPS & MULTI-GENERATIONAL FAMILY TREE ENGINE
+    // -----------------------------------------------------------------------
+    try {
+      const savedTree = localStorage.getItem('cosmic_8t_dynasty_tree_v1');
+      if (savedTree) {
+        const parsedTree = JSON.parse(savedTree);
+        if (Array.isArray(parsedTree)) {
+          gameState.dynastyHistory = parsedTree;
+        }
+      }
+    } catch (e) {}
+
+    function saveDynastyHistory() {
+      try {
+        localStorage.setItem('cosmic_8t_dynasty_tree_v1', JSON.stringify(gameState.dynastyHistory.slice(-15)));
+      } catch (e) {}
+    }
+
+    function getDynastyLegacyBuffs() {
+      const gen = Math.max(1, gameState.dynastyGeneration || 1);
+      const pastCount = gen - 1;
+      return {
+        intBonus: Math.min(25, pastCount * 4),
+        healthBonus: Math.min(25, pastCount * 4),
+        mindBonus: Math.min(20, pastCount * 3),
+        incomeMult: 1 + Math.min(0.60, pastCount * 0.08)
+      };
+    }
+
+    function createInitialRelationshipsForChar(cert) {
+      const surname = cert.fullName.split(' ').slice(1).join(' ') || LAST_NAMES[0];
+      const fFirst = FIRST_NAMES[(cert.fatherAge + 3) % FIRST_NAMES.length].split(' (')[0];
+      const mFirst = FIRST_NAMES[(cert.motherAge + 7) % FIRST_NAMES.length].split(' (')[0];
+
+      const parentJobs = {
+        poor: ['คนงานเหมืองควอนตัมรายวัน', 'พนักงานทำความสะอาดโดม', 'ช่างซ่อมท่อพลังงานสลัม'],
+        middle: ['วิศวกรซ่อมบำรุงระบบราง', 'ครูโรงเรียนชุมชนดาราจักร', 'เจ้าหน้าที่บริหารคลังเสบียง'],
+        wealthy: ['ผู้อำนวยการกองทุนดาราจักร', 'สมาชิกสภาสูงประจำเซกเตอร์', 'ผู้บริหารเครือข่ายเทคโนโลยีนีโอ']
+      };
+      const tier = cert.familyTier || 'middle';
+      const jobs = parentJobs[tier] || parentJobs.middle;
+
+      // If Dynasty Generation > 1 and we have a previous ancestor, link them as the honored parent!
+      const lastAncestor = gameState.dynastyHistory.length > 0
+        ? gameState.dynastyHistory[gameState.dynastyHistory.length - 1]
+        : null;
+
+      const fatherName = (gameState.dynastyGeneration > 1 && lastAncestor)
+        ? lastAncestor.fullName
+        : `${fFirst} ${surname}`;
+      const fatherJob = (gameState.dynastyGeneration > 1 && lastAncestor)
+        ? `${lastAncestor.career} (บรรพบุรุษรุ่นที่ ${lastAncestor.generation})`
+        : jobs[0];
+
+      return [
+        {
+          id: 'npc_father',
+          name: fatherName,
+          roleKey: 'parent',
+          roleBadge: '👨‍🍼 บิดาผู้ให้กำเนิด',
+          age: cert.fatherAge || 28,
+          alive: true,
+          affinity: 88,
+          job: fatherJob,
+          colorHex: 0x38bdf8,
+          hairColor: 0x0284c7,
+          lastInteractAge: -1,
+          desc: 'คอยทำงานหาเลี้ยงและคุ้มครองความปลอดภัยให้ครอบครัวตั้งแต่วันที่คุณลืมตาดูโลก'
+        },
+        {
+          id: 'npc_mother',
+          name: `${mFirst} ${surname}`,
+          roleKey: 'parent',
+          roleBadge: '👩‍🍼 มารดาผู้ให้กำเนิด',
+          age: cert.motherAge || 26,
+          alive: true,
+          affinity: 92,
+          job: jobs[1] || jobs[0],
+          colorHex: 0xf472b6,
+          hairColor: 0xdb2777,
+          lastInteractAge: -1,
+          desc: 'โอบกอดป้อนนมและคอยดูแลยามคุณเจ็บป่วยด้วยความรักความอบอุ่น'
+        }
+      ];
+    }
+
+    function ensureAgeAppropriateRelationships(c) {
+      if (!c) return;
+      if (!c.relationships) {
+        c.relationships = createInitialRelationshipsForChar(c);
+      }
+      if (!c.children) {
+        c.children = [];
+      }
+
+      // Age all living NPCs by 1 year when called annually
+      c.relationships.forEach(npc => {
+        if (npc.alive) {
+          npc.age = (npc.age || 20) + 1;
+          // Parents may pass away peacefully in very old age (82+)
+          if (npc.roleKey === 'parent' && npc.age >= 82 && Math.random() < 0.18) {
+            npc.alive = false;
+            const inheritance = Math.floor(c.familyIncome * 0.45);
+            c.wealth += inheritance;
+            if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+            addLifeLog(c.age, 'milestone', `🕯️ "${npc.name}" (${npc.roleBadge}) สิ้นอายุขัยอย่างสงบในวัย ${npc.age} ปี และได้ทิ้งมรดกความทรงจำพร้อมเงินออม ₡${inheritance.toLocaleString()} ไว้ให้คุณ`);
+          }
+        }
+      });
+
+      c.children.forEach(ch => {
+        ch.age = (ch.age || 0) + 1;
+      });
+
+      // At Age 5: Unlock Childhood Best Friend & School Rival!
+      if (c.age >= 5 && !c.relationships.some(r => r.roleKey === 'friend')) {
+        const bfName = FIRST_NAMES[(c.visualSeed + 3) % FIRST_NAMES.length];
+        const rvName = FIRST_NAMES[(c.visualSeed + 9) % FIRST_NAMES.length];
+        c.relationships.push(
+          {
+            id: 'npc_best_friend',
+            name: bfName,
+            roleKey: 'friend',
+            roleBadge: '🤝 เพื่อนสนิทวัยเรียน',
+            age: c.age,
+            alive: true,
+            affinity: 72,
+            job: 'เพื่อนร่วมชั้นเรียนดาราจักร',
+            colorHex: 0x34d399,
+            hairColor: 0x10b981,
+            lastInteractAge: -1,
+            desc: 'เพื่อนซี้ที่แบ่งขนมและวิ่งหลบภัยมาด้วยกันตั้งแต่สมัยอนุบาล'
+          },
+          {
+            id: 'npc_rival',
+            name: rvName,
+            roleKey: 'rival',
+            roleBadge: '⚡ คู่แข่งชะตาฟ้าลิขิต',
+            age: c.age,
+            alive: true,
+            affinity: 42,
+            job: 'ดาวรุ่งอัจฉริยะประจำเซกเตอร์',
+            colorHex: 0xf59e0b,
+            hairColor: 0xd97706,
+            lastInteractAge: -1,
+            desc: 'คู่แข่งที่คอยท้าดวลวัดฝีมือกับคุณทุกสนาม หากสนิทกันเกิน 80% จะกลายเป็นคู่หูระดับตำนาน!'
+          }
+        );
+        addLifeLog(c.age, 'cosmic', `🎒 เข้าสู่วัยเรียน! คุณได้พบกับเพื่อนสนิท "${bfName}" และคู่แข่งตัวฉกาจ "${rvName}" (เปิดเมนู 💞 สายสัมพันธ์ เพื่อพูดคุยหรือท้าประลองได้!)`);
+      }
+
+      // Sync c.partner into c.relationships if player found a partner via events!
+      if (c.partner && c.partner !== 'โสด' && !c.relationships.some(r => r.roleKey === 'partner' || r.roleKey === 'spouse')) {
+        const pFirst = FIRST_NAMES[(c.visualSeed + 14) % FIRST_NAMES.length].split(' (')[0];
+        c.relationships.push({
+          id: 'npc_partner',
+          name: `${pFirst} (${c.partner})`,
+          roleKey: 'partner',
+          roleBadge: '💕 คนรักข้ามเผ่าพันธุ์',
+          age: Math.max(18, c.age),
+          alive: true,
+          affinity: 78,
+          job: c.partner,
+          colorHex: 0xf472b6,
+          hairColor: 0xec4899,
+          lastInteractAge: -1,
+          desc: 'คนสำคัญที่คอยเคียงข้างให้กำลังใจคุณท่ามกลางพายุวิกฤตแห่งดวงดาว'
+        });
+      }
+
+      // Passive Annual Bonus from High-Affinity Spouse & Friends!
+      const spouse = c.relationships.find(r => r.roleKey === 'spouse' && r.alive);
+      if (spouse) {
+        const spouseBonus = Math.floor(350 + spouse.affinity * 3);
+        c.wealth += spouseBonus;
+        c.mind = Math.min(100, c.mind + 3);
+        if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+      }
+
+      // Auto-select appropriate default visiting NPC in 2D room if none set
+      if (!c.visitingNpcId || !c.relationships.some(r => r.id === c.visitingNpcId && r.alive)) {
+        if (c.age <= 5) {
+          c.visitingNpcId = 'npc_mother';
+        } else if (spouse) {
+          c.visitingNpcId = spouse.id;
+        } else {
+          const partnerNpc = c.relationships.find(r => r.roleKey === 'partner' && r.alive);
+          const friendNpc = c.relationships.find(r => r.roleKey === 'friend' && r.alive);
+          c.visitingNpcId = (partnerNpc && partnerNpc.id) || (friendNpc && friendNpc.id) || 'npc_mother';
+        }
+      }
+    }
+
+    function getActiveVisitingNpc(c) {
+      if (!c || !c.relationships) return null;
+      if (c.visitingNpcId === 'none') return null;
+      return c.relationships.find(r => r.id === c.visitingNpcId && r.alive) || c.relationships.find(r => r.alive) || null;
+    }
+
+    function updateSocialHudBadges() {
+      const c = gameState.activeChar;
+      const pill = document.getElementById('hudRelationshipPill');
+      if (pill && c) {
+        const relCount = (c.relationships ? c.relationships.filter(r => r.alive).length : 0) + (c.children ? c.children.length : 0);
+        const childCount = c.children ? c.children.length : 0;
+        pill.textContent = childCount > 0
+          ? `💞 สายสัมพันธ์ (${relCount}) • 👶 ทายาท ${childCount}`
+          : `💞 สายสัมพันธ์ (${relCount}) • รุ่นที่ ${gameState.dynastyGeneration || 1}`;
+      }
+      const visitorEl = document.getElementById('socialModalVisitorName');
+      if (visitorEl && c) {
+        const v = getActiveVisitingNpc(c);
+        visitorEl.textContent = v ? `${v.roleBadge.split(' ')[0]} ${v.name.split(' ')[0]}` : 'พักผ่อนตามลำพัง';
+      }
+    }
+
+    function openSocialFamilyModal(initialTab) {
+      gameState.prevSpeedBeforeModal = gameState.simSpeed;
+      pauseSimulationLoop();
+      if (initialTab) {
+        gameState.activeSocialTab = initialTab;
+      }
+      if (gameState.activeChar) {
+        ensureAgeAppropriateRelationships(gameState.activeChar);
+      }
+      switchSocialModalTab(gameState.activeSocialTab || 'bonds');
+      document.getElementById('relationshipFamilyModal').classList.remove('hidden');
+    }
+
+    function closeSocialFamilyModal() {
+      document.getElementById('relationshipFamilyModal').classList.add('hidden');
+      if (gameState.activeChar && gameState.activeChar.alive && gameState.prevSpeedBeforeModal > 0) {
+        setSimSpeed(gameState.prevSpeedBeforeModal);
+      }
+    }
+
+    function switchSocialModalTab(tabKey) {
+      gameState.activeSocialTab = tabKey;
+      const btnBonds = document.getElementById('socialTabBtn_bonds');
+      const btnTree = document.getElementById('socialTabBtn_tree');
+      const viewBonds = document.getElementById('socialTabView_bonds');
+      const viewTree = document.getElementById('socialTabView_tree');
+
+      if (tabKey === 'bonds') {
+        btnBonds.className = 'manga-btn py-1.5 px-3 bg-[#ff2a5f] text-white text-center';
+        btnTree.className = 'manga-btn py-1.5 px-3 bg-[#1a1f35] text-slate-300 hover:text-white text-center';
+        viewBonds.classList.remove('hidden');
+        viewTree.classList.add('hidden');
+        renderSocialBondsTab();
+      } else {
+        btnTree.className = 'manga-btn py-1.5 px-3 bg-[#ff2a5f] text-white text-center';
+        btnBonds.className = 'manga-btn py-1.5 px-3 bg-[#1a1f35] text-slate-300 hover:text-white text-center';
+        viewTree.classList.remove('hidden');
+        viewBonds.classList.add('hidden');
+        renderFamilyTreeTab();
+      }
+    }
+
+    function renderSocialBondsTab() {
+      const c = gameState.activeChar;
+      const container = document.getElementById('socialBondsListContainer');
+      if (!container) return;
+
+      const gen = gameState.dynastyGeneration || 1;
+      const leg = getDynastyLegacyBuffs();
+      const badgeEl = document.getElementById('socialModalDynastyBadge');
+      if (badgeEl) badgeEl.textContent = `🧬 ตระกูลรุ่นที่ ${gen}`;
+      const buffEl = document.getElementById('socialModalLegacyBuffText');
+      if (buffEl) {
+        buffEl.textContent = gen > 1
+          ? `บัฟสายเลือดรุ่นที่ ${gen}: +${leg.intBonus}🧠 +${leg.healthBonus}❤️ +${Math.round((leg.incomeMult - 1) * 100)}% รายได้`
+          : 'บัฟสายเลือดตระกูล: สืบทอดทายาทเมื่อจบชีวิตเพื่อสะสมบัฟตระกูลข้ามรุ่น!';
+      }
+
+      if (!c) {
+        container.innerHTML = `<div class="text-center py-8 text-slate-400">กรุณากดเริ่มชีวิตใหม่เพื่อสร้างสายสัมพันธ์และครอบครัว</div>`;
+        return;
+      }
+
+      ensureAgeAppropriateRelationships(c);
+      updateSocialHudBadges();
+
+      const btnFindPartner = document.getElementById('btnSocialFindPartner');
+      const btnHaveChild = document.getElementById('btnSocialHaveChild');
+      if (btnFindPartner) {
+        btnFindPartner.disabled = !c.alive || c.age < 16;
+      }
+      if (btnHaveChild) {
+        btnHaveChild.disabled = !c.alive || c.age < 18;
+      }
+
+      let htmlCards = '';
+
+      // 1. Render Children / Heirs Section if any exist!
+      if (c.children && c.children.length > 0) {
+        htmlCards += `
+          <div class="bg-[#1b1936] border-2 border-[#fde047] rounded-2xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-xs sm:text-sm text-[#fde047] font-display">👶 บุตรธิดา & ทายาทผู้สืบทอดตระกูล (${c.children.length} คน)</strong>
+              <span class="text-[10px] text-amber-200">เลือกตั้งเป็นทายาทหลักเพื่อรับมรดกเมื่อจบชีวิตได้!</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${c.children.map(ch => {
+                const isHeir = (gameState.selectedHeirId === ch.id) || (!gameState.selectedHeirId && c.children[0].id === ch.id);
+                return `
+                  <div class="bg-[#0e1225] border ${isHeir ? 'border-[#fde047]' : 'border-slate-700'} rounded-xl p-2.5 flex items-center justify-between gap-2">
+                    <div>
+                      <div class="flex items-center gap-1.5">
+                        <strong class="text-white text-xs">${ch.name}</strong>
+                        <span class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-full">อายุ ${ch.age} ปี</span>
+                      </div>
+                      <div class="text-[10px] text-cyan-300 mt-0.5">${ch.traitName}</div>
+                    </div>
+                    <button onclick="selectDesignatedHeir('${ch.id}')" class="manga-btn px-2.5 py-1 text-[10px] ${isHeir ? 'bg-emerald-400 text-slate-950 font-black' : 'bg-slate-800 text-slate-300'} shrink-0">
+                      ${isHeir ? '👑 ทายาทหลัก' : 'ตั้งเป็นทายาท'}
+                    </button>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. Render NPC Relationship Cards
+      htmlCards += c.relationships.map(npc => {
+        const isVisiting = c.visitingNpcId === npc.id;
+        const canInteractThisYear = c.alive && npc.alive && npc.lastInteractAge !== c.age;
+        const canMarry = c.alive && npc.alive && npc.roleKey === 'partner' && npc.affinity >= 80 && c.age >= 18;
+        const barColor = npc.roleKey === 'rival' && npc.affinity < 70
+          ? 'from-amber-500 to-rose-500'
+          : 'from-pink-500 via-amber-300 to-emerald-400';
+
+        return `
+          <div class="bg-[#161b33] border-2 ${isVisiting ? 'border-pink-400 shadow-[0_0_14px_rgba(244,114,182,0.25)]' : 'border-slate-700'} rounded-2xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="space-y-1 flex-1 min-w-0 w-full">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="manga-badge bg-slate-900 text-pink-300 border-pink-400/60">${npc.roleBadge}</span>
+                <strong class="text-sm sm:text-base font-extrabold text-white">${npc.name}</strong>
+                <span class="text-[11px] text-slate-400">(${npc.alive ? `อายุ ${npc.age} ปี` : '🕯️ ล่วงลับ'})</span>
+                ${isVisiting && npc.alive ? '<span class="text-[10px] bg-pink-500/30 border border-pink-300 text-pink-100 px-2 py-0.5 rounded-full font-bold">🏠 อยู่ในห้อง 2D</span>' : ''}
+              </div>
+              <div class="text-[11px] text-cyan-300 font-medium">อาชีพ/สถานะ: ${npc.job}</div>
+              <p class="text-[11px] text-slate-300 leading-snug">${npc.desc}</p>
+              <!-- Affinity Bar -->
+              <div class="pt-1 flex items-center gap-2">
+                <span class="text-[10px] font-bold text-pink-200 shrink-0">❤️ ความผูกพัน: ${npc.affinity}%</span>
+                <div class="flex-1 h-2 bg-slate-900 border border-slate-700 rounded-full overflow-hidden max-w-[200px]">
+                  <div class="h-full bg-gradient-to-r ${barColor} transition-all duration-300" style="width: ${npc.affinity}%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5 shrink-0 w-full sm:w-auto justify-end">
+              ${npc.alive ? `
+                <button onclick="interactWithNpc('${npc.id}', 'talk')" ${canInteractThisYear ? '' : 'disabled'} class="manga-btn px-2.5 py-1.5 bg-[#00f0ff] text-slate-950 font-extrabold text-xs">
+                  💬 พูดคุย (${canInteractThisYear ? 'ฟรี' : 'คุยปีนี้แล้ว'})
+                </button>
+                <button onclick="interactWithNpc('${npc.id}', 'gift')" ${c.alive && c.wealth >= 250 ? '' : 'disabled'} class="manga-btn px-2.5 py-1.5 bg-[#fde047] text-slate-950 font-extrabold text-xs">
+                  🎁 ของขวัญ (₡250)
+                </button>
+                ${canMarry ? `
+                  <button onclick="interactWithNpc('${npc.id}', 'marry')" class="manga-btn px-2.5 py-1.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-black text-xs animate-pulse">
+                    💍 ขอแต่งงาน!
+                  </button>
+                ` : ''}
+                <button onclick="toggleNpcRoomVisit('${npc.id}')" class="manga-btn px-2.5 py-1.5 ${isVisiting ? 'bg-pink-500 text-white' : 'bg-slate-800 text-slate-200'} text-xs font-bold">
+                  ${isVisiting ? '✓ อยู่ในห้อง 2D' : '🏠 เชิญเข้าห้อง 2D'}
+                </button>
+              ` : `<span class="text-xs text-slate-500 font-bold">อยู่ในความทรงจำนิรันดร์</span>`}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = htmlCards;
+    }
+
+    function interactWithNpc(npcId, actionType) {
+      const c = gameState.activeChar;
+      if (!c || !c.alive) return;
+      ensureAgeAppropriateRelationships(c);
+      const npc = c.relationships.find(r => r.id === npcId);
+      if (!npc || !npc.alive) return;
+
+      if (actionType === 'talk') {
+        if (npc.lastInteractAge === c.age) {
+          showToast('คุณพูดคุยเปิดใจกับคนนี้ในปีนี้ไปแล้ว! ลองมอบของขวัญหรือเดินหน้าสู่ปีถัดไป');
+          return;
+        }
+        npc.lastInteractAge = c.age;
+        npc.affinity = Math.min(100, npc.affinity + 12);
+        c.mind = Math.min(100, c.mind + 5);
+        c.aptitudes.emp += 2;
+        playMangaSfx('start');
+
+        if (npc.roleKey === 'rival' && npc.affinity >= 80) {
+          npc.roleBadge = '🔥 คู่หูพันธมิตรไร้พ่าย';
+          c.intellect = Math.min(100, c.intellect + 4);
+          c.aptitudes.vit += 3;
+          addLifeLog(c.age, 'milestone', `🔥 มิตรภาพเหนือการแข่งขัน! คู่แข่ง "${npc.name}" ยอมรับในตัวคุณและกลายเป็นคู่หูพันธมิตรไร้พ่าย (+4 🧠 / +3 ⚔️)!`);
+        } else {
+          addLifeLog(c.age, 'normal', `💬 ใช้เวลาพูดคุยเปิดใจกับ "${npc.name}" (${npc.roleBadge}) ความผูกพันเพิ่มขึ้นเป็น ${npc.affinity}% (+5 ✨ ความสุข)`);
+        }
+        c.sfxWord = '絆! สายสัมพันธ์แน่นแฟ้น!';
+        spawnFloatingPopup(`💞 +12% ผูกพัน / +5 ✨`, '#f472b6');
+      } else if (actionType === 'gift') {
+        if (c.wealth < 250) {
+          showToast('เครดิตไม่พอ! ต้องใช้ ₡250 เพื่อซื้อของขวัญ');
+          return;
+        }
+        c.wealth -= 250;
+        npc.affinity = Math.min(100, npc.affinity + 18);
+        c.mind = Math.min(100, c.mind + 6);
+        c.fame = Math.min(100, c.fame + 2);
+        gameState.karmaPoints += 1;
+        saveKarmaPoints();
+        playMangaSfx('milestone');
+        c.sfxWord = '贈り物! มอบของขวัญ!';
+        spawnFloatingPopup(`🎁 +18% ผูกพัน / +1✦`, '#fde047');
+        addLifeLog(c.age, 'cosmic', `🎁 มอบของขวัญพิเศษให้ "${npc.name}" ประทับใจสุดๆ ความผูกพันพุ่งเป็น ${npc.affinity}% (+6 ✨ / +1✦ แต้มกรรม)!`);
+      } else if (actionType === 'marry') {
+        npc.roleKey = 'spouse';
+        npc.roleBadge = '💍 คู่สมรสแห่งดวงดาว';
+        npc.affinity = 100;
+        c.partner = `${npc.name.split(' ')[0]} (คู่สมรส)`;
+        c.mind = 100;
+        c.fame = Math.min(100, c.fame + 12);
+        c.visitingNpcId = npc.id;
+        playMangaSfx('start');
+        c.sfxWord = '結婚! วิวาห์ข้ามดาราจักร!';
+        spawnFloatingPopup(`💍 แต่งงานสำเร็จ! +100% ความสุข`, '#f472b6');
+        addLifeLog(c.age, 'milestone', `💍 จัดพิธีวิวาห์แสนอบอุ่นกับ "${npc.name}"! คู่สมรสจะช่วยหาเงินเข้าบ้านทุกปีและพร้อมมีทายาทสืบทอดตระกูล!`);
+        showToast(`💍 ยินดีด้วย! คุณแต่งงานกับ ${npc.name} เรียบร้อยแล้ว!`);
+      }
+
+      renderSocialBondsTab();
+      updateCharacterUI();
+    }
+
+    function toggleNpcRoomVisit(npcId) {
+      const c = gameState.activeChar;
+      if (!c) return;
+      playMangaSfx('roll');
+      c.visitingNpcId = (c.visitingNpcId === npcId) ? 'none' : npcId;
+      renderSocialBondsTab();
+      updateCharacterUI();
+      const v = getActiveVisitingNpc(c);
+      showToast(v ? `🏠 เชิญ "${v.name.split(' ')[0]}" เข้ามาอยู่เป็นเพื่อนในห้อง 2D แล้ว!` : '🏠 ให้ตัวละครพักผ่อนตามลำพังในห้อง 2D');
+    }
+
+    function triggerSocialSpecialAction(actionType) {
+      const c = gameState.activeChar;
+      if (!c || !c.alive) return;
+      ensureAgeAppropriateRelationships(c);
+
+      if (actionType === 'find_partner') {
+        if (c.age < 16) {
+          showToast('ต้องมีอายุ 16 ปีขึ้นไปจึงจะออกเดตค้นหาคนรักได้!');
+          return;
+        }
+        if (c.wealth < 250) {
+          showToast('ต้องใช้ ₡250 สำหรับออกเดตค้นหาคนรักข้ามดวงดาว!');
+          return;
+        }
+        c.wealth -= 250;
+        playMangaSfx('start');
+
+        const existingPartner = c.relationships.find(r => r.roleKey === 'partner' || r.roleKey === 'spouse');
+        if (existingPartner) {
+          existingPartner.affinity = Math.min(100, existingPartner.affinity + 20);
+          c.mind = Math.min(100, c.mind + 8);
+          c.visitingNpcId = existingPartner.id;
+          addLifeLog(c.age, 'cosmic', `💘 พาคนรัก "${existingPartner.name}" ไปออกเดตชมฝนดาวตก ความผูกพันเพิ่มเป็น ${existingPartner.affinity}%!`);
+          showToast(`💘 เดตสุดโรแมนติก! ความผูกพันกับ ${existingPartner.name.split(' ')[0]} พุ่งเป็น ${existingPartner.affinity}%!`);
+        } else {
+          const pFirst = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)].split(' (')[0];
+          const partnerRoles = ['นักบินอวกาศดาวโลก', 'ไอดอลโฮโลแกรมอากิบะ', 'จอมเวทศิลาดารา', 'แพทย์ชีวภาพทาลัสซา', 'ทายาทกลุ่มการค้าดาราจักร'];
+          const pJob = partnerRoles[Math.floor(Math.random() * partnerRoles.length)];
+          const newPartner = {
+            id: 'npc_partner_' + Date.now(),
+            name: `${pFirst} (${pJob})`,
+            roleKey: 'partner',
+            roleBadge: '💕 คนรักข้ามเผ่าพันธุ์',
+            age: c.age + Math.floor(Math.random() * 5 - 2),
+            alive: true,
+            affinity: 75,
+            job: pJob,
+            colorHex: 0xf472b6,
+            hairColor: 0xec4899,
+            lastInteractAge: -1,
+            desc: 'พบรักกันในงานเทศกาลดวงดาว คอยเติมเต็มรอยยิ้มและพร้อมสร้างครอบครัวไปกับคุณ'
+          };
+          c.relationships.push(newPartner);
+          c.partner = `${pFirst} (${pJob})`;
+          c.visitingNpcId = newPartner.id;
+          c.mind = Math.min(100, c.mind + 12);
+          addLifeLog(c.age, 'milestone', `💘 พรหมลิขิตข้ามดวงดาว! คุณได้พบรักกับ "${newPartner.name}" และเชิญเข้ามาในห้อง 2D เรียบร้อย!`);
+          showToast(`💘 พบรักใหม่กับ "${newPartner.name}"! พัฒนาความผูกพันถึง 80% เพื่อขอแต่งงานได้เลย!`);
+        }
+      } else if (actionType === 'have_child') {
+        if (c.age < 18) {
+          showToast('ต้องมีอายุอย่างน้อย 18 ปีขึ้นไปจึงจะมีบุตรหรือรับทายาทสืบทอดตระกูลได้!');
+          return;
+        }
+        if (c.children && c.children.length >= 4) {
+          showToast('คุณมีบุตรธิดาครบ 4 คนแล้ว สามารถเลือกตั้งทายาทหลักได้จากรายชื่อด้านล่าง!');
+          return;
+        }
+        playMangaSfx('start');
+        const surname = c.fullName.split(' ').slice(1).join(' ') || LAST_NAMES[0];
+        const childFirst = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)].split(' (')[0];
+        const childTrait = INNATE_TRAITS[Math.floor(Math.random() * (INNATE_TRAITS.length - 1))];
+        const childObj = {
+          id: 'child_' + Date.now() + '_' + Math.floor(Math.random() * 100),
+          name: `${childFirst} ${surname}`,
+          firstName: childFirst,
+          age: 0,
+          traitName: childTrait.name,
+          traitObj: childTrait
+        };
+        c.children.push(childObj);
+        gameState.selectedHeirId = childObj.id;
+
+        // Also add child as a visible NPC card so they can hang out in the 2D room!
+        c.relationships.push({
+          id: childObj.id,
+          name: childObj.name,
+          roleKey: 'child',
+          roleBadge: '👶 บุตร/ทายาทสายเลือด',
+          age: 0,
+          alive: true,
+          affinity: 100,
+          job: `ทายาทรุ่นที่ ${(gameState.dynastyGeneration || 1) + 1}`,
+          colorHex: 0xfde047,
+          hairColor: c.planet.colorPrimary,
+          lastInteractAge: -1,
+          desc: `แก้วตาดวงใจของคุณ (${childTrait.name}) พร้อมสืบทอดตระกูลในรุ่นถัดไป!`
+        });
+        c.visitingNpcId = childObj.id;
+        c.mind = Math.min(100, c.mind + 15);
+        c.sfxWord = '誕生! กำเนิดทายาทใหม่!';
+        spawnFloatingPopup(`👶 กำเนิดทายาท "${childFirst}"!`, '#fde047');
+        addLifeLog(c.age, 'milestone', `👶 ข่าวดีแห่งตระกูล! บุตรทายาท "${childObj.name}" ลืมตาดูโลกพร้อมพรสวรรค์ "${childTrait.name}"!`);
+        showToast(`👶 กำเนิดทายาทใหม่ "${childObj.name}"! น้องเข้ามาเดินเล่นในห้อง 2D แล้ว!`);
+      }
+
+      renderSocialBondsTab();
+      updateCharacterUI();
+    }
+
+    function selectDesignatedHeir(childId) {
+      gameState.selectedHeirId = childId;
+      playMangaSfx('roll');
+      renderSocialBondsTab();
+      showToast('👑 ตั้งเป็นทายาทหลักที่จะสืบทอดตระกูลและมรดก 35% ในรุ่นถัดไปเรียบร้อย!');
+    }
+
+    function renderFamilyTreeTab() {
+      const container = document.getElementById('familyTreeVisualContainer');
+      if (!container) return;
+      const c = gameState.activeChar;
+      const history = gameState.dynastyHistory || [];
+      const curGen = gameState.dynastyGeneration || 1;
+
+      let html = '';
+
+      // 1. Past Generations Lineage (Ancestors)
+      if (history.length > 0) {
+        html += `
+          <div class="bg-[#14182e] border border-amber-400/50 rounded-2xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-xs sm:text-sm text-[#fde047] font-display">🏛️ ทำเนียบบรรพบุรุษผู้ก่อตั้งตระกูล (${history.length} รุ่นที่ผ่านมา)</strong>
+              <span class="text-[10px] text-slate-400">ส่งต่อสายเลือดและมรดกข้ามชาติภพ</span>
+            </div>
+            <div class="space-y-2">
+              ${history.map((anc) => `
+                <div class="bg-[#0b0e1d] border-l-4 border-[#fde047] rounded-xl p-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                  <div>
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <span class="bg-amber-400 text-slate-950 font-display font-black text-[10px] px-2 py-0.5 rounded">รุ่นที่ ${anc.generation}</span>
+                      <strong class="text-white text-xs sm:text-sm">${anc.fullName}</strong>
+                      <span class="text-[10px] text-cyan-300">(${anc.formName})</span>
+                    </div>
+                    <div class="text-[11px] text-slate-300 mt-0.5">
+                      🪐 ${anc.planetName} • 💼 อาชีพ: <b>${anc.career}</b> • ❤️ คู่ครอง: <b>${anc.partner}</b>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <span class="text-[10px] font-display font-bold text-pink-300 block">${anc.endingRank}</span>
+                    <span class="text-[11px] font-display font-bold text-[#fde047]">อายุขัย ${anc.finalAge} ปี • ₡${(anc.maxWealth || 0).toLocaleString()}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          <div class="flex justify-center my-1">
+            <div class="w-1 h-5 bg-gradient-to-b from-[#fde047] to-[#00f0ff]"></div>
+          </div>
+        `;
+      }
+
+      // 2. Current Generation Family Tree Diagram (Parents -> You & Partner -> Children/Heirs)
+      if (c) {
+        ensureAgeAppropriateRelationships(c);
+        const parents = c.relationships.filter(r => r.roleKey === 'parent');
+        const spouseOrPartner = c.relationships.find(r => r.roleKey === 'spouse' || r.roleKey === 'partner');
+        const children = c.children || [];
+
+        html += `
+          <div class="bg-[#151b36] border-2 border-[#00f0ff] rounded-2xl p-3.5 space-y-3">
+            <div class="text-center">
+              <span class="bg-[#00f0ff] text-slate-950 font-display font-black text-[10px] px-2.5 py-0.5 rounded-full">CURRENT GENERATION TREE // ผังครอบครัวรุ่นที่ ${curGen}</span>
+            </div>
+
+            <!-- Row A: Parents -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${parents.map(p => `
+                <div class="bg-[#0c1022] border border-slate-700 rounded-xl p-2.5 text-center">
+                  <span class="text-[10px] text-sky-300 font-bold block">${p.roleBadge}</span>
+                  <strong class="text-white text-xs sm:text-sm">${p.name}</strong>
+                  <div class="text-[10px] text-slate-400">${p.job} • ผูกพัน ${p.affinity}%</div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="flex justify-center">
+              <div class="w-0.5 h-4 bg-cyan-400"></div>
+            </div>
+
+            <!-- Row B: Active Character & Partner/Spouse -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center">
+              <div class="bg-gradient-to-r from-[#2b1948] to-[#1a2548] border-2 border-pink-400 rounded-xl p-3 text-center shadow-md">
+                <span class="text-[10px] bg-pink-500 text-white px-2 py-0.5 rounded-full font-bold">🌟 ตัวคุณ (รุ่นที่ ${curGen})</span>
+                <strong class="text-white text-sm sm:text-base block mt-1">${c.fullName}</strong>
+                <div class="text-[11px] text-[#fde047] font-medium">อายุ ${c.age} ปี • ${c.career}</div>
+              </div>
+
+              <div class="bg-[#0c1022] border-2 border-dashed ${spouseOrPartner ? 'border-pink-400' : 'border-slate-700'} rounded-xl p-3 text-center">
+                <span class="text-[10px] text-pink-300 font-bold block">${spouseOrPartner ? spouseOrPartner.roleBadge : '💕 คู่ครอง / พันธมิตรชีวิต'}</span>
+                <strong class="text-white text-xs sm:text-sm block mt-1">${spouseOrPartner ? spouseOrPartner.name : c.partner}</strong>
+                <div class="text-[10px] text-slate-400">${spouseOrPartner ? `ความผูกพัน ${spouseOrPartner.affinity}%` : 'สามารถกดออกเดตค้นหาคนรักได้เมื่ออายุ 16+ ปี'}</div>
+              </div>
+            </div>
+
+            <div class="flex justify-center">
+              <div class="w-0.5 h-4 bg-[#fde047]"></div>
+            </div>
+
+            <!-- Row C: Children / Next Generation Heirs -->
+            <div class="bg-[#0b0e1d] border border-amber-400/60 rounded-xl p-3">
+              <div class="text-center mb-2">
+                <strong class="text-xs text-[#fde047] font-display">👶 ทายาทรุ่นถัดไป (รุ่นที่ ${curGen + 1})</strong>
+              </div>
+              ${children.length > 0 ? `
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  ${children.map(ch => `
+                    <div class="bg-[#161c38] border border-amber-300/60 rounded-lg p-2 text-center">
+                      <strong class="text-white text-xs block">👶 ${ch.name} (อายุ ${ch.age} ปี)</strong>
+                      <span class="text-[10px] text-cyan-300">${ch.traitName}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : `
+                <div class="text-center text-[11px] text-slate-400 py-2">
+                  ยังไม่มีบุตรธิดาในชาติภพนี้ (สามารถกดปุ่ม <b>"🍼 มีบุตร / รับทายาทสืบทอด"</b> ในแท็บสายสัมพันธ์เมื่ออายุ 18+ ปี หรือกดปุ่มสืบทอดทายาทตอนจบชีวิตได้ทันที)
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
     function getPermanentTitleBuffs() {
       let buffs = { health: 0, int: 0, wealth: 0, earth: 0, life: 0 };
       AKASHIC_TITLES.forEach(t => {
@@ -2419,6 +3510,9 @@
       }
 
       const permBuffs = getPermanentTitleBuffs();
+      const dynBuffs = getDynastyLegacyBuffs();
+      permBuffs.health += dynBuffs.healthBonus;
+      permBuffs.int += dynBuffs.intBonus;
       const startWealth = Math.floor(cert.familyIncome * 0.5) + permBuffs.wealth + (gameState.inheritedWealth || 0);
       gameState.interactiveCombo = 1;
 
@@ -2455,6 +3549,9 @@
         currentRoutineTime: '🌅 ยามเช้า',
         currentRoutineText: 'นอนมองโมบายดวงดาวและดื่มนมสังเคราะห์เสริมภูมิคุ้มกันในอ้อมกอดพ่อแม่',
         currentRoutineProp: 'cradle',
+        relationships: createInitialRelationshipsForChar(cert),
+        children: [],
+        visitingNpcId: 'npc_mother',
         logs: [],
         sfxWord: gameState.dynastyGeneration > 1 ? `継! ทายาทรุ่นที่ ${gameState.dynastyGeneration}!` : '誕! กำเนิดใหม่!',
         speechText: `แว้! ข้าคือ ${cert.firstName} (รุ่นที่ ${gameState.dynastyGeneration}) มาร่วมดูแลชีวิตประจำวันและตัดสินใจอนาคตให้ข้าในทุกๆ ปีกันเถอะ!`
@@ -2693,6 +3790,7 @@
         gameState.phaserScene.spawnQteMeteors(tpl.targetHits);
       }
 
+      restartBgmLoopTimer();
       updateQteOverlayUI();
       document.getElementById('qteOverlay').classList.remove('hidden');
 
@@ -2792,6 +3890,7 @@
         clearInterval(gameState.activeQte.timerId);
       }
       gameState.activeQte = null;
+      restartBgmLoopTimer();
       document.getElementById('qteOverlay').classList.add('hidden');
       if (gameState.phaserScene) {
         gameState.phaserScene.clearQteMeteors();
@@ -3736,6 +4835,7 @@
 
       applyAnnualFocusProgression(c);
       applyRoomAndPetAnnualBuffs(c);
+      ensureAgeAppropriateRelationships(c);
 
       const diedThisYear = evaluateStatisticalEventsAndMortality(c);
       if (diedThisYear) {
@@ -5804,25 +6904,53 @@
         reincarnateFromSummary();
         return;
       }
+      // Save ancestor into Dynasty Family Tree History!
+      const prevEvo = getCharacterEvolutionForm(prevChar);
+      const prevEnd = prevChar.lastEndingInfo || classifyLifeEnding(prevChar, prevChar.lastDeathReason || '');
+      gameState.dynastyHistory.push({
+        generation: gameState.dynastyGeneration || 1,
+        fullName: prevChar.fullName,
+        planetName: prevChar.planet.shortName,
+        career: prevChar.career,
+        partner: prevChar.partner || 'โสด',
+        finalAge: prevChar.age,
+        maxWealth: prevChar.maxWealth,
+        formName: prevEvo.formName,
+        endingRank: prevEnd.rank
+      });
+      saveDynastyHistory();
+
       gameState.dynastyGeneration = (gameState.dynastyGeneration || 1) + 1;
       gameState.inheritedWealth = Math.floor(prevChar.maxWealth * 0.35);
 
       const nameParts = prevChar.fullName.split(' ');
       const familySurname = nameParts.length > 1 ? nameParts.slice(1).join(' ') : LAST_NAMES[0];
-      const newFirst = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
+      const designatedChild = (prevChar.children && prevChar.children.length > 0)
+        ? (prevChar.children.find(ch => ch.id === gameState.selectedHeirId) || prevChar.children[0])
+        : null;
+      const newFirst = designatedChild
+        ? designatedChild.firstName
+        : FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
 
       const heirCert = generateBirthCandidate();
       heirCert.planet = prevChar.planet;
       heirCert.city = prevChar.city;
       heirCert.firstName = newFirst;
-      heirCert.fullName = `${newFirst} ${familySurname}`;
-      heirCert.familyIncome = Math.max(heirCert.familyIncome, Math.floor(prevChar.familyIncome * 1.15));
-      heirCert.trait = {
-        name: `สายเลือดสืบทอดรุ่นที่ ${gameState.dynastyGeneration} (+ปัญญา/+สุขภาพ/+จิตใจ)`,
-        intBonus: 16,
-        healthBonus: 14,
-        mindBonus: 14
-      };
+      heirCert.fullName = designatedChild ? designatedChild.name : `${newFirst} ${familySurname}`;
+      heirCert.familyIncome = Math.max(heirCert.familyIncome, Math.floor(prevChar.familyIncome * 1.18));
+      heirCert.trait = designatedChild && designatedChild.traitObj
+        ? {
+            name: `${designatedChild.traitName} (ทายาทรุ่นที่ ${gameState.dynastyGeneration})`,
+            intBonus: (designatedChild.traitObj.intBonus || 12) + 8,
+            healthBonus: (designatedChild.traitObj.healthBonus || 10) + 8,
+            mindBonus: (designatedChild.traitObj.mindBonus || 10) + 8
+          }
+        : {
+            name: `สายเลือดสืบทอดรุ่นที่ ${gameState.dynastyGeneration} (+ปัญญา/+สุขภาพ/+จิตใจ)`,
+            intBonus: 16,
+            healthBonus: 14,
+            mindBonus: 14
+          };
 
       gameState.candidateCert = heirCert;
       document.getElementById('deathSummaryModal').classList.add('hidden');
@@ -6046,6 +7174,7 @@
 
       checkAndUnlockTitles(c);
       updateShopHudBadges();
+      updateSocialHudBadges();
       saveKarmaPoints();
     }
 
@@ -6146,6 +7275,8 @@
         setSimSpeed(16);
       } else if (e.key === 'a' || e.key === 'A') {
         toggleAutoMode();
+      } else if (e.key === 'm' || e.key === 'M') {
+        toggleBgmPlayback();
       } else if (e.key === 'n' || e.key === 'N' || e.key === 'ArrowRight') {
         manualAdvanceOneYear();
       }
@@ -6249,6 +7380,20 @@
             const dist = Phaser.Math.Distance.Between(pointer.x, pointer.y, obj.x, obj.y);
             if (dist <= 36) {
               this.collectInteractiveObject(i);
+              return;
+            }
+          }
+
+          // Check if player tapped the Visiting Family/Partner/Friend NPC on the rug!
+          if (this.lastNpcPos && Phaser.Math.Distance.Between(pointer.x, pointer.y, this.lastNpcPos.x, this.lastNpcPos.y) <= 46) {
+            const vNpc = getActiveVisitingNpc(c);
+            if (vNpc) {
+              playMangaSfx('start');
+              vNpc.affinity = Math.min(100, (vNpc.affinity || 70) + 3);
+              c.mind = Math.min(100, c.mind + 2);
+              c.sfxWord = `絆! คุยกับ ${vNpc.name.split(' ')[0]}! 💞`;
+              this.addFloatingText(`💞 ${vNpc.name.split(' ')[0]} +3% ผูกพัน / +2✨`, '#f472b6');
+              updateCharacterUI();
               return;
             }
           }
@@ -6597,6 +7742,19 @@
         // Soft shadow on rug
         this.planetGraphics.fillStyle(0x090a14, 0.45);
         this.planetGraphics.fillEllipse(charCenterX, rugY - 2, (isCompact ? 72 : 92) * hRatio, 14 * hRatio);
+
+        // Draw Active Visiting Family Member / Partner / Child on the left side of the rug!
+        const visitingNpc = (c && c.alive) ? getActiveVisitingNpc(c) : null;
+        if (visitingNpc) {
+          const npcOffsetX = (isCompact ? -52 : -68) * hRatio;
+          const npcHop = Math.abs(Math.sin(this.pulseTime * 2.6 + 1.2)) * 4;
+          const npcX = charCenterX + npcOffsetX;
+          const npcY = rugY - (isCompact ? 28 : 34) * hRatio - npcHop;
+          this.lastNpcPos = { x: npcX, y: npcY };
+          this.drawVisitingNpcAvatar(npcX, npcY, visitingNpc, isCompact, hRatio);
+        } else {
+          this.lastNpcPos = null;
+        }
 
         this.drawMangaCharacter(charCenterX, charCenterY, c, isCompact);
 
@@ -7393,6 +8551,63 @@
           g.fillStyle(0x34d399, 1);
           g.fillRect(gx + 9 * s, gy - 8 * s, 5 * s, 16 * s);
         }
+      }
+
+      drawVisitingNpcAvatar(nx, ny, npc, isCompact, hRatio = 1) {
+        const g = this.charGraphics;
+        const isChildNpc = npc.roleKey === 'child' && (npc.age || 0) < 10;
+        const s = (isCompact ? 0.68 : 0.80) * hRatio * (isChildNpc ? 0.78 : 1.0);
+        const rHead = 24 * s;
+        const bodyY = ny + rHead * 0.95;
+        const bodyW = rHead * 1.35;
+        const bodyH = rHead * 1.1;
+
+        // Soft shadow on rug
+        g.fillStyle(0x090a14, 0.38);
+        g.fillEllipse(nx, bodyY + bodyH * 0.48, rHead * 1.6, 6 * s);
+
+        // Cute Chibi Torso
+        g.fillStyle(npc.colorHex || 0xf472b6, 0.95);
+        g.fillEllipse(nx, bodyY, bodyW, bodyH);
+        g.lineStyle(2, 0xffffff, 0.9);
+        g.strokeEllipse(nx, bodyY, bodyW, bodyH);
+
+        // Head
+        g.fillStyle(0xfff1e6, 1);
+        g.fillCircle(nx, ny, rHead);
+        g.lineStyle(2.2, 0x090a0f, 1);
+        g.strokeCircle(nx, ny, rHead);
+
+        // Hair cap
+        g.fillStyle(npc.hairColor || 0x38bdf8, 1);
+        g.fillEllipse(nx, ny - rHead * 0.75, rHead * 1.75, rHead * 0.68);
+        g.lineStyle(2, 0x090a0f, 1);
+        g.strokeEllipse(nx, ny - rHead * 0.75, rHead * 1.75, rHead * 0.68);
+
+        // Cheerful Eyes & Rosy Cheeks
+        g.fillStyle(0x090a0f, 1);
+        g.fillCircle(nx - 7 * s, ny + 1 * s, 2.8 * s);
+        g.fillCircle(nx + 7 * s, ny + 1 * s, 2.8 * s);
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(nx - 7.8 * s, ny - 0.2 * s, 1.1 * s);
+        g.fillCircle(nx + 6.2 * s, ny - 0.2 * s, 1.1 * s);
+        g.fillStyle(0xf43f5e, 0.55);
+        g.fillEllipse(nx - 11 * s, ny + 5 * s, 4.5 * s, 2.5 * s);
+        g.fillEllipse(nx + 11 * s, ny + 5 * s, 4.5 * s, 2.5 * s);
+
+        // Smile
+        g.lineStyle(1.8, 0x090a0f, 1);
+        g.beginPath();
+        g.arc(nx, ny + 4 * s, 3.5 * s, 0.15, Math.PI - 0.15, false);
+        g.strokePath();
+
+        // Floating Bond Heart above Visiting NPC
+        const hy = ny - rHead * 1.45 + Math.sin(this.pulseTime * 4) * 2.5;
+        const heartCol = npc.roleKey === 'rival' ? 0xfde047 : 0xf472b6;
+        g.fillStyle(heartCol, 0.95);
+        g.fillCircle(nx - 3 * s, hy, 3.5 * s);
+        g.fillCircle(nx + 3 * s, hy, 3.5 * s);
+        g.fillTriangle(nx - 6.5 * s, hy + 1 * s, nx + 6.5 * s, hy + 1 * s, nx, hy + 7.5 * s);
       }
 
       drawCompanionPet(px, py, pet, isCompact, hRatio = 1) {
