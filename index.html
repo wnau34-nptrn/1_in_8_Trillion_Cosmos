@@ -1133,23 +1133,23 @@
     // -----------------------------------------------------------------------
     const MILESTONE_QUESTIONS = {
       5: {
-        title: 'วัย 5 ขวบ: ก้าวแรกหลังรอดพ้นวัยทารกแห่งจักรวาล',
-        getPrompt: (c) => `คุณรอดพ้นช่วงอายุ 0-5 ปีที่มีความเสี่ยงเสียชีวิต ${c.under5Mortality}% บน ${c.planet.shortName} มาได้! ในวัยเด็กที่คุณเริ่มจำความได้ คุณค้นพบวัตถุปริศนาชิ้นหนึ่งใกล้บ้าน คุณจะทำอย่างไร?`,
+        title: 'วัย 5 ขวบ: ก้าวแรกสู่วัยอนุบาลหลังรอดพ้นวัยทารก',
+        getPrompt: (c) => `คุณรอดพ้นช่วงอายุ 0-5 ปีที่มีความเสี่ยงเสียชีวิต ${c.under5Mortality}% บน ${c.planet.shortName} มาได้ด้วยการดูแลของพ่อแม่! ในวัย 5 ขวบที่คุณเริ่มพูดคุยและวิ่งเล่นได้คล่อง คุณเจอของเล่นจักรกลเก่าๆ ชิ้นหนึ่งตกอยู่แถวบ้าน คุณจะทำอย่างไร?`,
         choices: [
           {
-            label: '📚 แยกชิ้นส่วนศึกษาด้วยตัวเอง (มุ่งเน้นสติปัญญาและเทคโนโลยี)',
-            effect: { int: 15, health: 0, mind: 5, wealth: 0, fame: 5, careerHint: 'นักเรียนทุนดาราจักร' },
-            log: 'ตัดสินใจศึกษาวิทยาการตั้งแต่เด็ก ทำให้สติปัญญาพัฒนาเร็วกว่าเพื่อนรุ่นเดียวกัน'
+            label: '🔍 นั่งหมุนดูฟันเฟืองและไฟกะพริบด้วยความสงสัย แล้ววิ่งไปถามพ่อแม่ว่ามันทำงานอย่างไร',
+            effect: { int: 15, health: 0, mind: 5, wealth: 0, fame: 5, careerHint: 'เด็กน้อยช่างสังเกต' },
+            log: 'ในวัย 5 ขวบ คุณช่างสังเกตและชอบถามคำถามเกี่ยวกับสิ่งประดิษฐ์ ทำให้เรียนรู้ไวกว่าเด็กวัยเดียวกัน'
           },
           {
-            label: '🤝 นำไปแบ่งปันเพื่อนต่างเผ่าพันธุ์ในละแวกบ้าน (สร้างมิตรภาพและความสุข)',
-            effect: { int: 5, health: 5, mind: 15, wealth: 0, fame: 8, careerHint: 'ผู้นำเยาวชนท้องถิ่น' },
-            log: 'สร้างมิตรภาพกับเพื่อนบ้านต่างเผ่าพันธุ์ ทำให้จิตใจอบอุ่นและมีทักษะสังคมสูง'
+            label: '🤝 เอาไปชวนเพื่อนเด็กๆ ข้างบ้านมาล้อมวงเล่นด้วยกันอย่างสนุกสนาน',
+            effect: { int: 5, health: 5, mind: 15, wealth: 0, fame: 8, careerHint: 'ขวัญใจเพื่อนวัยอนุบาล' },
+            log: 'ในวัย 5 ขวบ คุณแบ่งของเล่นให้เพื่อนๆ ในละแวกบ้าน ทำให้มีเพื่อนเล่นมากมายและจิตใจร่าเริง'
           },
           {
-            label: '💰 นำไปขายที่ตลาดแลกเครดิตช่วยครอบครัว (เน้นความอยู่รอด)',
-            effect: { int: 5, health: 0, mind: -3, wealth: 600, fame: 0, careerHint: 'นักค้าของเก่าอวกาศรุ่นเยาว์' },
-            log: 'เลือกช่วยแบ่งเบาภาระครอบครัวตั้งแต่วัย 5 ขวบ ได้รับเครดิตก้อนแรกมาประทังชีวิต'
+            label: '👨‍👩‍👧 รีบวิ่งถือไปให้พ่อแม่ดู เผื่อพ่อแม่นำไปแลกเป็นเงินค่าขนมและค่าอาหารของบ้าน',
+            effect: { int: 5, health: 0, mind: 2, wealth: 600, fame: 0, careerHint: 'ลูกน้อยกตัญญูช่วยงานบ้าน' },
+            log: 'ในวัย 5 ขวบ คุณนำของที่เก็บได้ไปให้พ่อแม่ตรวจสอบและนำไปขาย ได้เงินมาช่วยค่าอาหารของครอบครัว'
           }
         ]
       },
@@ -1782,7 +1782,7 @@
         timeOfDayIdx: 0,
         alive: true,
         lastActionAge: -1,
-        nextQteAge: Math.floor(4 + Math.random() * 4),
+        nextQteAge: Math.floor(12 + Math.random() * 4),
         health: Math.min(100, 78 + cert.trait.healthBonus + permBuffs.health + Math.floor(cert.planet.healthcare * 0.15)),
         mind: Math.min(100, 75 + cert.trait.mindBonus),
         intellect: Math.min(100, 25 + cert.trait.intBonus + permBuffs.int),
@@ -1916,11 +1916,20 @@
       };
       gameState.activeQte = qteState;
 
-      // Setup Overlay DOM
-      document.getElementById('qteModeBadge').textContent = tpl.badge;
-      document.getElementById('qteTitle').textContent = tpl.title;
-      document.getElementById('qteInstruction').textContent = tpl.instruction;
-      document.getElementById('btnQteAction').textContent = tpl.buttonLabel;
+      // Setup Overlay DOM (Adapt wording if character is still a child under 12!)
+      const isYoungChild = c.age < 12;
+      document.getElementById('qteModeBadge').textContent = isYoungChild
+        ? `🛡️ PARENTAL & GUARDIAN SHIELD (วัยเด็ก ${c.age} ปี • ช่วยส่งแรงใจให้พ่อแม่คุ้มครอง!)`
+        : tpl.badge;
+      document.getElementById('qteTitle').textContent = isYoungChild
+        ? `🛡️ วิกฤตใกล้บ้าน! พ่อแม่และระบบป้องกันเมืองกำลังกางเกราะปกป้องคุณ (${tpl.title})`
+        : tpl.title;
+      document.getElementById('qteInstruction').textContent = isYoungChild
+        ? 'คุณยังเป็นเด็ก! แตะปุ่มรัวๆ เพื่อช่วยกดสัญญาณเตือนภัยและส่งแรงใจให้พ่อแม่กับหน่วยกู้ภัยสกัดกั้นอันตราย!'
+        : tpl.instruction;
+      document.getElementById('btnQteAction').textContent = isYoungChild
+        ? '🚨 กดสัญญาณเรียกหน่วยกู้ภัย & พ่อแม่! (TAP / SPACE)'
+        : tpl.buttonLabel;
 
       const timingZone = document.getElementById('qteTimingZone');
       const timingNeedle = document.getElementById('qteTimingNeedle');
@@ -2069,10 +2078,13 @@
         gameState.karmaPoints += (rw.karma || 3);
         saveKarmaPoints();
 
-        c.sfxWord = '大勝利! ชนะศึก QTE!';
-        c.speechText = tpl.winLog;
-        spawnFloatingPopup(`🏆 ชนะศึก! +₡${rw.wealth.toLocaleString()} / +${rw.karma}✦`, '#ffd166');
-        addLifeLog(c.age, 'milestone', tpl.winLog);
+        const winMsg = c.age < 12
+          ? `🛡️ [รอดพ้นวิกฤต!] พ่อแม่และหน่วยป้องกันเมืองสกัดกั้นภัยพิบัติปกป้องคุณไว้ได้สำเร็จ และครอบครัวได้รับเงินเยียวยา ₡${rw.wealth.toLocaleString()} (+${rw.karma} แต้มกรรม)!`
+          : tpl.winLog;
+        c.sfxWord = c.age < 12 ? '守護! พ่อแม่ปกป้องสำเร็จ!' : '大勝利! ชนะศึก QTE!';
+        c.speechText = winMsg;
+        spawnFloatingPopup(`🏆 ปลอดภัย! +₡${rw.wealth.toLocaleString()} / +${rw.karma}✦`, '#ffd166');
+        addLifeLog(c.age, 'milestone', winMsg);
         showToast(`🏆 ชนะมินิเกมวิกฤต! ได้รับ +₡${rw.wealth.toLocaleString()} และ +${rw.karma} แต้มกรรม!`);
         unlockAkashicTitle('title_qte_hero');
       } else {
@@ -2320,43 +2332,105 @@
       c.currentRoutineTime = tod.label;
       const tier = c.familyTier || 'middle';
 
-      if (c.age < 5) {
+      // 1. INFANT & TODDLER (Ages 0 - 3): 100% Realistic Baby/Toddler behavior cared for by parents
+      if (c.age <= 3) {
+        const ageLabel = c.age === 0 ? `ทารกวัย ${c.month} เดือน` : `วัยเตาะแตะ ${c.age} ขวบ`;
         if (tier === 'poor' || c.wealth < 250) {
           const poorInfant = [
-            { text: `นอนในลังพลาสติกบุผ้าเก่าๆ ฟังเสียงท่อระบายอากาศดังครืดคราดในสลัม ${c.city}`, prop: 'cradle' },
-            { text: `ดื่มนมสังเคราะห์เจือจางเพราะครอบครัวต้องประหยัดงบอาหารไว้จ่ายค่าเช่าห้อง`, prop: 'heart' },
-            { text: `คลานเล่นของเล่นที่พ่อแม่เก็บมาซ่อมให้ ท่ามกลางเสียงไซเรนตำรวจนอกหน้าต่าง`, prop: 'shield' },
-            { text: `สะดุ้งตื่นกลางดึกเพราะเสียงแก๊งทวงหนี้เคาะประตูห้องข้างๆ ก่อนที่แม่จะกอดปลอบ`, prop: 'cradle' }
+            { text: `[${ageLabel}] นอนดูดนิ้วอยู่ในตะกร้าบุผ้าเก่าๆ ขณะแม่กำลังต้มน้ำข้าวบดให้ในห้องเช่าแคบๆ เขต ${c.city}`, prop: 'cradle' },
+            { text: `[${ageLabel}] อ้าปากกินนมสังเคราะห์เจือจางที่แม่ป้อนอย่างหิวโหย เพราะพ่อแม่ต้องประหยัดเงินไว้จ่ายค่าเช่าห้อง`, prop: 'heart' },
+            { text: `[${ageLabel}] หัดพลิกตัวและคลานเตาะแตะอยู่บนเสื่อเก่าๆ โดยมีพ่อคอยจับดูไม่ให้คลานไปใกล้ปลั๊กไฟที่ชำรุด`, prop: 'shield' },
+            { text: `[${ageLabel}] สะดุ้งร้องไห้กระจองอแงเมื่อได้ยินเสียงดังนอกหน้าต่าง ก่อนจะหลับปุ๋ยเมื่อแม่อุ้มขึ้นมากอดตบหลังเบาๆ`, prop: 'cradle' }
           ];
-          const pick = poorInfant[c.month % poorInfant.length];
+          const pick = poorInfant[(c.month + c.timeOfDayIdx) % poorInfant.length];
           c.currentRoutineText = pick.text;
           c.currentRoutineProp = pick.prop;
           return;
         } else if (tier === 'wealthy') {
           const richInfant = [
-            { text: `ตื่นนอนในเปลควอนตัมปรับอุณหภูมิอัตโนมัติ มีหุ่นยนต์พี่เลี้ยงและบอดี้การ์ดเฝ้าหน้าห้อง`, prop: 'cradle' },
-            { text: `รับประทานอาหารเสริมระดับพรีเมียม ขณะที่เครือญาติกำลังถกเถียงเรื่องหุ้นและมรดกตระกูล`, prop: 'coin' },
-            { text: `ฝึกประสาทสัมผัสด้วยโฮโลแกรมจำลองดาราจักรส่วนตัวในคฤหาสน์ ${c.city}`, prop: 'star' },
-            { text: `นอนหลับภายใต้ระบบเกราะป้องกันการลอบสังหารระดับสูงสุดของตระกูล`, prop: 'shield' }
+            { text: `[${ageLabel}] นอนดิ้นดุ๊กดิ๊กในเปลควอนตัมปรับอุณหภูมิอัตโนมัติ มีพี่เลี้ยงและระบบรักษาความปลอดภัยดูแลใกล้ชิด`, prop: 'cradle' },
+            { text: `[${ageLabel}] ดื่มนมเสริมวิตามินเกรดพรีเมียมและนอนฟังเพลงบรรเลงกล่อมเด็กในคฤหาสน์ ${c.city}`, prop: 'heart' },
+            { text: `[${ageLabel}] เอื้อมมือน้อยๆ คว้าจับโมบายดวงดาวโฮโลแกรมที่ลอยอยู่เหนือเปลเพื่อฝึกสายตาและกล้ามเนื้อมัดเล็ก`, prop: 'star' },
+            { text: `[${ageLabel}] นอนหลับปุ๋ยในอ้อมกอดของแม่ภายใต้โดมนิรภัยป้องกันเชื้อโรคและมลพิษของตระกูล`, prop: 'shield' }
           ];
-          const pick = richInfant[c.month % richInfant.length];
+          const pick = richInfant[(c.month + c.timeOfDayIdx) % richInfant.length];
           c.currentRoutineText = pick.text;
           c.currentRoutineProp = pick.prop;
           return;
         }
         const midInfant = [
-          { text: `ตื่นนอนในห้องพักแคปซูลของครอบครัว ขณะพ่อแม่รีบแต่งตัวออกไปทำงานแต่เช้าตรู่`, prop: 'cradle' },
-          { text: `กินอาหารทารกมาตรฐานสหพันธ์และหัดเดินเตาะแตะในห้องนั่งเล่น`, prop: 'heart' },
-          { text: `ดูการ์ตูนโฮโลแกรมสลับกับข่าวด่วนเรื่องราคาพลังงานและม็อบประท้วงในเมือง ${c.city}`, prop: 'star' },
-          { text: `นอนหลับฟังเสียงพ่อแม่นั่งคิดเลขคำนวณค่าผ่อนบ้านและค่าน้ำไฟก่อนนอน`, prop: 'cradle' }
+          { text: `[${ageLabel}] ตื่นมาอ้อแอ้ในเปลเด็กอ่อน ขณะพ่อกับแม่ผลัดกันป้อนนมและเตรียมตัวออกไปทำงานหาเลี้ยงครอบครัว`, prop: 'cradle' },
+          { text: `[${ageLabel}] กินอาหารบดสำหรับเด็กเล็กและหัดคลาน-เกาะยืนตามขอบโซฟาโดยมีแม่คอยประคองดูอยู่ใกล้ๆ`, prop: 'heart' },
+          { text: `[${ageLabel}] นั่งตบมือหัวเราะเอิ๊กอ๊ากดูการ์ตูนเด็กอ่อนบนจอโฮโลแกรมในห้องนั่งเล่น`, prop: 'star' },
+          { text: `[${ageLabel}] นอนซุกอกแม่ฟังนิทานก่อนนอน ขณะพ่อเดินตรวจล็อกประตูห้องพักให้แน่นหนา`, prop: 'cradle' }
         ];
-        const pick = midInfant[c.month % midInfant.length];
+        const pick = midInfant[(c.month + c.timeOfDayIdx) % midInfant.length];
         c.currentRoutineText = pick.text;
         c.currentRoutineProp = pick.prop;
         return;
       }
 
-      // If starving / broke, override routine with survival struggle!
+      // 2. YOUNG CHILD & PRIMARY SCHOOL (Ages 4 - 12): Realistic Child routines (Kindergarten / Elementary School / Helping Parents at Home)
+      if (c.age <= 12) {
+        if (c.wealth < 150) {
+          const brokeChild = [
+            { text: `🥣 [วัยเด็ก ${c.age} ขวบ] กินข้าวคลุกซุปประทังความหิวก่อนสะพายกระเป๋านักเรียนใบเก่าเดินตามแม่ไปโรงเรียนชุมชน`, prop: 'shield' },
+            { text: `🥣 [วัยเด็ก ${c.age} ขวบ] ตั้งใจกินอาหารกลางวันฟรีของโรงเรียนจนหมดถาด และแบ่งขนมปังก้อนเล็กกลับบ้านไปฝากพ่อแม่`, prop: 'heart' },
+            { text: `🥣 [วัยเด็ก ${c.age} ขวบ] หลังเลิกเรียนช่วยพ่อแม่พับถุงและคัดแยกขยะรีไซเคิลในบ้านเพื่อแลกคูปองอาหารมื้อเย็น`, prop: 'coin' },
+            { text: `🥣 [วัยเด็ก ${c.age} ขวบ] นั่งทำการบ้านใต้แสงไฟสลัวและเข้านอนแต่หัวค่ำพร้อมกอดตุ๊กตาผ้าตัวโปรด`, prop: 'book' }
+          ];
+          const pick = brokeChild[(c.month + c.timeOfDayIdx) % brokeChild.length];
+          c.currentRoutineText = pick.text;
+          c.currentRoutineProp = pick.prop;
+          return;
+        }
+        const focus = gameState.annualFocus || 'balanced';
+        const childRoutineMap = {
+          study: [
+            { text: `[วัยเด็ก ${c.age} ขวบ] ตื่นเช้าแต่งชุดนักเรียนไปโรงเรียนประถม ตั้งใจฟังครูสอนวิชาวิทยาศาสตร์พื้นฐานและการอ่านเขียน`, prop: 'book' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] นั่งต่อชุดตัวต่อวงจรไฟฟ้าสำหรับเด็กในห้องสมุดโรงเรียนด้วยความอยากรู้อยากเห็น`, prop: 'book' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] กลับบ้านมาทำการบ้านส่งครูและเปิดดูสารคดีอวกาศสำหรับเยาวชนพร้อมพ่อแม่`, prop: 'star' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] จัดกระเป๋านักเรียนเตรียมพร้อมสำหรับวันพรุ่งนี้ก่อนเข้านอนตรงเวลา`, prop: 'cradle' }
+          ],
+          career: [
+            { text: `[วัยเด็ก ${c.age} ขวบ] ช่วยแม่กวาดบ้านและจัดเรียงของในร้านเล็กๆ ของครอบครัวก่อนเดินไปโรงเรียน`, prop: 'coin' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] หยอดเหรียญค่าขนมที่เหลือจากมื้อกลางวันลงกระปุกออมสินอย่างประหยัด`, prop: 'coin' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] หลังเลิกเรียนช่วยพ่อแม่ถือของจ่ายตลาดและหัดบวกลบเลขทอนเงินง่ายๆ`, prop: 'coin' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] นวดไหล่ให้พ่อแม่ที่กลับมาจากทำงานเหนื่อยๆ ก่อนเข้านอน`, prop: 'heart' }
+          ],
+          romance: [
+            { text: `[วัยเด็ก ${c.age} ขวบ] แบ่งขนมให้เพื่อนสนิทที่โรงเรียนประถมและจับมือกันวิ่งเล่นในสนามเด็กเล่น`, prop: 'heart' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] ช่วยครูแจกสมุดวาดเขียนให้เพื่อนๆ ร่วมชั้นเรียนด้วยรอยยิ้มสดใส`, prop: 'heart' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] เล่าเรื่องสนุกๆ ที่โรงเรียนให้พ่อแม่ฟังระหว่างมื้ออาหารเย็นพร้อมหน้าพร้อมตา`, prop: 'heart' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] กอดราตรีสวัสดิ์พ่อแม่ก่อนเข้านอนอย่างอบอุ่นปลอดภัย`, prop: 'cradle' }
+          ],
+          explore: [
+            { text: `[วัยเด็ก ${c.age} ขวบ] ไปทัศนศึกษาชมพิพิธภัณฑ์อวกาศและท้องฟ้าจำลองพร้อมคณะครูและเพื่อนนักเรียน`, prop: 'ufo' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] ส่องกล้องจุลทรรศน์ดูใบไม้และแมลงเรืองแสงในสวนของโรงเรียนด้วยความตื่นเต้น`, prop: 'star' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] วาดรูปจรวดและดาวโลก (Earth) ลงในสมุดศิลปะเอาไปอวดพ่อแม่หลังเลิกเรียน`, prop: 'book' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] มองดูดาวผ่านหน้าต่างห้องนอนพร้อมฝันว่าโตขึ้นจะได้เดินทางท่องอวกาศ`, prop: 'ufo' }
+          ],
+          health: [
+            { text: `[วัยเด็ก ${c.age} ขวบ] ดื่มนมสดและกินไข่ต้มตอนเช้าก่อนออกไปเรียนวิชาพลศึกษาที่โรงเรียน`, prop: 'heart' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] วิ่งเล่นกระโดดเชือกและซ้อมซ้อมหลบภัยฉุกเฉินร่วมกับคุณครูในโรงเรียน`, prop: 'shield' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] ล้างมือฟอกสบู่สะอาดตามที่แม่สอนเพื่อป้องกันโรคติดต่อในโรงเรียน`, prop: 'shield' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] แปรงฟันอาบน้ำสะอาดและนอนหลับพักผ่อนให้ครบ 10 ชั่วโมงเพื่อการเจริญเติบโต`, prop: 'cradle' }
+          ],
+          balanced: [
+            { text: `[วัยเด็ก ${c.age} ขวบ] ตื่นเช้ากินข้าวฝีมือแม่แล้วเดินเกาะกลุ่มกับเพื่อนๆ ไปโรงเรียนในเขต ${c.city}`, prop: 'book' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] ตั้งใจเรียนหนังสือสลับกับเล่นเกมทายคำศัพท์กับเพื่อนร่วมชั้น`, prop: 'star' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] ช่วยพ่อแม่รดน้ำต้นไม้และเก็บจานชามหลังมื้ออาหารเย็น`, prop: 'heart' },
+            { text: `[วัยเด็ก ${c.age} ขวบ] ทำการบ้านเสร็จเรียบร้อยแล้วเข้านอนใต้ผ้าห่มอุ่นๆ ในบ้าน`, prop: 'cradle' }
+          ]
+        };
+        const list = childRoutineMap[focus] || childRoutineMap.balanced;
+        const pick = list[(c.month + c.timeOfDayIdx) % list.length];
+        c.currentRoutineText = pick.text;
+        c.currentRoutineProp = pick.prop;
+        return;
+      }
+
+      // 3. TEENS & ADULTS (Ages 13+): Full survival, study, career, and high-stakes society routines
       if (c.wealth < 150) {
         const brokeRoutines = [
           { text: `🥣 ท้องร้องจ๊อกเพราะเงินติดกระเป๋าเหลือแค่ ₡${c.wealth} ต้องดื่มน้ำก๊อกประทังความหิวช่วงเช้า`, prop: 'shield' },
@@ -2379,8 +2453,8 @@
           { text: `ทบทวนบทเรียนใต้แสงไฟสำรองขณะเกิดไฟตกในเซกเตอร์ที่พักอาศัย`, prop: 'book' }
         ],
         career: [
-          { text: `ฝ่าการจราจรและขบวนประท้วงออกไปทำงานในฐานะ "${c.career}" เพื่อหาเงินเลี้ยงชีพ`, prop: 'coin' },
-          { text: `รับมือกับลูกค้าและแรงกดดันทางเศรษฐกิจในเขต ${c.city} อย่างกัดฟันสู้`, prop: 'coin' },
+          { text: `ฝ่าการจราจรและขบวนประท้วงออกไปทำหน้าที่ "${c.career}" เพื่อหาเงินเลี้ยงชีพ`, prop: 'coin' },
+          { text: `รับมือกับงานหนักและแรงกดดันทางเศรษฐกิจในเขต ${c.city} อย่างกัดฟันสู้`, prop: 'coin' },
           { text: `รับงานกะดึกเพิ่มพิเศษท่ามกลางข่าวลือเรื่องแก๊งอาชญากรรมและสงครามการค้า`, prop: 'coin' },
           { text: `นับเงินเครดิตที่หามาได้ด้วยความเหนื่อยยากและแบ่งเก็บสำรองเผื่อเหตุฉุกเฉิน`, prop: 'coin' }
         ],
@@ -2556,11 +2630,11 @@
         }
       }
 
-      // Mid-year interactive event or QTE at Month 6!
+      // Mid-year interactive event at Month 6 (Auto QTE only triggers when age >= 12!)
       if (c.month === 6) {
         c.month += 1;
         updateCharacterUI();
-        if (c.age >= c.nextQteAge) {
+        if (c.age >= 12 && c.age >= c.nextQteAge) {
           c.nextQteAge = c.age + Math.floor(5 + Math.random() * 4);
           startInteractiveQteCrisis();
           return;
@@ -2582,15 +2656,14 @@
     function applyMonthlyRoutineMicroProgress(c) {
       const monthlyIncome = Math.max(5, Math.floor((c.familyIncome * (c.age < 16 ? 0.01 : 0.045 + c.intellect * 0.0012))));
       const bizBonus = 1 + (c.aptitudes.biz * 0.012);
-
-      // Monthly cost of living / food expense pressure for poor or high-cost worlds!
       const livingCost = c.age < 15 ? Math.floor(monthlyIncome * 0.35) : Math.floor(monthlyIncome * 0.55);
+      const isKid = c.age < 13;
 
       if (gameState.annualFocus === 'study') {
         if (c.month % 4 === 0) {
           c.intellect = Math.min(100, c.intellect + 1);
           c.aptitudes.sci += 1;
-          spawnFloatingPopup('+1 🧠 / +1 🔬 กิจวัตรเรียน', '#00f0ff');
+          spawnFloatingPopup(isKid ? '+1 🧠 / +1 🔬 หัดสังเกตเรียนรู้' : '+1 🧠 / +1 🔬 กิจวัตรเรียน', '#00f0ff');
         }
         c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * 0.6) - livingCost);
       } else if (gameState.annualFocus === 'career') {
@@ -2598,13 +2671,13 @@
         c.wealth = Math.max(0, c.wealth + earned - livingCost);
         if (c.month % 4 === 0) {
           c.aptitudes.biz += 1;
-          spawnFloatingPopup(`+₡${earned} 💼 กิจวัตรทำงาน`, '#ffd166');
+          spawnFloatingPopup(isKid ? `+₡${earned} 🪙 เงินออมพ่อแม่` : `+₡${earned} 💼 กิจวัตรทำงาน`, '#ffd166');
         }
       } else if (gameState.annualFocus === 'romance') {
         if (c.month % 4 === 0) {
           c.mind = Math.min(100, c.mind + 1);
           c.aptitudes.emp += 1;
-          spawnFloatingPopup('+1 ✨ / +1 🤝 มนุษยสัมพันธ์', '#f472b6');
+          spawnFloatingPopup(isKid ? '+1 ✨ / +1 🤝 ความอบอุ่นครอบครัว' : '+1 ✨ / +1 🤝 มนุษยสัมพันธ์', '#f472b6');
         }
         c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * 0.8) - livingCost);
       } else if (gameState.annualFocus === 'explore') {
@@ -2612,7 +2685,7 @@
           c.fame = Math.min(100, c.fame + 1);
           c.earthRelation = Math.min(100, c.earthRelation + 1);
           c.aptitudes.art += 1;
-          spawnFloatingPopup('+1 🪐 / +1 🎨 สำรวจโลกกว้าง', '#34d399');
+          spawnFloatingPopup(isKid ? '+1 🌟 / +1 🎨 จินตนาการวัยเด็ก' : '+1 🪐 / +1 🎨 สำรวจโลกกว้าง', '#34d399');
         }
         c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * 0.9) - livingCost);
       } else if (gameState.annualFocus === 'health') {
@@ -2620,7 +2693,7 @@
           c.health = Math.min(100, c.health + 1);
           c.mind = Math.min(100, c.mind + 1);
           c.aptitudes.vit += 1;
-          spawnFloatingPopup('+1 ❤️ / +1 ⚔️ ฝึกกายภาพ', '#fb7185');
+          spawnFloatingPopup(isKid ? '+1 ❤️ / +1 ⚔️ โตไวแข็งแรง' : '+1 ❤️ / +1 ⚔️ ฝึกกายภาพ', '#fb7185');
         }
         c.wealth = Math.max(0, c.wealth + Math.floor(monthlyIncome * 0.5) - livingCost);
       } else {
@@ -2633,98 +2706,202 @@
       if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
     }
 
-    // DRAMATIC MID-YEAR INCIDENTS (Months 3 & 9: Hunger, Accidents, Crime, Alien Raids, Protests, Plagues, Class Struggles)
+    // DRAMATIC MID-YEAR INCIDENTS (Months 3 & 9) — Strictly Age-Realistic!
     function triggerMidYearDailyEvent(c, monthNum) {
       const season = SEASON_NAMES[(monthNum - 1) % SEASON_NAMES.length];
       const tier = c.familyTier || 'middle';
       const tacShield = c.aptitudes && c.aptitudes.vit >= 12 ? 3 : 0;
       let pool = [];
 
-      // 1. Family Tier & Hunger / Class-Specific Events
-      if (tier === 'poor' || c.wealth < 350) {
+      // BRACKET 1: INFANT & TODDLER (Ages 0 - 4) — Events happen to the household/parents while baby is in their care
+      if (c.age <= 4) {
+        const ageTxt = c.age === 0 ? `วัยทารก ${monthNum} เดือน` : `วัย ${c.age} ขวบ`;
+        if (tier === 'poor' || c.wealth < 350) {
+          pool.push(
+            {
+              cat: 'crisis',
+              text: `🥣 [ขาดแคลนนมทารก • ${ageTxt}] นมผงสังเคราะห์ในบ้านหมดเกลี้ยง! แม่ต้องต้มน้ำซุปข้าวบดเจือจางป้อนให้คุณประทังความหิว (-6 ❤️ / -4 ✨)`,
+              health: -6 + tacShield, mind: -4
+            },
+            {
+              cat: 'crisis',
+              text: `🔪 [แก๊งทวงหนี้บุกบ้าน • ${ageTxt}] นักเลงทวงหนี้มาทุบประตูห้องเช่าเสียงดังลั่น แม่ต้องรีบอุ้มคุณไปแอบในมุมมืดและเอามือปิดหูไม่ให้คุณตกใจกลัว (-6 ✨ / -₡180)`,
+              mind: -6, wealth: -180
+            },
+            {
+              cat: 'normal',
+              text: `🤝 [น้ำใจเพื่อนบ้าน • ${ageTxt}] ป้าข้างห้องในสลัมแบ่งนมผงเด็กอ่อนและยาลดไข้มาให้แม่ของคุณ ทำให้คุณได้กินอิ่มและนอนหลับปุ๋ย (+5 ❤️ / +5 ✨)`,
+              health: 5, mind: 5
+            }
+          );
+        } else if (tier === 'wealthy') {
+          pool.push(
+            {
+              cat: 'crisis',
+              text: `🐍 [ความตึงเครียดในคฤหาสน์ • ${ageTxt}] เครือญาติในตระกูลทะเลาะแย่งชิงมรดกเสียงดัง พ่อแม่ต้องสั่งเพิ่มบอดี้การ์ดเฝ้าหน้าห้องนอนเด็กอ่อนของคุณตลอด 24 ชั่วโมง (-5 ✨ / -₡700)`,
+              mind: -5, wealth: -700
+            },
+            {
+              cat: 'cosmic',
+              text: `💎 [ของขวัญรับขวัญหลาน • ${ageTxt}] ผู้อาวุโสในตระกูลมอบกองทุนรับขวัญทารกและเครื่องฟอกอากาศบริสุทธิ์ไว้ในห้องนอนของคุณ (+4 ❤️ / +₡950)`,
+              health: 4, wealth: 950
+            }
+          );
+        } else {
+          pool.push(
+            {
+              cat: 'crisis',
+              text: `📉 [ค่าใช้จ่ายเด็กอ่อนพุ่ง • ${ageTxt}] ค่านมวัคซีนและค่าไฟในเขต ${c.city} แพงขึ้นกะทันหัน พ่อแม่ต้องทำงานล่วงเวลาหนักขึ้นเพื่อดูแลคุณ (-4 ✨ / -₡280)`,
+              mind: -4, wealth: -280
+            }
+          );
+        }
+
+        // Universal Infant/Toddler Crises (Parents protecting the baby during external crises)
         pool.push(
           {
             cat: 'crisis',
-            text: `🥣 [วิกฤตปากท้อง • เดือนที่ ${monthNum}] ข้าวสารและอาหารสังเคราะห์ในบ้านหมดเกลี้ยง! ครอบครัวไม่มีเงินซื้อข้าวมื้อเย็น ต้องต้มน้ำซุปเศษผักประทังความหิว (-6 ❤️ / -5 ✨)`,
+            text: `💥 [ไฟดับและท่อพลังงานรั่ว • ${ageTxt}] เกิดเหตุหม้อแปลงระเบิดใกล้ตึกที่พัก! พ่อแม่รีบคว้าผ้าห่มห่อตัวคุณแล้วอุ้มวิ่งหนีควันไฟลงบันไดหนีไฟอย่างทุลักทุเล (-6 ❤️ / -5 ✨)`,
             health: -6 + tacShield, mind: -5
           },
           {
             cat: 'crisis',
-            text: `🔪 [แก๊งทวงหนี้บุก • เดือนที่ ${monthNum}] นักเลงทวงหนี้นอกระบบบุกมาทุบประตูห้องเช่าใน ${c.city} ข่มขู่เรียกเก็บดอกเบี้ยโหดจนคนในบ้านขวัญผวา (-7 ✨ / -₡180)`,
-            mind: -7, wealth: -180
+            text: `👽 [สัญญาณเตือนภัยเอเลี่ยน • ${ageTxt}] ไซเรนเตือนฝูงแมลงอวกาศดังขึ้น! แม่รีบอุ้มคุณแนบอกแล้ววิ่งตามเจ้าหน้าที่กู้ภัยลงไปหลบในบังเกอร์ใต้ดินจนปลอดภัย (-4 ❤️ / -5 ✨)`,
+            health: -4 + tacShield, mind: -5
           },
           {
-            cat: 'normal',
-            text: `🤝 [น้ำใจคนจน • เดือนที่ ${monthNum}] เพื่อนบ้านในสลัมแบ่งปันก้อนโปรตีนอัดแท่งและยาลดไข้มาให้ยามยากลำบาก ทำให้พอมีแรงสู้ชีวิตต่อ (+4 ❤️ / +5 ✨)`,
-            health: 4, mind: 5
+            cat: 'crisis',
+            text: `🦠 [ไข้หวัดเด็กเล็ก • ${ageTxt}] คุณติดเชื้อไวรัสไข้หวัดตามฤดูกาลใน ${season} ตัวร้อนจี๋ พ่อแม่ต้องผลัดกันเช็ดตัวลดไข้และพาไปคลินิกเด็กทั้งคืน (-8 ❤️ / -₡260)`,
+            health: -8 + tacShield, wealth: -260
           }
         );
-      } else if (tier === 'wealthy') {
+      } else if (c.age <= 12) {
+        // BRACKET 2: SCHOOL CHILD (Ages 5 - 12)
+        if (tier === 'poor' || c.wealth < 350) {
+          pool.push(
+            {
+              cat: 'crisis',
+              text: `🥣 [ห่อข้าวเปล่าไปโรงเรียน • เดือนที่ ${monthNum}] ที่บ้านไม่มีเงินซื้อกับข้าว คุณต้องกินข้าวคลุกเกลือและอาศัยดื่มน้ำประปาโรงเรียนประทังความหิว (-6 ❤️ / -5 ✨)`,
+              health: -6 + tacShield, mind: -5
+            },
+            {
+              cat: 'normal',
+              text: `🤝 [ครูประจำชั้นแบ่งมื้อเที่ยง • เดือนที่ ${monthNum}] คุณครูสังเกตเห็นว่าคุณไม่มีอาหารกลางวัน จึงแบ่งนมและขนมปังอุ่นๆ ให้คุณทานจนอิ่ม (+5 ❤️ / +6 ✨)`,
+              health: 5, mind: 6
+            }
+          );
+        } else if (tier === 'wealthy') {
+          pool.push(
+            {
+              cat: 'crisis',
+              text: `🪧 [ม็อบปิดถนนหน้าโรงเรียน • เดือนที่ ${monthNum}] กลุ่มผู้ประท้วงปิดล้อมถนนสายหลัก บอดี้การ์ดของครอบครัวต้องรีบพาคุณขึ้นรถเกราะกลับคฤหาสน์ทางอ้อม (-5 ✨ / -₡550)`,
+              mind: -5, wealth: -550
+            }
+          );
+        }
         pool.push(
           {
             cat: 'crisis',
-            text: `🐍 [ศึกชิงมรดกตระกูล • เดือนที่ ${monthNum}] ญาติสายรองแอบจ้างนักสืบและปล่อยข่าวฉาวโจมตีครอบครัวคุณเพื่อฮุบหุ้นบริษัทตระกูล (-7 ✨ / -₡850)`,
-            mind: -7, wealth: -850
+            text: `👽 [ซ้อมหลบภัยเอเลี่ยนในโรงเรียน • เดือนที่ ${monthNum}] ฝูงแมลงอวกาศบินเฉียดโดมเมือง ${c.city} คุณครูรีบพาคุณและเพื่อนนักเรียนวิ่งเข้าห้องนิรภัยใต้โรงเรียนทันเวลา (-4 ❤️ / -5 ✨)`,
+            health: -4 + tacShield, mind: -5
           },
           {
             cat: 'crisis',
-            text: `🪧 [ม็อบบุกล้อมคฤหาสน์ • เดือนที่ ${monthNum}] กลุ่มผู้ประท้วงต่อต้านความเหลื่อมล้ำบุกพ่นสีและปาหินใส่ขบวนรถของตระกูลคุณใน ${c.city} (-5 ❤️ / -6 ✨)`,
-            health: -5 + tacShield, mind: -6
+            text: `🦠 [โรคระบาดในโรงเรียนประถม • เดือนที่ ${monthNum}] ไข้หวัดเนบิวลาระบาดในห้องเรียน คุณติดไข้จากเพื่อนร่วมชั้นจนต้องนอนพักรักษาตัวที่บ้านหลายวัน (-7 ❤️ / -₡250)`,
+            health: -7 + tacShield, wealth: -250
           },
           {
-            cat: 'cosmic',
-            text: `💎 [เงินปันผลตระกูล • เดือนที่ ${monthNum}] กองทุนสัมปทานอวกาศของครอบครัวทำกำไรประจำไตรมาส ได้รับเงินเบี้ยเลี้ยงพิเศษ (+₡1,100)`,
-            wealth: 1100
+            cat: 'crisis',
+            text: `💥 [อุบัติเหตุระหว่างทางกลับบ้าน • เดือนที่ ${monthNum}] ท่อไอน้ำริมถนนเกิดรั่วระเบิดขณะคุณเดินกลับจากโรงเรียน ผู้ปกครองข้างบ้านรีบดึงมือคุณหลบเข้าข้างทางทันฉิวเฉียด (-5 ❤️ / -4 ✨)`,
+            health: -5 + tacShield, mind: -4
           }
         );
       } else {
+        // BRACKET 3: TEENS & ADULTS (Ages 13+)
+        if (tier === 'poor' || c.wealth < 350) {
+          pool.push(
+            {
+              cat: 'crisis',
+              text: `🥣 [วิกฤตปากท้อง • เดือนที่ ${monthNum}] ข้าวสารและอาหารสังเคราะห์ในบ้านหมดเกลี้ยง! ไม่มีเงินซื้อข้าวมื้อเย็น ต้องต้มน้ำซุปเศษผักประทังความหิว (-6 ❤️ / -5 ✨)`,
+              health: -6 + tacShield, mind: -5
+            },
+            {
+              cat: 'crisis',
+              text: `🔪 [แก๊งทวงหนี้บุก • เดือนที่ ${monthNum}] นักเลงทวงหนี้นอกระบบบุกมาทุบประตูห้องเช่าใน ${c.city} ข่มขู่เรียกเก็บดอกเบี้ยโหดจนคนในบ้านขวัญผวา (-7 ✨ / -₡180)`,
+              mind: -7, wealth: -180
+            },
+            {
+              cat: 'normal',
+              text: `🤝 [น้ำใจคนจน • เดือนที่ ${monthNum}] เพื่อนบ้านในสลัมแบ่งปันก้อนโปรตีนอัดแท่งและยาลดไข้มาให้ยามยากลำบาก ทำให้พอมีแรงสู้ชีวิตต่อ (+4 ❤️ / +5 ✨)`,
+              health: 4, mind: 5
+            }
+          );
+        } else if (tier === 'wealthy') {
+          pool.push(
+            {
+              cat: 'crisis',
+              text: `🐍 [ศึกชิงมรดกตระกูล • เดือนที่ ${monthNum}] ญาติสายรองแอบจ้างนักสืบและปล่อยข่าวฉาวโจมตีครอบครัวคุณเพื่อฮุบหุ้นบริษัทตระกูล (-7 ✨ / -₡850)`,
+              mind: -7, wealth: -850
+            },
+            {
+              cat: 'crisis',
+              text: `🪧 [ม็อบบุกล้อมคฤหาสน์ • เดือนที่ ${monthNum}] กลุ่มผู้ประท้วงต่อต้านความเหลื่อมล้ำบุกพ่นสีและปาหินใส่ขบวนรถของตระกูลคุณใน ${c.city} (-5 ❤️ / -6 ✨)`,
+              health: -5 + tacShield, mind: -6
+            },
+            {
+              cat: 'cosmic',
+              text: `💎 [เงินปันผลตระกูล • เดือนที่ ${monthNum}] กองทุนสัมปทานอวกาศของครอบครัวทำกำไรประจำไตรมาส ได้รับเงินเบี้ยเลี้ยงพิเศษ (+₡1,100)`,
+              wealth: 1100
+            }
+          );
+        } else {
+          pool.push(
+            {
+              cat: 'crisis',
+              text: `📉 [พิษเศรษฐกิจชนชั้นกลาง • เดือนที่ ${monthNum}] ค่าไฟและค่าออกซิเจนในเขต ${c.city} พุ่งสูงขึ้นกะทันหัน ครอบครัวต้องตัดค่าใช้จ่ายฟุ่มเฟือยทั้งหมด (-4 ✨ / -₡320)`,
+              mind: -4, wealth: -320
+            },
+            {
+              cat: 'crisis',
+              text: `🤖 [วิกฤต AI แย่งงาน • เดือนที่ ${monthNum}] บริษัทในเซกเตอร์ประกาศลดพนักงานและนำหุ่นยนต์มาแทนที่ สร้างความตึงเครียดให้ครอบครัวอย่างหนัก (-6 ✨)`,
+              mind: -6
+            }
+          );
+        }
+
         pool.push(
           {
             cat: 'crisis',
-            text: `📉 [พิษเศรษฐกิจชนชั้นกลาง • เดือนที่ ${monthNum}] ค่าไฟและค่าออกซิเจนในเขต ${c.city} พุ่งสูงขึ้นกะทันหัน ครอบครัวต้องตัดค่าใช้จ่ายฟุ่มเฟือยทั้งหมด (-4 ✨ / -₡320)`,
-            mind: -4, wealth: -320
+            text: `💥 [อุบัติเหตุไม่คาดฝัน • เดือนที่ ${monthNum}] เกิดเหตุหม้อแปลงพลาสม่าของสถานีขนส่งใน ${c.city} ระเบิดไฟลุกท่วม! คุณโดนสะเก็ดระเบิดเฉี่ยวขณะเดินทาง (-8 ❤️ / -4 ✨)`,
+            health: -8 + tacShield, mind: -4
           },
           {
             cat: 'crisis',
-            text: `🤖 [วิกฤต AI แย่งงาน • เดือนที่ ${monthNum}] บริษัทในเซกเตอร์ประกาศลดพนักงานและนำหุ่นยนต์มาแทนที่ สร้างความตึงเครียดให้ครอบครัวอย่างหนัก (-6 ✨)`,
-            mind: -6
+            text: `🔪 [อาชญากรรมข้างถนน • เดือนที่ ${monthNum}] แก๊งโจรไซเบอร์ดักปล้นผู้คนในตรอกมืดช่วงไฟดับ คุณต้องวิ่งหนีสุดชีวิตและทำกระเป๋าเครดิตตกหาย (-4 ❤️ / -₡280)`,
+            health: -4 + tacShield, wealth: -280
+          },
+          {
+            cat: 'crisis',
+            text: `👽 [เอเลี่ยนปรสิตบุกเจาะโดม • เดือนที่ ${monthNum}] ฝูงแมลงอวกาศ Void-Swarm ลักลอบเจาะท่อระบายอากาศเข้ามากัดทำร้ายพลเมืองในเขต ${c.city} โกลาหลไปทั่ว! (-9 ❤️ / -5 ✨)`,
+            health: -9 + tacShield, mind: -5
+          },
+          {
+            cat: 'crisis',
+            text: `⚔️ [ลูกหลงสงครามจักรวาล • เดือนที่ ${monthNum}] ยานรบฝ่ายกบฏปะทะกับกองยานสหพันธ์เหนือชั้นบรรยากาศ เศษซากยานร่วงลงมาถล่มอาคารใกล้บ้านคุณ! (-7 ❤️ / -6 ✨)`,
+            health: -7 + tacShield, mind: -6
+          },
+          {
+            cat: 'crisis',
+            text: `🪧 [ประท้วงใหญ่ & จลาจล • เดือนที่ ${monthNum}] ประชาชนนับหมื่นเดินขบวนประท้วงรัฐบาลคอรัปชันใน ${c.city} เกิดการปะทะกับหุ่นยนต์ปราบจลาจลจนต้องปิดเมือง (-5 ✨ / -₡220)`,
+            mind: -5, wealth: -220
+          },
+          {
+            cat: 'crisis',
+            text: `🦠 [โรคระบาดตามฤดูกาล • เดือนที่ ${monthNum}] เชื้อไวรัสไข้หวัดเนบิวลาระบาดหนักใน ${season} คุณติดเชื้อมีอาการไข้สูงและต้องซื้อยารักษาแพงลิ่ว (-8 ❤️ / -₡300)`,
+            health: -8 + tacShield, wealth: -300
           }
         );
       }
-
-      // 2. Universal High-Stakes World Crises (Accidents, Crime, Aliens, War, Politics/Protests, Diseases)
-      pool.push(
-        {
-          cat: 'crisis',
-          text: `💥 [อุบัติเหตุไม่คาดฝัน • เดือนที่ ${monthNum}] เกิดเหตุหม้อแปลงพลาสม่าของสถานีขนส่งใน ${c.city} ระเบิดไฟลุกท่วม! คุณโดนสะเก็ดระเบิดเฉี่ยวขณะเดินทาง (-8 ❤️ / -4 ✨)`,
-          health: -8 + tacShield, mind: -4
-        },
-        {
-          cat: 'crisis',
-          text: `🔪 [อาชญากรรมข้างถนน • เดือนที่ ${monthNum}] แก๊งโจรไซเบอร์ดักปล้นผู้คนในตรอกมืดช่วงไฟดับ คุณต้องวิ่งหนีสุดชีวิตและทำกระเป๋าเครดิตตกหาย (-4 ❤️ / -₡280)`,
-          health: -4 + tacShield, wealth: -280
-        },
-        {
-          cat: 'crisis',
-          text: `👽 [เอเลี่ยนปรสิตบุกเจาะโดม • เดือนที่ ${monthNum}] ฝูงแมลงอวกาศ Void-Swarm ลักลอบเจาะท่อระบายอากาศเข้ามากัดทำร้ายพลเมืองในเขต ${c.city} โกลาหลไปทั่ว! (-9 ❤️ / -5 ✨)`,
-          health: -9 + tacShield, mind: -5
-        },
-        {
-          cat: 'crisis',
-          text: `⚔️ [ลูกหลงสงครามจักรวาล • เดือนที่ ${monthNum}] ยานรบฝ่ายกบฏปะทะกับกองยานสหพันธ์เหนือชั้นบรรยากาศ เศษซากยานร่วงลงมาถล่มอาคารใกล้บ้านคุณ! (-7 ❤️ / -6 ✨)`,
-          health: -7 + tacShield, mind: -6
-        },
-        {
-          cat: 'crisis',
-          text: `🪧 [ประท้วงใหญ่ & จลาจล • เดือนที่ ${monthNum}] ประชาชนนับหมื่นเดินขบวนประท้วงรัฐบาลคอรัปชันใน ${c.city} เกิดการปะทะกับหุ่นยนต์ปราบจลาจลจนต้องปิดเมือง (-5 ✨ / -₡220)`,
-          mind: -5, wealth: -220
-        },
-        {
-          cat: 'crisis',
-          text: `🦠 [โรคระบาดตามฤดูกาล • เดือนที่ ${monthNum}] เชื้อไวรัสไข้หวัดเนบิวลาระบาดหนักใน ${season} คุณติดเชื้อมีอาการไข้สูงและต้องซื้อยารักษาแพงลิ่ว (-8 ❤️ / -₡300)`,
-          health: -8 + tacShield, wealth: -300
-        }
-      );
 
       const ev = pool[Math.floor(Math.random() * pool.length)];
       c.intellect = Math.min(100, Math.max(0, c.intellect + (ev.int || 0)));
@@ -2774,10 +2951,10 @@
       const dom = getDominantAptitudeInfo(c);
       if (c.age === 6) {
         c.career = dom.career6;
-        addLifeLog(c.age, 'milestone', `🎒 เข้าสู่วัยเรียนประถม! ท่ามกลางมรสุมชีวิตของครอบครัว คุณเริ่มต้นในสถานะ "${c.career}"`);
+        addLifeLog(c.age, 'milestone', `🎒 อายุครบ 6 ขวบ! พ่อแม่พาคุณไปเข้าเรียนชั้นประถมศึกษาในฐานะ "${c.career}"`);
       } else if (c.age === 18) {
         c.career = dom.career18;
-        addLifeLog(c.age, 'milestone', `🎓 ก้าวสู่วัยผู้ใหญ่ตอนต้น (อายุ 18 ปี)! ทักษะที่คุณเลือกเอาตัวรอดมาตลอด ส่งผลให้คุณก้าวสู่อาชีพ "${c.career}"!`);
+        addLifeLog(c.age, 'milestone', `🎓 ก้าวสู่วัยผู้ใหญ่ตอนต้น (อายุ 18 ปี)! ทักษะที่คุณฝึกฝนมาตลอด ส่งผลให้คุณก้าวสู่อาชีพ "${c.career}"!`);
       } else if (c.age === 30 && !c.futureFlags.customCareerLocked) {
         c.career = dom.career30;
         addLifeLog(c.age, 'milestone', `🌟 ความเชี่ยวชาญที่สั่งสมมาตั้งแต่วัยเยาว์ผลิดอกออกผลในวัย 30 ปี คุณได้รับการแต่งตั้งเป็น "${c.career}"!`);
@@ -2821,7 +2998,7 @@
           c.wealth += Math.floor(baseIncome * 1.4);
           c.mind = Math.max(5, c.mind - 1);
           c.fame = Math.min(100, c.fame + 1);
-          c.sfxWord = '富! เร่งทำงาน!';
+          c.sfxWord = c.age < 13 ? '貯! เงินออมบ้าน!' : '富! เร่งทำงาน!';
           break;
         case 'romance':
           c.mind = Math.min(100, c.mind + 2);
@@ -2899,7 +3076,6 @@
         return true;
       }
 
-      // Much higher chance of dramatic crisis events (62% crisis, 23% cosmic/alien, 15% everyday) so life is never flat!
       const roll = Math.random();
       if (roll < 0.62) {
         triggerStatisticalCrisisEvent(c);
@@ -2921,48 +3097,104 @@
       const p = c.planet;
       const tier = c.familyTier || 'middle';
       const tacShield = c.aptitudes && c.aptitudes.vit >= 15 ? 4 : 0;
-      const crisisPool = [
-        {
-          cond: tier === 'poor' || c.wealth < 500,
-          text: `🥣 [ความอดอยากรุนแรง] ราคาอาหารสังเคราะห์พุ่งสูงเป็นประวัติการณ์ ครอบครัวของคุณไม่มีเงินพอซื้อข้าวกินครบมื้อ ต้องทนหิวโหยหลายสัปดาห์ติดกัน!`,
-          health: -12 + tacShield, mind: -10, wealth: -250
-        },
-        {
-          cond: tier === 'wealthy' || c.wealth >= 4000,
-          text: `🔪 [แผนลักพาตัว & รีดไถตระกูลดัง] แก๊งอาชญากรข้ามดวงดาวดักซุ่มโจมตีขบวนรถของครอบครัวคุณเพื่อเรียกค่าไถ่ ต้องจ่ายเงินก้อนโตแลกความปลอดภัย!`,
-          health: -7 + tacShield, mind: -11, wealth: -1400
-        },
-        {
-          cond: true,
-          text: `💥 [อุบัติเหตุโครงสร้างถล่ม] ลิฟต์วงโคจรและท่อพลังงานหลักในเขต ${c.city} เกิดระเบิดขัดข้องอย่างรุนแรง ผู้คนบาดเจ็บล้มตายจำนวนมาก!`,
-          health: -11 + tacShield, mind: -8, wealth: -400
-        },
-        {
-          cond: true,
-          text: `👽 [ฝูงเอเลี่ยนบุกโจมตีเซกเตอร์] กองทัพปรสิตต่างดาว (Xenomorph Swarm) บุกทะลวงแนวป้องกันของ ${p.shortName} เข้ามาอาละวาดกลางเมือง!`,
-          health: -12 + tacShield, mind: -9, wealth: -500
-        },
-        {
-          cond: p.warRisk >= 20,
-          text: `⚔️ [สงครามจักรวาลปะทุ] กองยานรบฝ่ายตรงข้ามเปิดฉากยิงขีปนาวุธพลาสม่าถล่มเขต ${c.city} (ดัชนีสงคราม ${p.warRisk}%) คุณต้องหนีตายลงหลุมหลบภัยใต้ดิน!`,
-          health: -11 + tacShield, mind: -10, wealth: -550
-        },
-        {
-          cond: true,
-          text: `🪧 [วิกฤตการเมือง & จลาจลเผาเมือง] รัฐบาลท้องถิ่นประกาศกฎอัยการศึกและขึ้นภาษีขูดรีด มวลชนลุกฮือประท้วงปะทะเดือดกับกองกำลังความมั่นคงทั่วถนน!`,
-          health: -6 + tacShield, mind: -11, wealth: -600
-        },
-        {
-          cond: true,
-          text: `🦠 [โรคระบาดไวรัสกลายพันธุ์] เชื้อไวรัสกินเซลล์สายพันธุ์ใหม่ระบาดหนักในเขต ${c.city} โรงพยาบาลเตียงเต็มและยารักษาขาดแคลนอย่างหนัก!`,
-          health: -13 + tacShield, mind: -7, wealth: -450
-        },
-        {
-          cond: c.age >= 13,
-          text: `🧪 [อาชญากรรมยาเสพติดไซเบอร์] แก๊งค้ายาเสพติดดิจิทัลระบาดหนักในกลุ่มวัยรุ่นและคนทำงานที่เครียดจัด ดึงดูดให้ผู้คนหลงผิดไปพึ่งพาสารกระตุ้นประสาท`,
-          health: -9, mind: -10, wealth: -400, setAddiction: true
-        }
-      ].filter(item => item.cond);
+
+      // Age-bracketed Statistical Crises so babies/children never do adult actions!
+      let crisisPool = [];
+      if (c.age <= 4) {
+        crisisPool = [
+          {
+            cond: tier === 'poor' || c.wealth < 500,
+            text: `🥣 [ภาวะขาดสารอาหารวัยทารก] ราคาอาหารและนมผงเด็กพุ่งสูง พ่อแม่ต้องอดมื้อกินมื้อเพื่อเจียดเงินซื้อนมให้คุณ แต่คุณก็ยังซูบผอมลง!`,
+            health: -10 + tacShield, mind: -6, wealth: -200
+          },
+          {
+            cond: tier === 'wealthy' || c.wealth >= 4000,
+            text: `🔪 [ขู่เรียกค่าไถ่ทายาทตระกูลดัง] แก๊งอาชญากรส่งจดหมายขู่ลักพาตัวทารกในตระกูล พ่อแม่ต้องจ่ายเงินจ้างหน่วยรบพิเศษมาคุ้มกันเปลของคุณเข้มงวด!`,
+            health: -3 + tacShield, mind: -7, wealth: -1200
+          },
+          {
+            cond: true,
+            text: `💥 [ไฟไหม้ตึกข้างเคียง] เกิดเหตุท่อพลังงานระเบิดใกล้ที่พักใน ${c.city} พ่อแม่ต้องอุ้มคุณฝ่าควันไฟหนีลงมาอยู่ที่ศูนย์พักพิงชั่วคราว!`,
+            health: -9 + tacShield, mind: -7, wealth: -300
+          },
+          {
+            cond: true,
+            text: `👽 [สัญญาณเตือนภัยเอเลี่ยนบุก] ฝูงปรสิตต่างดาวบุกโจมตีแนวป้องกันของ ${p.shortName} พ่อแม่กอดคุณไว้แน่นขณะหลบภัยอยู่ในบังเกอร์ใต้ดินท่ามกลางเสียงระเบิด!`,
+            health: -8 + tacShield, mind: -8, wealth: -350
+          },
+          {
+            cond: true,
+            text: `🦠 [โรคระบาดเด็กเล็ก] เชื้อไวรัสคออักเสบระบาดหนักในเขต ${c.city} คุณมีไข้ขึ้นสูงและหายใจติดขัด พ่อแม่ต้องอุ้มวิ่งไปโรงพยาบาลกลางดึก!`,
+            health: -11 + tacShield, mind: -6, wealth: -380
+          }
+        ].filter(item => item.cond);
+      } else if (c.age <= 12) {
+        crisisPool = [
+          {
+            cond: tier === 'poor' || c.wealth < 500,
+            text: `🥣 [ความอดอยากในครอบครัว] ครอบครัวหมุนเงินไม่ทันจนตู้เย็นว่างเปล่า คุณต้องไปโรงเรียนทั้งที่ท้องหิวและรอทานอาหารแจกฟรีของโรงเรียน!`,
+            health: -10 + tacShield, mind: -8, wealth: -220
+          },
+          {
+            cond: true,
+            text: `👽 [เอเลี่ยนบุกใกล้เขตโรงเรียน] สัญญาณเตือนภัยสีแดงดังขึ้นกลางคาบเรียน! คุณครูรีบพาคุณและเพื่อนๆ วิ่งลงหลุมหลบภัยของโรงเรียนทันเวลา`,
+            health: -7 + tacShield, mind: -8, wealth: -300
+          },
+          {
+            cond: true,
+            text: `🪧 [ประท้วงใหญ่ปิดเมือง] เกิดเหตุจลาจลทางการเมืองใน ${c.city} จนโรงเรียนต้องสั่งปิดเรียนฉุกเฉิน พ่อแม่ต้องรีบมารับคุณกลับไปกักตัวในบ้าน!`,
+            health: -5 + tacShield, mind: -8, wealth: -350
+          },
+          {
+            cond: true,
+            text: `🦠 [ไวรัสระบาดในหมู่นักเรียน] เชื้อไวรัสกลายพันธุ์ระบาดในโรงเรียนประถมของ ${c.city} คุณล้มป่วยจนต้องนอนให้น้ำเกลือและพักการเรียนชั่วคราว!`,
+            health: -11 + tacShield, mind: -6, wealth: -400
+          }
+        ].filter(item => item.cond);
+      } else {
+        crisisPool = [
+          {
+            cond: tier === 'poor' || c.wealth < 500,
+            text: `🥣 [ความอดอยากรุนแรง] ราคาอาหารสังเคราะห์พุ่งสูงเป็นประวัติการณ์ ครอบครัวของคุณไม่มีเงินพอซื้อข้าวกินครบมื้อ ต้องทนหิวโหยหลายสัปดาห์ติดกัน!`,
+            health: -12 + tacShield, mind: -10, wealth: -250
+          },
+          {
+            cond: tier === 'wealthy' || c.wealth >= 4000,
+            text: `🔪 [แผนลักพาตัว & รีดไถตระกูลดัง] แก๊งอาชญากรข้ามดวงดาวดักซุ่มโจมตีขบวนรถของครอบครัวคุณเพื่อเรียกค่าไถ่ ต้องจ่ายเงินก้อนโตแลกความปลอดภัย!`,
+            health: -7 + tacShield, mind: -11, wealth: -1400
+          },
+          {
+            cond: true,
+            text: `💥 [อุบัติเหตุโครงสร้างถล่ม] ลิฟต์วงโคจรและท่อพลังงานหลักในเขต ${c.city} เกิดระเบิดขัดข้องอย่างรุนแรง ผู้คนบาดเจ็บล้มตายจำนวนมาก!`,
+            health: -11 + tacShield, mind: -8, wealth: -400
+          },
+          {
+            cond: true,
+            text: `👽 [ฝูงเอเลี่ยนบุกโจมตีเซกเตอร์] กองทัพปรสิตต่างดาว (Xenomorph Swarm) บุกทะลวงแนวป้องกันของ ${p.shortName} เข้ามาอาละวาดกลางเมือง!`,
+            health: -12 + tacShield, mind: -9, wealth: -500
+          },
+          {
+            cond: p.warRisk >= 20,
+            text: `⚔️ [สงครามจักรวาลปะทุ] กองยานรบฝ่ายตรงข้ามเปิดฉากยิงขีปนาวุธพลาสม่าถล่มเขต ${c.city} (ดัชนีสงคราม ${p.warRisk}%) คุณต้องหนีตายลงหลุมหลบภัยใต้ดิน!`,
+            health: -11 + tacShield, mind: -10, wealth: -550
+          },
+          {
+            cond: true,
+            text: `🪧 [วิกฤตการเมือง & จลาจลเผาเมือง] รัฐบาลท้องถิ่นประกาศกฎอัยการศึกและขึ้นภาษีขูดรีด มวลชนลุกฮือประท้วงปะทะเดือดกับกองกำลังความมั่นคงทั่วถนน!`,
+            health: -6 + tacShield, mind: -11, wealth: -600
+          },
+          {
+            cond: true,
+            text: `🦠 [โรคระบาดไวรัสกลายพันธุ์] เชื้อไวรัสกินเซลล์สายพันธุ์ใหม่ระบาดหนักในเขต ${c.city} โรงพยาบาลเตียงเต็มและยารักษาขาดแคลนอย่างหนัก!`,
+            health: -13 + tacShield, mind: -7, wealth: -450
+          },
+          {
+            cond: c.age >= 14,
+            text: `🧪 [อาชญากรรมยาเสพติดไซเบอร์] แก๊งค้ายาเสพติดดิจิทัลระบาดหนักในกลุ่มวัยรุ่นและคนทำงานที่เครียดจัด ดึงดูดให้ผู้คนหลงผิดไปพึ่งพาสารกระตุ้นประสาท`,
+            health: -9, mind: -10, wealth: -400, setAddiction: true
+          }
+        ].filter(item => item.cond);
+      }
 
       const ev = crisisPool[Math.floor(Math.random() * crisisPool.length)];
       c.health = Math.max(0, c.health + ev.health);
@@ -2977,20 +3209,45 @@
     }
 
     function triggerCosmicWorldEvent(c) {
-      const events = [
-        {
-          text: `🛸 ยานลาดตระเวนของสหพันธ์ดาวโลก (Earth) เข้ามาตั้งจุดแจกจ่ายเวชภัณฑ์และแลกเปลี่ยนเทคโนโลยีหลังเกิดเหตุความไม่สงบใน ${c.city}`,
-          int: 4, health: 5, mind: 6, fame: 4, earth: 12
-        },
-        {
-          text: `🌌 ตลาดมืดอวกาศเปิดประมูลสินค้ารอดตายและแร่ควอนตัมที่ยึดมาจากสมรภูมิรบในเมือง ${c.city}`,
-          int: 3, mind: 4, wealth: 850, fame: 4, earth: 0
-        },
-        {
-          text: `🤖 หุ่นยนต์กู้ภัยจากองค์การอวกาศดาวโลกช่วยสกัดกั้นโดรนอาชญากรที่บินหลบหนีเข้ามาใกล้เขตที่พักของคุณ`,
-          int: 6, mind: 6, wealth: 500, fame: 8, earth: 15
-        }
-      ];
+      let events = [];
+      if (c.age <= 4) {
+        events = [
+          {
+            text: `🛸 หน่วยแพทย์เคลื่อนที่จากสหพันธ์ดาวโลก (Earth) เข้ามาแจกจ่ายนมผงเสริมภูมิคุ้มกันและตรวจสุขภาพทารกฟรีในเขต ${c.city} พ่อแม่จึงอุ้มคุณไปรับบริการ`,
+            int: 2, health: 6, mind: 6, fame: 2, earth: 10
+          },
+          {
+            text: `🌌 พ่อแม่ได้รับคูปองเงินช่วยเหลือบุตรแรกเกิดจากกองทุนสวัสดิการดาราจักรในเมือง ${c.city} ช่วยต่อลมหายใจให้ครอบครัว`,
+            int: 2, mind: 5, wealth: 650, fame: 2, earth: 0
+          }
+        ];
+      } else if (c.age <= 12) {
+        events = [
+          {
+            text: `🛸 คณะทูตวัฒนธรรมจากดาวโลก (Earth) มาจัดนิทรรศการหุ่นยนต์และแจกอุปกรณ์การเรียนที่โรงเรียนของคุณใน ${c.city}`,
+            int: 5, health: 4, mind: 7, fame: 4, earth: 12
+          },
+          {
+            text: `🌌 พ่อแม่พาคุณไปเดินงานเทศกาลแลกเปลี่ยนสินค้าดวงดาวใน ${c.city} และได้รับรางวัลสลากออมทรัพย์เยาวชน`,
+            int: 3, mind: 5, wealth: 750, fame: 4, earth: 5
+          }
+        ];
+      } else {
+        events = [
+          {
+            text: `🛸 ยานลาดตระเวนของสหพันธ์ดาวโลก (Earth) เข้ามาตั้งจุดแจกจ่ายเวชภัณฑ์และแลกเปลี่ยนเทคโนโลยีหลังเกิดเหตุความไม่สงบใน ${c.city}`,
+            int: 4, health: 5, mind: 6, fame: 4, earth: 12
+          },
+          {
+            text: `🌌 ตลาดมืดอวกาศเปิดประมูลสินค้ารอดตายและแร่ควอนตัมที่ยึดมาจากสมรภูมิรบในเมือง ${c.city}`,
+            int: 3, mind: 4, wealth: 850, fame: 4, earth: 0
+          },
+          {
+            text: `🤖 หุ่นยนต์กู้ภัยจากองค์การอวกาศดาวโลกช่วยสกัดกั้นโดรนอาชญากรที่บินหลบหนีเข้ามาใกล้เขตที่พักของคุณ`,
+            int: 6, mind: 6, wealth: 500, fame: 8, earth: 15
+          }
+        ];
+      }
       const ev = events[Math.floor(Math.random() * events.length)];
       c.intellect = Math.min(100, c.intellect + (ev.int || 0));
       c.health = Math.min(100, c.health + (ev.health || 0));
@@ -3004,11 +3261,26 @@
 
     function triggerEverydayMangaEvent(c) {
       const dom = getDominantAptitudeInfo(c);
-      const events = [
-        `📖 ท่ามกลางสังคมที่เต็มไปด้วยความเหลื่อมล้ำและอันตราย คุณยังคงกัดฟันฝึกฝน "${c.trait.name}" และพัฒนา${dom.label}เพื่อเอาชีวิตรอด`,
-        `🍜 ได้กินบะหมี่สังเคราะห์ร้อนๆ ในคืนที่เสียงไซเรนสงบลงชั่วคราว เป็นความสุขเล็กๆ ท่ามกลางมรสุมชีวิต`,
-        `🏆 ความไม่ย่อท้อต่ออุปสรรคทำให้คุณได้รับความนับถือในฐานะ "${c.career}" ผู้ผ่านร้อนผ่านหนาว`
-      ];
+      let events = [];
+      if (c.age <= 4) {
+        events = [
+          `🍼 ในวัย ${c.age === 0 ? 'ทารก' : c.age + ' ขวบ'} คุณกินนมและนอนหลับในอ้อมกอดของพ่อแม่ที่คอยปกป้องดูแลคุณท่ามกลางโลกที่วุ่นวาย`,
+          `🧸 คุณหัดคลานและส่งเสียงอ้อแอ้เล่นกับของเล่นชิ้นโปรดในบ้าน สร้างรอยยิ้มให้พ่อแม่หายเหนื่อย`,
+          `💖 พ่อแม่พาคุณไปฉีดวัคซีนสร้างภูมิคุ้มกันที่คลินิกชุมชน ทำให้ร่างกายวัยเตาะแตะแข็งแรงขึ้น`
+        ];
+      } else if (c.age <= 12) {
+        events = [
+          `🎒 ในวัยเด็ก ${c.age} ขวบ คุณตั้งใจเรียนหนังสือที่โรงเรียนประถมและฝึกฝน "${c.trait.name}" อย่างสมวัย`,
+          `🍜 ได้กินบะหมี่สังเคราะห์ร้อนๆ ที่แม่ทำมื้อเย็นหลังทำการบ้านเสร็จ เป็นความสุขเล็กๆ ของครอบครัว`,
+          `🌟 คุณครูชมเชยความตั้งใจเรียนและน้ำใจของคุณต่อเพื่อนๆ ในชั้นเรียน`
+        ];
+      } else {
+        events = [
+          `📖 ท่ามกลางสังคมที่เต็มไปด้วยความเหลื่อมล้ำและอันตราย คุณยังคงกัดฟันฝึกฝน "${c.trait.name}" และพัฒนา${dom.label}เพื่อเอาชีวิตรอด`,
+          `🍜 ได้กินบะหมี่สังเคราะห์ร้อนๆ ในคืนที่เสียงไซเรนสงบลงชั่วคราว เป็นความสุขเล็กๆ ท่ามกลางมรสุมชีวิต`,
+          `🏆 ความไม่ย่อท้อต่ออุปสรรคทำให้คุณได้รับความนับถือในฐานะ "${c.career}" ผู้ผ่านร้อนผ่านหนาว`
+        ];
+      }
       const txt = events[Math.floor(Math.random() * events.length)];
       c.mind = Math.min(100, c.mind + 2);
       c.speechText = txt;
@@ -3016,7 +3288,7 @@
     }
 
     // -----------------------------------------------------------------------
-    // 10. DRAMATIC MID-YEAR & ANNUAL INTERACTIVE POPUP GENERATOR
+    // 10. DRAMATIC MID-YEAR & ANNUAL INTERACTIVE POPUP GENERATOR (STRICTLY AGE-REALISTIC!)
     // -----------------------------------------------------------------------
     let decisionAutoTimerId = null;
 
@@ -3033,7 +3305,260 @@
       const tier = c.familyTier || 'middle';
       const archTag = c.familyArchetype ? c.familyArchetype.tag : 'ครอบครัวทั่วไป';
 
-      // Pool of 7 High-Stakes Mid-Year Dramatic Events (Starvation/Class, Accident, Crime, Alien Invasion, Galactic War, Political Protest, Epidemic)
+      // =====================================================================
+      // BRACKET 1: INFANT & TODDLER (Ages 0 - 3, including Age 0 Month 6!)
+      // Realistic: Baby is in parents' arms; parents protect/evacuate the baby,
+      // and choices are authentic baby/toddler reactions & developmental instincts!
+      // =====================================================================
+      if (c.age <= 3) {
+        const ageDisplay = c.age === 0 ? 'วัยทารก 6 เดือน (อายุ 0 ปี)' : `วัยเตาะแตะ ${c.age} ขวบครึ่ง (เดือน 6)`;
+        const infantMidYearCrises = [
+          // 0: Household Starvation / Family Class Crisis while baby is an infant
+          (() => {
+            if (tier === 'poor' || c.wealth < 450) {
+              return {
+                tag: `🍼 วิกฤตครอบครัววัยทารก • ${ageDisplay}`,
+                title: `🥣 นมผงหมดกระป๋องและแก๊งทวงหนี้มาทุบประตูห้องเช่า!`,
+                echoNote: `พื้นเพครอบครัว: ${archTag} • คุณยังเป็นทารกตัวน้อยในอ้อมกอดของพ่อแม่`,
+                prompt: `ใน${ageDisplay} เงินซื้อนมผงของครอบครัวหมดเกลี้ยง แม่ต้องต้มน้ำข้าวบดมาป้อนให้คุณแทน ซ้ำร้ายนักเลงทวงหนี้ยังบุกมาทุบประตูข่มขู่หน้าห้องจนแม่ต้องรีบอุ้มคุณไปหลบมุมห้อง ในฐานะทารกตัวน้อย คุณจะตอบสนองอย่างไร?`,
+                choices: [
+                  {
+                    label: '🍼 อ้าปากกินน้ำข้าวบดที่แม่ป้อนอย่างว่าง่ายจนหมดชาม และนอนซุกอกแม่เงียบๆ ไม่ร้องกวน',
+                    effect: { health: 8, mind: 6, apt: { vit: 8, emp: 4 } },
+                    futurePreview: '🔮 ผลต่ออนาคต: ร่างกายทารกได้รับสารอาหาร (+8 ❤️) & พ่อแม่หลบแก๊งทวงหนี้ได้ปลอดภัย (+8 ⚔️ ความอึด)',
+                    log: `ใน${ageDisplay} คุณกินอาหารบดอย่างว่าง่ายและนอนนิ่งในอ้อมกอดแม่ ช่วยให้พ่อแม่ผ่านพ้นคืนวิกฤตมาได้!`
+                  },
+                  {
+                    label: '👀 มองตามเสียงพูดคุยอย่างตั้งใจ และจำหน้าคนแปลกหน้าที่มาข่มขู่พ่อแม่ได้แม่นยำ',
+                    effect: { int: 8, mind: 4, apt: { sci: 9 } },
+                    futurePreview: '🔮 ผลต่ออนาคต: พัฒนาสมองส่วนความจำและการสังเกต (+8 🧠 / +9 🔬 วิทยาการ)',
+                    log: `ใน${ageDisplay} สมองของคุณพัฒนาการจดจำเสียงและใบหน้าผู้คนรอบตัวได้อย่างรวดเร็วเกินวัย`
+                  },
+                  {
+                    label: '💖 ยื่นมือน้อยๆ ไปแตะแก้มแม่ที่กำลังร้องไห้และส่งยิ้มไร้เดียงสาให้พ่อแม่มีแรงสู้ทำงานต่อ',
+                    effect: { mind: 10, wealth: 350, apt: { emp: 9, biz: 4 } },
+                    futurePreview: '🔮 ผลต่ออนาคต: พ่อแม่มีกำลังใจออกไปทำงานหาเงินซื้อนมมาเพิ่ม (+₡350 & +9 🤝 สังคม)',
+                    log: `ใน${ageDisplay} รอยยิ้มและมือน้อยๆ ของคุณปลุกพลังใจให้พ่อแม่ฮึดสู้ออกไปหาเงินมาซื้อนมให้คุณสำเร็จ!`
+                  }
+                ]
+              };
+            } else if (tier === 'wealthy') {
+              return {
+                tag: `🍼 วิกฤตตระกูลวัยทารก • ${ageDisplay}`,
+                title: `🐍 สัญญาณเตือนผู้บุกรุกในคฤหาสน์ท่ามกลางศึกชิงมรดกตระกูล!`,
+                echoNote: `พื้นเพครอบครัว: ${archTag} • คุณยังเป็นทารกตัวน้อยในห้องเนิร์สเซอรีของคฤหาสน์`,
+                prompt: `ใน${ageDisplay} เกิดความวุ่นวายในคฤหาสน์เมื่อญาติฝ่ายศัตรูส่งคนแอบลอบเข้ามาใกล้ห้องเด็กอ่อนเพื่อข่มขู่พ่อแม่ของคุณ! สัญญาณเตือนภัยดังขึ้นพร้อมกับที่แม่และบอดี้การ์ดรีบวิ่งเข้ามาอุ้มคุณออกจากเปล คุณจะทำอย่างไร?`,
+                choices: [
+                  {
+                    label: '📢 ร้องไห้เสียงดังลั่นทันทีที่เห็นเงาคนแปลกหน้าปลุกให้หุ่นยนต์บอดี้การ์ดกรูเข้ามาจับกุมคนร้าย!',
+                    effect: { health: 5, fame: 6, wealth: 650, apt: { vit: 8, biz: 5 } },
+                    futurePreview: '🔮 ผลต่ออนาคต: สัญชาตญาณเตือนภัยช่วยรักษาทรัพย์สินครอบครัว (+₡650 & +8 ⚔️ กายภาพ)',
+                    log: `ใน${ageDisplay} เสียงร้องเตือนของทารกน้อยทำให้บอดี้การ์ดรวบตัวผู้บุกรุกได้ทันควัน!`
+                  },
+                  {
+                    label: '👀 จ้องมองแสงไฟโดรนรักษาความปลอดภัยตาแป๋วโดยไม่ตื่นตกใจในอ้อมแขนของคุณแม่',
+                    effect: { int: 8, mind: 6, apt: { sci: 9 } },
+                    futurePreview: '🔮 ผลต่ออนาคต: สมาธิและสติปัญญาวัยทารกพัฒนาดีเยี่ยม (+8 🧠 / +9 🔬 วิทยาการ)',
+                    log: `ใน${ageDisplay} คุณมีสมาธินิ่งสงบและสนใจเทคโนโลยีโดรนรอบตัวตั้งแต่ยังอยู่ในอ้อมกอดแม่`
+                  },
+                  {
+                    label: '🥰 ซุกตัวกอดคอคุณแม่แน่นและส่งเสียงอ้อแอ้ปลอบใจผู้ใหญ่ในบ้านหลังเหตุการณ์สงบ',
+                    effect: { mind: 10, health: 5, apt: { emp: 9, art: 4 } },
+                    futurePreview: '🔮 ผลต่ออนาคต: เป็นที่รักใคร่เอ็นดูของคนทั้งตระกูล (+10 ✨ / +9 🤝 สังคม)',
+                    log: `ใน${ageDisplay} ความน่ารักน่าเอ็นดูของคุณทำให้ผู้ใหญ่ในตระกูลหันมาสามัคคีและปกป้องคุณเต็มที่`
+                  }
+                ]
+              };
+            }
+            return {
+              tag: `🍼 วิกฤตครอบครัววัยทารก • ${ageDisplay}`,
+              title: `📉 ไฟดับทั้งตึกและพ่อแม่เครียดหนักจากวิกฤตค่าครองชีพ!`,
+              echoNote: `พื้นเพครอบครัว: ${archTag} • คุณยังเป็นทารกที่อยู่ในความดูแลของพ่อแม่`,
+              prompt: `ใน${ageDisplay} เกิดวิกฤตเศรษฐกิจและไฟดับฉุกเฉินในเขต ${c.city} พัดลมระบายอากาศหยุดทำงานและพ่อแม่กำลังนั่งกุมขมับคิดหนักเรื่องค่านมและค่าผ่อนบ้าน คุณในวัยทารกจะแสดงออกอย่างไร?`,
+              choices: [
+                {
+                  label: '🍼 ดื่มนมจนหมดขวดและนอนหลับง่ายๆ บนตักแม่ เพื่อให้พ่อแม่ได้มีเวลาซ่อมไฟสำรอง',
+                  effect: { health: 7, mind: 6, apt: { vit: 8 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: ร่างกายแข็งแรงเลี้ยงง่าย (+7 ❤️ / +8 ⚔️ ความอึด)',
+                  log: `ใน${ageDisplay} คุณเป็นเด็กเลี้ยงง่ายไม่งอแง ช่วยแบ่งเบาความเหนื่อยล้าของพ่อแม่ได้มาก`
+                },
+                {
+                  label: '🔦 เอื้อมมือคว้าจับของเล่นเรืองแสงและมองดูคุณพ่อต่อสายแบตเตอรี่สำรองตาแป๋ว',
+                  effect: { int: 8, mind: 5, apt: { sci: 9 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: กระตุ้นพัฒนาการสมองและความคิดเชิงช่าง (+8 🧠 / +9 🔬 วิทยาการ)',
+                  log: `ใน${ageDisplay} คุณจ้องมองคุณพ่อซ่อมไฟสำรองด้วยความสนใจ เป็นจุดเริ่มต้นของความฉลาดวัยเยาว์`
+                },
+                {
+                  label: '😊 หัวเราะคิกคักและตบมือเปาะแปะให้กำลังใจพ่อแม่จนบรรยากาศตึงเครียดในบ้านผ่อนคลายลง',
+                  effect: { mind: 10, wealth: 300, apt: { emp: 8, art: 5 } },
+                  futurePreview: '🔮 ผลต่ออนาคต: เติมพลังใจให้ครอบครัวหาเงินเข้าบ้านเพิ่ม (+10 ✨ / +₡300)',
+                  log: `ใน${ageDisplay} เสียงหัวเราะสดใสของคุณช่วยละลายความเครียดให้พ่อแม่กลับมามีรอยยิ้มอีกครั้ง`
+                }
+              ]
+            };
+          })(),
+
+          // 1: Alien Invasion while baby is 0-3 years old (Matches the exact screenshot scenario realistically!)
+          {
+            tag: `👽 ALIEN INVASION • ${ageDisplay}`,
+            title: `👽 ฝูงเอเลี่ยนบุกทะลวงโดมเมือง ${c.city}! พ่อแม่อุ้มคุณวิ่งหนีลงหลุมหลบภัย`,
+            echoNote: `คุณยังเป็น${ageDisplay}ที่ไม่สามารถช่วยเหลือตัวเองได้ พ่อแม่กำลังกอดคุณไว้แนบอกและวิ่งฝ่าฝูงชนไปที่บังเกอร์ใต้ดิน!`,
+            prompt: `สัญญาณเตือนภัยสีแดงดังกึกก้อง! ฝูงอสูรเอเลี่ยนต่างมิติ (Xenomorph Swarm) เจาะทะลุเกราะป้องกันของ ${c.planet.shortName} ลงมาอาละวาดกลางย่านที่พักอาศัย พ่อแม่รีบคว้าผ้าห่มห่อตัวคุณแล้วอุ้มวิ่งหนีตายลงไปในบังเกอร์นิรภัยใต้ดินพร้อมชาวเมือง คุณในอ้อมกอดของแม่จะตอบสนองอย่างไร?`,
+            choices: [
+              {
+                label: '🍼 ซุกหน้าเข้ากับอกแม่นิ่งๆ ไม่ร้องไห้เสียงดัง เพื่อให้พ่อแม่หลบซ่อนตัวในบังเกอร์ได้อย่างปลอดภัย',
+                effect: { health: 6, mind: 8, apt: { vit: 9, emp: 4 } },
+                futurePreview: '🔮 ผลต่ออนาคต: พ่อแม่พาคุณหลบฝูงเอเลี่ยนรอดปลอดภัย (+6 ❤️ / +8 ✨) & +9 ⚔️ สัญชาตญาณเอาตัวรอด',
+                log: `ใน${ageDisplay} คุณซุกตัวเงียบกริบในอ้อมอกแม่ ทำให้ครอบครัวหลบซ่อนจากฝูงเอเลี่ยนในบังเกอร์ได้อย่างปลอดภัย!`
+              },
+              {
+                label: '👀 มองตามไฟฉุกเฉินและฟังเสียงคลื่นโซนาร์ของเจ้าหน้าที่กู้ภัยในบังเกอร์ด้วยความอยากรู้อยากเห็น',
+                effect: { int: 8, mind: 5, apt: { sci: 9 } },
+                futurePreview: '🔮 ผลต่ออนาคต: กระตุ้นประสาทสัมผัสและการเรียนรู้วัยทารก (+8 🧠 / +9 🔬 วิทยาการ)',
+                log: `ใน${ageDisplay} แม้จะอยู่ในหลุมหลบภัย คุณก็จ้องมองอุปกรณ์ของหน่วยกู้ภัยด้วยดวงตาเป็นประกาย`
+              },
+              {
+                label: '💖 กุมนิ้วมือของแม่ไว้แน่นและส่งยิ้มไร้เดียงสาให้เด็กๆ กับผู้คนที่กำลังหวาดกลัวในหลุมหลบภัย',
+                effect: { health: 4, mind: 10, fame: 5, karmaBonus: 2, apt: { emp: 10 } },
+                futurePreview: '🔮 ผลต่ออนาคต: ผู้คนในบังเกอร์เอ็นดูและแบ่งนมผง-ผ้าห่มให้ (+10 ✨ / +10 🤝 สังคม / +2✦)',
+                log: `ใน${ageDisplay} ความไร้เดียงสาของคุณในอ้อมกอดแม่ช่วยให้ผู้คนในบังเกอร์คลายความตื่นตระหนกและแบ่งเสบียงให้ครอบครัวคุณ`
+              }
+            ]
+          },
+
+          // 2: Severe Epidemic / Sickness while baby is 0-3 years old
+          {
+            tag: `🦠 INFANT HEALTH CRISIS • ${ageDisplay}`,
+            title: `🦠 ไวรัสระบาดในเขต ${c.city}! คุณมีไข้ขึ้นสูงและพ่อแม่ดูแลอย่างใกล้ชิด`,
+            echoNote: `คุณยังเป็น${ageDisplay}ที่ภูมิคุ้มกันยังบอบบาง พ่อแม่กำลังเฝ้าเช็ดตัวและป้อนยาให้คุณข้างเปลทั้งคืน`,
+            prompt: `เชื้อไวรัสทางเดินหายใจระบาดหนักในเมือง ${c.city}! คุณเริ่มมีอาการตัวร้อนและหายใจฟึดฟัด พ่อแม่รีบพาคุณไปรับยาสำหรับเด็กอ่อนและผลัดกันเฝ้าเช็ดตัวให้คุณตลอดทั้งคืน ร่างกายน้อยๆ ของคุณจะสู้กับไข้ครั้งนี้อย่างไร?`,
+            choices: [
+              {
+                label: '💊 อ้าปากกลืนยาน้ำลดไข้และนมอุ่นๆ ที่แม่ป้อนจนหมด แล้วนอนหลับพักผ่อนให้ร่างกายสร้างภูมิคุ้มกัน',
+                effect: { health: 10, mind: 6, apt: { vit: 10 } },
+                futurePreview: '🔮 ผลต่ออนาคต: หายป่วยไวและสร้างภูมิคุ้มกันแข็งแกร่ง (+10 ❤️ / +10 ⚔️ กายภาพ)',
+                log: `ใน${ageDisplay} คุณกินยาและนมอย่างว่าง่ายจนไข้ลดลงและร่างกายสร้างภูมิคุ้มกันโรคสำเร็จ!`
+              },
+              {
+                label: '🧸 นอนกอดตุ๊กตาผ้าฟังเสียงเพลงกล่อมเด็กจากเครื่องวัดชีพจรทางการแพทย์อย่างสงบ',
+                effect: { health: 6, int: 6, mind: 6, apt: { sci: 8 } },
+                futurePreview: '🔮 ผลต่ออนาคต: ฟื้นตัวดีและคุ้นเคยกับอุปกรณ์วิทยาการ (+6 ❤️ / +6 🧠 / +8 🔬)',
+                log: `ใน${ageDisplay} คุณนอนพักฟื้นอย่างสงบภายใต้เครื่องตรวจวัดชีพจรจนอาการดีขึ้นตามลำดับ`
+              },
+              {
+                label: '🤱 ซุกตัวรับไออุ่นจากอ้อมกอดของพ่อแม่ที่คอยลูบหลังกล่อมคุณตลอดคืนด้วยความรัก',
+                effect: { health: 7, mind: 10, apt: { emp: 9 } },
+                futurePreview: '🔮 ผลต่ออนาคต: พัฒนาสายใยความผูกพันและจิตใจที่มั่นคงอบอุ่น (+7 ❤️ / +10 ✨ / +9 🤝)',
+                log: `ใน${ageDisplay} ความรักและการดูแลอย่างใกล้ชิดของพ่อแม่ช่วยให้คุณฟื้นตัวจากอาการป่วยและมีจิตใจที่อบอุ่น`
+              }
+            ]
+          }
+        ];
+
+        const idx = (c.age + (c.visualSeed || 0)) % infantMidYearCrises.length;
+        return infantMidYearCrises[idx];
+      }
+
+      // =====================================================================
+      // BRACKET 2: YOUNG CHILD & PRIMARY SCHOOL (Ages 4 - 11)
+      // Realistic: School-age kid following parents/teachers, doing kid-level
+      // actions (piggy bank, hiding with parents, helping classmates).
+      // =====================================================================
+      if (c.age <= 11) {
+        const childMidYearCrises = [
+          // 0: Family Financial & Hunger Struggle for a young child
+          {
+            tag: `🚨 วิกฤตครอบครัววัยเด็ก • อายุ ${c.age} ปี (เดือน 6)`,
+            title: `🥣 เงินค่ากับข้าวที่บ้านร่อยหรอ! พ่อแม่เครียดหนักเรื่องค่าใช้จ่าย`,
+            echoNote: `พื้นเพครอบครัว: ${archTag} • คุณเป็นเด็กวัย ${c.age} ขวบที่เริ่มเข้าใจความลำบากของพ่อแม่`,
+            prompt: `เข้าสู่กลางปี ราคาอาหารและค่าเทอมในเมือง ${c.city} พุ่งสูงขึ้นจนคุณเห็นพ่อแม่แอบถอนหายใจตอนเปิดตู้เย็นที่แทบไม่มีของกินเหลืออยู่ ในฐานะเด็กวัย ${c.age} ขวบ คุณจะช่วยพ่อแม่ตามกำลังของเด็กอย่างไร?`,
+            choices: [
+              {
+                label: '🪙 ทุบกระปุกออมสินค่าขนมที่เก็บสะสมไว้ ยื่นให้แม่ไปซื้อข้าวสารและไข่ไก่มาทำกับข้าว',
+                effect: { mind: 8, wealth: 350, karmaBonus: 2, apt: { biz: 8, emp: 5 } },
+                futurePreview: '🔮 ผลต่ออนาคต: ช่วยค่าอาหารบ้าน (+₡350), +8 💼 รู้จักประหยัดอดออม & +2✦ แต้มกรรมเด็กกตัญญู',
+                log: `ในวัย ${c.age} ขวบ คุณทุบกระปุกออมสินช่วยแม่ซื้อข้าวสาร ทำเอาพ่อแม่น้ำตาซึมด้วยความตื้นตันใจ!`
+              },
+              {
+                label: '🌱 ช่วยพ่อแม่เพาะถั่วงอกและปลูกผักสวนครัวในกระบะริมระเบียงห้องพักไว้กินเองประหยัดเงิน',
+                effect: { health: 7, int: 6, apt: { sci: 8, vit: 4 } },
+                futurePreview: '🔮 ผลต่ออนาคต: มีผักสดปลอดสารพิษกิน (+7 ❤️) & +8 🔬 เรียนรู้วิทยาศาสตร์การเกษตร',
+                log: `ในวัย ${c.age} ขวบ คุณช่วยพ่อแม่ปลูกผักสวนครัวไว้ทำกับข้าวกินเองในบ้านอย่างภูมิใจ`
+              },
+              {
+                label: '🧹 ช่วยงานบ้านทุกอย่างหลังเลิกเรียนและตั้งใจทำการบ้านเพื่อให้ได้ทุนอาหารกลางวันฟรีจากโรงเรียน',
+                effect: { health: 5, int: 7, wealth: 250, apt: { sci: 6, emp: 6 } },
+                futurePreview: '🔮 ผลต่ออนาคต: ได้รับทุนอาหารกลางวันนักเรียนดีเด่น (+5 ❤️ / +7 🧠 / +₡250)',
+                log: `ในวัย ${c.age} ขวบ ความขยันและตั้งใจเรียนของคุณทำให้ครูมอบทุนอาหารกลางวันและอุปกรณ์การเรียนฟรี!`
+              }
+            ]
+          },
+
+          // 1: Alien / War Evacuation Drill & Shelter for a young child
+          {
+            tag: `👽 EMERGENCY EVACUATION • อายุ ${c.age} ปี (เดือน 6)`,
+            title: `👽 สัญญาณเตือนภัยเอเลี่ยนบุกโดมเมือง ${c.city}! อพยพลงหลุมหลบภัย`,
+            echoNote: `คุณเป็นเด็กวัย ${c.age} ขวบที่ต้องเกาะกลุ่มกับพ่อแม่และทำตามคำแนะนำของเจ้าหน้าที่กู้ภัย`,
+            prompt: `สัญญาณเตือนภัยดังขึ้นทั่วเขต ${c.city} เมื่อฝูงแมลงอวกาศบุกประชิดแนวกำแพงเมือง! เจ้าหน้าที่กู้ภัยประกาศให้ทุกครอบครัวรีบลงบังเกอร์นิรภัยใต้ดิน คุณในวัย ${c.age} ขวบจะปฏิบัติตัวอย่างไรท่ามกลางความชุลมุน?`,
+            choices: [
+              {
+                label: '🏃‍♂️ จับมือพ่อแม่ไว้แน่นและวิ่งตามป้ายไฟฉุกเฉินลงบังเกอร์อย่างมีสติตามที่เคยซ้อมที่โรงเรียน',
+                effect: { health: 6, mind: 6, apt: { vit: 9 } },
+                futurePreview: '🔮 ผลต่ออนาคต: ลงถึงบังเกอร์ปลอดภัยไร้รอยขีดข่วน (+6 ❤️) & +9 ⚔️ วินัยการเอาตัวรอด',
+                log: `ในวัย ${c.age} ขวบ คุณมีสติไม่แตกตื่นและจับมือพ่อแม่วิ่งเข้าหลุมหลบภัยได้อย่างปลอดภัย!`
+              },
+              {
+                label: '🔦 ช่วยถือไฟฉายส่องทางให้พ่อแม่และจดจำแผนผังทางออกฉุกเฉินของบังเกอร์ได้อย่างแม่นยำ',
+                effect: { int: 8, mind: 5, apt: { sci: 9 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +8 🧠 สติปัญญา & +9 🔬 ทักษะการสังเกตแผนผังวิศวกรรม',
+                log: `ในวัย ${c.age} ขวบ คุณช่วยส่องไฟฉายและอ่านป้ายแผนผังบังเกอร์ช่วยผู้ใหญ่ได้อย่างคล่องแคล่ว`
+              },
+              {
+                label: '🧸 แบ่งขนมและชวนเพื่อนเด็กตัวเล็กๆ ที่กำลังร้องไห้ในบังเกอร์มาเล่นทายคำศัพท์เพื่อคลายความกลัว',
+                effect: { mind: 10, fame: 6, karmaBonus: 2, apt: { emp: 9, art: 4 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +10 ✨ ความสุข, +9 🤝 ทักษะสังคม และได้รับคำชมจากผู้ใหญ่ในบังเกอร์',
+                log: `ในวัย ${c.age} ขวบ คุณช่วยปลอบเพื่อนเด็กๆ ในหลุมหลบภัยจนหยุดร้องไห้และผ่านวิกฤตไปด้วยกัน`
+              }
+            ]
+          },
+
+          // 2: School Accident / Epidemic for a young child
+          {
+            tag: `🦠 SCHOOL CRISIS • อายุ ${c.age} ปี (เดือน 6)`,
+            title: `🦠 ไวรัสระบาดควบคู่เหตุไฟดับในโรงเรียนประถมเขต ${c.city}!`,
+            echoNote: null,
+            prompt: `กลางปีนี้เกิดการระบาดของไข้หวัดสายพันธุ์ใหม่ในโรงเรียนประถม แถมหม้อแปลงหน้าโรงเรียนยังเกิดลัดวงจรจนไฟดับระหว่างพักเที่ยง คุณในวัย ${c.age} ขวบจะทำอย่างไร?`,
+            choices: [
+              {
+                label: '😷 สวมหน้ากากอนามัยให้มิดชิดและเดินเรียงแถวตามคุณครูออกไปรอผู้ปกครองที่ลานโล่งอย่างเป็นระเบียบ',
+                effect: { health: 8, mind: 6, apt: { vit: 8, emp: 4 } },
+                futurePreview: '🔮 ผลต่ออนาคต: ไม่ติดเชื้อไวรัสและปลอดภัย (+8 ❤️ / +8 ⚔️ สุขอนามัยแข็งแรง)',
+                log: `ในวัย ${c.age} ขวบ คุณดูแลตัวเองตามหลักสุขศึกษาและเชื่อฟังคุณครูจนกลับถึงมือพ่อแม่อย่างปลอดภัย`
+              },
+              {
+                label: '🔬 ช่วยคุณครูถือกระเป๋ายาปฐมพยาบาลและแจกเจลล้างมือให้เพื่อนๆ ร่วมชั้นเรียน',
+                effect: { int: 7, health: 5, fame: 6, apt: { sci: 8, emp: 5 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +8 🔬 พื้นฐานวิทยาศาสตร์การแพทย์ & ได้รับดาวเด็กดีจากคุณครู',
+                log: `ในวัย ${c.age} ขวบ คุณเป็นหัวหน้าห้องตัวน้อยที่ช่วยคุณครูแจกเจลล้างมือป้องกันโรคให้เพื่อนๆ`
+              },
+              {
+                label: '🎨 วาดโปสเตอร์การ์ตูนรณรงค์ล้างมือและประหยัดไฟติดบอร์ดโรงเรียนจนได้รางวัลชนะเลิศ',
+                effect: { mind: 8, fame: 8, wealth: 300, apt: { art: 9 } },
+                futurePreview: '🔮 ผลต่ออนาคต: รับทุนรางวัลประกวดวาดภาพ +₡300 & +9 🎨 ความคิดสร้างสรรค์',
+                log: `ในวัย ${c.age} ขวบ ภาพวาดรณรงค์สุขอนามัยของคุณชนะรางวัลของเขตและสร้างรอยยิ้มให้ทั้งโรงเรียน!`
+              }
+            ]
+          }
+        ];
+
+        const idx = (c.age + (c.visualSeed || 0)) % childMidYearCrises.length;
+        return childMidYearCrises[idx];
+      }
+
+      // =====================================================================
+      // BRACKET 3: TEENS & ADULTS (Ages 12+)
+      // Full high-stakes action, combat, hacking, politics, business & rescue!
+      // =====================================================================
       const midYearCrises = [
         // 0: Family Class & Starvation / Financial / Inheritance Drama
         (() => {
@@ -3092,7 +3617,6 @@
               ]
             };
           }
-          // Middle class crisis
           return {
             tag: `🚨 วิกฤตครอบครัวชนชั้นกลาง • อายุ ${c.age} ปี (เดือน 6)`,
             title: `📉 พายุเศรษฐกิจถล่ม! ครอบครัวเสี่ยงถูกยึดบ้านและตกงานกะทันหัน`,
@@ -3121,12 +3645,12 @@
           };
         })(),
 
-        // 1: Alien Invasion & Xenomorph Breach
+        // 1: Alien Invasion & Xenomorph Breach (Age 12+ Only!)
         {
           tag: `👽 ALIEN INVASION • อายุ ${c.age} ปี (เดือน 6)`,
           title: `👽 ฝูงเอเลี่ยนกลืนกินดวงดาวบุกทะลวงโดมเมือง ${c.city}!`,
           echoNote: c.aptitudes.vit >= 15 ? '🌟 ทักษะยุทธวิธีที่คุณฝึกมาช่วยให้คุณตั้งสติรับมือการบุกรุกได้ทันที!' : null,
-          prompt: `สัญญาณเตือนภัยสีแดงดังกึกก้อง! ฝูงอสูรเอเลี่ยนต่างมิติ (Xenomorph Swarm) เจาะทะลุเกราะป้องกันของ ${c.planet.shortName} ลงมาอาละวาดกลางย่านที่พักอาศัย ผู้คนวิ่งหนีตายอลหม่าน คุณจะทำอย่างไร?`,
+          prompt: `สัญญาณเตือนภัยสีแดงดังกึกก้อง! ฝูงอสูรเอเลี่ยนต่างมิติ (Xenomorph Swarm) เจาะทะลุเกราะป้องกันของ ${c.planet.shortName} ลงมาอาละวาดกลางย่านที่พักอาศัย ผู้คนวิ่งหนีตายอลหม่าน คุณในวัย ${c.age} ปีจะทำอย่างไร?`,
           choices: [
             {
               label: '⚔️ คว้าอาวุธพลาสม่าเข้าประจำป้อมปราการอาสา ยิงสกัดกั้นฝูงเอเลี่ยนเปิดทางหนีให้ชาวเมือง!',
@@ -3149,7 +3673,7 @@
           ]
         },
 
-        // 2: Severe Accident & Disaster
+        // 2: Severe Accident & Disaster (Age 12+ Only!)
         {
           tag: `💥 SEVERE ACCIDENT • อายุ ${c.age} ปี (เดือน 6)`,
           title: `💥 อุบัติเหตุร้ายแรง! รถไฟแม่เหล็กตกรางและเตาปฏิกรณ์รั่วไหล`,
@@ -3177,7 +3701,7 @@
           ]
         },
 
-        // 3: Violent Crime, Mafia & Underworld
+        // 3: Violent Crime, Mafia & Underworld (Age 12+ Only!)
         {
           tag: `🔪 CRIME & SYNDICATE • อายุ ${c.age} ปี (เดือน 6)`,
           title: `🔪 แก๊งอาชญากรรมไซเบอร์บุกปล้นและยื่นข้อเสนอมืด!`,
@@ -3205,7 +3729,7 @@
           ]
         },
 
-        // 4: Galactic War & Conscription Crisis
+        // 4: Galactic War & Conscription Crisis (Age 12+ Only!)
         {
           tag: `⚔️ GALACTIC WAR • อายุ ${c.age} ปี (เดือน 6)`,
           title: `⚔️ สงครามจักรวาลปะทุ! กองยานข้าศึกปิดล้อมดวงดาว`,
@@ -3233,7 +3757,7 @@
           ]
         },
 
-        // 5: Political Upheaval, Protests & Coup
+        // 5: Political Upheaval, Protests & Coup (Age 12+ Only!)
         {
           tag: `🪧 POLITICAL CRISIS • อายุ ${c.age} ปี (เดือน 6)`,
           title: `🏛️ วิกฤตการเมืองเดือด! ม็อบประท้วงใหญ่ปะทะกฎอัยการศึก`,
@@ -3261,7 +3785,7 @@
           ]
         },
 
-        // 6: Deadly Epidemic / Bio-Plague
+        // 6: Deadly Epidemic / Bio-Plague (Age 12+ Only!)
         {
           tag: `🦠 PANDEMIC OUTBREAK • อายุ ${c.age} ปี (เดือน 6)`,
           title: `🦠 ไวรัสมรณะกลายพันธุ์ระบาดหนัก! โรงพยาบาลล้นและยาขาดตลาด`,
@@ -3323,127 +3847,127 @@
       const archTag = c.familyArchetype ? c.familyArchetype.tag : 'ครอบครัวทั่วไป';
       const dom = getDominantAptitudeInfo(c);
 
-      // Stage A: Ages 1 - 4 (Early Childhood Survival: Malnutrition/Disease vs Middle Class Pressure vs Rich Family Intrigue)
+      // Stage A: Ages 1 - 4 (Early Childhood / Toddler Development & Survival in Parents' Care)
       if (age <= 4) {
         const earlyScenarios = [
           {
-            title: `วัย ${age} ขวบ: บททดสอบการเอาชีวิตรอดในครอบครัว (${archTag})`,
+            title: `วัย ${age} ขวบ: พัฒนาการวัยเตาะแตะท่ามกลางฐานะครอบครัว (${archTag})`,
             prompt: tier === 'poor'
-              ? `ในวัย ${age} ขวบ ครอบครัวของคุณยากจนข้นแค้น (รายได้ ₡${c.familyIncome}/ปี) เดือนนี้แทบไม่มีนมและอาหารดีๆ กิน แถมเกิดโรคระบาดและแก๊งอันธพาลกวนเมืองใน ${c.city} พ่อแม่และตัวคุณจะเลือกสู้เพื่อเอาชีวิตรอดอย่างไร?`
+              ? `ในวัย ${age} ขวบ ครอบครัวของคุณยากจน (รายได้ ₡${c.familyIncome}/ปี) พ่อแม่ต้องทำงานหนักและพาคุณไปฝากป้าข้างบ้านดูแลในห้องเช่าเขต ${c.city} ในวัยที่กำลังหัดเดินและหัดพูด คุณมีพฤติกรรมอย่างไร?`
               : tier === 'wealthy'
-              ? `ในวัย ${age} ขวบ คุณเกิดในตระกูลร่ำรวย (₡${c.familyIncome.toLocaleString()}/ปี) แต่ปีนี้เกิดเหตุคนร้ายพยายามลอบเข้ามาในคฤหาสน์และเครือญาติกดดันทดสอบความสามารถของคุณตั้งแต่วัยทารก คุณจะตอบสนองอย่างไร?`
-              : `ในวัย ${age} ขวบ พ่อแม่ชนชั้นกลางต้องทำงานหนักท่ามกลางปัญหาเศรษฐกิจและมลพิษโรคระบาดใน ${c.city} (ความเสี่ยงเสียชีวิตวัยเด็ก ${c.under5Mortality}%) ปีนี้คุณจะพัฒนาทักษะใดเพื่อรับมือโลกที่โหดร้าย?`,
+              ? `ในวัย ${age} ขวบ คุณเติบโตในคฤหาสน์ตระกูลร่ำรวย (₡${c.familyIncome.toLocaleString()}/ปี) ที่มีครูพี่เลี้ยงและระบบรักษาความปลอดภัยเข้มงวด ในวัยหัดเดินหัดพูดนี้ คุณชอบทำกิจกรรมใดมากที่สุด?`
+              : `ในวัย ${age} ขวบ พ่อแม่ชนชั้นกลางคอยประคองสอนคุณหัดเดินและพูดคำแรกท่ามกลางสภาพแวดล้อมของเมือง ${c.city} (ความเสี่ยงวัยเด็ก ${c.under5Mortality}%) คุณแสดงพัฒนาการด้านใดโดดเด่นที่สุดในปีนี้?`,
             choices: [
               {
-                label: '🛡️ ฝึกความอึดของร่างกาย กินอาหารทุกหยดไม่ให้เหลือ และส่งเสียงเตือนภัยเมื่อมีคนแปลกหน้า/อันตราย!',
+                label: '🍼 กินอาหารเสริมสำหรับเด็กเล็กจนหมดชาม หัดเดินเตาะแตะอย่างคล่องแคล่ว และนอนหลับเต็มอิ่ม',
                 effect: { health: 11, mind: 4, apt: { vit: 10 }, flag: 'survivor_child' },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 ⚔️ กายภาพ/ยุทธวิธี • สร้างเกราะคุ้มกันโรคระบาดและอุบัติเหตุวัยเด็ก',
-                log: `ในวัย ${age} ขวบ สัญชาตญาณการเอาตัวรอดของคุณช่วยให้ผ่านพ้นวิกฤตสุขภาพและอันตรายในบ้านมาได้!`
+                futurePreview: '🔮 ผลต่ออนาคต: +10 ⚔️ สุขภาพกายแข็งแรง • สร้างภูมิคุ้มกันลดความเสี่ยงโรคระบาดวัยเด็ก',
+                log: `ในวัย ${age} ขวบ คุณกินเก่งและหัดเดินได้แข็งแรงกว่าเด็กวัยเดียวกัน ทำเอาพ่อแม่ปลื้มใจ!`
               },
               {
-                label: '🔬 สังเกตเรียนรู้สิ่งรอบตัว แยกแยะเสียงสัญญาณเตือนภัย และจดจำวิธีเปิดระบบนิรภัยในบ้าน',
+                label: '🧩 ชอบนั่งเรียงบล็อกไม้รูปทรงเรขาคณิต และจ้องมองภาพโฮโลแกรมพร้อมหัดออกเสียงเรียกชื่อสิ่งของ',
                 effect: { int: 9, mind: 4, apt: { sci: 10 }, flag: 'early_reader' },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 🔬 วิทยาการ • เปลี่ยนรูปลักษณ์สู่สายนักคิดอัจฉริยะตั้งแต่วัยเยาว์',
-                log: `ในวัย ${age} ขวบ คุณฉายแววอัจฉริยะในการเรียนรู้และเอาตัวรอดจากภัยพิบัติรอบตัว`
+                futurePreview: '🔮 ผลต่ออนาคต: +10 🔬 พัฒนาการสมองไว • เปลี่ยนรูปลักษณ์สู่เบบี๋นักคิดอัจฉริยะ',
+                log: `ในวัย ${age} ขวบ คุณต่อบล็อกไม้และจำคำศัพท์ง่ายๆ ได้เร็วมากจนพ่อแม่ทึ่งในความฉลาด`
               },
               {
-                label: '💖 อ้อนให้กำลังใจพ่อแม่ที่กำลังเครียดจัด และสร้างรอยยิ้มเชื่อมความสัมพันธ์กับเพื่อนบ้าน',
+                label: '💖 ชอบยิ้มหัวเราะอารมณ์ดี โผเข้ากอดพ่อแม่เวลาท่านกลับบ้าน และแบ่งของเล่นให้เพื่อนวัยเตาะแตะ',
                 effect: { mind: 10, health: 4, fame: 4, apt: { emp: 9, art: 5 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +9 🤝 สังคม & +5 🎨 ศิลป์ • ป้องกันปัญหาครอบครัวแตกแยกและได้รับความเมตตา',
-                log: `ในวัย ${age} ขวบ รอยยิ้มและความไร้เดียงสาของคุณช่วยเยียวยาหัวใจพ่อแม่ท่ามกลางมรสุมชีวิต`
+                futurePreview: '🔮 ผลต่ออนาคต: +9 🤝 อารมณ์ดีและเป็นที่รักของครอบครัว • ป้องกันความเครียดในบ้าน',
+                log: `ในวัย ${age} ขวบ ความช่างอ้อนและรอยยิ้มของคุณเป็นยาชูกำลังชั้นดีให้พ่อแม่สู้ชีวิตต่อไป`
               }
             ]
           },
           {
-            title: `วัย ${age} ขวบ: ภัยโรคระบาดวัยเด็กและวิกฤตความปลอดภัยในเมือง ${c.city}`,
-            prompt: `ครบปีที่ ${age}! ปีนี้เกิดการระบาดของไวรัสปอดอักเสบคอสมิกควบคู่กับเหตุจลาจลตัดกระแสไฟฟ้าใน ${c.city} ทารกหลายคนล้มป่วยหนัก คุณจะเลือกพัฒนาตนเองไปในทิศทางใด?`,
+            title: `วัย ${age} ขวบ: พิธีเสี่ยงทายของเล่นวันเกิดและการตรวจสุขภาพประจำปีใน ${c.city}`,
+            prompt: `ครบปีที่ ${age}! พ่อแม่พาคุณไปฉีดวัคซีนป้องกันโรคระบาดเด็กเล็กที่คลินิก และจัดวางสิ่งของไว้ตรงหน้าให้คุณคลาน/เดินไปหยิบตามประเพณีเสี่ยงทายอนาคตวัยเตาะแตะ คุณเลือกหยิบสิ่งใดและทำตัวอย่างไร?`,
             choices: [
               {
-                label: '💰 ช่วยพ่อแม่คัดแยกชิ้นส่วนคริสตัล/เล่นเกมจำลองการค้าเพื่อสะสมแต้มแลกเสบียงอาหาร',
+                label: '🪙 คลานไปคว้าเหรียญเครดิตจำลองและกล่องหยอดเหรียญมาเขย่าเล่นเสียงดังกรุ๊งกริ๊ง',
                 effect: { wealth: 450, int: 5, apt: { biz: 10 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 💼 ธุรกิจ • มีเงินสำรองซื้อยาและอาหาร (+₡450) พัฒนาสู่เบบี๋เถ้าแก่',
-                log: `ในวัย ${age} ขวบ คุณเรียนรู้คุณค่าของเงินและเสบียงอาหารตั้งแต่วัยเตาะแตะ`
+                futurePreview: '🔮 ผลต่ออนาคต: +10 💼 แววเถ้าแก่น้อย & ญาติผู้ใหญ่มอบเงินขวัญถุงใส่กระปุกให้ +₡450',
+                log: `ในวัย ${age} ขวบ คุณหยิบเหรียญเสี่ยงทายจนญาติผู้ใหญ่เอ็นดู มอบเงินขวัญถุงเข้ากระปุกออมสินให้ ₡450!`
               },
               {
-                label: '🎨 ใช้เสียงเพลงและการวาดภาพแสงโฮโลแกรมปลอบโยนคนในบ้านยามไฟดับและเกิดเสียงระเบิด',
+                label: '🎶 หยิบกล่องดนตรีมีไฟกะพริบมาโยกตัวเต้นตามจังหวะเพลงอย่างร่าเริง',
                 effect: { mind: 9, earthRel: 6, apt: { art: 10 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 🎨 ศิลปะ • พัฒนารูปลักษณ์สู่สายไอดอลสร้างแรงบันดาลใจ',
-                log: `ในวัย ${age} ขวบ พรสวรรค์ด้านศิลปะและเสียงเพลงของคุณช่วยคลายความหวาดกลัวให้ทุกคนในบ้าน`
+                futurePreview: '🔮 ผลต่ออนาคต: +10 🎨 จินตนาการและอารมณ์ศิลปิน • พัฒนารูปลักษณ์สู่สายไอดอลตัวน้อย',
+                log: `ในวัย ${age} ขวบ คุณชอบเสียงดนตรีและโยกตัวเต้นตามเพลงกล่อมเด็กอย่างน่าเอ็นดู`
               },
               {
-                label: '⚔️ ฝึกคลาน-เดิน-วิ่งหลบสิ่งกีดขวางและสร้างภูมิคุ้มกันร่างกายให้แข็งแกร่งเหนือเด็กทั่วไป',
+                label: '💪 ตอนคุณหมอฉีดวัคซีนป้องกันไวรัส คุณร้องไห้แค่แอะเดียวแล้วหยุดทันที แถมจับลูกบอลยางบีบเล่นแน่น',
                 effect: { health: 10, mind: 3, apt: { vit: 10 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +10 ⚔️ กายภาพ • ร่างกายแข็งแรงต้านทานไวรัสกลายพันธุ์',
-                log: `ในวัย ${age} ขวบ ร่างกายของคุณแข็งแกร่งจนไม่ล้มป่วยแม้ไวรัสจะระบาดหนักทั่วเซกเตอร์`
+                futurePreview: '🔮 ผลต่ออนาคต: +10 ⚔️ ร่างกายอึดทน • มีภูมิคุ้มกันต้านทานไวรัสวัยเด็กเต็มร้อย',
+                log: `ในวัย ${age} ขวบ คุณกล้าหาญมากตอนฉีดวัคซีนและมีร่างกายแข็งแรงสมบูรณ์`
               }
             ]
           }
         ];
         return {
-          tag: `ANNUAL SURVIVAL • อายุครบ ${age} ปี`,
-          echoNote: `พื้นเพครอบครัว: ${archTag}`,
+          tag: `TODDLER GROWTH • อายุครบ ${age} ปี`,
+          echoNote: `พื้นเพครอบครัว: ${archTag} • วัยเตาะแตะภายใต้การดูแลของพ่อแม่`,
           ...earlyScenarios[age % earlyScenarios.length]
         };
       }
 
-      // Stage B: Ages 6 - 14 (School Bullying, Class Inequality, Gang Crime, Alien Alerts, Protests)
+      // Stage B: Ages 6 - 14 (School Life, Bullying, Family Struggles, School Safety Drills)
       if (age <= 14) {
         const childScenarios = [
           {
-            title: `วัย ${age} ปี: ความเหลื่อมล้ำในโรงเรียน แก๊งอันธพาล และปัญหาปากท้อง`,
+            title: `วัย ${age} ปี: ชีวิตในรั้วโรงเรียน ความเหลื่อมล้ำ และปัญหาปากท้องของครอบครัว`,
             prompt: tier === 'poor'
-              ? `อายุครบ ${age} ปี! ในฐานะเด็กจากครอบครัวยากจน คุณต้องไปโรงเรียนด้วยชุดเก่าๆ บางวันไม่มีเงินกินมื้อเที่ยง และถูกแก๊งเด็กอันธพาลลูกคนมีอิทธิพลไถเงินและดูถูก คุณจะเลือกโต้ตอบและพัฒนาตัวเองอย่างไร?`
+              ? `อายุครบ ${age} ปี! ในฐานะเด็กจากครอบครัวยากจน คุณต้องใส่ชุดนักเรียนมือสองไปเรียน บางวันมีเงินค่าขนมน้อยกว่าเพื่อน และถูกเด็กเกเรบางคนล้อเลียนเรื่องฐานะ คุณจะเลือกทำอย่างไรในปีนี้?`
               : tier === 'wealthy'
-              ? `อายุครบ ${age} ปี! ในฐานะทายาทตระกูลร่ำรวย คุณตกเป็นเป้าของแก๊งลักพาตัวหน้าโรงเรียน และถูกเพื่อนบางกลุ่มหมั่นไส้จากกระแสการเมืองต่อต้านนายทุน คุณจะวางตัวอย่างไร?`
-              : `อายุครบ ${age} ปี! โรงเรียนในเขต ${c.city} เผชิญทั้งการตัดงบประมาณ ข่าวการบุกรุกของเอเลี่ยนชายแดน และแก๊งวัยรุ่นมั่วสุมอาชญากรรม คุณจะเลือกเส้นทางใดในปีนี้?`,
+              ? `อายุครบ ${age} ปี! ในฐานะเด็กจากตระกูลร่ำรวย คุณไปโรงเรียนพร้อมบอดี้การ์ดคุ้มกันภัยลักพาตัว แต่ถูกเพื่อนบางคนมองว่าเข้าถึงยากและพ่อแม่คาดหวังผลการเรียนสูงมาก คุณจะปรับตัวอย่างไร?`
+              : `อายุครบ ${age} ปี! โรงเรียนในเขต ${c.city} มีการแข่งขันด้านการเรียนสูง ขณะที่ข่าวสารบ้านเมืองมีทั้งการประท้วงและภัยเอเลี่ยนตามแนวชายแดน คุณจะมุ่งเน้นพัฒนาตัวเองด้านใดในวัยเรียน?`,
             choices: [
               {
-                label: '⚔️ ฝึกศิลปะการต่อสู้ป้องกันตัวและลุกขึ้นสู้ปกป้องตัวเองและเพื่อนที่ถูกรังแกอย่างเด็ดเดี่ยว!',
+                label: '🥋 เข้าชมรมศิลปะป้องกันตัวของโรงเรียน ฟิตร่างกายให้แข็งแรง และปกป้องเพื่อนที่ถูกรังแก!',
                 effect: { health: 8, fame: 8, mind: 6, apt: { vit: 11 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +11 ⚔️ ยุทธวิธี • วิวัฒนาการสู่ร่างจอมยุทธ์น้อยผู้ไม่ยอมก้มหัวให้ใคร',
-                log: `ในวัย ${age} ปี คุณอัดแก๊งอันธพาลจนไม่กล้ามารังแกคนอ่อนแอในโรงเรียนอีกต่อไป!`
+                futurePreview: '🔮 ผลต่ออนาคต: +11 ⚔️ กายภาพ/ยุทธวิธี • วิวัฒนาการสู่ร่างจอมยุทธ์น้อยผู้กล้าหาญ',
+                log: `ในวัย ${age} ปี คุณฝึกวิชาป้องกันตัวในชมรมโรงเรียนจนไม่มีเด็กเกเรคนไหนกล้ามารังแกคุณและเพื่อนอีก!`
               },
               {
-                label: '🔬 มุ่งมั่นสอบชิงทุนวิจัยวิทยาศาสตร์และสร้างสิ่งประดิษฐ์ขายเพื่อลบคำสบประมาทด้วยความสามารถ',
+                label: '🔬 ตั้งใจเรียนและส่งโครงงานวิทยาศาสตร์เข้าประกวดเพื่อชิงทุนการศึกษาช่วยแบ่งเบาภาระพ่อแม่',
                 effect: { int: 10, wealth: 550, fame: 6, apt: { sci: 11 }, flag: 'honor_student' },
-                futurePreview: '🔮 ผลต่ออนาคต: +11 🔬 วิทยาการ & รับทุนการศึกษา +₡550 วิวัฒนาการสู่ร่างอัจฉริยะแล็บ',
-                log: `ในวัย ${age} ปี คุณคว้าอันดับ 1 การแข่งขันสิ่งประดิษฐ์ระดับเซกเตอร์ รับเงินทุนมาจุนเจือครอบครัว!`
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🔬 วิทยาการ & รับทุนการศึกษาเด็กเรียนดี +₡550',
+                log: `ในวัย ${age} ปี คุณสอบได้คะแนนยอดเยี่ยมและคว้าทุนการศึกษา ₡550 มาให้พ่อแม่ภูมิใจ!`
               },
               {
-                label: '💼 แอบเปิดเครือข่ายค้าขายสินค้าหายากและรับจ้างทำภารกิจในโรงเรียนเพื่อสร้างฐานะด้วยตัวเอง',
-                effect: { wealth: 950, int: 4, apt: { biz: 11 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +11 💼 ธุรกิจ & มีเงินเก็บ +₡950 ไม่ต้องอดมื้อกินมื้ออีกต่อไป',
-                log: `ในวัย ${age} ปี หัวการค้าของคุณทำให้คุณหาเงินได้มากกว่าผู้ใหญ่บางคนเสียอีก!`
+                label: '🪙 ช่วยพ่อแม่ขายของหลังเลิกเรียน และทำขนม/ของทำมือไปฝากขายที่สหกรณ์โรงเรียนเพื่อเก็บเงินออม',
+                effect: { wealth: 850, int: 4, apt: { biz: 11 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 💼 ทักษะการค้าวัยเรียน & มีเงินออมส่วนตัว +₡850',
+                log: `ในวัย ${age} ปี คุณรู้จักช่วยพ่อแม่ทำมาหากินและเก็บออมเงินจากการขายของที่สหกรณ์โรงเรียน!`
               }
             ]
           },
           {
-            title: `วัย ${age} ปี: ภัยสงครามการเมือง โรคระบาด และคลื่นเอเลี่ยนบุกประชิดเมือง`,
-            prompt: `ในปีที่ ${age} ของชีวิต เกิดเหตุจลาจลทางการเมืองควบคู่กับการพบเชื้อปรสิตต่างดาวในระบบน้ำประปาของเมือง ${c.city} โรงเรียนต้องปิดชั่วคราว คุณจะใช้เวลานี้ทำสิ่งใด?`,
+            title: `วัย ${age} ปี: กิจกรรมลูกเสืออวกาศ การซ้อมหลบภัย และโรคระบาดตามฤดูกาลใน ${c.city}`,
+            prompt: `ในปีที่ ${age} ของชีวิต เมือง ${c.city} จัดการซ้อมรับมือภัยพิบัติและตรวจคัดกรองโรคระบาดในโรงเรียนประถม-มัธยมต้น คุณจะเลือกทำกิจกรรมใดร่วมกับครูและเพื่อนๆ?`,
             choices: [
               {
-                label: '🤝 ตั้งหน่วยเยาวชนอาสาแจกจ่ายน้ำสะอาดและดูแลผู้ป่วยในชุมชนที่ขาดแคลน',
+                label: '🤝 อาสาเป็นยุวกาชาดและหัวหน้ากลุ่มดูแลเพื่อนนักเรียนรุ่นน้องระหว่างการซ้อมอพยพหลบภัย',
                 effect: { mind: 9, fame: 10, karmaBonus: 3, apt: { emp: 11 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +11 🤝 สังคม & +3✦ แต้มกรรม วิวัฒนาการสู่ร่างทูตสันติภาพวัยเยาว์',
-                log: `ในวัย ${age} ปี น้ำใจและความกล้าหาญของคุณช่วยชีวิตเพื่อนบ้านจากวิกฤตน้ำปนเปื้อนปรสิต`
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🤝 จิตอาสา/สังคม & +3✦ แต้มกรรม วิวัฒนาการสู่ร่างทูตดอกไม้ดารา',
+                log: `ในวัย ${age} ปี คุณทำหน้าที่ยุวกาชาดดูแลเพื่อนๆ และรุ่นน้องในโรงเรียนได้อย่างน่าชื่นชม`
               },
               {
-                label: '🎨 ผลิตสื่อโฮโลแกรมรายงานความจริงจากพื้นที่วิกฤตส่งไปยังเครือข่ายดาวโลก (Earth)',
-                effect: { fame: 12, earthRel: 12, wealth: 500, apt: { art: 11 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +11 🎨 ศิลปะ/สื่อสาร & +12% 🌍 สายสัมพันธ์ดาวโลก',
-                log: `ในวัย ${age} ปี รายงานข่าวจากมุมมองเด็กของคุณโด่งดังไปถึงดาวโลก ได้รับเงินสนับสนุน +₡500!`
+                label: '🎨 เข้าชมรมศิลปะและจัดรายการวิทยุเสียงตามสายของโรงเรียน เล่านิทานและข่าวสารดาวโลก (Earth)',
+                effect: { fame: 12, earthRel: 12, wealth: 450, apt: { art: 11 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🎨 ศิลปะ/การสื่อสาร & +12% 🌍 สายสัมพันธ์ดาวโลก',
+                log: `ในวัย ${age} ปี รายการเสียงตามสายและภาพวาดของคุณเป็นขวัญใจเพื่อนทั้งโรงเรียนและชนะรางวัลระดับเขต!`
               },
               {
-                label: '🔬 ดัดแปลงเครื่องกรองรังสีและวิเคราะห์ตัวอย่างปรสิตเอเลี่ยนส่งให้ศูนย์วิจัยการแพทย์',
-                effect: { int: 10, health: 5, wealth: 450, apt: { sci: 11 } },
-                futurePreview: '🔮 ผลต่ออนาคต: +11 🔬 วิทยาการ & เพิ่มภูมิคุ้มกันโรคระบาด (+5 ❤️)',
-                log: `ในวัย ${age} ปี ข้อมูลตัวอย่างเชื้อที่คุณวิเคราะห์ช่วยให้ศูนย์การแพทย์สกัดยารักษาได้เร็วขึ้น!`
+                label: '🔬 เข้าชมรมคอมพิวเตอร์และหุ่นยนต์เยาวชน หัดเขียนโค้ดควบคุมโดรนตรวจวัดคุณภาพอากาศในโรงเรียน',
+                effect: { int: 10, health: 5, wealth: 400, apt: { sci: 11 } },
+                futurePreview: '🔮 ผลต่ออนาคต: +11 🔬 วิทยาการ & เพิ่มทักษะเทคโนโลยีตั้งแต่วัยเรียน',
+                log: `ในวัย ${age} ปี คุณหัดประกอบและเขียนโปรแกรมโดรนขนาดเล็กในชมรมวิทยาศาสตร์ของโรงเรียนได้สำเร็จ!`
               }
             ]
           }
         ];
         return {
-          tag: `ANNUAL CRISIS & GROWTH • อายุครบ ${age} ปี`,
+          tag: `SCHOOL YEARS • อายุครบ ${age} ปี`,
           echoNote: `พื้นเพครอบครัว: ${archTag}`,
           ...childScenarios[age % childScenarios.length]
         };
@@ -3491,7 +4015,7 @@
                 log: `ในวัย ${age} ปี นวัตกรรมป้องกันภัยสงครามของคุณช่วยชีวิตผู้คนนับแสนและสร้างรายได้มหาศาล!`
               },
               {
-                label: '🕊️ ลี้ภัยทางการเมือง/เชื่อมสัมพันธ์กับทูตดาวโลก และดูแลคนรัก (${c.partner}) ให้ปลอดภัย',
+                label: `🕊️ ลี้ภัยทางการเมือง/เชื่อมสัมพันธ์กับทูตดาวโลก และดูแลคนรัก (${c.partner}) ให้ปลอดภัย`,
                 effect: {
                   mind: 14,
                   health: 8,
@@ -3758,23 +4282,32 @@
 
       if (actionType === 'visit_earth') {
         c.lastActionAge = c.age;
+        const isKid = c.age < 12;
         if (c.planet.id === 'earth') {
           c.fame = Math.min(100, c.fame + 8);
           c.mind = Math.min(100, c.mind + 8);
           c.wealth += 900;
           c.sfxWord = '地球! ทูตดาวโลก!';
-          c.speechText = 'จัดงานนิทรรศการต้อนรับมนุษย์ต่างดาวที่มาเยือนดาวโลก สนุกสุดๆ!';
+          c.speechText = isKid
+            ? 'พ่อแม่พาไปงานนิทรรศการต้อนรับชาวต่างดาวที่มาเยือนดาวโลก ตื่นเต้นจังเลย!'
+            : 'จัดงานนิทรรศการต้อนรับมนุษย์ต่างดาวที่มาเยือนดาวโลก สนุกสุดๆ!';
           spawnFloatingPopup('+₡900 / +8 🪐', '#00f0ff');
-          addLifeLog(c.age, 'cosmic', `🌍 ในฐานะชาวดาวโลก คุณได้เป็นเจ้าภาพต้อนรับคณะนักเดินทางต่างดาวที่โตเกียว-กรุงเทพ ได้รับมิตรภาพและรายได้ ₡900!`);
+          addLifeLog(c.age, 'cosmic', isKid
+            ? `🌍 พ่อแม่พาคุณไปร่วมงานต้อนรับคณะนักเดินทางต่างดาวที่โตเกียว-กรุงเทพ และได้รับทุนสนับสนุนครอบครัว ₡900!`
+            : `🌍 ในฐานะชาวดาวโลก คุณได้เป็นเจ้าภาพต้อนรับคณะนักเดินทางต่างดาวที่โตเกียว-กรุงเทพ ได้รับมิตรภาพและรายได้ ₡900!`);
         } else {
           c.earthRelation = Math.min(100, c.earthRelation + 18);
           c.intellect = Math.min(100, c.intellect + 5);
           c.mind = Math.min(100, c.mind + 10);
           c.fame = Math.min(100, c.fame + 10);
           c.sfxWord = '潜入! เยือนดาวโลก!';
-          c.speechText = 'ว้าว! อาหารและวัฒนธรรมบนดาวโลก (Earth) นี่มันสุดยอดไปเลย!';
+          c.speechText = isKid
+            ? 'ว้าว! พ่อแม่อุ้มพาขึ้นยานไปทัศนศึกษาที่ดาวโลก (Earth) ของเล่นและขนมบนโลกอร่อยสุดๆ!'
+            : 'ว้าว! อาหารและวัฒนธรรมบนดาวโลก (Earth) นี่มันสุดยอดไปเลย!';
           spawnFloatingPopup('+18% 🌍 ดาวโลก', '#00f0ff');
-          addLifeLog(c.age, 'cosmic', `🛸 เดินทางข้ามรูหนอนไปเยือน "ดาวโลก (Earth)" แฝงตัวเดินเที่ยวอากิฮาบาระและแลกเปลี่ยนเทคโนโลยีกับมนุษย์โลก (ความสัมพันธ์ดาวโลก: ${c.earthRelation}%)`);
+          addLifeLog(c.age, 'cosmic', isKid
+            ? `🛸 พ่อแม่พาคุณโดยสารยานข้ามรูหนอนไปเยือน "ดาวโลก (Earth)" ได้เปิดหูเปิดตาชมเมืองมนุษย์ตั้งแต่วัยเยาว์ (ความสัมพันธ์ดาวโลก: ${c.earthRelation}%)`
+            : `🛸 เดินทางข้ามรูหนอนไปเยือน "ดาวโลก (Earth)" แฝงตัวเดินเที่ยวอากิฮาบาระและแลกเปลี่ยนเทคโนโลยีกับมนุษย์โลก (ความสัมพันธ์ดาวโลก: ${c.earthRelation}%)`);
         }
       } else if (actionType === 'cosmic_trade') {
         c.lastActionAge = c.age;
@@ -3887,7 +4420,9 @@
       addLifeLog(
         c.age,
         'cosmic',
-        `🚀 อพยพย้ายถิ่นฐานจาก ${oldPlanetName} ไปยัง "${targetPlanet.name}" (${c.city}) สำเร็จ! คุณภาพชีวิตและอายุขัยคาดการณ์เปลี่ยนไปตามสภาพแวดล้อมของดาวใหม่`
+        c.age < 12
+          ? `🚀 พ่อแม่พาครอบครัวและตัวคุณอพยพย้ายถิ่นฐานจาก ${oldPlanetName} ไปตั้งรกรากใหม่ที่ "${targetPlanet.name}" (${c.city}) สำเร็จ! คุณภาพชีวิตและอายุขัยคาดการณ์ดีขึ้นตามดาวใหม่`
+          : `🚀 อพยพย้ายถิ่นฐานจาก ${oldPlanetName} ไปยัง "${targetPlanet.name}" (${c.city}) สำเร็จ! คุณภาพชีวิตและอายุขัยคาดการณ์เปลี่ยนไปตามสภาพแวดล้อมของดาวใหม่`
       );
 
       document.getElementById('migrationModal').classList.add('hidden');
