@@ -25,20 +25,35 @@
     }
 
     html, body {
-      font-family: 'Mali', 'Kanit', sans-serif;
+      font-family: 'Kanit', sans-serif;
       background: radial-gradient(circle at 20% 10%, #2e2352 0%, #1d1836 55%, #131024 100%);
-      color: #fdf4ff;
+      color: #ffffff;
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100dvh;
       overflow: hidden;
       overscroll-behavior: none;
-      line-height: 1.5;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
     .font-display {
-      font-family: 'Mali', 'Kanit', 'Chakra Petch', sans-serif;
+      font-family: 'Kanit', 'Chakra Petch', sans-serif;
+    }
+
+    .story-narration-box {
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(180deg, rgba(11, 15, 32, 0.96) 0%, rgba(18, 14, 38, 0.98) 100%);
+      border: 2px solid #f472b6;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
+      line-height: 1.55;
+      letter-spacing: 0.01em;
     }
 
     /* Cute Tamagotchi Egg-Console Panels */
@@ -95,8 +110,8 @@
       border-radius: 16px;
       box-shadow: 0 4px 0 rgba(15, 12, 34, 0.65), inset 0 2px 0 rgba(255, 255, 255, 0.32);
       transition: all 0.14s cubic-bezier(0.34, 1.56, 0.64, 1);
-      font-family: 'Mali', 'Kanit', sans-serif;
-      font-weight: 700;
+      font-family: 'Kanit', sans-serif;
+      font-weight: 600;
     }
 
     .manga-btn:hover:not(:disabled) {
@@ -205,6 +220,13 @@
           <button id="btnSpeed16" onclick="setSimSpeed(16)" class="px-1.5 sm:px-2 py-0.5 text-[11px] font-display font-bold transition text-slate-300 hover:text-white">16x</button>
         </div>
 
+        <!-- Question Pacing / Destiny Mode Selector -->
+        <button id="btnQuestionMode" onclick="cycleQuestionMode()" class="manga-btn px-2 py-0.5 text-[11px] bg-indigo-950 text-cyan-200 border-cyan-400/70 flex items-center gap-1" title="สลับโหมดคำถาม: ถามทุกปี / ถามเฉพาะช่วงวัยสำคัญ / โหมดดูปลายทาง (ไม่ถามแทรก)">
+          <span>🎯</span>
+          <span class="hidden lg:inline">โหมดคำถาม:</span>
+          <strong id="questionModeStatus" class="text-[#ffd166]">ถามทุกปี</strong>
+        </button>
+
         <!-- Auto Mode Toggle -->
         <button id="btnAutoMode" onclick="toggleAutoMode()" class="manga-btn px-2 py-0.5 text-[11px] bg-slate-800 text-slate-200 flex items-center gap-1" title="เปิด/ปิด Auto Mode (ปุ่มลัด A)">
           <span id="autoModeDot" class="w-2 h-2 rounded-full bg-slate-400"></span>
@@ -297,9 +319,19 @@
           </div>
         </div>
 
-        <!-- PHASER 3 CANVAS CONTAINER + INLINE INTERACTIVE QTE OVERLAY -->
+        <!-- PHASER 3 CANVAS CONTAINER + CRISP DOM STORY OVERLAY + QTE OVERLAY -->
         <div class="flex-1 min-h-[175px] w-full bg-[#0b0c14] relative overflow-hidden">
           <div id="phaserMangaContainer" class="w-full h-full"></div>
+
+          <!-- CRISP NATIVE HTML STORY NARRATION OVERLAY (100% Vector Sharp on Mobile & PC) -->
+          <div id="stageStoryOverlayBox" class="pointer-events-none absolute left-2.5 right-2.5 bottom-2 z-10 story-narration-box px-3 py-2 sm:px-3.5 sm:py-2.5">
+            <div class="flex items-start gap-2">
+              <span id="stageStoryBadge" class="shrink-0 mt-0.5 bg-[#00f0ff] text-slate-950 font-display font-extrabold text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md shadow">📖 เรื่องราว</span>
+              <p id="stageStoryOverlayText" class="text-[13px] sm:text-[14.5px] font-medium text-white leading-snug break-words">
+                กดปุ่ม "เกิดใหม่ / สุ่มชีวิตใหม่" เพื่อเปิดฉากชีวิตข้ามจักรวาลของคุณ!
+              </p>
+            </div>
+          </div>
 
           <!-- ============================================================= -->
           <!-- LIVE INTERACTIVE QTE / BOSS CRISIS MINI-GAME OVERLAY          -->
@@ -348,18 +380,20 @@
           </div>
         </div>
 
-        <!-- DAILY ROUTINE & MONTHLY PROGRESSION BAR (Shows daily life & 12-month progress) -->
-        <div id="dailyRoutineBar" class="shrink-0 bg-slate-900/80 border-t border-slate-700/70 px-3 py-1.5 flex flex-col gap-1">
-          <div class="flex flex-wrap items-center justify-between gap-2 text-[11px]">
-            <div class="flex items-center gap-1.5 min-w-0">
-              <span id="monthProgressBadge" class="bg-[#00f0ff] text-black font-display font-black px-1.5 py-0.5 text-[10px] shrink-0">เดือนที่ 1 / 12</span>
-              <span id="timeOfDayBadge" class="bg-indigo-950 border border-indigo-400/60 text-indigo-200 font-display font-bold px-1.5 py-0.5 text-[10px] shrink-0">🌅 ยามเช้า</span>
-              <span id="dailyActivityText" class="text-amber-200 font-bold truncate">กำลังเริ่มต้นกิจวัตรประจำวัน...</span>
+        <!-- DAILY ROUTINE & MONTHLY PROGRESSION BAR (Shows daily life & 12-month progress clearly) -->
+        <div id="dailyRoutineBar" class="shrink-0 bg-[#0d1124] border-t border-slate-700/90 px-3 py-2 flex flex-col gap-1.5">
+          <div class="flex flex-wrap items-center justify-between gap-1.5">
+            <div class="flex items-center gap-1.5">
+              <span id="monthProgressBadge" class="bg-[#00f0ff] text-slate-950 font-display font-extrabold px-2 py-0.5 text-[11px] rounded shrink-0">เดือนที่ 1 / 12</span>
+              <span id="timeOfDayBadge" class="bg-indigo-950 border border-indigo-400/80 text-indigo-100 font-display font-bold px-2 py-0.5 text-[11px] rounded shrink-0">🌅 ยามเช้า</span>
             </div>
-            <div class="flex items-center gap-1.5 shrink-0">
-              <span id="futurePathBadge" class="text-[10px] font-display font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/50 px-1.5 py-0.5">🌱 แนวโน้มอนาคต: รอการพัฒนา</span>
+            <div class="flex items-center gap-1.5">
+              <span id="futurePathBadge" class="text-[11px] font-display font-bold text-emerald-200 bg-emerald-950/90 border border-emerald-400/60 px-2 py-0.5 rounded">🌱 แนวโน้มอนาคต: รอการพัฒนา</span>
             </div>
           </div>
+          <p id="dailyActivityText" class="text-[12.5px] sm:text-[13.5px] text-[#fde047] font-medium leading-snug break-words">
+            กำลังเริ่มต้นกิจวัตรประจำวัน...
+          </p>
           <div class="w-full h-2 bg-slate-800/90 border border-slate-700 rounded-full overflow-hidden">
             <div id="yearMonthProgressBar" class="h-full bg-gradient-to-r from-[#00f0ff] via-[#ffd166] to-[#ff2a5f] transition-all duration-300" style="width: 8%"></div>
           </div>
@@ -385,13 +419,13 @@
           </div>
         </div>
 
-        <!-- Live Mini Chronicle Ticker (Visible on Mobile Stage so player sees events without leaving canvas!) -->
-        <div id="liveTickerBar" onclick="switchHudTab('log')" class="lg:hidden shrink-0 bg-[#0c0e1a] border-t border-slate-800 px-2.5 py-1 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#16192b]">
-          <div class="flex items-center gap-1.5 min-w-0 text-[11px]">
-            <span class="bg-[#00f0ff] text-black font-display font-black text-[10px] px-1.5 py-0.5 shrink-0">ล่าสุด</span>
-            <p id="mobileLiveLogTicker" class="text-slate-200 truncate">กดปุ่ม "เกิดใหม่ / สุ่มชีวิตใหม่" เพื่อเริ่มบันทึกชีวิตข้ามจักรวาลของคุณ</p>
+        <!-- Live Mini Chronicle Ticker (Full multi-line clarity on Mobile Stage so story events are never cut off!) -->
+        <div id="liveTickerBar" onclick="switchHudTab('log')" class="lg:hidden shrink-0 bg-[#090d1d] border-t border-slate-700/80 px-3 py-1.5 flex items-start justify-between gap-2 cursor-pointer hover:bg-[#16192b]">
+          <div class="flex items-start gap-2 min-w-0 flex-1">
+            <span class="mt-0.5 bg-[#00f0ff] text-slate-950 font-display font-extrabold text-[10px] px-1.5 py-0.5 rounded shrink-0">ล่าสุด</span>
+            <p id="mobileLiveLogTicker" class="text-[12.5px] text-white font-medium leading-snug break-words">กดปุ่ม "เกิดใหม่ / สุ่มชีวิตใหม่" เพื่อเริ่มบันทึกชีวิตข้ามจักรวาลของคุณ</p>
           </div>
-          <span class="text-[10px] text-[#00f0ff] font-bold shrink-0">ดูบันทึก ▶</span>
+          <span class="mt-0.5 text-[11px] text-[#00f0ff] font-bold shrink-0">ดูบันทึก ▶</span>
         </div>
 
         <!-- Interactive Command Deck Bottom Bar -->
@@ -664,6 +698,27 @@
             </div>
           </div>
 
+          <!-- 2. Select Question / Destiny Mode -->
+          <div>
+            <label class="block text-xs font-bold text-[#ffd166] uppercase font-display mb-1.5">
+              2. เลือกโหมดการตอบคำถาม & การดูปลายทางชีวิต:
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+              <button id="qModeBtn_every_year" onclick="selectQuestionMode('every_year')" class="manga-btn p-2 text-left bg-[#ff2a5f] text-white">
+                <div class="text-xs font-bold text-white">📝 โหมดละเอียด (ถามทุกปี/กลางปี)</div>
+                <div class="text-[10px] text-white/90 leading-tight">เลือกตัดสินใจเองทุกกลางปีและสิ้นปี</div>
+              </button>
+              <button id="qModeBtn_milestone" onclick="selectQuestionMode('milestone')" class="manga-btn p-2 text-left bg-[#1a1d2e] text-white">
+                <div class="text-xs font-bold text-cyan-300">⭐ โหมดจุดเปลี่ยนวัย (5,12,18,30,50,70)</div>
+                <div class="text-[10px] text-slate-300 leading-tight">ไม่ถามกลางปี ถามเฉพาะช่วงวัยสำคัญ</div>
+              </button>
+              <button id="qModeBtn_destiny" onclick="selectQuestionMode('destiny')" class="manga-btn p-2 text-left bg-[#1a1d2e] text-white">
+                <div class="text-xs font-bold text-[#fde047]">⏩ โหมดดูปลายทาง (ไม่ถามแทรกเลย!)</div>
+                <div class="text-[10px] text-slate-300 leading-tight">ไร้ Popup ขัดจังหวะ ดูผลลัพธ์จนจบชีวิต</div>
+              </button>
+            </div>
+          </div>
+
           <!-- Cosmic Karma Buffs -->
           <div class="bg-[#181b2e] border border-slate-600 p-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
             <div>
@@ -745,9 +800,10 @@
           <span>🎲 สุ่มสูติบัตรใบใหม่</span>
         </button>
 
-        <div class="flex items-center gap-2">
-          <button id="btnStartLifeAuto" onclick="confirmStartLife(true)" class="manga-btn px-3.5 py-2 bg-[#00f0ff] text-black text-xs sm:text-sm font-black">🤖 เริ่มชีวิตใหม่ (เปิด Auto Mode)</button>
-          <button id="btnStartLifeManual" onclick="confirmStartLife(false)" class="manga-btn px-4 py-2 bg-[#ff2a5f] text-white text-xs sm:text-sm font-black">✨ เริ่มชีวิตใหม่!</button>
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <button id="btnStartLifeDestiny" onclick="confirmStartLifeDestiny()" class="manga-btn px-3 py-2 bg-[#fde047] text-slate-950 text-xs sm:text-sm font-extrabold" title="เริ่มชีวิตแบบไร้คำถามคั่น เร่งความเร็วดูว่าปลายทางชีวิตจะจบลงอย่างไร!">⏩ เริ่มแบบดูปลายทาง (ไม่ถามแทรก)</button>
+          <button id="btnStartLifeAuto" onclick="confirmStartLife(true)" class="manga-btn px-3 py-2 bg-[#00f0ff] text-black text-xs sm:text-sm font-black">🤖 เริ่มชีวิตใหม่ (เปิด Auto Mode)</button>
+          <button id="btnStartLifeManual" onclick="confirmStartLife(false)" class="manga-btn px-3.5 py-2 bg-[#ff2a5f] text-white text-xs sm:text-sm font-black">✨ เริ่มชีวิตใหม่!</button>
         </div>
       </div>
     </div>
@@ -766,11 +822,11 @@
         <span class="text-xs font-display text-slate-400">เวลาหยุดชั่วคราว</span>
       </div>
 
-      <h3 id="decisionTitle" class="text-base sm:text-lg font-black text-white mb-1.5">คำถามสำคัญแห่งชีวิต</h3>
-      <div id="decisionPastEchoBox" class="hidden mb-2 bg-emerald-950/90 border border-emerald-400 px-2.5 py-1.5 text-[11px] text-emerald-200 font-bold">
+      <h3 id="decisionTitle" class="text-lg sm:text-xl font-bold text-white mb-2 leading-snug">คำถามสำคัญแห่งชีวิต</h3>
+      <div id="decisionPastEchoBox" class="hidden mb-2.5 bg-emerald-950/95 border border-emerald-400 rounded-lg px-3 py-2 text-xs sm:text-sm text-emerald-100 font-semibold leading-snug">
         🌟 ผลจากการตัดสินใจในอดีตของคุณกำลังส่งผลในเหตุการณ์นี้!
       </div>
-      <p id="decisionPrompt" class="text-xs sm:text-sm text-slate-200 leading-relaxed mb-3 bg-[#0b0c14] p-3 border-l-4 border-[#ff2a5f]">
+      <p id="decisionPrompt" class="text-sm sm:text-base text-white font-normal leading-relaxed mb-3.5 bg-[#090c18] p-3.5 rounded-xl border border-slate-700 border-l-4 border-l-[#ff2a5f] shadow-inner">
         รายละเอียดเหตุการณ์...
       </p>
 
@@ -785,9 +841,14 @@
 
       <div class="mt-3.5 pt-2.5 border-t border-slate-700 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
         <span>ทุกการตัดสินใจส่งผลต่อค่าสถานะและอนาคตของคุณ</span>
-        <button id="btnDecisionEnableAuto" onclick="enableAutoFromModal()" class="text-[#00f0ff] hover:underline font-bold">
-          ขี้เกียจคิด? เปิด Auto Mode ให้ชะตานำทาง →
-        </button>
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="btnDecisionEnableDestiny" onclick="enableDestinyModeFromModal()" class="text-[#fde047] hover:underline font-bold">
+            ⏩ ปิดคำถามทั้งหมดแล้วเร่งดูปลายทางชีวิต →
+          </button>
+          <button id="btnDecisionEnableAuto" onclick="enableAutoFromModal()" class="text-[#00f0ff] hover:underline font-bold">
+            ขี้เกียจคิด? เปิด Auto Mode ให้ชะตานำทาง →
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -816,44 +877,82 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 4: END OF LIFE / REINCARNATION SUMMARY (สรุปชีวิตหลังความตาย)  -->
+  <!-- MODAL 4: END OF LIFE / SHAREABLE DESTINY SUMMARY CARD                 -->
   <!-- ===================================================================== -->
-  <div id="deathSummaryModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 overflow-y-auto">
-    <div class="max-w-xl w-full manga-panel p-4 sm:p-5 bg-[#12131f] my-auto">
-      <div class="text-center border-b-2 border-white pb-3 mb-3.5">
-        <span id="deathBannerTag" class="bg-[#ff2a5f] text-white font-display font-black text-xs px-3 py-0.5 uppercase">END OF INCARNATION // สิ้นสุดชาติภพ</span>
-        <h2 id="deathTitleName" class="text-xl sm:text-2xl font-black text-white font-display mt-1.5">บันทึกแห่งดวงจิตที่ล่วงลับ</h2>
-        <p id="deathCauseText" class="text-xs sm:text-sm text-rose-300 mt-1 font-bold">-</p>
+  <div id="deathSummaryModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+    <div class="max-w-2xl w-full max-h-[94dvh] flex flex-col manga-panel bg-[#121324] overflow-hidden my-auto">
+      <!-- Sticky Header -->
+      <div class="shrink-0 text-center border-b-2 border-white/80 px-4 py-3 bg-gradient-to-r from-[#1e1538] via-[#2a1b4e] to-[#162040]">
+        <div class="flex items-center justify-center gap-2 flex-wrap">
+          <span id="deathBannerTag" class="bg-[#ff2a5f] text-white font-display font-extrabold text-[11px] px-3 py-0.5 rounded-full uppercase">END OF INCARNATION // สรุปปลายทางชีวิต</span>
+          <span id="deathEndingRankBadge" class="bg-[#fde047] text-slate-950 font-display font-extrabold text-[11px] px-3 py-0.5 rounded-full">RANK B</span>
+        </div>
+        <h2 id="deathTitleName" class="text-lg sm:text-2xl font-extrabold text-white font-display mt-1">บันทึกแห่งดวงจิตที่ล่วงลับ</h2>
+        <div id="deathEndingArchetypeTitle" class="text-sm sm:text-base font-bold text-[#00f0ff] mt-0.5">🌾 สามัญชนผู้ผ่านร้อนผ่านหนาว</div>
+        <p id="deathCauseText" class="text-xs sm:text-sm text-rose-300 mt-1 font-medium leading-snug">-</p>
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3.5 text-center">
-        <div class="bg-[#0b0c14] border border-slate-700 p-2">
-          <span class="text-[10px] text-slate-400 block">อายุขัยที่อยู่รอด</span>
-          <strong id="sumFinalAge" class="text-base sm:text-lg font-display text-white">0 ปี</strong>
+      <!-- Scrollable Summary & Share Poster Body -->
+      <div class="flex-1 min-h-0 overflow-y-auto p-3.5 sm:p-4 space-y-3">
+        <!-- 4 Core Summary Metrics -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="bg-[#0b0e1d] border border-slate-700 rounded-xl p-2">
+            <span class="text-[10px] text-slate-400 block">อายุขัยที่อยู่รอด</span>
+            <strong id="sumFinalAge" class="text-base sm:text-lg font-display text-white">0 ปี</strong>
+          </div>
+          <div class="bg-[#0b0e1d] border border-slate-700 rounded-xl p-2">
+            <span class="text-[10px] text-slate-400 block">ดาวดวงสุดท้าย</span>
+            <strong id="sumFinalPlanet" class="text-xs sm:text-sm font-bold text-[#00f0ff] truncate block">-</strong>
+          </div>
+          <div class="bg-[#0b0e1d] border border-slate-700 rounded-xl p-2">
+            <span class="text-[10px] text-slate-400 block">ทรัพย์สินสูงสุด</span>
+            <strong id="sumFinalWealth" class="text-xs sm:text-sm font-display text-[#ffd166]">₡ 0</strong>
+          </div>
+          <div class="bg-[#0b0e1d] border border-slate-700 rounded-xl p-2">
+            <span class="text-[10px] text-slate-400 block">แต้มกรรมที่ได้รับ</span>
+            <strong id="sumEarnedKarma" class="text-base sm:text-lg font-display text-emerald-400">+0</strong>
+          </div>
         </div>
-        <div class="bg-[#0b0c14] border border-slate-700 p-2">
-          <span class="text-[10px] text-slate-400 block">ดาวดวงสุดท้าย</span>
-          <strong id="sumFinalPlanet" class="text-xs sm:text-sm font-bold text-[#00f0ff] truncate block">-</strong>
+
+        <!-- Epitaph & Causal Consequences Box -->
+        <div class="bg-[#161b33] border border-slate-700 border-l-4 border-l-[#00f0ff] rounded-xl p-3 text-xs sm:text-sm text-slate-100 leading-relaxed" id="deathEpitaphBox">
+          -
         </div>
-        <div class="bg-[#0b0c14] border border-slate-700 p-2">
-          <span class="text-[10px] text-slate-400 block">ทรัพย์สินสูงสุด</span>
-          <strong id="sumFinalWealth" class="text-xs sm:text-sm font-display text-[#ffd166]">₡ 0</strong>
+
+        <!-- Key Choices & Consequences Timeline -->
+        <div class="bg-[#0d1124] border border-pink-400/50 rounded-xl p-3">
+          <div class="flex items-center justify-between mb-1.5">
+            <strong class="text-xs sm:text-sm text-pink-300 font-display">⚖️ ผลกรรมจากทางเลือกที่กำหนดปลายทางชีวิตนี้:</strong>
+            <span id="deathEvolutionFormTag" class="text-[11px] font-bold text-[#fde047]">🧬 ร่างสุดท้าย</span>
+          </div>
+          <div id="deathConsequenceList" class="space-y-1.5 text-xs text-slate-200">
+            <!-- Populated dynamically -->
+          </div>
         </div>
-        <div class="bg-[#0b0c14] border border-slate-700 p-2">
-          <span class="text-[10px] text-slate-400 block">แต้มกรรมที่ได้รับ</span>
-          <strong id="sumEarnedKarma" class="text-base sm:text-lg font-display text-emerald-400">+0</strong>
+
+        <!-- Visual Shareable Card Canvas Preview -->
+        <div class="bg-[#090c18] border-2 border-dashed border-cyan-400/60 rounded-2xl p-3 flex flex-col items-center">
+          <div class="w-full flex flex-wrap items-center justify-between gap-2 mb-2">
+            <span class="text-xs font-bold text-cyan-300">🎴 การ์ดสรุปชีวิตสำหรับแชร์อวดเพื่อน (คลิกปุ่มด้านล่างเพื่อบันทึกภาพหรือแชร์):</span>
+            <div class="flex items-center gap-1.5">
+              <button id="btnDownloadSharePng" onclick="downloadShareCardPng()" class="manga-btn px-3 py-1 bg-emerald-400 text-slate-950 text-xs font-extrabold">
+                📸 บันทึกภาพการ์ด (PNG)
+              </button>
+              <button id="btnShareLifeCard" onclick="shareOrCopyLifeSummary()" class="manga-btn px-3 py-1 bg-[#00f0ff] text-slate-950 text-xs font-extrabold">
+                📤 แชร์ / คัดลอกสรุปชีวิต
+              </button>
+            </div>
+          </div>
+          <canvas id="shareCardCanvas" width="720" height="860" class="w-full max-w-[380px] h-auto rounded-xl border-2 border-pink-400/80 shadow-lg"></canvas>
         </div>
       </div>
 
-      <div class="bg-[#181b2e] border-l-4 border-[#00f0ff] p-3 text-xs text-slate-200 mb-4 leading-relaxed" id="deathEpitaphBox">
-        -
-      </div>
-
-      <div class="flex flex-wrap items-center justify-between gap-2">
-        <button id="btnCloseDeathModal" onclick="closeDeathSummaryModal()" class="manga-btn px-3 py-2 bg-slate-800 text-xs text-slate-200">ย้อนดูบันทึกชีวิตนี้</button>
+      <!-- Sticky Footer -->
+      <div class="shrink-0 border-t-2 border-white/80 bg-[#16192b] px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
+        <button id="btnCloseDeathModal" onclick="closeDeathSummaryModal()" class="manga-btn px-3 py-1.5 bg-slate-800 text-xs text-slate-200">ย้อนดูบันทึกชีวิตนี้</button>
         <div class="flex flex-wrap items-center gap-2">
-          <button id="btnReincarnateOffspring" onclick="reincarnateAsDynastyOffspring()" class="manga-btn px-3.5 py-2 bg-[#ffd166] text-black text-xs sm:text-sm font-black" title="เกิดเป็นลูกหลานสืบทอดนามสกุล ดาวปัจจุบัน และรับมรดก 35%">🧬 สืบทอดทายาทตระกูล (รับมรดก 35%)</button>
-          <button id="btnReincarnateAfterDeath" onclick="reincarnateFromSummary()" class="manga-btn px-4 py-2 bg-[#ff2a5f] text-white text-xs sm:text-sm font-black">🌌 ไปเกิดใหม่ในชาติภพถัดไป!</button>
+          <button id="btnReincarnateOffspring" onclick="reincarnateAsDynastyOffspring()" class="manga-btn px-3 py-1.5 bg-[#ffd166] text-black text-xs sm:text-sm font-black" title="เกิดเป็นลูกหลานสืบทอดนามสกุล ดาวปัจจุบัน และรับมรดก 35%">🧬 สืบทอดทายาทตระกูล (รับมรดก 35%)</button>
+          <button id="btnReincarnateAfterDeath" onclick="reincarnateFromSummary()" class="manga-btn px-3.5 py-1.5 bg-[#ff2a5f] text-white text-xs sm:text-sm font-black">🌌 ไปเกิดใหม่ในชาติภพถัดไป!</button>
         </div>
       </div>
     </div>
@@ -1384,6 +1483,7 @@
       simSpeed: 0,
       prevSpeedBeforeModal: 1,
       autoMode: false,
+      questionMode: 'every_year',
       annualFocus: 'balanced',
       logFilter: 'all',
       activeHudTab: 'stage',
@@ -1799,6 +1899,11 @@
         evoFlashTimer: 0,
         futureFlags: {},
         choiceHistory: [],
+        consequenceTags: [],
+        recklessCount: 0,
+        darkKarma: 0,
+        overworkLevel: 0,
+        virtueCount: 0,
         currentRoutineTime: '🌅 ยามเช้า',
         currentRoutineText: 'นอนมองโมบายดวงดาวและดื่มนมสังเคราะห์เสริมภูมิคุ้มกันในอ้อมกอดพ่อแม่',
         currentRoutineProp: 'cradle',
@@ -1838,11 +1943,102 @@
       if (startWithAuto) {
         gameState.autoMode = true;
       }
+      updateQuestionModeUI();
       updateAutoModeUI();
       updateCharacterUI();
       switchHudTab('stage');
 
-      setSimSpeed(1);
+      setSimSpeed(gameState.questionMode === 'destiny' ? 8 : 1);
+    }
+
+    function confirmStartLifeDestiny() {
+      selectQuestionMode('destiny');
+      confirmStartLife(true);
+      setSimSpeed(8);
+      showToast('⏩ เริ่มโหมดดูปลายทาง (ไม่ถามแทรก): เร่งความเร็ว 8x ให้คุณเฝ้าดูชะตาชีวิตจนถึงฉากจบ!');
+    }
+
+    function selectQuestionMode(mode) {
+      gameState.questionMode = mode;
+      updateQuestionModeUI();
+    }
+
+    function cycleQuestionMode() {
+      const order = ['every_year', 'milestone', 'destiny'];
+      const nextIdx = (order.indexOf(gameState.questionMode) + 1) % order.length;
+      gameState.questionMode = order[nextIdx];
+      updateQuestionModeUI();
+      const descMap = {
+        every_year: '📝 โหมดถามทุกปี & กลางปี: ตัดสินใจละเอียดทุกเหตุการณ์',
+        milestone: '⭐ โหมดจุดเปลี่ยนวัย: ไม่ถามกลางปี ถามเฉพาะอายุ 5, 12, 18, 30, 50, 70 ปี',
+        destiny: '⏩ โหมดดูปลายทาง (ไร้คำถามคั่น): ตัวละครตัดสินใจเองตามนิสัยและเป้าหมายจนจบชีวิต!'
+      };
+      showToast(descMap[gameState.questionMode]);
+    }
+
+    function updateQuestionModeUI() {
+      const labelMap = {
+        every_year: 'ถามทุกปี',
+        milestone: 'เฉพาะวัยสำคัญ',
+        destiny: '⏩ ดูปลายทาง'
+      };
+      const statusEl = document.getElementById('questionModeStatus');
+      if (statusEl) {
+        statusEl.textContent = labelMap[gameState.questionMode] || 'ถามทุกปี';
+      }
+      ['every_year', 'milestone', 'destiny'].forEach(k => {
+        const btn = document.getElementById('qModeBtn_' + k);
+        if (!btn) return;
+        if (k === gameState.questionMode) {
+          btn.className = 'manga-btn p-2 text-left bg-[#ff2a5f] text-white';
+        } else {
+          btn.className = 'manga-btn p-2 text-left bg-[#1a1d2e] text-white';
+        }
+      });
+    }
+
+    function enableDestinyModeFromModal() {
+      selectQuestionMode('destiny');
+      gameState.autoMode = true;
+      updateAutoModeUI();
+      clearDecisionAutoTimer();
+      const c = gameState.activeChar;
+      document.getElementById('decisionModal').classList.add('hidden');
+      if (c) {
+        const qData = generateAnnualInteractiveQuestion(c.age, c);
+        const chosen = pickSmartChoiceForDestiny(c, qData.choices);
+        applyMilestoneChoice(c.age, chosen, true, false);
+      }
+      setSimSpeed(8);
+      showToast('⏩ เปิดโหมดดูปลายทาง (ไม่ถามแทรก) และเร่งความเร็ว 8x เรียบร้อย!');
+    }
+
+    function pickSmartChoiceForDestiny(c, choices) {
+      if (!choices || choices.length === 0) return null;
+      const focus = gameState.annualFocus || 'balanced';
+      // Weight choice selection by annualFocus, desperation (low wealth), or random human impulse
+      if (c.wealth < 300 && Math.random() < 0.65) {
+        // Desperate for money -> tends to pick high wealth or risky choices!
+        const sortedByWealth = [...choices].sort((a, b) => ((b.effect && b.effect.wealth) || 0) - ((a.effect && a.effect.wealth) || 0));
+        return sortedByWealth[0];
+      }
+      if (focus === 'study') {
+        const sciChoice = choices.find(ch => ch.effect && ch.effect.apt && ch.effect.apt.sci);
+        if (sciChoice && Math.random() < 0.75) return sciChoice;
+      } else if (focus === 'career') {
+        const bizChoice = choices.find(ch => ch.effect && ((ch.effect.apt && ch.effect.apt.biz) || ch.effect.wealth > 500));
+        if (bizChoice && Math.random() < 0.75) return bizChoice;
+      } else if (focus === 'romance') {
+        const empChoice = choices.find(ch => ch.effect && ch.effect.apt && ch.effect.apt.emp);
+        if (empChoice && Math.random() < 0.75) return empChoice;
+      } else if (focus === 'explore') {
+        const artChoice = choices.find(ch => ch.effect && ch.effect.apt && (ch.effect.apt.art || ch.effect.apt.vit));
+        if (artChoice && Math.random() < 0.75) return artChoice;
+      } else if (focus === 'health') {
+        const vitChoice = choices.find(ch => ch.effect && (ch.effect.health > 0 || (ch.effect.apt && ch.effect.apt.vit)));
+        if (vitChoice && Math.random() < 0.75) return vitChoice;
+      }
+      return choices[Math.floor(Math.random() * choices.length)];
     }
 
     // -----------------------------------------------------------------------
@@ -2630,9 +2826,26 @@
         }
       }
 
-      // Mid-year interactive event at Month 6 (Auto QTE only triggers when age >= 12!)
+      // Mid-year interactive event at Month 6 (Respects questionMode!)
       if (c.month === 6) {
         c.month += 1;
+        // In 'destiny' or 'milestone' mode, resolve mid-year crisis silently without popup interruption!
+        if (gameState.questionMode === 'destiny' || gameState.questionMode === 'milestone') {
+          const qData = generateMidYearInteractiveQuestion(c);
+          const chosen = pickSmartChoiceForDestiny(c, qData.choices);
+          if (chosen) {
+            applyMilestoneChoice(c.age, chosen, true, true);
+          }
+          if (!c.alive || c.health <= 0) {
+            if (c.alive) {
+              triggerCharacterDeath(`เสียชีวิตก่อนวัยอันควรในวัย ${c.age} ปี (เดือนที่ 6) จากผลพวงของการตัดสินใจในวิกฤตกลางปีบน ${c.planet.shortName}`);
+            }
+            updateCharacterUI();
+            return;
+          }
+          updateCharacterUI();
+          return;
+        }
         updateCharacterUI();
         if (c.age >= 12 && c.age >= c.nextQteAge) {
           c.nextQteAge = c.age + Math.floor(5 + Math.random() * 4);
@@ -2982,6 +3195,16 @@
       }
 
       updateCharacterUI();
+      const qMode = gameState.questionMode || 'every_year';
+      const isMajorMilestoneAge = [5, 12, 18, 30, 50, 70].includes(c.age);
+      if (qMode === 'destiny' || (qMode === 'milestone' && !isMajorMilestoneAge)) {
+        const qData = generateAnnualInteractiveQuestion(c.age, c);
+        const chosen = pickSmartChoiceForDestiny(c, qData.choices);
+        if (chosen) {
+          applyMilestoneChoice(c.age, chosen, true, false);
+        }
+        return;
+      }
       triggerMilestoneQuestion(c.age);
     }
 
@@ -3050,28 +3273,62 @@
       const p = c.planet;
 
       if (c.age <= 5) {
-        const careShield = (c.aptitudes.vit + c.aptitudes.emp) * 0.002;
-        const annualChildRisk = Math.max(0.002, ((c.under5Mortality / 5) / 100) - careShield);
-        if (Math.random() < annualChildRisk && c.health < 68) {
+        const careShield = (c.aptitudes.vit + c.aptitudes.emp) * 0.0018;
+        const annualChildRisk = Math.max(0.004, ((c.under5Mortality / 4.2) / 100) - careShield);
+        if (Math.random() < annualChildRisk && c.health < 74) {
           triggerCharacterDeath(
-            `เสียชีวิตในวัยทารก (${c.age} ขวบ) จากภาวะขาดสารอาหาร โรคระบาด และระบบสาธารณสุขที่ขาดแคลนบน ${p.shortName} (สถิติความเสี่ยงวัยเด็ก ${c.under5Mortality}%)`
+            `เสียชีวิตก่อนวัยอันควรในวัยเด็ก (${c.age} ขวบ) จากภาวะขาดสารอาหาร โรคระบาด และระบบสาธารณสุขที่ขาดแคลนบน ${p.shortName} (สถิติความเสี่ยงวัยเด็ก ${c.under5Mortality}%)`
           );
           return true;
         }
       }
 
-      if (c.age >= 15 && c.mind <= 12) {
-        if (Math.random() < 0.14) {
-          triggerCharacterDeath(
-            `จบชีวิตลงด้วยตนเองในวัย ${c.age} ปี จากภาวะความกดดันทางเศรษฐกิจและมรสุมชีวิตของดวงดาว (ขอให้ดวงจิตได้พักผ่อนอย่างสงบในอ้อมกอดแห่งดาราจักร)`
-          );
-          return true;
-        }
-      }
-
-      if (c.health <= 0 || (c.age > c.expectedLifespan && Math.random() < 0.20)) {
+      // Premature Death & Delayed Consequences from Past Choices (Dark Path, Reckless Combat, Overwork, Extreme Poverty)
+      if (c.age >= 14 && (c.darkKarma || 0) >= 2 && Math.random() < 0.13) {
         triggerCharacterDeath(
-          `สิ้นอายุขัยในวัย ${c.age} ปี (อายุขัยเฉลี่ยของดาวคือ ${c.expectedLifespan} ปี) หลังผ่านมรสุมชีวิตและสงครามดวงดาวมาอย่างโชกโชน`
+          `เสียชีวิตก่อนวัยอันควรในวัยเพียง ${c.age} ปี! ถูกแก๊งมาเฟียตลาดมืดและศัตรูในวงการสีเทาลอบสังหาร — เป็นผลกรรมโดยตรงจากทางเลือกสายมืดที่คุณเคยตัดสินใจไว้ในอดีต`
+        );
+        return true;
+      }
+
+      if (c.age >= 13 && (c.recklessCount || 0) >= 2 && c.health < 62 && Math.random() < 0.14) {
+        triggerCharacterDeath(
+          `เสียชีวิตก่อนวัยอันควรในวัย ${c.age} ปี! พิษบาดแผลเรื้อรังจากการลุยเสี่ยงตายในเหมืองมืดและสมรภูมิรบในอดีตกำเริบรุนแรงเกินกว่าที่ร่างกายจะรับไหว`
+        );
+        return true;
+      }
+
+      if (c.age >= 18 && (c.overworkLevel || 0) >= 2 && (c.health < 58 || c.mind < 38) && Math.random() < 0.14) {
+        triggerCharacterDeath(
+          `เสียชีวิตกะทันหันก่อนวัยอันควรในวัย ${c.age} ปี จากภาวะหัวใจล้มเหลวเฉียบพลัน (Karoshi) เพราะโหมทำงานหนักแลกเงินโดยไม่ดูแลสุขภาพและจิตใจ`
+        );
+        return true;
+      }
+
+      if (c.age >= 10 && c.wealth < 120 && c.health < 52 && Math.random() < 0.15) {
+        triggerCharacterDeath(
+          `เสียชีวิตอย่างน่าสลดในวัย ${c.age} ปี จากความอดอยากรุนแรงและไม่มีเงินจ่ายค่ายารักษาโรคในเขตสลัมของ ${c.city}`
+        );
+        return true;
+      }
+
+      if (c.age >= 15 && c.mind <= 16) {
+        if (Math.random() < 0.18) {
+          triggerCharacterDeath(
+            `หัวใจและจิตวิญญาณแตกสลายในวัย ${c.age} ปี จากภาวะความกดดันทางเศรษฐกิจ หนี้สิน และมรสุมชีวิตที่ถาโถมบน ${p.shortName}`
+          );
+          return true;
+        }
+      }
+
+      if (c.health <= 0 || (c.age > c.expectedLifespan && Math.random() < 0.24)) {
+        const bleakSuffix = c.wealth < 400
+          ? ' ท่ามกลางความยากจนข้นแค้นและห้องเช่าอันหนาวเหน็บ'
+          : c.mind < 40
+          ? ' ท่ามกลางความโดดเดี่ยวและบาดแผลในใจที่ไม่เคยจางหาย'
+          : ' หลังผ่านมรสุมชีวิตและสงครามดวงดาวมาอย่างโชกโชน';
+        triggerCharacterDeath(
+          `สิ้นอายุขัยในวัย ${c.age} ปี (อายุขัยคาดการณ์ ${c.expectedLifespan} ปี)${bleakSuffix}`
         );
         return true;
       }
@@ -4153,13 +4410,13 @@
 
       qData.choices.forEach((choice) => {
         const btn = document.createElement('button');
-        btn.className = 'w-full manga-btn p-2.5 sm:p-3 bg-[#1a1d2e] hover:bg-[#252b45] text-left text-white transition flex flex-col gap-1 border-l-4 border-[#00f0ff]';
+        btn.className = 'w-full manga-btn p-3 sm:p-3.5 bg-[#171c30] hover:bg-[#222946] text-left text-white transition flex flex-col gap-1.5 border-l-4 border-[#00f0ff]';
         btn.innerHTML = `
-          <div class="flex items-center justify-between gap-2 w-full">
-            <span class="text-xs sm:text-sm font-bold text-white">${choice.label}</span>
-            <span class="font-display font-black text-xs text-[#00f0ff] shrink-0">เลือก ▶</span>
+          <div class="flex items-start justify-between gap-2.5 w-full">
+            <span class="text-[13.5px] sm:text-[15px] font-semibold text-white leading-snug">${choice.label}</span>
+            <span class="font-display font-extrabold text-xs text-[#00f0ff] shrink-0 mt-0.5">เลือก ▶</span>
           </div>
-          <div class="text-[10px] sm:text-[11px] text-[#ffd166] font-medium">${choice.futurePreview || '🔮 ส่งผลต่อเส้นทางอนาคตของตัวละคร'}</div>
+          <div class="text-xs sm:text-[13px] text-[#fde047] font-medium leading-snug">${choice.futurePreview || '🔮 ส่งผลต่อเส้นทางอนาคตของตัวละคร'}</div>
         `;
         btn.addEventListener('click', () => {
           clearDecisionAutoTimer();
@@ -4237,6 +4494,52 @@
       if (ef.flag && c.futureFlags) {
         c.futureFlags[ef.flag] = true;
       }
+
+      // Track long-term causal consequences of this choice on the character's future & lifespan!
+      if (!c.consequenceTags) c.consequenceTags = [];
+      const lbl = choice.label || '';
+      if (lbl.includes('ตลาดมืด') || lbl.includes('สีเทา') || lbl.includes('มาเฟีย') || lbl.includes('กักตุน') || lbl.includes('ฮุบหุ้น')) {
+        c.darkKarma = (c.darkKarma || 0) + 1;
+        c.expectedLifespan = Math.max(25, c.expectedLifespan - 3);
+        c.consequenceTags.push({
+          age,
+          type: 'dark',
+          text: `[วัย ${age} ปี] เลือกเส้นทางสีเทา/ผลประโยชน์มืด (${lbl.slice(0, 38)}...) → เสี่ยงถูกหักหลังและบั่นทอนอายุขัย -3 ปี`
+        });
+      } else if (lbl.includes('เสี่ยงตาย') || lbl.includes('ออกรบแนวหน้า') || lbl.includes('คว้าอาวุธพลาสม่า') || lbl.includes('พุ่งเข้าไปปิดวาล์ว') || lbl.includes('ป้อมปืน')) {
+        c.recklessCount = (c.recklessCount || 0) + 1;
+        const hasArmor = c.aptitudes && c.aptitudes.vit >= 20;
+        if (!hasArmor) {
+          c.expectedLifespan = Math.max(22, c.expectedLifespan - 4);
+          c.consequenceTags.push({
+            age,
+            type: 'reckless',
+            text: `[วัย ${age} ปี] ลุยเสี่ยงตายโดยไร้เกราะยุทธวิธีเพียงพอ (${lbl.slice(0, 36)}...) → เกิดบาดแผลสะสมเรื้อรัง อายุขัย -4 ปี`
+          });
+        } else {
+          c.consequenceTags.push({
+            age,
+            type: 'hero',
+            text: `[วัย ${age} ปี] ยืนหยัดปกป้องผู้คนด้วยทักษะยุทธวิธี (${lbl.slice(0, 36)}...) → สร้างเกียรติยศวีรบุรุษ`
+          });
+        }
+      } else if ((ef.health && ef.health <= -5) || lbl.includes('ทำงานเสริม 3 กะ') || lbl.includes('ทำงานหนัก')) {
+        c.overworkLevel = (c.overworkLevel || 0) + 1;
+        c.expectedLifespan = Math.max(28, c.expectedLifespan - 3);
+        c.consequenceTags.push({
+          age,
+          type: 'overwork',
+          text: `[วัย ${age} ปี] โหมงานหนักแลกเงินจนร่างกายทรุดโทรม (${lbl.slice(0, 36)}...) → เสี่ยงหัวใจล้มเหลวและอายุขัย -3 ปี`
+        });
+      } else if ((ef.karmaBonus && ef.karmaBonus > 0) || lbl.includes('บริจาค') || lbl.includes('ช่วยเหลือ') || lbl.includes('สันติภาพ') || lbl.includes('วิจัย')) {
+        c.virtueCount = (c.virtueCount || 0) + 1;
+        c.consequenceTags.push({
+          age,
+          type: 'virtue',
+          text: `[วัย ${age} ปี] สร้างกุศลและพัฒนาวิทยาการช่วยเหลือสังคม (${lbl.slice(0, 36)}...) → เสริมบารมีและแต้มกรรม`
+        });
+      }
+
       if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
 
       const timeLabel = isMidYear ? `เดือนที่ 6 (วัย ${age} ปี)` : `วัย ${age} ปี`;
@@ -4436,34 +4739,153 @@
     // -----------------------------------------------------------------------
     // 12. DEATH & REINCARNATION SUMMARY
     // -----------------------------------------------------------------------
+    function classifyLifeEnding(c, reasonText) {
+      if (!c) {
+        return {
+          rank: 'RANK C',
+          badgeBg: 'bg-slate-700 text-white',
+          colorHex: '#94a3b8',
+          title: '🌫️ ดวงจิตพเนจรแห่งอวกาศ',
+          summary: 'การเดินทางอันแสนสั้นท่ามกลางดวงดาว'
+        };
+      }
+      if (c.age < 15) {
+        return {
+          rank: 'TRAGEDY (เสียชีวิตก่อนวัย)',
+          badgeBg: 'bg-rose-600 text-white',
+          colorHex: '#fb7185',
+          title: '🥀 ดอกไม้ที่ร่วงโรยก่อนกาล (เสียชีวิตตั้งแต่วัยเยาว์)',
+          summary: 'ชีวิตที่ดับสูญไปก่อนจะได้เติบโตเต็มวัย สะท้อนความโหดร้ายของสถิติดวงดาวและความเหลื่อมล้ำ'
+        };
+      }
+      if ((c.darkKarma || 0) >= 2 || reasonText.includes('มาเฟีย') || reasonText.includes('ตลาดมืด')) {
+        return {
+          rank: 'DARK ENDING (สายมืด)',
+          badgeBg: 'bg-purple-800 text-pink-200',
+          colorHex: '#c084fc',
+          title: '🩸 จุดจบสีเลือดแห่งวงการมืด (ทางเลือกสีเทาตามสนอง)',
+          summary: 'การเลือกเดินทางลัดในตลาดมืดและธุรกิจสีเทานำมาซึ่งเงินตรา แต่ต้องแลกด้วยจุดจบอันน่าสะพรึงกลัว'
+        };
+      }
+      if (c.age < c.expectedLifespan - 12 || reasonText.includes('ก่อนวัยอันควร')) {
+        return {
+          rank: 'PREMATURE END (ด่วนจากไป)',
+          badgeBg: 'bg-amber-600 text-white',
+          colorHex: '#fb923c',
+          title: '⚔️ ดาวร่วงกลางพายุวิกฤต (เสียชีวิตก่อนวัยอันควร)',
+          summary: 'การฝ่าฟันอันตรายและการโหมงานหนักเกินขีดจำกัดทำให้เปลวไฟแห่งชีวิตดับลงก่อนถึงวัยชรา'
+        };
+      }
+      if (c.wealth < 500 || c.mind < 32) {
+        return {
+          rank: 'BLEAK ENDING (รันทด)',
+          badgeBg: 'bg-slate-700 text-rose-200',
+          colorHex: '#f87171',
+          title: '🏚️ ปลายทางอันมืดมนและโดดเดี่ยว (ชีวิตสู้กลับ)',
+          summary: 'แม้จะดิ้นรนเอาชีวิตรอดมาได้หลายสิบปี แต่กลับต้องจบชีวิตลงท่ามกลางความขัดสนและความบอบช้ำทางใจ'
+        };
+      }
+      if (c.maxWealth >= 12000 && (c.mind < 48 || (c.overworkLevel || 0) >= 2)) {
+        return {
+          rank: 'BITTERSWEET (รวยแต่เหนื่อยล้า)',
+          badgeBg: 'bg-amber-400 text-slate-950',
+          colorHex: '#facc15',
+          title: '⛓️ มหาเศรษฐีในกรงขังทองคำ (มั่งคั่งแต่สุขภาพพัง)',
+          summary: 'กอบโกยทรัพย์สินเงินทองได้มากมายมหาศาล แต่ต้องแลกมาด้วยความเครียดและร่างกายที่สึกหรอ'
+        };
+      }
+      if (c.age >= 68 && c.maxWealth >= 15000 && c.mind >= 65 && c.fame >= 45) {
+        return {
+          rank: 'SSR LEGEND (ตำนานอมตะ)',
+          badgeBg: 'bg-gradient-to-r from-amber-300 via-pink-400 to-cyan-300 text-slate-950',
+          colorHex: '#fde047',
+          title: '🌌 ตำนานอมตะ 1 ใน 8 ล้านล้าน (ฉากจบสมบูรณ์แบบ!)',
+          summary: 'ประสบความสำเร็จสูงสุดทั้งอายุขัย ความมั่งคั่ง ความสุข และชื่อเสียงที่จารึกไว้ในประวัติศาสตร์เอกภพ!'
+        };
+      }
+      if (c.fame >= 45 || (c.virtueCount || 0) >= 2 || c.maxWealth >= 8000) {
+        return {
+          rank: 'RANK A (เกียรติยศสูงส่ง)',
+          badgeBg: 'bg-[#00f0ff] text-slate-950',
+          colorHex: '#38bdf8',
+          title: '🚀 วีรบุรุษและผู้ทรงอิทธิพลแห่งเซกเตอร์',
+          summary: 'การตัดสินใจที่ชาญฉลาดทำให้คุณก้าวข้ามกำแพงชนชั้นและสร้างชื่อเสียงเป็นที่เชิดชูของดวงดาว'
+        };
+      }
+      return {
+        rank: 'RANK B (สามัญชนผู้สงบสุข)',
+        badgeBg: 'bg-emerald-400 text-slate-950',
+        colorHex: '#34d399',
+        title: '🌾 สามัญชนผู้ผ่านร้อนผ่านหนาวอย่างอบอุ่น',
+        summary: 'แม้ไม่ได้เป็นมหาเศรษฐีผู้ครองจักรวาล แต่คุณก็ประคองชีวิตผ่านวิกฤตมาได้อย่างปลอดภัยและสงบงาม'
+      };
+    }
+
     function triggerCharacterDeath(reasonText) {
       const c = gameState.activeChar;
       if (!c) return;
       c.alive = false;
+      c.lastDeathReason = reasonText;
       closeQteOverlayCleanly();
       pauseSimulationLoop();
       playMangaSfx('crisis');
 
+      const ending = classifyLifeEnding(c, reasonText);
+      c.lastEndingInfo = ending;
+      const evo = getCharacterEvolutionForm(c);
+
       c.sfxWord = '終焉... สิ้นสุดชาติภพ';
       c.speechText = reasonText;
 
-      addLifeLog(c.age, 'crisis', `🕯️ [สิ้นสุดชีวิตในวัย ${c.age} ปี] ${reasonText}`);
+      addLifeLog(c.age, 'crisis', `🕯️ [สิ้นสุดชีวิตในวัย ${c.age} ปี • ${ending.title}] ${reasonText}`);
 
-      const earnedKarma = Math.max(5, Math.floor(c.age * 0.4 + c.fame * 0.25 + (c.earthRelation > 30 ? 8 : 0)));
+      const earnedKarma = Math.max(5, Math.floor(c.age * 0.4 + c.fame * 0.25 + (c.earthRelation > 30 ? 8 : 0) + (c.virtueCount || 0) * 3));
+      c.lastEarnedKarma = earnedKarma;
       gameState.karmaPoints += earnedKarma;
       saveKarmaPoints();
 
       document.getElementById('deathTitleName').textContent = `${c.fullName} (${c.planet.species})`;
       document.getElementById('deathCauseText').textContent = reasonText;
+      const rankEl = document.getElementById('deathEndingRankBadge');
+      if (rankEl) {
+        rankEl.textContent = ending.rank;
+        rankEl.className = `${ending.badgeBg} font-display font-extrabold text-[11px] px-3 py-0.5 rounded-full shadow`;
+      }
+      const archEl = document.getElementById('deathEndingArchetypeTitle');
+      if (archEl) {
+        archEl.textContent = ending.title;
+        archEl.style.color = ending.colorHex;
+      }
+      const evoTag = document.getElementById('deathEvolutionFormTag');
+      if (evoTag) {
+        evoTag.textContent = `🧬 ${evo.formName}`;
+      }
+
       document.getElementById('sumFinalAge').textContent = `${c.age} ปี`;
       document.getElementById('sumFinalPlanet').textContent = c.planet.shortName;
       document.getElementById('sumFinalWealth').textContent = `₡ ${c.maxWealth.toLocaleString()}`;
       document.getElementById('sumEarnedKarma').textContent = `+${earnedKarma} แต้ม`;
 
+      const archTag = c.familyArchetype ? c.familyArchetype.tag : c.planet.classLabel;
       document.getElementById('deathEpitaphBox').innerHTML = `
-        <strong>จารึกแห่งดวงดาว:</strong> เกิดใน${c.era.short} อาศัยอยู่ ณ ${c.city} (${c.planet.name}) มีอาชีพสุดท้ายเป็น "${c.career}" และคู่ครองคือ "${c.partner}".
-        ทุกความทรงจำของชีวิตนี้ได้แปรเปลี่ยนเป็นแต้มกรรมสะสม เพื่อให้คุณนำไปกำหนดโชคชะตาในชาติภพถัดไป
+        <div class="font-bold text-[#fde047] mb-1">${ending.summary}</div>
+        <strong>จารึกแห่งดวงดาว:</strong> กำเนิดในครอบครัว "${archTag}" ณ ${c.city} (${c.planet.name}) มีอาชีพสุดท้ายเป็น <b>"${c.career}"</b> และคู่ครองคือ <b>"${c.partner}"</b>
       `;
+
+      const conseqEl = document.getElementById('deathConsequenceList');
+      if (conseqEl) {
+        const tags = (c.consequenceTags && c.consequenceTags.length > 0)
+          ? c.consequenceTags.slice(-4)
+          : [
+              { type: 'info', text: `• กำเนิดใน ${archTag} (ความเสี่ยงเสียชีวิตวัยเด็ก ${c.under5Mortality}%)` },
+              { type: 'info', text: `• พัฒนาสายความถนัดหลัก: ${getDominantAptitudeInfo(c).label}` },
+              { type: 'info', text: `• สิ้นสุดการเดินทางในวัย ${c.age} ปี (อายุขัยคาดการณ์ ${c.expectedLifespan} ปี)` }
+            ];
+        conseqEl.innerHTML = tags.map(t => {
+          const col = t.type === 'dark' ? 'text-purple-300' : t.type === 'reckless' ? 'text-rose-300' : t.type === 'overwork' ? 'text-amber-300' : 'text-emerald-300';
+          return `<div class="${col} leading-snug">• ${t.text}</div>`;
+        }).join('');
+      }
 
       document.getElementById('btnManualStepYear').disabled = true;
       const btnM = document.getElementById('btnManualStepMonth');
@@ -4476,7 +4898,302 @@
       document.getElementById('btnGodStartQte').disabled = true;
       document.getElementById('btnGodPurge').disabled = true;
 
+      renderShareableSummaryCanvas(c, ending, evo);
       document.getElementById('deathSummaryModal').classList.remove('hidden');
+    }
+
+    function wrapCanvasThaiText(ctx, text, x, y, maxWidth, lineHeight, maxLines) {
+      if (!text) return y;
+      const chars = Array.from(text);
+      let line = '';
+      let linesDrawn = 0;
+      for (let i = 0; i < chars.length; i++) {
+        const testLine = line + chars[i];
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && line.length > 0) {
+          ctx.fillText(line, x, y);
+          line = chars[i];
+          y += lineHeight;
+          linesDrawn++;
+          if (maxLines && linesDrawn >= maxLines - 1) {
+            const rest = chars.slice(i).join('');
+            ctx.fillText(rest.length > 28 ? rest.slice(0, 28) + '...' : rest, x, y);
+            return y + lineHeight;
+          }
+        } else {
+          line = testLine;
+        }
+      }
+      if (line) {
+        ctx.fillText(line, x, y);
+        y += lineHeight;
+      }
+      return y;
+    }
+
+    function renderShareableSummaryCanvas(c, ending, evo) {
+      const canvas = document.getElementById('shareCardCanvas');
+      if (!canvas || !c) return;
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+
+      // 1. Cosmic Card Background Gradient
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, '#16112e');
+      grad.addColorStop(0.5, '#1e1942');
+      grad.addColorStop(1, '#0c0f24');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Decorative Starfield
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+      for (let i = 0; i < 45; i++) {
+        const sx = ((i * 157) % (W - 40)) + 20;
+        const sy = ((i * 97) % (H - 40)) + 20;
+        ctx.beginPath();
+        ctx.arc(sx, sy, (i % 3) + 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Outer Card Border
+      ctx.strokeStyle = ending.colorHex || '#f472b6';
+      ctx.lineWidth = 8;
+      ctx.strokeRect(12, 12, W - 24, H - 24);
+      ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(22, 22, W - 44, H - 44);
+
+      // 2. Top Header Banner
+      ctx.fillStyle = '#090d1e';
+      ctx.fillRect(26, 26, W - 52, 86);
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 16px Kanit, sans-serif';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText('🐣 TAMAGOTCHI COSMOS • 1 IN 8 TRILLION LIFE CARD', W / 2, 54);
+
+      ctx.font = 'bold 24px Kanit, sans-serif';
+      ctx.fillStyle = ending.colorHex || '#fde047';
+      ctx.fillText(`${ending.rank} — ${ending.title}`, W / 2, 88);
+
+      // 3. 2D Evolved Character Portrait Medallion in Center-Top
+      const cx = W / 2;
+      const cy = 205;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, 74, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+      ctx.fill();
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = ending.colorHex || '#00f0ff';
+      ctx.stroke();
+
+      // Draw Cute Character Avatar inside Medallion
+      const hexToCss = (num) => '#' + (num || 0xffffff).toString(16).padStart(6, '0');
+      // Wings / Cape
+      if (evo.primaryKey === 'emp') {
+        ctx.fillStyle = '#fef08a';
+        ctx.beginPath();
+        ctx.ellipse(cx - 46, cy + 8, 22, 12, -0.3, 0, Math.PI * 2);
+        ctx.ellipse(cx + 46, cy + 8, 22, 12, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (evo.primaryKey === 'vit' || evo.primaryKey === 'biz') {
+        ctx.fillStyle = evo.primaryKey === 'vit' ? '#e11d48' : '#b45309';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - 5);
+        ctx.lineTo(cx - 48, cy + 56);
+        ctx.lineTo(cx + 48, cy + 56);
+        ctx.closePath();
+        ctx.fill();
+      }
+      // Body
+      ctx.fillStyle = evo.stageIdx === 0 ? '#fef9c3' : hexToCss(evo.outfitColor);
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + 36, 34, 24, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = hexToCss(evo.trimColor);
+      ctx.stroke();
+      // Head
+      ctx.fillStyle = '#fff1e6';
+      ctx.beginPath();
+      ctx.arc(cx, cy - 4, 34, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#090a0f';
+      ctx.stroke();
+      // Hair
+      ctx.fillStyle = evo.stageIdx === 4 ? '#e2e8f0' : hexToCss(c.planet.colorPrimary);
+      ctx.beginPath();
+      ctx.ellipse(cx, cy - 30, 32, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // Eyes
+      ctx.fillStyle = '#090a0f';
+      ctx.beginPath();
+      ctx.arc(cx - 13, cy - 2, 5.5, 0, Math.PI * 2);
+      ctx.arc(cx + 13, cy - 2, 5.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(cx - 15, cy - 4, 2, 0, Math.PI * 2);
+      ctx.arc(cx + 11, cy - 4, 2, 0, Math.PI * 2);
+      ctx.fill();
+      // Rosy cheeks & smile
+      ctx.fillStyle = 'rgba(244, 63, 94, 0.55)';
+      ctx.beginPath();
+      ctx.ellipse(cx - 21, cy + 6, 6, 3.5, 0, 0, Math.PI * 2);
+      ctx.ellipse(cx + 21, cy + 6, 6, 3.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#090a0f';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy + 7, 6, 0.15, Math.PI - 0.15);
+      ctx.stroke();
+      ctx.restore();
+
+      // 4. Character Name, Form & Origin
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 26px Kanit, sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(`${c.fullName} (รุ่นที่ ${gameState.dynastyGeneration || 1})`, W / 2, 310);
+
+      ctx.font = '600 17px Kanit, sans-serif';
+      ctx.fillStyle = '#fde047';
+      ctx.fillText(`🧬 ${evo.formName} • อาชีพ: ${c.career}`, W / 2, 338);
+
+      const archTag = c.familyArchetype ? c.familyArchetype.tag : c.planet.classLabel;
+      ctx.font = '500 15px Kanit, sans-serif';
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillText(`จุดเริ่มต้น: ${c.planet.shortName} (${(c.city || '').split(' (')[0]}) • ${archTag}`, W / 2, 364);
+
+      // 5. Stats Grid Box
+      ctx.fillStyle = 'rgba(9, 13, 28, 0.92)';
+      ctx.fillRect(38, 384, W - 76, 88);
+      ctx.strokeStyle = 'rgba(125, 211, 252, 0.45)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(38, 384, W - 76, 88);
+
+      const statsCols = [
+        { label: 'อายุขัยที่อยู่รอด', val: `${c.age} ปี (ขัย ${c.expectedLifespan})`, col: '#ffffff' },
+        { label: 'ทรัพย์สินสูงสุด', val: `₡ ${c.maxWealth.toLocaleString()}`, col: '#fde047' },
+        { label: 'ไอคิว / ชื่อเสียง', val: `🧠 ${c.intellect} / 🌟 ${c.fame}`, col: '#38bdf8' },
+        { label: 'คู่ครองสุดท้าย', val: (c.partner || 'โสด').slice(0, 18), col: '#f472b6' }
+      ];
+      statsCols.forEach((st, i) => {
+        const sx = 38 + ((W - 76) / 4) * (i + 0.5);
+        ctx.font = '500 13px Kanit, sans-serif';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText(st.label, sx, 415);
+        ctx.font = 'bold 17px Kanit, sans-serif';
+        ctx.fillStyle = st.col;
+        ctx.fillText(st.val, sx, 446);
+      });
+
+      // 6. Cause of Death / Final Destiny Box
+      ctx.fillStyle = 'rgba(42, 18, 38, 0.88)';
+      ctx.fillRect(38, 490, W - 76, 112);
+      ctx.strokeStyle = '#fb7185';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(38, 490, W - 76, 112);
+
+      ctx.textAlign = 'left';
+      ctx.font = 'bold 16px Kanit, sans-serif';
+      ctx.fillStyle = '#fda4af';
+      ctx.fillText('🕯️ บทสรุปปลายทางชีวิต (Final Destiny):', 56, 518);
+
+      ctx.font = '500 15.5px Kanit, sans-serif';
+      ctx.fillStyle = '#ffffff';
+      wrapCanvasThaiText(ctx, c.lastDeathReason || '-', 56, 544, W - 112, 24, 3);
+
+      // 7. Key Causal Choices Box
+      ctx.fillStyle = 'rgba(14, 22, 44, 0.92)';
+      ctx.fillRect(38, 618, W - 76, 168);
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(38, 618, W - 76, 168);
+
+      ctx.font = 'bold 16px Kanit, sans-serif';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText('⚖️ เส้นทางที่เลือกและผลลัพธ์ต่ออนาคต:', 56, 646);
+
+      const tags = (c.consequenceTags && c.consequenceTags.length > 0)
+        ? c.consequenceTags.slice(-3)
+        : [
+            { text: `เกิดใน ${archTag} บนดาวที่มีความเสี่ยงวัยเด็ก ${c.under5Mortality}%` },
+            { text: `มุ่งเน้นพัฒนา ${getDominantAptitudeInfo(c).label}` },
+            { text: `${ending.summary}` }
+          ];
+      let cyText = 674;
+      ctx.font = '500 14.5px Kanit, sans-serif';
+      ctx.fillStyle = '#e2e8f0';
+      tags.forEach(t => {
+        cyText = wrapCanvasThaiText(ctx, `• ${t.text}`, 56, cyText, W - 112, 22, 2) + 4;
+      });
+
+      // 8. Footer Signature
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 14px Kanit, sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText(`แต้มกรรมสะสม: +${c.lastEarnedKarma || 5}✦ • โอกาสเกิดบนดาวดวงนี้: ${c.planet.popShare}% • 1 in 8 Trillion`, W / 2, H - 34);
+    }
+
+    function downloadShareCardPng() {
+      const canvas = document.getElementById('shareCardCanvas');
+      if (!canvas) return;
+      playMangaSfx('milestone');
+      const dataUrl = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      const safeName = (gameState.activeChar && gameState.activeChar.firstName)
+        ? gameState.activeChar.firstName.split(' ')[0]
+        : 'citizen';
+      a.download = `cosmic-life-${safeName}-age${gameState.activeChar ? gameState.activeChar.age : 0}.png`;
+      a.href = dataUrl;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('📸 บันทึกภาพการ์ดสรุปชีวิต (PNG) เรียบร้อยแล้ว! นำไปโพสต์แชร์ได้เลย!');
+    }
+
+    async function shareOrCopyLifeSummary() {
+      const c = gameState.activeChar;
+      if (!c) return;
+      playMangaSfx('start');
+      const ending = c.lastEndingInfo || classifyLifeEnding(c, c.lastDeathReason || '');
+      const evo = getCharacterEvolutionForm(c);
+      const archTag = c.familyArchetype ? c.familyArchetype.tag : c.planet.classLabel;
+
+      const shareText = [
+        `🐣 [สรุปปลายทางชีวิต 1 in 8 Trillion: กำเนิดใหม่ข้ามจักรวาล]`,
+        `🏆 ฉากจบ: ${ending.rank} — ${ending.title}`,
+        `👤 ชื่อ: ${c.fullName} (รุ่นที่ ${gameState.dynastyGeneration || 1})`,
+        `🧬 ร่างสุดท้าย: ${evo.formName}`,
+        `🪐 ดาวบ้านเกิด: ${c.planet.shortName} (${archTag})`,
+        `⏳ อายุขัยที่อยู่รอด: ${c.age} ปี (คาดการณ์ ${c.expectedLifespan} ปี)`,
+        `💼 อาชีพสุดท้าย: ${c.career} | ❤️ คู่ครอง: ${c.partner}`,
+        `💰 ทรัพย์สินสูงสุด: ₡${c.maxWealth.toLocaleString()} | 🧠 ไอคิว: ${c.intellect} | 🌟 ชื่อเสียง: ${c.fame}`,
+        `🕯️ บทสรุป: ${c.lastDeathReason || ending.summary}`
+      ].join('\n');
+
+      try {
+        if (navigator.share) {
+          await navigator.share({
+            title: `1 in 8 Trillion — ${ending.title}`,
+            text: shareText
+          });
+          showToast('📤 แชร์สรุปปลายทางชีวิตเรียบร้อยแล้ว!');
+          return;
+        }
+      } catch (e) {}
+
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(shareText);
+          showToast('📋 คัดลอกข้อความสรุปชีวิตลงคลิปบอร์ดแล้ว! กดวาง (Paste) แชร์ให้เพื่อนได้เลย!');
+          return;
+        }
+      } catch (e) {}
+
+      showToast('📋 สร้างการ์ดสรุปชีวิตเรียบร้อย! กดปุ่ม "บันทึกภาพการ์ด (PNG)" เพื่อแชร์ภาพได้เลย!');
     }
 
     function closeDeathSummaryModal() {
@@ -4596,9 +5313,9 @@
         }
 
         return `
-          <div class="bg-slate-800/65 hover:bg-slate-800/95 transition rounded-xl border border-slate-700/60 border-l-4 ${borderColor} p-2.5 flex items-start gap-2.5 shadow-sm">
-            <span class="font-display font-bold text-[10px] rounded-full px-2 py-0.5 shrink-0 ${badgeBg}">ปีที่ ${item.age}</span>
-            <p class="text-slate-100 leading-relaxed text-xs">${item.text}</p>
+          <div class="bg-[#12172b]/95 hover:bg-[#19203a] transition rounded-xl border border-slate-700/80 border-l-4 ${borderColor} p-3 flex items-start gap-2.5 shadow-md">
+            <span class="font-display font-extrabold text-[11px] rounded-md px-2 py-0.5 shrink-0 mt-0.5 ${badgeBg}">ปีที่ ${item.age}</span>
+            <p class="text-white font-normal leading-relaxed text-[13px] sm:text-[14px] break-words">${item.text}</p>
           </div>
         `;
       }).join('');
@@ -4693,13 +5410,32 @@
       const comboEl = document.getElementById('interactiveComboBadge');
       if (comboEl) comboEl.textContent = `COMBO x${gameState.interactiveCombo || 1}`;
 
-      // Update Daily Routine & Month Progress UI
+      // Update Daily Routine, Crisp Stage Story Overlay & Month Progress UI
       const mBadge = document.getElementById('monthProgressBadge');
       if (mBadge) mBadge.textContent = `เดือนที่ ${c.month || 1} / 12`;
       const todBadge = document.getElementById('timeOfDayBadge');
       if (todBadge) todBadge.textContent = c.currentRoutineTime || '🌅 ยามเช้า';
       const actText = document.getElementById('dailyActivityText');
       if (actText) actText.textContent = c.currentRoutineText || 'กำลังดำเนินชีวิตประจำวัน...';
+
+      const storyOverlayTxt = document.getElementById('stageStoryOverlayText');
+      if (storyOverlayTxt) {
+        storyOverlayTxt.textContent = c.speechText || c.currentRoutineText || 'กำลังดำเนินชีวิตประจำวัน...';
+      }
+      const storyBadge = document.getElementById('stageStoryBadge');
+      const storyBox = document.getElementById('stageStoryOverlayBox');
+      if (storyBadge && storyBox) {
+        if (c.crisisFlashTimer && c.crisisFlashTimer > 0) {
+          storyBadge.textContent = `🚨 เหตุวิกฤต • ปีที่ ${c.age}`;
+          storyBadge.className = 'shrink-0 mt-0.5 bg-[#ff2a5f] text-white font-display font-extrabold text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md shadow';
+          storyBox.style.borderColor = '#ff2a5f';
+        } else {
+          storyBadge.textContent = `📖 ปีที่ ${c.age} (เดือน ${c.month || 1}/12)`;
+          storyBadge.className = 'shrink-0 mt-0.5 bg-[#00f0ff] text-slate-950 font-display font-extrabold text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md shadow';
+          storyBox.style.borderColor = '#f472b6';
+        }
+      }
+
       const mBar = document.getElementById('yearMonthProgressBar');
       if (mBar) mBar.style.width = `${Math.min(100, Math.round(((c.month || 1) / 12) * 100))}%`;
 
@@ -4872,33 +5608,36 @@
           });
         }
 
+        const dpr = Math.min(3, window.devicePixelRatio || 2);
+
         this.sfxText = this.add.text(14, 10, '転生! COSMIC DESTINY', {
-          fontFamily: 'Chakra Petch, Noto Sans Thai, sans-serif',
+          fontFamily: 'Kanit, Chakra Petch, sans-serif',
           fontSize: '18px',
           fontStyle: 'bold',
           color: '#ffd166',
           stroke: '#000000',
           strokeThickness: 4
-        });
+        }).setResolution(dpr);
 
-        this.planetLabelText = this.add.text(w * 0.76, h * 0.13, 'ดาวบ้านเกิด', {
-          fontFamily: 'Noto Sans Thai, sans-serif',
+        this.planetLabelText = this.add.text(w * 0.74, h * 0.11, 'ดาวบ้านเกิด', {
+          fontFamily: 'Kanit, sans-serif',
           fontSize: '12px',
           fontStyle: 'bold',
           color: '#00f0ff',
           align: 'center',
           stroke: '#000000',
-          strokeThickness: 4
-        }).setOrigin(0.5);
+          strokeThickness: 4,
+          wordWrap: { width: 170 }
+        }).setOrigin(0.5).setResolution(dpr);
 
-        this.earthNodeLabel = this.add.text(w * 0.80, h * 0.78, '🌍 เยือนดาวโลก', {
-          fontFamily: 'Noto Sans Thai, sans-serif',
-          fontSize: '11px',
+        this.earthNodeLabel = this.add.text(w * 0.76, h * 0.66, '🌍 เยือนดาวโลก', {
+          fontFamily: 'Kanit, sans-serif',
+          fontSize: '11.5px',
           fontStyle: 'bold',
           color: '#ffffff',
           backgroundColor: '#1e3a8a',
-          padding: { x: 6, y: 3 }
-        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+          padding: { x: 7, y: 3.5 }
+        }).setOrigin(0.5).setResolution(dpr).setInteractive({ useHandCursor: true });
 
         this.earthNodeLabel.on('pointerdown', () => {
           if (gameState.activeChar && gameState.activeChar.alive) {
@@ -4908,13 +5647,12 @@
           }
         });
 
-        this.speechBubbleText = this.add.text(20, h - 46, 'กดปุ่มเริ่มชีวิตใหม่เพื่อเปิดฉากชีวิตข้ามจักรวาลของคุณ!', {
-          fontFamily: 'Noto Sans Thai, sans-serif',
+        // Hidden in canvas because #stageStoryOverlayBox renders native Retina DOM text
+        this.speechBubbleText = this.add.text(20, h - 46, '', {
+          fontFamily: 'Kanit, sans-serif',
           fontSize: '12.5px',
-          fontStyle: 'bold',
-          color: '#f8fafc',
-          wordWrap: { width: Math.max(220, w - 44) }
-        });
+          color: '#f8fafc'
+        }).setVisible(false);
 
         // Handle clicks on Interactive Floating Objects OR Character Cheer!
         this.input.on('pointerdown', (pointer) => {
@@ -4931,8 +5669,8 @@
             }
           }
 
-          // Otherwise if tapped left panel, cheer character (+1 Mind & small credit spark)
-          if (pointer.x < w * 0.54) {
+          // Otherwise if tapped character area, cheer character (+1 Mind & small credit spark)
+          if (pointer.x < w * 0.65) {
             playMangaSfx('roll');
             c.mind = Math.min(100, c.mind + 1);
             c.sfxWord = 'なでなで! ลูบหัวปุๆ! 💖';
@@ -4967,14 +5705,15 @@
           leech: '👾 แตะกำจัด!'
         };
 
+        const dpr = Math.min(3, window.devicePixelRatio || 2);
         const labelObj = this.add.text(x, y, labels[type] || '💎', {
-          fontFamily: 'Noto Sans Thai, sans-serif',
-          fontSize: '11px',
+          fontFamily: 'Kanit, sans-serif',
+          fontSize: '11.5px',
           fontStyle: 'bold',
           color: '#ffffff',
           backgroundColor: type === 'leech' ? '#991b1b' : '#0f172a',
-          padding: { x: 5, y: 2.5 }
-        }).setOrigin(0.5);
+          padding: { x: 6, y: 3 }
+        }).setOrigin(0.5).setResolution(dpr);
 
         this.interactiveObjs.push({
           type,
@@ -5090,34 +5829,30 @@
       addFloatingText(msg, colorStr) {
         const w = this.scale.width;
         const h = this.scale.height;
-        const txt = this.add.text(w * 0.28 + (Math.random() * 50 - 25), h * 0.34, msg, {
-          fontFamily: 'Chakra Petch, Noto Sans Thai, sans-serif',
-          fontSize: '14px',
+        const dpr = Math.min(3, window.devicePixelRatio || 2);
+        const txt = this.add.text(w * 0.28 + (Math.random() * 50 - 25), h * 0.30, msg, {
+          fontFamily: 'Kanit, Chakra Petch, sans-serif',
+          fontSize: '14.5px',
           fontStyle: 'bold',
           color: colorStr || '#ffd166',
           stroke: '#000000',
           strokeThickness: 4
-        }).setOrigin(0.5);
+        }).setOrigin(0.5).setResolution(dpr);
         this.floatingTexts.push({ obj: txt, life: 1.0 });
       }
 
       repositionLayout(w, h) {
         if (!this.planetLabelText || !this.earthNodeLabel || !this.speechBubbleText || !this.sfxText) return;
         const isCompact = w < 440;
-        this.sfxText.setFontSize(isCompact ? '14px' : '19px');
-        this.sfxText.setPosition(12, 10);
+        this.sfxText.setFontSize(isCompact ? '14.5px' : '18.5px');
+        this.sfxText.setPosition(12, 8);
 
-        this.planetLabelText.setFontSize(isCompact ? '11px' : '13px');
-        this.planetLabelText.setPosition(w * 0.77, h * 0.14);
+        this.planetLabelText.setFontSize(isCompact ? '11px' : '12.5px');
+        this.planetLabelText.setPosition(w * 0.79, h * 0.10);
+        this.planetLabelText.setWordWrapWidth(Math.max(125, w * 0.36));
 
-        this.earthNodeLabel.setFontSize(isCompact ? '10px' : '12px');
-        this.earthNodeLabel.setPosition(w * 0.78, h * 0.74);
-
-        const bubbleH = isCompact ? 46 : 52;
-        const bubbleW = Math.max(200, w - 24);
-        this.speechBubbleText.setFontSize(isCompact ? '11.5px' : '12.5px');
-        this.speechBubbleText.setPosition(22, h - bubbleH - 2);
-        this.speechBubbleText.setWordWrapWidth(bubbleW - 24);
+        this.earthNodeLabel.setFontSize(isCompact ? '10.5px' : '12px');
+        this.earthNodeLabel.setPosition(w * 0.79, h * 0.59);
       }
 
       update(time, delta) {
@@ -5153,21 +5888,21 @@
         }
 
         // Cozy Tamagotchi Room Floor & Baseboard Trim
-        const floorY = h * 0.62;
+        const floorY = h * 0.56;
         this.bgGraphics.fillStyle(wallBotCols[todIdx % 4], 1);
         this.bgGraphics.fillRect(0, floorY, w, h - floorY);
         this.bgGraphics.lineStyle(3, 0xf9a8d4, 0.65);
         this.bgGraphics.lineBetween(0, floorY, w, floorY);
 
-        // 2. Arched Space Window on the Right looking out at Home Planet & Earth
-        const winX = w * 0.76;
-        const winY = h * 0.37;
-        const winW = Math.min(w * 0.38, 220);
-        const winH = Math.min(h * 0.48, 155);
+        // 2. Arched Space Window on the Upper-Right looking out at Home Planet & Earth
+        const winX = w * 0.79;
+        const winY = h * 0.34;
+        const winW = Math.min(w * 0.33, 195);
+        const winH = Math.min(h * 0.39, 132);
 
         // Window Deep Space Backdrop
         this.bgGraphics.fillStyle(0x090d1c, 0.95);
-        this.bgGraphics.fillRoundedRect(winX - winW / 2, winY - winH / 2, winW, winH, 22);
+        this.bgGraphics.fillRoundedRect(winX - winW / 2, winY - winH / 2, winW, winH, 20);
 
         // Twinkling Stars inside the window & subtle sparkles in room
         this.bgGraphics.fillStyle(0xffffff, 0.8);
@@ -5175,7 +5910,7 @@
           st.x -= st.speed * speedMult * 0.25;
           if (st.x < 0) {
             st.x = w;
-            st.y = Math.random() * (h * 0.7);
+            st.y = Math.random() * (h * 0.65);
           }
           if (st.y < floorY - 6) {
             this.bgGraphics.fillCircle(st.x, st.y, st.r * 0.85);
@@ -5188,22 +5923,22 @@
           c.crisisFlashTimer = Math.max(0, c.crisisFlashTimer - 0.03);
         }
         const winBorderCol = (isCrisisAlert && Math.sin(this.pulseTime * 10) > 0) ? 0xff2a5f : 0x7dd3fc;
-        this.bgGraphics.lineStyle(4, winBorderCol, 0.95);
-        this.bgGraphics.strokeRoundedRect(winX - winW / 2, winY - winH / 2, winW, winH, 22);
-        this.bgGraphics.lineStyle(1.5, 0xffffff, 0.35);
+        this.bgGraphics.lineStyle(3.5, winBorderCol, 0.95);
+        this.bgGraphics.strokeRoundedRect(winX - winW / 2, winY - winH / 2, winW, winH, 20);
+        this.bgGraphics.lineStyle(1.5, 0xffffff, 0.32);
         this.bgGraphics.lineBetween(winX, winY - winH / 2, winX, winY + winH / 2);
 
         // 3. Cute Home Planet & Earth inside/near the Space Window
         const pColor1 = c ? c.planet.colorPrimary : 0xf472b6;
         const pColor2 = c ? c.planet.colorSecondary : 0x3b82f6;
         const planetX = winX - winW * 0.14;
-        const planetY = winY - 4;
-        const planetRadius = Math.min(winW * 0.24, winH * 0.28);
+        const planetY = winY - 3;
+        const planetRadius = Math.min(winW * 0.23, winH * 0.27);
 
         this.planetGraphics.fillStyle(pColor1, 0.22);
         this.planetGraphics.fillCircle(planetX, planetY, planetRadius * 1.35);
         this.planetGraphics.lineStyle(2, 0xfde047, 0.55);
-        this.planetGraphics.strokeEllipse(planetX, planetY, planetRadius * 2.6, planetRadius * 0.95);
+        this.planetGraphics.strokeEllipse(planetX, planetY, planetRadius * 2.5, planetRadius * 0.92);
 
         this.planetGraphics.fillStyle(pColor2, 1);
         this.planetGraphics.fillCircle(planetX, planetY, planetRadius);
@@ -5215,11 +5950,11 @@
         const shipX = planetX + Math.cos(this.orbitAngle * 2.0) * (planetRadius * 1.35);
         const shipY = planetY + Math.sin(this.orbitAngle * 2.0) * (planetRadius * 0.5);
         this.planetGraphics.fillStyle(0xfde047, 1);
-        this.planetGraphics.fillCircle(shipX, shipY, 4);
+        this.planetGraphics.fillCircle(shipX, shipY, 3.8);
 
         const earthX = winX + winW * 0.26;
         const earthY = winY + winH * 0.22;
-        const earthR = isCompact ? 11 : 13;
+        const earthR = isCompact ? 10 : 12;
         this.planetGraphics.fillStyle(0x38bdf8, 1);
         this.planetGraphics.fillCircle(earthX, earthY, earthR);
         this.planetGraphics.fillStyle(0x34d399, 0.95);
@@ -5228,44 +5963,42 @@
         this.planetGraphics.lineStyle(2, 0xffffff, 0.9);
         this.planetGraphics.strokeCircle(earthX, earthY, earthR);
 
-        // 4. Cute Pastel Oval Rug on the Floor & Bouncy Tamagotchi Character!
-        const rugX = w * 0.29;
-        const rugY = floorY + (isCompact ? 20 : 26);
-        const rugW = isCompact ? 124 : 156;
-        const rugH = isCompact ? 28 : 34;
+        // 4. Prominent Pastel Oval Stage Rug & Large Centerpiece Tamagotchi Character!
+        const rugX = w * 0.35;
+        const rugY = floorY + (isCompact ? 22 : 28);
+        const rugW = isCompact ? 172 : 225;
+        const rugH = isCompact ? 38 : 48;
 
-        this.planetGraphics.fillStyle(0xf472b6, 0.35);
-        this.planetGraphics.fillEllipse(rugX, rugY, rugW + 12, rugH + 8);
-        this.planetGraphics.fillStyle(0xfde047, 0.45);
+        this.planetGraphics.fillStyle(0xf472b6, 0.38);
+        this.planetGraphics.fillEllipse(rugX, rugY, rugW + 16, rugH + 10);
+        this.planetGraphics.fillStyle(0xfde047, 0.48);
         this.planetGraphics.fillEllipse(rugX, rugY, rugW, rugH);
-        this.planetGraphics.lineStyle(2.5, 0xffffff, 0.75);
+        this.planetGraphics.lineStyle(3, 0xffffff, 0.82);
         this.planetGraphics.strokeEllipse(rugX, rugY, rugW, rugH);
 
-        // Tamagotchi Bouncy Walk & Cheerful Hop!
-        const waddleX = (c && c.alive) ? Math.sin(this.pulseTime * 1.4) * (isCompact ? 8 : 13) : 0;
-        const hopY = (c && c.alive) ? Math.abs(Math.sin(this.pulseTime * 3.0)) * 7 : 0;
-        const charCenterX = rugX + waddleX;
-        const charCenterY = floorY - (isCompact ? 30 : 36) - hopY;
+        // Calculate stage-aware vertical offset so feet rest right on the rug!
+        const evoForPos = getCharacterEvolutionForm(c);
+        const stIdx = evoForPos.stageIdx || 0;
+        const hRatio = Math.min(1.22, Math.max(0.88, h / 265));
+        const charLift = (stIdx === 0 ? 48 : stIdx === 1 ? 58 : 68) * (isCompact ? 0.96 : 1.12) * hRatio;
 
-        // Soft shadow on rug
-        this.planetGraphics.fillStyle(0x090a14, 0.38);
-        this.planetGraphics.fillEllipse(charCenterX, rugY - 2, isCompact ? 54 : 68, 12);
+        // Tamagotchi Bouncy Walk & Cheerful Hop!
+        const waddleX = (c && c.alive) ? Math.sin(this.pulseTime * 1.4) * (isCompact ? 9 : 14) : 0;
+        const hopY = (c && c.alive) ? Math.abs(Math.sin(this.pulseTime * 3.0)) * 8 : 0;
+        const charCenterX = rugX + waddleX;
+        const charCenterY = rugY - charLift - hopY;
+
+        // Soft shadow on rug proportional to larger character
+        this.planetGraphics.fillStyle(0x090a14, 0.44);
+        this.planetGraphics.fillEllipse(charCenterX, rugY - 2, isCompact ? 86 : 112, 16);
 
         this.drawMangaCharacter(charCenterX, charCenterY, c, isCompact);
         if (c && c.alive) {
-          this.drawDailyRoutineProp(charCenterX + (isCompact ? 48 : 62), charCenterY - 12 + Math.cos(this.pulseTime * 3) * 4, c.currentRoutineProp || 'star', isCompact);
+          const propOffsetX = (isCompact ? 68 : 88) * hRatio;
+          this.drawDailyRoutineProp(charCenterX + propOffsetX, charCenterY - 8 + Math.cos(this.pulseTime * 3) * 4, c.currentRoutineProp || 'star', isCompact);
         }
 
-        // 5. Cute Tamagotchi Speech Bubble Bar at Bottom
-        const bubbleH = isCompact ? 46 : 52;
-        const bubbleW = Math.max(200, w - 24);
-        const bubbleX = 12;
-        const bubbleY = h - bubbleH - 6;
-
-        this.panelGraphics.fillStyle(0x1f1938, 0.92);
-        this.panelGraphics.fillRoundedRect(bubbleX, bubbleY, bubbleW, bubbleH, 16);
-        this.panelGraphics.lineStyle(2.5, 0xf9a8d4, 0.85);
-        this.panelGraphics.strokeRoundedRect(bubbleX, bubbleY, bubbleW, bubbleH, 16);
+        // 5. Speech Bubble is now rendered by crisp native HTML #stageStoryOverlayBox
         // 6. Update & Draw Interactive Floating Objects (Crystals, Bio-Orbs, UFOs, Leeches)
         for (let i = this.interactiveObjs.length - 1; i >= 0; i--) {
           const obj = this.interactiveObjs[i];
@@ -5315,8 +6048,12 @@
 
         if (c) {
           this.sfxText.setText(c.sfxWord || '転生! COSMIC LIFE');
-          this.planetLabelText.setText(`${c.planet.shortName}\n(${c.city})`);
-          this.speechBubbleText.setText(c.speechText || 'กำลังดำเนินชีวิต...');
+          const cleanCity = (c.city || '').split(' (')[0];
+          this.planetLabelText.setText(`${c.planet.shortName}\n${cleanCity}`);
+          const domStoryTxt = document.getElementById('stageStoryOverlayText');
+          if (domStoryTxt && domStoryTxt.textContent !== (c.speechText || 'กำลังดำเนินชีวิต...')) {
+            domStoryTxt.textContent = c.speechText || 'กำลังดำเนินชีวิต...';
+          }
         } else {
           this.sfxText.setText('転生! 1 IN 8 TRILLION');
           this.planetLabelText.setText('สหพันธ์ดาราจักร\n8 ล้านล้านดวงจิต');
@@ -5334,10 +6071,12 @@
         const sKey = evo.secondKey;
         const seed = evo.seed || 1;
 
-        // Distinct Scale & Body Proportions per Life Stage!
-        const baseScale = isCompact ? 0.75 : 0.90;
-        const stageScales = [0.72, 0.84, 0.94, 1.04, 1.0];
-        const scale = baseScale * (stageScales[stageIdx] || 0.9);
+        // Prominent, Expressive Scale & Body Proportions per Life Stage (~85% larger!)
+        const h = this.scale.height || 270;
+        const hFactor = Math.min(1.22, Math.max(0.88, h / 265));
+        const baseScale = (isCompact ? 1.18 : 1.38) * hFactor;
+        const stageScales = [0.88, 0.98, 1.08, 1.18, 1.14];
+        const scale = baseScale * (stageScales[stageIdx] || 1.0);
         const rHead = 36 * scale;
 
         const auraColor = c ? c.planet.colorPrimary : 0xf472b6;
@@ -5815,17 +6554,17 @@
         if (c && c.alive) {
           if (c.partner && c.partner !== 'โสด') {
             // Floating Pink Partner Love Sprite on Left!
-            const lx = cx - (isCompact ? 46 : 58);
-            const ly = cy - 18 * scale + Math.sin(this.pulseTime * 3.5) * 5;
+            const lx = cx - rHead * 1.55;
+            const ly = cy - 14 * scale + Math.sin(this.pulseTime * 3.5) * 5;
             g.fillStyle(0xf472b6, 0.95);
-            g.fillCircle(lx - 3.5, ly - 2, 5);
-            g.fillCircle(lx + 3.5, ly - 2, 5);
-            g.fillTriangle(lx - 8, ly, lx + 8, ly, lx, ly + 8);
+            g.fillCircle(lx - 4.5, ly - 2.5, 6.5);
+            g.fillCircle(lx + 4.5, ly - 2.5, 6.5);
+            g.fillTriangle(lx - 10, ly, lx + 10, ly, lx, ly + 10);
           }
           if (c.earthRelation >= 50) {
             // Orbiting Earth Mini-Drone above Left Shoulder!
-            const dx = cx - (isCompact ? 42 : 52);
-            const dy = cy - 42 * scale + Math.cos(this.pulseTime * 4) * 4;
+            const dx = cx - rHead * 1.45;
+            const dy = cy - rHead * 1.18 + Math.cos(this.pulseTime * 4) * 4;
             g.fillStyle(0x38bdf8, 1);
             g.fillEllipse(dx, dy, 16 * scale, 8 * scale);
             g.fillStyle(0xfde047, 1);
@@ -5836,7 +6575,7 @@
 
       drawDailyRoutineProp(px, py, propType, isCompact) {
         const g = this.charGraphics;
-        const s = isCompact ? 0.78 : 1.0;
+        const s = isCompact ? 1.05 : 1.25;
 
         // Floating routine badge frame
         g.fillStyle(0x0b0e1c, 0.9);
