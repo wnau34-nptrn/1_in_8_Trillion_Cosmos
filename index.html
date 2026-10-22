@@ -56,11 +56,9 @@
       letter-spacing: 0.01em;
     }
 
-    /* Cute Tamagotchi Egg-Console Panels */
+    /* Cute Tamagotchi Egg-Console Panels (Solid high-opacity gradients without backdrop-filter to prevent iOS WebKit Canvas blackouts) */
     .manga-panel {
-      background: linear-gradient(165deg, rgba(46, 36, 78, 0.94) 0%, rgba(28, 22, 52, 0.97) 100%);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: linear-gradient(165deg, rgba(46, 36, 78, 0.98) 0%, rgba(28, 22, 52, 0.99) 100%);
       border: 3px solid #f9a8d4;
       border-radius: 24px;
       box-shadow: 0 8px 0 rgba(15, 10, 32, 0.65), 0 12px 28px rgba(0, 0, 0, 0.45), inset 0 2px 0 rgba(255, 255, 255, 0.25);
@@ -68,9 +66,7 @@
     }
 
     .manga-panel-cyan {
-      background: linear-gradient(165deg, rgba(34, 49, 84, 0.94) 0%, rgba(23, 31, 58, 0.97) 100%);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: linear-gradient(165deg, rgba(34, 49, 84, 0.98) 0%, rgba(23, 31, 58, 0.99) 100%);
       border: 3px solid #7dd3fc;
       border-radius: 24px;
       box-shadow: 0 7px 0 rgba(12, 19, 38, 0.65), 0 10px 24px rgba(56, 189, 248, 0.15), inset 0 2px 0 rgba(255, 255, 255, 0.25);
@@ -78,13 +74,33 @@
     }
 
     .manga-panel-gold {
-      background: linear-gradient(165deg, rgba(52, 41, 82, 0.97) 0%, rgba(30, 24, 54, 0.99) 100%);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: linear-gradient(165deg, rgba(52, 41, 82, 0.99) 0%, rgba(30, 24, 54, 1) 100%);
       border: 3px solid #fde047;
       border-radius: 26px;
       box-shadow: 0 10px 0 rgba(18, 12, 36, 0.75), 0 0 32px rgba(253, 224, 71, 0.22), inset 0 2px 0 rgba(255, 255, 255, 0.3);
       position: relative;
+    }
+
+    #phaserMangaContainer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #phaserMangaContainer canvas {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+
+    .mobile-stage-scroll {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
     }
 
     /* Cute Tamagotchi Pet ID Card */
@@ -183,78 +199,379 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #f472b6;
     }
+
+    /* =================================================================== */
+    /* 🌸 PASTEL CASUAL TAMAGOTCHI MODE THEME (DEFAULT)                    */
+    /* =================================================================== */
+    body.pastel-casual-mode {
+      background: radial-gradient(circle at 20% 10%, #ffe4ef 0%, #f3e8ff 48%, #e0f2fe 100%) !important;
+      color: #4a354f !important;
+      font-family: 'Mali', 'Kanit', sans-serif;
+    }
+
+    body.pastel-casual-mode header {
+      background: rgba(255, 250, 253, 0.96) !important;
+      border-bottom: 3px solid #fbcfe8 !important;
+      box-shadow: 0 4px 14px rgba(244, 114, 182, 0.12) !important;
+    }
+
+    body.pastel-casual-mode header h1 {
+      color: #be185d !important;
+    }
+
+    body.pastel-casual-mode #vitalsStripBar {
+      background: rgba(255, 255, 255, 0.92) !important;
+      border-bottom: 2px dashed #f9a8d4 !important;
+      color: #4a354f !important;
+    }
+
+    body.pastel-casual-mode #hudQuickName {
+      color: #9d174d !important;
+      font-weight: 800 !important;
+    }
+
+    body.pastel-casual-mode .manga-panel,
+    body.pastel-casual-mode .manga-panel-cyan,
+    body.pastel-casual-mode .manga-panel-gold {
+      background: linear-gradient(165deg, #fffdf9 0%, #fff0f6 100%) !important;
+      border: 4px solid #f9a8d4 !important;
+      border-radius: 28px !important;
+      box-shadow: 0 8px 0 #fbcfe8, 0 14px 28px rgba(244, 114, 182, 0.18) !important;
+      color: #4a354f !important;
+    }
+
+    body.pastel-casual-mode #stageTopHeaderBar {
+      background: linear-gradient(90deg, #fce7f3 0%, #e0f2fe 100%) !important;
+      border-bottom: 2px solid #f9a8d4 !important;
+      color: #831843 !important;
+    }
+
+    body.pastel-casual-mode #stageSubHeaderLocation {
+      color: #9d174d !important;
+    }
+
+    body.pastel-casual-mode #phaserStageBox {
+      background: #fff5f9 !important;
+      min-height: 255px !important;
+    }
+
+    body.pastel-casual-mode #dailyRoutineBar {
+      background: #fffdf9 !important;
+      border-top: 3px dashed #f9a8d4 !important;
+      padding: 6px 10px !important;
+      height: 114px !important;
+      min-height: 114px !important;
+      max-height: 114px !important;
+      overflow: hidden !important;
+      flex-shrink: 0 !important;
+    }
+
+    body.pastel-casual-mode #yearMonthProgressTrack {
+      background: #fce7f3 !important;
+      border-color: #f9a8d4 !important;
+    }
+
+    body.pastel-casual-mode #dailyActivityText {
+      color: #4a1d46 !important;
+      font-family: 'Kanit', 'Mali', sans-serif !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      line-height: 1.38 !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+      overflow-y: auto !important;
+      text-overflow: clip !important;
+      display: block !important;
+      -webkit-line-clamp: unset !important;
+      height: 66px !important;
+      min-height: 66px !important;
+      max-height: 66px !important;
+      background: #fff0f6 !important;
+      border: 1.5px solid #fbcfe8 !important;
+      border-radius: 12px !important;
+      padding: 5px 10px !important;
+      margin: 0 !important;
+      flex-shrink: 0 !important;
+    }
+
+    body.pastel-casual-mode #casualPastelDock {
+      flex-shrink: 0 !important;
+    }
+
+    body.pastel-casual-mode #casualPastelDock .grid > button {
+      height: 54px !important;
+      min-height: 54px !important;
+      max-height: 54px !important;
+      overflow: hidden !important;
+    }
+
+    body.pastel-casual-mode #casualPastelDock .grid > button span:last-child {
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      max-width: 100% !important;
+      display: block !important;
+    }
+
+    body.pastel-casual-mode #casualQuickStatusHint {
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      display: block !important;
+      max-width: 100% !important;
+    }
+
+    /* Pastel Styling for Right Column Status & Life Chronicle Log */
+    body.pastel-casual-mode #hudViewStats h2,
+    body.pastel-casual-mode #hudViewLog h3 {
+      color: #831843 !important;
+    }
+
+    body.pastel-casual-mode #charPlanetSubtitle {
+      color: #6b21a8 !important;
+      font-weight: 600 !important;
+    }
+
+    body.pastel-casual-mode #hudViewStats .bg-slate-900\/80,
+    body.pastel-casual-mode #hudViewStats .bg-slate-800\/90 {
+      background: #fff5f9 !important;
+      border-color: #fbcfe8 !important;
+      color: #4a354f !important;
+    }
+
+    body.pastel-casual-mode #hudViewStats .text-slate-300,
+    body.pastel-casual-mode #hudViewStats .text-slate-200 {
+      color: #701a75 !important;
+    }
+
+    body.pastel-casual-mode #hudViewStats #infoCareer,
+    body.pastel-casual-mode #hudViewStats #statHealthVal,
+    body.pastel-casual-mode #hudViewStats #statMindVal,
+    body.pastel-casual-mode #hudViewStats #statIntVal,
+    body.pastel-casual-mode #hudViewStats #statFameVal {
+      color: #4a354f !important;
+      font-weight: 800 !important;
+    }
+
+    body.pastel-casual-mode #hudViewStats #infoWealth {
+      color: #b45309 !important;
+      font-weight: 900 !important;
+    }
+
+    body.pastel-casual-mode #hudViewStats #infoPartner {
+      color: #db2777 !important;
+      font-weight: 800 !important;
+    }
+
+    body.pastel-casual-mode #hudViewLog > div:first-child {
+      background: linear-gradient(90deg, #fce7f3 0%, #f3e8ff 100%) !important;
+      border-bottom: 2px solid #f9a8d4 !important;
+      color: #831843 !important;
+    }
+
+    body.pastel-casual-mode #lifeLogContainer > div {
+      background: #ffffff !important;
+      border-color: #fbcfe8 !important;
+      color: #4a354f !important;
+      box-shadow: 0 2px 6px rgba(244, 114, 182, 0.08) !important;
+    }
+
+    body.pastel-casual-mode #lifeLogContainer p {
+      color: #4a354f !important;
+      font-weight: 600 !important;
+    }
+
+    /* Pastel Styling for Milestone Decision Modal & Death Summary Modal */
+    body.pastel-casual-mode #decisionModal > div,
+    body.pastel-casual-mode #deathSummaryModal > div,
+    body.pastel-casual-mode #birthModal > div {
+      background: #fffdf9 !important;
+      border: 4px solid #f472b6 !important;
+      color: #4a354f !important;
+    }
+
+    body.pastel-casual-mode #decisionTitle,
+    body.pastel-casual-mode #deathTitleName,
+    body.pastel-casual-mode #certModalTitle {
+      color: #9d174d !important;
+    }
+
+    body.pastel-casual-mode #decisionPrompt {
+      background: #fff0f6 !important;
+      border-color: #f9a8d4 !important;
+      border-left: 5px solid #ec4899 !important;
+      color: #4a354f !important;
+      font-weight: 600 !important;
+    }
+
+    body.pastel-casual-mode #decisionChoicesContainer button {
+      background: #ffffff !important;
+      border: 2.5px solid #f9a8d4 !important;
+      border-left: 6px solid #ec4899 !important;
+      color: #4a354f !important;
+      box-shadow: 0 4px 0 #fce7f3 !important;
+    }
+
+    body.pastel-casual-mode #decisionChoicesContainer button span:first-child {
+      color: #4a354f !important;
+      font-weight: 700 !important;
+    }
+
+    body.pastel-casual-mode #decisionChoicesContainer button div:last-child {
+      color: #0284c7 !important;
+      font-weight: 700 !important;
+    }
+
+    body.pastel-casual-mode #deathEpitaphBox,
+    body.pastel-casual-mode #deathConsequenceList {
+      background: #fff0f6 !important;
+      border-color: #f9a8d4 !important;
+      color: #4a354f !important;
+    }
+
+    body.pastel-casual-mode #deathConsequenceList div {
+      color: #6b21a8 !important;
+      font-weight: 600 !important;
+    }
+
+    /* Hide ONLY the bloated side-systems in Casual Pastel Mode */
+    body.pastel-casual-mode .hardcore-only-ui,
+    body.pastel-casual-mode #btnQuestionMode,
+    body.pastel-casual-mode #hudPlanetEarthPill,
+    body.pastel-casual-mode #hudBusinessPill,
+    body.pastel-casual-mode #hudGearPill,
+    body.pastel-casual-mode #hudActivePetPill,
+    body.pastel-casual-mode #hudRelationshipPill,
+    body.pastel-casual-mode #openWealthBtnTop,
+    body.pastel-casual-mode #hardcoreTimeCommandBar,
+    body.pastel-casual-mode #hardcoreGodHandDock,
+    body.pastel-casual-mode #hudViewOps,
+    body.pastel-casual-mode #hudTabBtn_ops,
+    body.pastel-casual-mode #deathWealthSpendBox,
+    body.pastel-casual-mode #interactiveComboBadge,
+    body.pastel-casual-mode #activeTargetsBadge,
+    body.pastel-casual-mode #actionCooldownBadge {
+      display: none !important;
+    }
+
+    body:not(.pastel-casual-mode) #casualPastelDock,
+    body:not(.pastel-casual-mode) #casualHeaderHint {
+      display: none !important;
+    }
+
+    /* Pastel Toy Push-Buttons */
+    .pastel-toy-btn {
+      border: 3px solid #ffffff;
+      border-radius: 22px;
+      box-shadow: 0 5px 0 rgba(219, 39, 119, 0.22), 0 8px 16px rgba(244, 114, 182, 0.16), inset 0 2px 0 rgba(255, 255, 255, 0.8);
+      transition: all 0.14s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: 'Mali', 'Kanit', sans-serif;
+      font-weight: 700;
+      color: #4a354f;
+    }
+
+    .pastel-toy-btn:hover:not(:disabled) {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 7px 0 rgba(219, 39, 119, 0.26), 0 10px 20px rgba(244, 114, 182, 0.25), inset 0 2px 0 #ffffff;
+    }
+
+    .pastel-toy-btn:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(219, 39, 119, 0.22);
+    }
+
+    .pastel-card-item {
+      background: #ffffff;
+      border: 3px solid #fbcfe8;
+      border-radius: 20px;
+      box-shadow: 0 4px 0 #fce7f3;
+      transition: all 0.15s ease;
+    }
+
+    .pastel-card-item.equipped {
+      border-color: #34d399;
+      background: #f0fdf4;
+      box-shadow: 0 4px 0 #a7f3d0;
+    }
   </style>
 </head>
-<body class="h-[100dvh] w-screen overflow-hidden flex flex-col bg-[#0b1120] text-slate-100 screentone-overlay">
+<body class="pastel-casual-mode h-[100dvh] w-screen overflow-hidden flex flex-col bg-[#0b1120] text-slate-100 screentone-overlay">
 
   <!-- ===================================================================== -->
   <!-- 1. COMPACT TOP HUD BAR (PC & MOBILE PORTRAIT)                         -->
   <!-- ===================================================================== -->
-  <header class="shrink-0 z-30 bg-slate-900/85 backdrop-blur-md border-b border-slate-700/70 px-3 py-1.5 shadow-sm">
-    <div class="max-w-[1600px] mx-auto flex items-center justify-between gap-1.5">
+  <header class="shrink-0 z-30 bg-slate-900/95 border-b border-slate-700/70 px-2 sm:px-3 py-1 shadow-sm">
+    <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-x-1.5 gap-y-1">
       <!-- Brand + Era Badge -->
-      <div class="flex items-center gap-2 min-w-0">
-        <div class="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-sky-400 to-indigo-600 rounded-xl border border-white/30 flex items-center justify-center font-display font-black text-xs sm:text-sm shadow-md shrink-0">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <div class="w-5 h-5 sm:w-8 sm:h-8 bg-gradient-to-br from-sky-400 to-indigo-600 rounded-lg sm:rounded-xl border border-white/30 flex items-center justify-center font-display font-black text-[10px] sm:text-sm shadow-md shrink-0">
           8T
         </div>
         <div class="min-w-0">
-          <div class="flex items-center gap-1.5">
-            <h1 class="font-display font-black text-xs sm:text-base tracking-wider uppercase text-white truncate">
+          <div class="flex items-center gap-1">
+            <h1 class="font-display font-black text-[11px] sm:text-base tracking-wider uppercase text-white truncate">
               🐣 TAMAGOTCHI COSMOS <span class="hidden sm:inline text-pink-300 text-xs font-bold">1 in 8 Trillion</span>
             </h1>
-            <span id="eraBadgeTop" class="manga-badge bg-purple-900 text-purple-100 text-[10px] py-0 px-1.5 shrink-0">ยุคปัจจุบัน</span>
+            <span id="eraBadgeTop" class="manga-badge bg-purple-900 text-purple-100 text-[9.5px] py-0 px-1.5 shrink-0">ยุคปัจจุบัน</span>
           </div>
-          <p class="hidden sm:block text-[10px] text-slate-400 leading-none truncate">เกมเลี้ยงน้องข้ามจักรวาลสไตล์ทามาก็อตจิ • ลูบหัวน้องบนจอ 2D, เก็บของขวัญ และดูแลชีวิตทุกๆ ปี!</p>
+          <p class="hidden sm:block text-[10px] text-slate-400 leading-none truncate hardcore-only-ui">เกมเลี้ยงน้องข้ามจักรวาลสไตล์ทามาก็อตจิ • ลูบหัวน้องบนจอ 2D, เก็บของขวัญ และดูแลชีวิตทุกๆ ปี!</p>
+          <p id="casualHeaderHint" class="hidden sm:block text-[11px] text-pink-600 font-bold leading-none truncate">🌸 โหมดพาสเทลแสนสบาย • ป้อนขนม ลูบหัวน้อง และแต่งห้องน่ารักๆ ได้เลย!</p>
         </div>
       </div>
 
-      <!-- Speed & HUD Controls -->
-      <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+      <!-- Speed & HUD Controls (Ultra-compact so all 7 controls fit on a single row on 375px mobile!) -->
+      <div class="flex flex-wrap items-center justify-between sm:justify-end gap-1 sm:gap-1.5 w-full lg:w-auto shrink-0">
+        <!-- Casual Pastel Mode vs Full Mode Toggle -->
+        <button id="btnToggleCasualMode" onclick="toggleCasualPastelMode()" class="pastel-toy-btn px-2.5 py-1 text-[10.5px] sm:text-xs bg-gradient-to-r from-pink-200 via-purple-200 to-sky-200 text-pink-900 font-extrabold flex items-center gap-1 shrink-0" title="สลับระหว่าง โหมดพาสเทล Casual (เล่นชิลๆ ตัวหนังสือน้อย) กับ โหมดเต็มรูปแบบ">
+          <span id="casualModeBtnIcon">🌸</span>
+          <span id="casualModeBtnText">โหมดพาสเทล Casual</span>
+        </button>
+
         <!-- Speed Selector Pill -->
         <div id="speedControlGroup" class="flex items-center bg-slate-800/90 border border-slate-600/80 rounded-xl p-0.5 shadow-inner">
-          <button id="btnPause" onclick="setSimSpeed(0)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition bg-[#ff2a5f] text-white rounded-lg" title="หยุดเวลาชั่วคราว (Space)">⏸</button>
-          <button id="btnSpeed1" onclick="setSimSpeed(1)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">1x</button>
-          <button id="btnSpeed2" onclick="setSimSpeed(2)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">2x</button>
-          <button id="btnSpeed4" onclick="setSimSpeed(4)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">4x</button>
-          <button id="btnSpeed8" onclick="setSimSpeed(8)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">8x</button>
-          <button id="btnSpeed16" onclick="setSimSpeed(16)" class="px-1 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">16x</button>
+          <button id="btnPause" onclick="setSimSpeed(0)" class="px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] font-display font-bold transition bg-[#ff2a5f] text-white rounded-lg" title="หยุดเวลาชั่วคราว (Space)">⏸</button>
+          <button id="btnSpeed1" onclick="setSimSpeed(1)" class="px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">1x</button>
+          <button id="btnSpeed2" onclick="setSimSpeed(2)" class="px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">2x</button>
+          <button id="btnSpeed4" onclick="setSimSpeed(4)" class="px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">4x</button>
+          <button id="btnSpeed8" onclick="setSimSpeed(8)" class="px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">8x</button>
+          <button id="btnSpeed16" onclick="setSimSpeed(16)" class="px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] font-display font-bold transition text-slate-300 hover:text-white rounded-lg">16x</button>
         </div>
 
         <!-- Question Pacing / Destiny Mode Selector -->
-        <button id="btnQuestionMode" onclick="cycleQuestionMode()" class="manga-btn px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] bg-indigo-950 text-cyan-200 border-cyan-400/70 flex items-center gap-0.5 sm:gap-1" title="สลับโหมดคำถาม: ถามทุกปี / ถามเฉพาะช่วงวัยสำคัญ / โหมดดูปลายทาง (ไม่ถามแทรก)">
+        <button id="btnQuestionMode" onclick="cycleQuestionMode()" class="manga-btn px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] bg-indigo-950 text-cyan-200 border-cyan-400/70 flex items-center gap-0.5" title="สลับโหมดคำถาม: ถามทุกปี / ถามเฉพาะช่วงวัยสำคัญ / โหมดดูปลายทาง (ไม่ถามแทรก)">
           <span>🎯</span>
           <span class="hidden lg:inline">โหมดคำถาม:</span>
           <strong id="questionModeStatus" class="text-[#ffd166]">ถามทุกปี</strong>
         </button>
 
         <!-- Auto Mode Toggle -->
-        <button id="btnAutoMode" onclick="toggleAutoMode()" class="manga-btn px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] bg-slate-800 text-slate-200 flex items-center gap-1" title="เปิด/ปิด Auto Mode (ปุ่มลัด A)">
+        <button id="btnAutoMode" onclick="toggleAutoMode()" class="manga-btn px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] bg-slate-800 text-slate-200 flex items-center gap-0.5" title="เปิด/ปิด Auto Mode (ปุ่มลัด A)">
           <span id="autoModeDot" class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
           <span class="hidden md:inline">Auto Mode:</span> <strong id="autoModeStatus">OFF</strong>
         </button>
 
         <!-- Akashic Karma Counter -->
-        <div class="flex items-center gap-0.5 bg-amber-500/15 border border-amber-400/50 rounded-full px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px]" title="แต้มกรรมสะสมข้ามชาติภพ">
+        <div class="flex items-center gap-0.5 bg-amber-500/15 border border-amber-400/50 rounded-full px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px]" title="แต้มกรรมสะสมข้ามชาติภพ">
           <span class="text-[#ffd166]">✦</span>
           <strong id="karmaPointsTop" class="font-display text-white">20</strong>
         </div>
 
         <!-- 8-Bit Chiptune BGM Controls -->
         <div class="flex items-center bg-slate-800/90 border border-pink-400/60 rounded-xl p-0.5 shadow-inner">
-          <button id="btnBgmToggle" onclick="toggleBgmPlayback()" class="px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-display font-bold transition bg-pink-500 text-white rounded-lg flex items-center gap-1" title="เปิด/ปิดเพลงประกอบ 8-Bit BGM (ปุ่มลัด M)">
-            <span id="bgmNoteIcon" class=" inline-block animate-bounce">🎵</span>
+          <button id="btnBgmToggle" onclick="toggleBgmPlayback()" class="px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] font-display font-bold transition bg-pink-500 text-white rounded-lg flex items-center gap-0.5" title="เปิด/ปิดเพลงประกอบ 8-Bit BGM (ปุ่มลัด M)">
+            <span id="bgmNoteIcon" class="inline-block animate-bounce">🎵</span>
             <span id="bgmStatusLabel" class="hidden md:inline">8-Bit: ON</span>
           </button>
-          <button id="btnBgmTrack" onclick="cycleBgmTrack()" class="px-1.5 py-0.5 text-[10px] sm:text-[11px] font-display font-bold text-amber-300 hover:text-white transition rounded-lg" title="เปลี่ยนเพลง 8-Bit Chiptune (มี 4 สไตล์)">
+          <button id="btnBgmTrack" onclick="cycleBgmTrack()" class="px-1 sm:px-1.5 py-0.5 text-[9.5px] sm:text-[11px] font-display font-bold text-amber-300 hover:text-white transition rounded-lg" title="เปลี่ยนเพลง 8-Bit Chiptune (มี 4 สไตล์)">
             🎶 <span id="bgmTrackShortName" class="hidden xl:inline">ทามาก็อตจิ</span>
           </button>
         </div>
 
         <!-- Audio Mute Toggle -->
-        <button id="btnMute" onclick="toggleAudioMute()" class="manga-btn px-1.5 py-0.5 text-[10px] sm:text-[11px] bg-[#181b2a] text-white" title="เปิด/ปิดเสียงทั้งหมด (Master Mute)">🔊</button>
+        <button id="btnMute" onclick="toggleAudioMute()" class="manga-btn px-1 sm:px-1.5 py-0.5 text-[9.5px] sm:text-[11px] bg-[#181b2a] text-white" title="เปิด/ปิดเสียงทั้งหมด (Master Mute)">🔊</button>
 
         <!-- Encyclopedia & Settings (⋯) -->
-        <button id="btnMoreMenu" onclick="toggleMoreModal()" class="manga-btn px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] bg-[#23273d] text-white font-black" title="สถิติดวงดาว & ตั้งค่า">⋯</button>
+        <button id="btnMoreMenu" onclick="toggleMoreModal()" class="manga-btn px-1 sm:px-2 py-0.5 text-[9.5px] sm:text-[11px] bg-[#23273d] text-white font-black" title="สถิติดวงดาว & ตั้งค่า">⋯</button>
       </div>
     </div>
   </header>
@@ -262,7 +579,7 @@
   <!-- ===================================================================== -->
   <!-- 2. ALWAYS-VISIBLE COMPACT HUD VITALS STRIP (BOTH MOBILE & PC)         -->
   <!-- ===================================================================== -->
-  <div class="shrink-0 bg-slate-900/65 backdrop-blur border-b border-slate-800/80 px-3 py-1.5 z-20">
+  <div id="vitalsStripBar" class="shrink-0 bg-slate-900/65 border-b border-slate-800/80 px-3 py-1.5 z-20">
     <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[11px]">
       <!-- Identity & Age Quick Readout -->
       <div class="flex items-center gap-1.5 min-w-0">
@@ -303,7 +620,7 @@
           <span id="hudMiniIntVal" class="font-display font-bold text-cyan-300">50</span>
         </div>
 
-        <button onclick="openWealthSpendModal()" class="flex items-center gap-1 bg-[#090a10] hover:bg-amber-950/80 border border-[#ffd166]/80 rounded-lg px-2 py-0.5 transition cursor-pointer" title="คลิกเพื่อเปิดศูนย์การใช้เงิน ลงทุน ยืดอายุขัย และเมกะโปรเจกต์">
+        <button onclick="if(gameState.casualPastelMode){openPastelDecorModal('furniture');}else{openWealthSpendModal();}" class="flex items-center gap-1 bg-[#090a10] hover:bg-amber-950/80 border border-[#ffd166]/80 rounded-lg px-2 py-0.5 transition cursor-pointer" title="คลิกเพื่อใช้เหรียญ">
           <span class="text-[#ffd166] font-display font-black" id="hudMiniWealth">₡ 0</span>
           <span class="text-[9px] bg-[#ffd166] text-slate-950 font-extrabold px-1 rounded">ใช้เงิน</span>
         </button>
@@ -319,25 +636,25 @@
     <!-- ================================================================= -->
     <!-- LEFT / STAGE PANEL (7 COLS ON PC, TAB 1 "stage" ON MOBILE)        -->
     <!-- ================================================================= -->
-    <section id="hudViewStage" class="lg:col-span-7 flex flex-col gap-1.5 min-h-0 h-full overflow-hidden">
+    <section id="hudViewStage" class="lg:col-span-7 flex flex-col gap-1.5 min-h-0 h-full overflow-y-auto lg:overflow-hidden mobile-stage-scroll">
       <!-- Phaser 2D Manga Panel Canvas Card -->
-      <div id="hudStageMainCard" class="manga-panel flex-1 min-h-0 flex flex-col overflow-hidden">
+      <div id="hudStageMainCard" class="manga-panel flex-1 min-h-0 flex flex-col overflow-y-auto lg:overflow-hidden mobile-stage-scroll pb-14 lg:pb-0">
         <!-- Top Overlay Bar inside Manga Frame -->
-        <div class="shrink-0 bg-slate-800/85 text-slate-100 px-3 py-1.5 flex items-center justify-between border-b border-slate-700/70 text-[11px] font-medium gap-2">
+        <div id="stageTopHeaderBar" class="shrink-0 bg-slate-800/95 text-slate-100 px-2.5 sm:px-3 py-1 sm:py-1.5 flex items-center justify-between border-b border-slate-700/70 text-[11px] font-medium gap-1.5">
           <div class="flex items-center gap-1.5 min-w-0">
-            <span class="bg-pink-500/30 border border-pink-300/60 text-pink-200 rounded-full px-2.5 py-0.5 font-display font-bold uppercase tracking-wider text-[10px] shrink-0">🥚 TAMAGOTCHI ROOM</span>
-            <span id="stageSubHeaderLocation" class="font-bold text-pink-100 truncate">แตะลูบหัวน้อง 💖 / เก็บขนมดาว 💎 / ปัดเป่าฝุ่นมืด 👾 ในห้องได้เลย!</span>
+            <span class="bg-pink-500/30 border border-pink-300/60 text-pink-200 rounded-full px-2 py-0.5 font-display font-bold uppercase tracking-wider text-[10px] shrink-0">🥚 TAMAGOTCHI ROOM</span>
+            <span id="stageSubHeaderLocation" class="hidden sm:inline font-bold text-pink-100 truncate">แตะลูบหัวน้อง 💖 / เก็บขนมดาว 💎 / ปัดเป่าฝุ่นมืด 👾 ในห้องได้เลย!</span>
           </div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            <span id="interactiveComboBadge" class="font-display text-[10px] bg-[#ff2a5f] text-white px-1.5 py-0.5 font-black">COMBO x1</span>
-            <span id="activeTargetsBadge" class="font-display text-[10px] bg-indigo-900 text-[#00f0ff] px-1.5 py-0.5 font-black">🎯 เป้าหมายบนฉาก: 0</span>
+          <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+            <span id="interactiveComboBadge" class="font-display text-[10px] bg-[#ff2a5f] text-white px-1.5 py-0.5 font-black rounded">COMBO x1</span>
+            <span id="activeTargetsBadge" class="font-display text-[10px] bg-indigo-900 text-[#00f0ff] px-1.5 py-0.5 font-black rounded">🎯 เป้าหมายบนฉาก: 0</span>
             <span id="actionCooldownBadge" class="hidden sm:inline-block font-display text-[10px] bg-emerald-700 text-white px-1.5 py-0.5">พร้อมปฏิบัติการ</span>
           </div>
         </div>
 
-        <!-- PHASER 3 CANVAS CONTAINER + CRISP DOM STORY OVERLAY + QTE OVERLAY -->
-        <div class="flex-1 min-h-[175px] w-full bg-[#0b0c14] relative overflow-hidden">
-          <div id="phaserMangaContainer" class="w-full h-full"></div>
+        <!-- PHASER 3 CANVAS CONTAINER + CRISP DOM STORY OVERLAY + QTE OVERLAY (Explicit height on mobile so canvas never collapses to 0!) -->
+        <div id="phaserStageBox" class="h-[205px] sm:h-[240px] lg:h-auto lg:flex-1 min-h-[195px] shrink-0 w-full bg-[#0b0c14] relative overflow-hidden">
+          <div id="phaserMangaContainer" class="absolute inset-0 w-full h-full"></div>
 
           <!-- Hidden overlay node (kept for DOM ID compatibility; story is shown in the dedicated bar below canvas so 2D stage is 100% unobstructed!) -->
           <div id="stageStoryOverlayBox" class="hidden pointer-events-none absolute left-2 right-2 bottom-1.5 z-10">
@@ -349,7 +666,7 @@
           <!-- LIVE INTERACTIVE QTE / BOSS CRISIS MINI-GAME OVERLAY          -->
           <!-- (Requires active player interaction even during Auto Mode!)   -->
           <!-- ============================================================= -->
-          <div id="qteOverlay" class="hidden absolute inset-0 z-20 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-between p-3 sm:p-4 border-4 border-[#ff2a5f] qte-danger-box">
+          <div id="qteOverlay" class="hidden absolute inset-0 z-20 bg-black/85  flex flex-col items-center justify-between p-3 sm:p-4 border-4 border-[#ff2a5f] qte-danger-box">
             <!-- QTE Header & Timer -->
             <div class="w-full flex items-center justify-between gap-2 border-b border-white/30 pb-1.5">
               <div class="flex items-center gap-1.5">
@@ -392,76 +709,71 @@
           </div>
         </div>
 
-        <!-- UNIFIED CRISP STORY & ROUTINE BAR BELOW 2D STAGE (Compact, High-Contrast, Zero Redundancy) -->
+        <!-- UNIFIED CRISP STORY & ROUTINE BAR BELOW 2D STAGE (Compact, High-Contrast, Zero Overlap, Fixed 3-Line Height) -->
         <div id="dailyRoutineBar" class="shrink-0 bg-[#0c1022] border-t-2 border-pink-400/60 px-3 py-1.5 flex flex-col gap-1">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-1.5 min-w-0">
-              <span id="monthProgressBadge" class="bg-[#00f0ff] text-slate-950 font-display font-extrabold px-2 py-0.5 text-[11px] rounded shrink-0">เดือนที่ 1/12</span>
-              <span id="timeOfDayBadge" class="bg-indigo-950 border border-indigo-400/70 text-indigo-100 font-display font-bold px-2 py-0.5 text-[11px] rounded shrink-0">🌅 ยามเช้า</span>
-              <span id="futurePathBadge" class="text-[11px] font-display font-bold text-emerald-200 bg-emerald-950/90 border border-emerald-400/50 px-2 py-0.5 rounded truncate">🌱 รอการพัฒนา</span>
+          <div class="flex items-center justify-between gap-1.5 w-full min-w-0 overflow-hidden">
+            <div class="flex items-center gap-1 shrink-0">
+              <span id="monthProgressBadge" class="bg-[#00f0ff] text-slate-950 font-display font-extrabold px-2 py-0.5 text-[10.5px] sm:text-[11px] rounded shrink-0">เดือน 1/12</span>
+              <span id="timeOfDayBadge" class="bg-indigo-950 border border-indigo-400/70 text-indigo-100 font-display font-bold px-2 py-0.5 text-[10.5px] sm:text-[11px] rounded shrink-0">🌅 ยามเช้า</span>
             </div>
-            <div class="w-20 sm:w-32 h-2 bg-slate-800 border border-slate-700 rounded-full overflow-hidden shrink-0" title="ความคืบหน้าของปีปัจจุบัน">
-              <div id="yearMonthProgressBar" class="h-full bg-gradient-to-r from-[#00f0ff] via-[#ffd166] to-[#ff2a5f] transition-all duration-300" style="width: 8%"></div>
-            </div>
+            <span id="futurePathBadge" class="text-[10.5px] sm:text-[11px] font-display font-bold text-emerald-200 bg-emerald-950/90 border border-emerald-400/50 px-2 py-0.5 rounded truncate min-w-0 max-w-[58%] text-right">🌱 รอการพัฒนา</span>
           </div>
-          <p id="dailyActivityText" class="text-[13px] sm:text-[14px] text-white font-medium leading-relaxed line-clamp-2 break-words">
+          <div id="yearMonthProgressTrack" class="w-full h-1.5 bg-slate-800 border border-slate-700 rounded-full overflow-hidden shrink-0" title="ความคืบหน้าของปีปัจจุบัน">
+            <div id="yearMonthProgressBar" class="h-full bg-gradient-to-r from-[#00f0ff] via-[#ffd166] to-[#ff2a5f] transition-all duration-300" style="width: 8%"></div>
+          </div>
+          <p id="dailyActivityText" class="text-[13px] sm:text-[13.5px] text-white font-medium leading-snug break-words h-[66px] min-h-[66px] max-h-[66px] overflow-y-auto">
             กำลังเริ่มต้นกิจวัตรประจำวัน...
           </p>
         </div>
 
-        <!-- LIVE "GOD-HAND" & HUB DOCK (WRAPPED, ERGONOMIC, ZERO HORIZONTAL SCROLL) -->
-        <div class="shrink-0 bg-slate-900/85 border-t border-slate-800/90 px-2.5 py-1.5 flex flex-wrap items-center justify-between gap-1.5">
-          <div class="flex flex-wrap items-center gap-1 sm:gap-1.5 w-full justify-start sm:justify-between">
-            <span class="bg-pink-400 text-slate-950 font-display font-extrabold px-2 py-0.5 text-[11px] slanted-header shrink-0">🍼 ดูแล & เมนูหลัก</span>
-            <div class="flex flex-wrap items-center gap-1 sm:gap-1.5 flex-1 justify-end">
-              <button id="btnGodSpawnOrbs" onclick="triggerGodHandIntervention('crystal_shower')" disabled class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-[#1b2238] hover:bg-[#25304d] text-[#00f0ff] font-bold shrink-0" title="เสกคริสตัล ฮีล และพัสดุลงบนฉาก 2D ทันที">
-                🌠 เรียกฝนคริสตัล<span class="hidden xl:inline">บนฉาก</span>
-              </button>
-              <button id="btnGodStartQte" onclick="triggerGodHandIntervention('start_qte')" disabled class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-[#2a182c] hover:bg-[#3d2040] text-[#ffd166] font-bold shrink-0" title="เริ่มมินิเกมวิกฤต QTE เพื่อชิงรางวัลก้อนโต">
-                ⚔️ ท้าดวลวิกฤต (QTE)
-              </button>
-              <button id="btnGodPurge" onclick="triggerGodHandIntervention('purge_leeches')" disabled class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-[#182928] hover:bg-[#203836] text-emerald-300 font-bold shrink-0" title="ใช้ 2 แต้มกรรมกวาดล้างปรสิตมืดและฟื้นฟูพลังกาย/ใจ">
-                ⚡ <span class="hidden sm:inline">ชำระล้าง/</span>ฮีลสด (2✦)
-              </button>
-              <button id="btnOpenWealthModal" onclick="openWealthSpendModal()" class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-gradient-to-r from-[#fde047] to-emerald-400 text-slate-950 font-extrabold shrink-0" title="เปิดศูนย์การใช้เงิน: ยืดอายุขัย, ลงทุนปันผล, เมกะโปรเจกต์กอบกู้ดาว & ตั้งกองทุนมรดก">
-                💰 ใช้เงิน / ลงทุน
-              </button>
-              <button id="btnOpenBusinessModal" onclick="openBusinessTycoonModal('ventures')" class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-gradient-to-r from-emerald-400 via-teal-300 to-[#fde047] text-slate-950 font-extrabold shrink-0" title="เปิดระบบสร้างธุรกิจส่วนตัว ขยายสาขา จ้างลูกน้องมืออาชีพ และปิดดีลการค้าสด!">
-                🏢 ธุรกิจ & ลูกน้อง
-              </button>
-              <button id="btnOpenGachaGearModal" onclick="openGachaGearModal('gacha')" class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-gradient-to-r from-amber-300 via-pink-400 to-cyan-300 text-slate-950 font-extrabold shrink-0" title="เปิดตู้กาชาดาราจักร สุ่มศาสตราวุธ หมวก มงกุฎ ปีกสวรรค์ และตีบวกอุปกรณ์">
-                🎰 กาชา & อุปกรณ์
-              </button>
-              <button id="btnOpenRoomPetShop" onclick="openRoomPetShopModal()" class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-gradient-to-r from-pink-500 to-amber-400 text-slate-950 font-extrabold shrink-0" title="เปิดร้านค้าแต่งห้อง 2D เฟอร์นิเจอร์ และสัตว์เลี้ยงคู่หู">
-                🛍️ แต่งห้อง & สัตว์เลี้ยง
-              </button>
-              <button id="btnOpenSocialModal" onclick="openSocialFamilyModal()" class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-gradient-to-r from-cyan-400 to-indigo-400 text-slate-950 font-extrabold shrink-0" title="เปิดระบบความสัมพันธ์ ครอบครัว คนรัก ทายาท และผังตระกูลข้ามชาติภพ">
-                💞 สายสัมพันธ์ & ผังตระกูล
-              </button>
-              <button id="btnOpenEarthHubModal" onclick="openPlanetaryEarthHubModal('overview')" class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-gradient-to-r from-sky-400 to-emerald-400 text-slate-950 font-extrabold shrink-0" title="เปิดเรดาร์สถานะดวงดาว พันธมิตรดาวโลก 4 ระดับ ของฝากป๊อปคัลเจอร์ และกองยานกู้ภัยฉุกเฉิน SOS">
-                🌍 เรดาร์ดาว & โลก
-              </button>
-              <button id="btnOpenCutsceneGallery" onclick="openCutsceneGalleryModal()" class="manga-btn px-2 sm:px-2.5 py-1 text-[11px] bg-gradient-to-r from-purple-500 to-pink-500 text-white font-extrabold shrink-0" title="เปิดโรงภาพยนตร์คัตซีน (ชมฉากสำคัญและฉากจบย้อนหลัง)">
-                🎬 คัตซีน
-              </button>
+        <!-- 🌸 CASUAL PASTEL TAMAGOTCHI DOCK (Curated Care + Milestone Life Progression + Endings!) -->
+        <div id="casualPastelDock" class="shrink-0 bg-gradient-to-r from-[#fff0f6] via-[#fef9c3] to-[#e0f2fe] border-t-2 border-pink-300 px-2.5 py-2 sm:px-3.5 sm:py-2 flex flex-col gap-1.5">
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+            <button id="btnCasualGrowYear" onclick="casualGrowOneYear()" class="pastel-toy-btn py-1.5 px-2 bg-gradient-to-b from-[#fbcfe8] to-[#f472b6] flex flex-col items-center justify-center gap-0.5">
+              <span id="casualGrowIcon" class="text-lg sm:text-xl leading-none">🎂</span>
+              <span id="casualGrowLabel" class="text-[11px] sm:text-xs font-extrabold text-pink-950">+1 ปี (โตขึ้น)</span>
+            </button>
+            <button id="btnCasualFeed" onclick="casualFeedSnack()" class="pastel-toy-btn py-1.5 px-2 bg-gradient-to-b from-[#ffe4e6] to-[#fecdd3] flex flex-col items-center justify-center gap-0.5">
+              <span id="casualFeedIcon" class="text-lg sm:text-xl leading-none">🍓</span>
+              <span id="casualFeedLabel" class="text-[11px] sm:text-xs font-extrabold text-pink-900">ป้อนขนม</span>
+            </button>
+            <button id="btnCasualBath" onclick="casualBathAndPet()" class="pastel-toy-btn py-1.5 px-2 bg-gradient-to-b from-[#e0f2fe] to-[#bae6fd] flex flex-col items-center justify-center gap-0.5">
+              <span id="casualBathIcon" class="text-lg sm:text-xl leading-none">🛁</span>
+              <span id="casualBathLabel" class="text-[11px] sm:text-xs font-extrabold text-sky-900">อาบน้ำ/กอด</span>
+            </button>
+            <button id="btnCasualPlay" onclick="casualPlayToy()" class="pastel-toy-btn py-1.5 px-2 bg-gradient-to-b from-[#fef9c3] to-[#fde68a] flex flex-col items-center justify-center gap-0.5">
+              <span id="casualPlayIcon" class="text-lg sm:text-xl leading-none">🎈</span>
+              <span id="casualPlayLabel" class="text-[11px] sm:text-xs font-extrabold text-amber-900">ชวนเล่น</span>
+            </button>
+            <button id="btnCasualDecor" onclick="openPastelDecorModal('furniture')" class="pastel-toy-btn py-1.5 px-2 bg-gradient-to-b from-[#f3e8ff] to-[#e9d5ff] flex flex-col items-center justify-center gap-0.5">
+              <span class="text-lg sm:text-xl leading-none">🎀</span>
+              <span class="text-[11px] sm:text-xs font-extrabold text-purple-900">แต่งห้อง/ตัว</span>
+            </button>
+            <button id="btnCasualGacha" onclick="casualQuickGacha()" class="pastel-toy-btn py-1.5 px-2 bg-gradient-to-b from-[#d1fae5] to-[#a7f3d0] flex flex-col items-center justify-center gap-0.5">
+              <span class="text-lg sm:text-xl leading-none">🎰</span>
+              <span class="text-[11px] sm:text-xs font-extrabold text-emerald-900">สุ่มของขวัญ</span>
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center justify-between gap-1 text-[11px] text-pink-900 font-bold px-1">
+            <span id="casualQuickStatusHint">💡 มีคำถามสำคัญเด้งเมื่อถึงช่วงวัยสำคัญ (5, 10, 15, 20, 30, 50, 70 ปี) พร้อมฉากจบและบทสรุปชีวิต!</span>
+            <div class="flex items-center gap-2">
+              <button onclick="openSocialFamilyModal('bonds')" class="pastel-toy-btn px-2.5 py-0.5 bg-pink-100 text-pink-800 text-[10.5px] font-extrabold">💞 ครอบครัว/ทายาท</button>
+              <button onclick="openBirthScreenModal()" class="pastel-toy-btn px-2.5 py-0.5 bg-amber-100 text-amber-900 text-[10.5px] font-extrabold">🥚 ฟักไข่น้องตัวใหม่</button>
             </div>
           </div>
         </div>
 
-        <!-- Live Mini Chronicle Ticker (Compact 1-2 line summary on Mobile Stage) -->
-        <div id="liveTickerBar" onclick="switchHudTab('log')" class="lg:hidden shrink-0 bg-[#080b18] border-t border-slate-800 px-2.5 py-1 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#16192b]">
-          <div class="flex items-center gap-1.5 min-w-0 flex-1">
-            <span class="bg-[#fde047] text-slate-950 font-display font-extrabold text-[9.5px] px-1.5 py-0.5 rounded shrink-0">บันทึก</span>
-            <p id="mobileLiveLogTicker" class="text-[11.5px] text-slate-200 font-normal leading-tight line-clamp-1 break-words">กดปุ่ม "เกิดใหม่ / สุ่มชีวิตใหม่" เพื่อเริ่มบันทึกชีวิตข้ามจักรวาล</p>
+        <!-- PRIMARY TIME & REBIRTH COMMAND BAR (Placed right under Daily Routine Bar so it is ALWAYS visible without scrolling!) -->
+        <div id="hardcoreTimeCommandBar" class="shrink-0 bg-slate-800/95 border-t border-slate-700/80 px-2.5 py-1.5 sm:px-3 flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
+          <div class="flex items-center justify-between sm:justify-start gap-1.5 w-full sm:w-auto shrink-0">
+            <button id="btnManualStepMonth" onclick="manualAdvanceOneMonth()" disabled class="manga-btn flex-1 sm:flex-initial px-2 py-1 text-[11px] sm:text-xs bg-amber-400 text-black font-black text-center" title="เดินหน้าทีละ 1 เดือนเพื่อดูชีวิตประจำวัน">+1 เดือน ⏱</button>
+            <button id="btnManualStepYear" onclick="manualAdvanceOneYear()" disabled class="manga-btn flex-1 sm:flex-initial px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs bg-[#00f0ff] text-black font-black text-center" title="ข้ามไปตัดสินใจสิ้นปีทันที (ปุ่มลัด N)">+1 ปี (ถัดไป) ▶</button>
+            <button id="btnOpenRebirth" onclick="openBirthScreenModal()" class="manga-btn flex-1 sm:flex-initial px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs bg-[#ff2a5f] text-white font-black text-center">🎲 เกิดใหม่<span class="hidden sm:inline"> / สุ่มชีวิตใหม่</span></button>
           </div>
-          <span class="text-[10px] text-[#00f0ff] font-bold shrink-0">ดูเพิ่ม ▶</span>
-        </div>
 
-        <!-- Interactive Command Deck Bottom Bar -->
-        <div class="shrink-0 bg-slate-800/75 border-t border-slate-700/70 p-2 sm:px-3 flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-1.5 flex-1 min-w-[180px]">
+          <div class="flex items-center gap-1.5 flex-1 min-w-[180px] w-full sm:w-auto">
             <label for="annualFocusSelect" class="text-[11px] font-bold text-[#00f0ff] uppercase font-display shrink-0">เป้าหมายปีนี้:</label>
-            <select id="annualFocusSelect" onchange="changeAnnualFocus(this.value)" class="flex-1 bg-slate-900/90 text-slate-100 text-xs font-semibold border border-slate-600 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-sky-400 truncate">
+            <select id="annualFocusSelect" onchange="changeAnnualFocus(this.value)" class="flex-1 bg-slate-900/95 text-slate-100 text-xs font-semibold border border-slate-600 rounded-lg px-2 py-1 focus:outline-none focus:border-sky-400 truncate">
               <option value="balanced">⚖️ สมดุลตามวิถีดวงดาว (Balanced)</option>
               <option value="study">📚 ศึกษาวิทยาการ & ฝึกพลังคอสมิก (+ปัญญา)</option>
               <option value="career">💰 ทำงานหนัก & ค้าขายข้ามดาราจักร (+รายได้)</option>
@@ -470,12 +782,54 @@
               <option value="health">🏥 รักษาพยาบาล & ฟื้นฟูจิตใจ (+สุขภาพ/จิตใจ)</option>
             </select>
           </div>
+        </div>
 
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button id="btnManualStepMonth" onclick="manualAdvanceOneMonth()" disabled class="manga-btn px-2 py-1 text-xs bg-amber-400 text-black font-black" title="เดินหน้าทีละ 1 เดือนเพื่อดูชีวิตประจำวัน">+1 เดือน ⏱</button>
-            <button id="btnManualStepYear" onclick="manualAdvanceOneYear()" disabled class="manga-btn px-2.5 py-1 text-xs bg-[#00f0ff] text-black font-black" title="ข้ามไปตัดสินใจสิ้นปีทันที (ปุ่มลัด N)">+1 ปี (ถัดไป) ▶</button>
-            <button id="btnOpenRebirth" onclick="openBirthScreenModal()" class="manga-btn px-2.5 py-1 text-xs bg-[#ff2a5f] text-white font-black">🎲 เกิดใหม่ / สุ่มชีวิตใหม่</button>
+        <!-- LIVE "GOD-HAND" & HUB DOCK (Full-Width Symmetrical Grid on Mobile, Scrollable with generous bottom clearance) -->
+        <div id="hardcoreGodHandDock" class="shrink-0 bg-slate-900/95 border-t border-slate-800/90 px-2 py-1.5 sm:px-2.5 flex items-center justify-between gap-1.5">
+          <div class="flex flex-wrap items-center gap-1 sm:gap-1.5 w-full justify-between">
+            <span class="hidden xl:inline-block bg-pink-400 text-slate-950 font-display font-extrabold px-2 py-0.5 text-[11px] slanted-header shrink-0">🍼 ดูแล & เมนูหลัก</span>
+            <div class="grid grid-cols-2 min-[380px]:grid-cols-3 sm:flex sm:flex-wrap items-center justify-center sm:justify-end gap-1 sm:gap-1.5 w-full xl:w-auto xl:flex-1">
+              <button id="btnGodSpawnOrbs" onclick="triggerGodHandIntervention('crystal_shower')" disabled class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-[#1b2238] hover:bg-[#25304d] text-[#00f0ff] font-bold text-center truncate" title="เสกคริสตัล ฮีล และพัสดุลงบนฉาก 2D ทันที">
+                🌠 เรียกฝนคริสตัล<span class="hidden xl:inline">บนฉาก</span>
+              </button>
+              <button id="btnGodStartQte" onclick="triggerGodHandIntervention('start_qte')" disabled class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-[#2a182c] hover:bg-[#3d2040] text-[#ffd166] font-bold text-center truncate" title="เริ่มมินิเกมวิกฤต QTE เพื่อชิงรางวัลก้อนโต">
+                ⚔️ ท้าดวลวิกฤต (QTE)
+              </button>
+              <button id="btnGodPurge" onclick="triggerGodHandIntervention('purge_leeches')" disabled class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-[#182928] hover:bg-[#203836] text-emerald-300 font-bold text-center truncate" title="ใช้ 2 แต้มกรรมกวาดล้างปรสิตมืดและฟื้นฟูพลังกาย/ใจ">
+                ⚡ <span class="hidden sm:inline">ชำระล้าง/</span>ฮีลสด (2✦)
+              </button>
+              <button id="btnOpenWealthModal" onclick="openWealthSpendModal()" class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-gradient-to-r from-[#fde047] to-emerald-400 text-slate-950 font-extrabold text-center truncate" title="เปิดศูนย์การใช้เงิน: ยืดอายุขัย, ลงทุนปันผล, เมกะโปรเจกต์กอบกู้ดาว & ตั้งกองทุนมรดก">
+                💰 ใช้เงิน / ลงทุน
+              </button>
+              <button id="btnOpenBusinessModal" onclick="openBusinessTycoonModal('ventures')" class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-gradient-to-r from-emerald-400 via-teal-300 to-[#fde047] text-slate-950 font-extrabold text-center truncate" title="เปิดระบบสร้างธุรกิจส่วนตัว ขยายสาขา จ้างลูกน้องมืออาชีพ และปิดดีลการค้าสด!">
+                🏢 ธุรกิจ & ลูกน้อง
+              </button>
+              <button id="btnOpenGachaGearModal" onclick="openGachaGearModal('gacha')" class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-gradient-to-r from-amber-300 via-pink-400 to-cyan-300 text-slate-950 font-extrabold text-center truncate" title="เปิดตู้กาชาดาราจักร สุ่มศาสตราวุธ หมวก มงกุฎ ปีกสวรรค์ และตีบวกอุปกรณ์">
+                🎰 กาชา & อุปกรณ์
+              </button>
+              <button id="btnOpenRoomPetShop" onclick="openRoomPetShopModal()" class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-gradient-to-r from-pink-500 to-amber-400 text-slate-950 font-extrabold text-center truncate" title="เปิดร้านค้าแต่งห้อง 2D เฟอร์นิเจอร์ และสัตว์เลี้ยงคู่หู">
+                🛍️ แต่งห้อง & สัตว์เลี้ยง
+              </button>
+              <button id="btnOpenSocialModal" onclick="openSocialFamilyModal()" class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-gradient-to-r from-cyan-400 to-indigo-400 text-slate-950 font-extrabold text-center truncate" title="เปิดระบบความสัมพันธ์ ครอบครัว คนรัก ทายาท และผังตระกูลข้ามชาติภพ">
+                💞 สายสัมพันธ์ & ผังตระกูล
+              </button>
+              <button id="btnOpenEarthHubModal" onclick="openPlanetaryEarthHubModal('overview')" class="manga-btn px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-gradient-to-r from-sky-400 to-emerald-400 text-slate-950 font-extrabold text-center truncate" title="เปิดเรดาร์สถานะดวงดาว พันธมิตรดาวโลก 4 ระดับ ของฝากป๊อปคัลเจอร์ และกองยานกู้ภัยฉุกเฉิน SOS">
+                🌍 เรดาร์ดาว & โลก
+              </button>
+              <button id="btnOpenCutsceneGallery" onclick="openCutsceneGalleryModal()" class="manga-btn col-span-2 min-[380px]:col-span-1 px-1.5 sm:px-2.5 py-1 text-[10.5px] sm:text-[11px] bg-gradient-to-r from-purple-500 to-pink-500 text-white font-extrabold text-center truncate" title="เปิดโรงภาพยนตร์คัตซีน (ชมฉากสำคัญและฉากจบย้อนหลัง)">
+                🎬 คัตซีน
+              </button>
+            </div>
           </div>
+        </div>
+
+        <!-- Live Mini Chronicle Ticker (Compact 1-2 line summary on Mobile Stage) -->
+        <div id="liveTickerBar" onclick="switchHudTab('log')" class="lg:hidden shrink-0 bg-[#080b18] border-t border-slate-800 px-2.5 py-1.5 flex items-center justify-between gap-2 cursor-pointer hover:bg-[#16192b]">
+          <div class="flex items-center gap-1.5 min-w-0 flex-1">
+            <span class="bg-[#fde047] text-slate-950 font-display font-extrabold text-[9.5px] px-1.5 py-0.5 rounded shrink-0">บันทึก</span>
+            <p id="mobileLiveLogTicker" class="text-[11.5px] text-slate-200 font-normal leading-tight line-clamp-1 break-words">กดปุ่ม "เกิดใหม่ / สุ่มชีวิตใหม่" เพื่อเริ่มบันทึกชีวิตข้ามจักรวาล</p>
+          </div>
+          <span class="text-[10px] text-[#00f0ff] font-bold shrink-0">ดูเพิ่ม ▶</span>
         </div>
       </div>
 
@@ -667,7 +1021,7 @@
   <!-- ===================================================================== -->
   <!-- 4. MOBILE PORTRAIT BOTTOM HUD NAVIGATION BAR (MODERN GAME HUD)        -->
   <!-- ===================================================================== -->
-  <nav id="mobileBottomHud" class="lg:hidden shrink-0 z-30 bg-slate-900/95 backdrop-blur border-t border-slate-700/80 grid grid-cols-4 text-[11px] font-display font-bold">
+  <nav id="mobileBottomHud" class="lg:hidden shrink-0 z-30 bg-slate-900/95 border-t border-slate-700/80 grid grid-flow-col auto-cols-fr text-[11px] font-display font-bold">
     <button id="hudTabBtn_stage" onclick="switchHudTab('stage')" class="py-2 flex flex-col items-center justify-center gap-0.5 hud-tab-active">
       <span class="text-sm leading-none">🎬</span>
       <span>ฉากชีวิต 2D</span>
@@ -689,7 +1043,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 1: GALACTIC REINCARNATION & BIRTH CERTIFICATE (สูติบัตรจักรวาล) -->
   <!-- ===================================================================== -->
-  <div id="birthModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="birthModal" class="fixed inset-0 z-50 bg-black/85  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-2xl w-full max-h-[94dvh] flex flex-col manga-panel bg-[#111320] overflow-hidden">
       <!-- Sticky Modal Header -->
       <div class="shrink-0 flex items-center justify-between border-b-2 border-white px-4 py-2.5 bg-[#16192b]">
@@ -841,7 +1195,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 2: MILESTONE AGE QUESTION (อายุ 5, 15, 30, 50, 70 ปี)          -->
   <!-- ===================================================================== -->
-  <div id="decisionModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3">
+  <div id="decisionModal" class="hidden fixed inset-0 z-50 bg-black/85  flex items-center justify-center p-3">
     <div class="max-w-lg w-full max-h-[92dvh] flex flex-col manga-panel-gold p-4 sm:p-5 bg-[#12131f] overflow-y-auto">
       <div class="flex items-center justify-between border-b-2 border-white pb-2 mb-3">
         <div class="flex items-center gap-2">
@@ -885,7 +1239,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 3: INTERPLANETARY MIGRATION (ย้ายไปใช้ชีวิตดาวอื่น / ดาวโลก)    -->
   <!-- ===================================================================== -->
-  <div id="migrationModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
+  <div id="migrationModal" class="hidden fixed inset-0 z-50 bg-black/80  flex items-center justify-center p-3">
     <div class="max-w-xl w-full manga-panel-cyan p-4 bg-[#111320] max-h-[90dvh] flex flex-col">
       <div class="flex items-center justify-between border-b-2 border-white pb-2 mb-2.5">
         <div>
@@ -908,7 +1262,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 4: END OF LIFE / SHAREABLE DESTINY SUMMARY CARD                 -->
   <!-- ===================================================================== -->
-  <div id="deathSummaryModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="deathSummaryModal" class="hidden fixed inset-0 z-50 bg-black/90  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-2xl w-full max-h-[94dvh] flex flex-col manga-panel bg-[#121324] overflow-hidden my-auto">
       <!-- Sticky Header -->
       <div class="shrink-0 text-center border-b-2 border-white/80 px-4 py-3 bg-gradient-to-r from-[#1e1538] via-[#2a1b4e] to-[#162040]">
@@ -1041,7 +1395,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 5: MORE MENU & COSMIC POPULATION ENCYCLOPEDIA (เมนู ⋯)          -->
   <!-- ===================================================================== -->
-  <div id="moreMenuModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
+  <div id="moreMenuModal" class="hidden fixed inset-0 z-50 bg-black/80  flex items-center justify-center p-3">
     <div class="max-w-2xl w-full manga-panel p-4 bg-[#111320] max-h-[90dvh] flex flex-col">
       <div class="flex items-center justify-between border-b-2 border-white pb-2 mb-3">
         <div>
@@ -1092,7 +1446,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 6: TAMAGOTCHI ROOM & COMPANION PET SHOP (ร้านค้าแต่งห้อง & สัตว์เลี้ยง) -->
   <!-- ===================================================================== -->
-  <div id="roomPetShopModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="roomPetShopModal" class="hidden fixed inset-0 z-50 bg-black/85  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-2xl w-full max-h-[92dvh] flex flex-col manga-panel-gold bg-[#121426] overflow-hidden my-auto">
       <!-- Sticky Header -->
       <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#241744] via-[#1c254a] to-[#1a1836]">
@@ -1149,7 +1503,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 7: DEEP RELATIONSHIPS & DYNASTY FAMILY TREE (สายสัมพันธ์ & ผังตระกูล) -->
   <!-- ===================================================================== -->
-  <div id="relationshipFamilyModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="relationshipFamilyModal" class="hidden fixed inset-0 z-50 bg-black/85  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-3xl w-full max-h-[93dvh] flex flex-col manga-panel-cyan bg-[#101426] overflow-hidden my-auto">
       <!-- Sticky Header -->
       <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#1c1c42] via-[#2b1948] to-[#132544]">
@@ -1224,7 +1578,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 8: CINEMATIC ANIME / MANGA CUTSCENE THEATER OVERLAY             -->
   <!-- ===================================================================== -->
-  <div id="cutsceneTheaterOverlay" class="hidden fixed inset-0 z-[60] bg-black/92 backdrop-blur-md flex items-center justify-center p-2 sm:p-4">
+  <div id="cutsceneTheaterOverlay" class="hidden fixed inset-0 z-[60] bg-black/92  flex items-center justify-center p-2 sm:p-4">
     <div class="max-w-3xl w-full manga-panel-gold bg-[#090c1a] overflow-hidden shadow-[0_0_55px_rgba(244,114,182,0.4)] border-2 border-[#fde047] flex flex-col">
       <!-- Top Cinema Letterbox Bar (Clean, Non-Overlapping Mobile & Desktop Layout) -->
       <div class="bg-gradient-to-r from-[#1a1033] via-[#0f172a] to-[#1e1136] px-3 py-2 border-b border-white/20 flex items-center justify-between gap-2">
@@ -1248,7 +1602,7 @@
       <div class="relative w-full bg-[#050711] overflow-hidden cursor-pointer select-none" onclick="triggerCutsceneCanvasTapBurst(event)" title="แตะที่ฉากเพื่อปล่อยเอฟเฟกต์พิเศษ!">
         <canvas id="cutsceneCanvas" width="800" height="440" class="w-full h-auto block"></canvas>
         <!-- Interactive Hint Pill on top-right of canvas -->
-        <div class="pointer-events-none absolute top-2.5 right-2.5 bg-black/65 border border-white/25 rounded-full px-2.5 py-0.5 text-[10px] font-display font-bold text-[#fde047] backdrop-blur-sm">
+        <div class="pointer-events-none absolute top-2.5 right-2.5 bg-black/65 border border-white/25 rounded-full px-2.5 py-0.5 text-[10px] font-display font-bold text-[#fde047] ">
           ✨ แตะที่ภาพเพื่อร่วมเชียร์ / ปล่อยเอฟเฟกต์!
         </div>
         <!-- Auto-advance progress bar at bottom of canvas -->
@@ -1277,7 +1631,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 9: CUTSCENE GALLERY & REPLAY THEATER (โรงภาพยนตร์คัตซีน)         -->
   <!-- ===================================================================== -->
-  <div id="cutsceneGalleryModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="cutsceneGalleryModal" class="hidden fixed inset-0 z-50 bg-black/85  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-2xl w-full max-h-[92dvh] flex flex-col manga-panel bg-[#111428] overflow-hidden my-auto">
       <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#261447] via-[#19234a] to-[#1a1438]">
         <div>
@@ -1303,7 +1657,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 10: GALACTIC WEALTH, INVESTMENTS & MEGA-PROJECTS HUB (ใช้เงิน/ลงทุน) -->
   <!-- ===================================================================== -->
-  <div id="wealthSpendModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="wealthSpendModal" class="hidden fixed inset-0 z-50 bg-black/85  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-3xl w-full max-h-[92dvh] flex flex-col manga-panel-gold bg-[#101426] overflow-hidden my-auto">
       <!-- Sticky Header -->
       <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#2c1f11] via-[#1c254a] to-[#122b26]">
@@ -1365,7 +1719,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 11: COSMIC GACHA CAPSULE MACHINE & 3-SLOT GEAR ARMORY (กาชา/อุปกรณ์) -->
   <!-- ===================================================================== -->
-  <div id="gachaGearModal" class="hidden fixed inset-0 z-50 bg-black/88 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="gachaGearModal" class="hidden fixed inset-0 z-50 bg-black/88  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-3xl w-full max-h-[93dvh] flex flex-col manga-panel-gold bg-[#111328] overflow-hidden my-auto">
       <!-- Sticky Header -->
       <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#311042] via-[#1d224f] to-[#3b2510]">
@@ -1503,7 +1857,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 12: PLANETARY RADAR & EARTH-GALACTIC ALLIANCE HUB (เรดาร์ดาว & โลก) -->
   <!-- ===================================================================== -->
-  <div id="planetaryEarthHubModal" class="hidden fixed inset-0 z-50 bg-black/88 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="planetaryEarthHubModal" class="hidden fixed inset-0 z-50 bg-black/88  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-3xl w-full max-h-[93dvh] flex flex-col manga-panel-cyan bg-[#0f1428] overflow-hidden my-auto">
       <!-- Sticky Header -->
       <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#0c2748] via-[#172554] to-[#0f3933]">
@@ -1580,7 +1934,7 @@
   <!-- ===================================================================== -->
   <!-- MODAL 13: INTERACTIVE BUSINESS TYCOON & STAFF MANAGEMENT HUB          -->
   <!-- ===================================================================== -->
-  <div id="businessTycoonModal" class="hidden fixed inset-0 z-50 bg-black/88 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+  <div id="businessTycoonModal" class="hidden fixed inset-0 z-50 bg-black/88  flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="max-w-3xl w-full max-h-[93dvh] flex flex-col manga-panel-gold bg-[#0f1526] overflow-hidden my-auto">
       <!-- Sticky Header -->
       <div class="shrink-0 flex items-center justify-between border-b-2 border-white/80 px-4 py-2.5 bg-gradient-to-r from-[#0f2e28] via-[#172554] to-[#3b2510]">
@@ -1675,9 +2029,68 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- TOAST NOTIFICATION                                                    -->
+  <!-- MODAL 14: PASTEL CASUAL DECOR & DRESS-UP DRAWER (แต่งห้อง & แต่งตัว)    -->
   <!-- ===================================================================== -->
-  <div id="mangaToast" class="fixed bottom-14 lg:bottom-4 right-4 z-50 hidden manga-panel-cyan bg-[#0e101a] px-3.5 py-2 text-xs font-bold text-white shadow-lg max-w-xs">
+  <div id="pastelDecorModal" class="hidden fixed inset-0 z-50 bg-pink-950/45 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+    <div class="max-w-2xl w-full max-h-[90dvh] flex flex-col bg-[#fffdf9] border-4 border-pink-300 rounded-[30px] shadow-[0_10px_0_#fbcfe8,0_20px_40px_rgba(244,114,182,0.28)] overflow-hidden my-auto text-[#4a354f]">
+      <!-- Header -->
+      <div class="shrink-0 flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#fce7f3] via-[#f3e8ff] to-[#e0f2fe] border-b-2 border-pink-200">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🎀</span>
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-pink-800 leading-tight">ห้องแต่งตัว & ของแต่งห้องพาสเทล</h3>
+            <p class="text-[11px] text-purple-700 font-bold">กดเลือกของน่ารักๆ ไปวางในห้อง 2D ได้หลายชิ้นพร้อมกันเลย!</p>
+          </div>
+        </div>
+        <button onclick="closePastelDecorModal()" class="pastel-toy-btn px-3 py-1 bg-white text-pink-700 text-xs font-extrabold">✕ ปิด</button>
+      </div>
+
+      <!-- Coin Bar + Free Gift Button -->
+      <div class="shrink-0 bg-[#fff5f9] border-b border-pink-200 px-4 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 font-extrabold">
+            🪙 เหรียญของน้อง: <strong id="pastelModalCoinsVal">5,000</strong>
+          </span>
+          <span id="pastelModalEquippedCount" class="text-[11px] text-pink-700 font-bold">วางของแต่งห้องแล้ว 5 ชิ้น</span>
+        </div>
+        <button onclick="claimFreePastelCoins()" class="pastel-toy-btn px-3 py-1 bg-gradient-to-r from-amber-200 to-yellow-200 text-amber-950 text-xs font-extrabold">
+          🎁 รับเหรียญของขวัญฟรี +2,500
+        </button>
+      </div>
+
+      <!-- 4 Simple Icon Tabs -->
+      <div class="shrink-0 bg-pink-50/80 px-3.5 py-2 border-b border-pink-200 grid grid-cols-4 gap-1.5 text-xs font-extrabold">
+        <button id="pastelTabBtn_furniture" onclick="switchPastelDecorTab('furniture')" class="pastel-toy-btn py-1.5 px-2 bg-pink-400 text-white text-center">
+          🧸 ของแต่งห้อง (13)
+        </button>
+        <button id="pastelTabBtn_pets" onclick="switchPastelDecorTab('pets')" class="pastel-toy-btn py-1.5 px-2 bg-white text-pink-800 text-center">
+          🐾 สัตว์เลี้ยง (7)
+        </button>
+        <button id="pastelTabBtn_gear" onclick="switchPastelDecorTab('gear')" class="pastel-toy-btn py-1.5 px-2 bg-white text-pink-800 text-center">
+          👑 หมวก & ปีก (9)
+        </button>
+        <button id="pastelTabBtn_rooms" onclick="switchPastelDecorTab('rooms')" class="pastel-toy-btn py-1.5 px-2 bg-white text-pink-800 text-center">
+          🏠 สีวอลเปเปอร์ (6)
+        </button>
+      </div>
+
+      <!-- Visual Grid Container -->
+      <div id="pastelDecorGridContainer" class="flex-1 min-h-0 overflow-y-auto p-3.5 grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- Footer -->
+      <div class="shrink-0 bg-[#fce7f3]/70 border-t border-pink-200 px-4 py-2 flex items-center justify-between text-xs">
+        <span class="text-pink-800 font-bold">✨ ของทุกชิ้นแสดงผลในห้อง 2D ทันที!</span>
+        <button onclick="closePastelDecorModal()" class="pastel-toy-btn px-4 py-1.5 bg-gradient-to-r from-pink-400 to-purple-400 text-white font-extrabold">เสร็จแล้ว ไปดูห้องกัน! ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TOAST NOTIFICATION (NON-BLOCKING TOP-CENTER PILL)                     -->
+  <!-- ===================================================================== -->
+  <div id="mangaToast" class="fixed top-20 sm:top-16 left-1/2 -translate-x-1/2 z-50 hidden pointer-events-none manga-panel-cyan bg-[#0e101a]/95 px-3.5 py-1.5 text-xs font-bold text-white shadow-lg w-[92vw] max-w-sm text-center">
     <span id="mangaToastText">แจ้งเตือน</span>
   </div>
 
@@ -2476,13 +2889,30 @@
       activeSocialTab: 'bonds',
       dynastyHistory: [],
       selectedHeirId: null,
+      casualPastelMode: true,
       shopState: {
-        ownedRooms: { room_default: true },
-        equippedRoom: 'room_default',
-        ownedFurniture: { furn_bonsai: true },
-        equippedFurniture: { furn_bonsai: true },
-        ownedPets: { pet_mochi_slime: true },
-        equippedPet: 'pet_mochi_slime'
+        ownedRooms: { room_default: true, room_strawberry_milk: true, room_cozy_pastel: true },
+        equippedRoom: 'room_strawberry_milk',
+        ownedFurniture: {
+          furn_bonsai: true,
+          furn_teddy_bear: true,
+          furn_sweet_table: true,
+          furn_cloud_bed: true,
+          furn_heart_balloons: true,
+          furn_rainbow_lamp: true,
+          furn_sakura_pot: true
+        },
+        equippedFurniture: {
+          furn_bonsai: true,
+          furn_teddy_bear: true,
+          furn_sweet_table: true,
+          furn_cloud_bed: true,
+          furn_heart_balloons: true,
+          furn_rainbow_lamp: true,
+          furn_sakura_pot: true
+        },
+        ownedPets: { pet_mochi_slime: true, pet_pastel_bunny: true },
+        equippedPet: 'pet_pastel_bunny'
       },
       candidateCert: null,
       activeChar: null,
@@ -2572,6 +3002,20 @@
         desc: 'ห้องชุดระดับจักรพรรดิแห่งดาราจักร ประดับเสาทองคำและเกราะนิรภัยระดับสูงสุด',
         buffDesc: '+₡800 ปันผลทุกปี, +4 🌟 ชื่อเสียง, +3 💼 ธุรกิจ • เกราะลดดาเมจวิกฤต 40%',
         annualHealth: 3, annualMind: 3, annualInt: 2, annualFame: 4, annualWealth: 800, aptBiz: 3, crisisReduce: 0.40
+      },
+      {
+        id: 'room_strawberry_milk',
+        name: '🍓 ห้องนมสตรอว์เบอร์รี่พาสเทล (Strawberry Milk Dream)',
+        costCredits: 300,
+        costKarma: 2,
+        wallTopCols: [0xffe4ef, 0xe0f2fe, 0xf3e8ff, 0xfef3c7],
+        wallBotCols: [0xfbcfe8, 0xbae6fd, 0xe9d5ff, 0xfde68a],
+        trimCol: 0xf472b6,
+        rugOuter: 0xf9a8d4,
+        rugInner: 0xfef9c3,
+        desc: 'ห้องสีพาสเทลหวานละมุนเหมือนขนมมาการองและนมสตรอว์เบอร์รี่',
+        buffDesc: '+5 ❤️ อิ่มท้อง & +5 ✨ อารมณ์ดีทุกปี',
+        annualHealth: 5, annualMind: 5, annualInt: 2, annualFame: 2, annualWealth: 300, crisisReduce: 0.50
       }
     ];
 
@@ -2625,6 +3069,86 @@
         desc: 'เสาปล่อยคลื่นเกราะป้องกันภัยพิบัติ เอเลี่ยนบุก และโรคระบาดภายในห้องพัก 2D',
         buffDesc: 'ลดความเสียหายจากวิกฤตลง 25% & +3 ⚔️ ยุทธวิธีทุกปี',
         annualHealth: 2, annualMind: 1, annualInt: 0, annualWealth: 0, aptVit: 3, crisisReduce: 0.25
+      },
+      {
+        id: 'furn_teddy_bear',
+        name: '🧸 ตุ๊กตาหมีพาสเทลยักษ์',
+        slot: 'ข้างพรมซ้าย',
+        costCredits: 300,
+        costKarma: 2,
+        desc: 'พี่หมีสีพีชผูกโบว์ชมพูตัวนุ่มฟู นั่งเป็นเพื่อนน้องอยู่ข้างพรม',
+        buffDesc: '+4 ✨ ความสุขทุกปี',
+        annualHealth: 1, annualMind: 4, annualInt: 0, annualWealth: 0, crisisReduce: 0.10
+      },
+      {
+        id: 'furn_sweet_table',
+        name: '🍰 โต๊ะเค้กสตรอว์เบอร์รี่ & ชานมไข่มุก',
+        slot: 'มุมหน้าขวา',
+        costCredits: 350,
+        costKarma: 2,
+        desc: 'โต๊ะน้ำชาสีพาสเทลวางเค้กสตรอว์เบอร์รี่และแก้วชานมไข่มุกสุดคิวท์',
+        buffDesc: '+4 ❤️ อิ่มท้อง & +3 ✨ ความสุข',
+        annualHealth: 4, annualMind: 3, annualInt: 0, annualWealth: 150, crisisReduce: 0.05
+      },
+      {
+        id: 'furn_cloud_bed',
+        name: '☁️ เตียงปุยเมฆหมอนดาว',
+        slot: 'มุมซ้ายบน',
+        costCredits: 400,
+        costKarma: 3,
+        desc: 'เตียงนอนรูปก้อนเมฆสีขาวฟูฟ่องพร้อมหมอนดาวสีเหลืองพาสเทล',
+        buffDesc: '+5 ❤️ สุขภาพแข็งแรง',
+        annualHealth: 5, annualMind: 3, annualInt: 0, annualWealth: 0, crisisReduce: 0.15
+      },
+      {
+        id: 'furn_heart_balloons',
+        name: '🎈 พวงลูกโป่งพาสเทลลอยฟ้า',
+        slot: 'ลอยเหนือพรม',
+        costCredits: 250,
+        costKarma: 2,
+        desc: 'ลูกโป่งสีชมพู มิ้นต์ และเหลืองลอยดุ๊กดิ๊กสร้างความสดใสในห้อง',
+        buffDesc: '+4 ✨ อารมณ์ดี & +2 🌟 น่ารัก',
+        annualHealth: 0, annualMind: 4, annualInt: 1, annualWealth: 100, crisisReduce: 0
+      },
+      {
+        id: 'furn_cat_condo',
+        name: '🐱 คอนโดแมวเหมียวสีพีช',
+        slot: 'ผนังขวา',
+        costCredits: 450,
+        costKarma: 3,
+        desc: 'คอนโดแมวสีพีชพาสเทลพร้อมของเล่นดาวห้อยแกว่งไปมา',
+        buffDesc: '+4 ✨ ความสุข & คู่หูร่าเริง',
+        annualHealth: 2, annualMind: 4, annualInt: 1, annualWealth: 150, crisisReduce: 0.05
+      },
+      {
+        id: 'furn_music_carousel',
+        name: '🎠 ม้าหมุนกล่องดนตรีพาสเทล',
+        slot: 'ชั้นกลางห้อง',
+        costCredits: 500,
+        costKarma: 3,
+        desc: 'กล่องดนตรีม้าหมุนหลังคาชมพู-มิ้นต์ หมุนบรรเลงเพลงกล่อมน้อง',
+        buffDesc: '+3 🧠 ฉลาด & +4 ✨ ความสุข',
+        annualHealth: 1, annualMind: 4, annualInt: 3, annualWealth: 200, aptArt: 3, crisisReduce: 0.05
+      },
+      {
+        id: 'furn_rainbow_lamp',
+        name: '🌈 โคมไฟสายรุ้งพาสเทล',
+        slot: 'ผนังบนกลาง',
+        costCredits: 350,
+        costKarma: 2,
+        desc: 'ซุ้มไฟนีออนสายรุ้งพาสเทลทอแสงอบอุ่นกลางผนังห้อง',
+        buffDesc: '+5 ✨ สดใส & +2 🌟 ป๊อปปูลาร์',
+        annualHealth: 1, annualMind: 5, annualInt: 1, annualWealth: 150, crisisReduce: 0.10
+      },
+      {
+        id: 'furn_sakura_pot',
+        name: '🌸 ต้นซากุระพาสเทลจิ๋ว',
+        slot: 'ข้างหน้าต่าง',
+        costCredits: 400,
+        costKarma: 3,
+        desc: 'ต้นซากุระสีชมพูพาสเทลผลิบานในกระถางขาว โปรยกลีบดอกไม้อ่อนโยน',
+        buffDesc: '+4 ❤️ สดชื่น & +4 ✨ ผ่อนคลาย',
+        annualHealth: 4, annualMind: 4, annualInt: 1, annualWealth: 100, crisisReduce: 0.10
       }
     ];
 
@@ -2688,6 +3212,30 @@
         desc: 'วิหคเพลิงสวรรค์คู่บุญระดับตำนาน มอบพลังแห่งชีวิตนิรันดร์และชุบชีวิตเจ้านายได้ 1 ครั้งต่อชาติภพ!',
         buffDesc: '+5 ❤️/+5 ✨ ทุกปี, ยืดอายุขัย +8 ปี & ชุบชีวิตอัตโนมัติเมื่อพลังกายเหลือ 0 (1 ครั้ง/ชาติ)!',
         annualHealth: 5, annualMind: 5, annualInt: 3, annualFame: 5, annualWealth: 500, lifespanBonus: 8, canRevive: true, crisisReduce: 0.35
+      },
+      {
+        id: 'pet_pastel_bunny',
+        name: '🐰 กระต่ายมาการองหูยาว (Pastel Bunny)',
+        shortName: '🐰 กระต่ายมาการอง',
+        costCredits: 350,
+        costKarma: 2,
+        colorMain: 0xfbcfe8,
+        colorSub: 0xfef08a,
+        desc: 'กระต่ายน้อยสีชมพูพาสเทลหูยาวกระดิกดุ๊กดิ๊ก ชอบกระโดดเล่นรอบตัวน้อง',
+        buffDesc: '+5 ✨ ความสุข & +3 ❤️ สุขภาพทุกปี',
+        annualHealth: 3, annualMind: 5, annualInt: 1, annualFame: 2, annualWealth: 200, crisisReduce: 0.15
+      },
+      {
+        id: 'pet_pudding_hamster',
+        name: '🐹 แฮมสเตอร์พุดดิ้งคาราเมล (Pudding Hamster)',
+        shortName: '🐹 แฮมสเตอร์พุดดิ้ง',
+        costCredits: 350,
+        costKarma: 2,
+        colorMain: 0xfde68a,
+        colorSub: 0xf472b6,
+        desc: 'แฮมสเตอร์แก้มตุ่ยสีครีมพุดดิ้งถือเมล็ดทานตะวันดาวสุดน่ารัก',
+        buffDesc: '+4 ❤️ อิ่มท้อง & +₡ 300 เหรียญนำโชคทุกปี',
+        annualHealth: 4, annualMind: 4, annualInt: 1, annualFame: 2, annualWealth: 300, crisisReduce: 0.15
       }
     ];
 
@@ -2697,12 +3245,30 @@
         const parsed = JSON.parse(savedShop);
         if (parsed && typeof parsed === 'object') {
           gameState.shopState = {
-            ownedRooms: { room_default: true, ...(parsed.ownedRooms || {}) },
-            equippedRoom: parsed.equippedRoom || 'room_default',
-            ownedFurniture: { furn_bonsai: true, ...(parsed.ownedFurniture || {}) },
-            equippedFurniture: Object.keys(parsed.equippedFurniture || {}).length > 0 ? parsed.equippedFurniture : { furn_bonsai: true },
-            ownedPets: { pet_mochi_slime: true, ...(parsed.ownedPets || {}) },
-            equippedPet: parsed.equippedPet !== undefined ? parsed.equippedPet : 'pet_mochi_slime'
+            ownedRooms: { room_default: true, room_strawberry_milk: true, room_cozy_pastel: true, ...(parsed.ownedRooms || {}) },
+            equippedRoom: parsed.equippedRoom || 'room_strawberry_milk',
+            ownedFurniture: {
+              furn_bonsai: true,
+              furn_teddy_bear: true,
+              furn_sweet_table: true,
+              furn_cloud_bed: true,
+              furn_heart_balloons: true,
+              furn_rainbow_lamp: true,
+              furn_sakura_pot: true,
+              ...(parsed.ownedFurniture || {})
+            },
+            equippedFurniture: {
+              furn_bonsai: true,
+              furn_teddy_bear: true,
+              furn_sweet_table: true,
+              furn_cloud_bed: true,
+              furn_heart_balloons: true,
+              furn_rainbow_lamp: true,
+              furn_sakura_pot: true,
+              ...(parsed.equippedFurniture || {})
+            },
+            ownedPets: { pet_mochi_slime: true, pet_pastel_bunny: true, ...(parsed.ownedPets || {}) },
+            equippedPet: parsed.equippedPet !== undefined ? parsed.equippedPet : 'pet_pastel_bunny'
           };
         }
       }
@@ -2865,6 +3431,11 @@
         dWealth += bizRes.netProfit;
       }
 
+      if (gameState.casualPastelMode) {
+        // In Casual Mode, room decor & pets do not inflate money out of thin air;
+        // wealth comes authentically from family socio-economic background & adult career!
+        dWealth = 0;
+      }
       c.health = Math.min(100, c.health + dHealth);
       c.mind = Math.min(100, c.mind + dMind);
       c.intellect = Math.min(100, c.intellect + dInt);
@@ -3872,8 +4443,8 @@
         logCard.className = 'manga-panel flex-1 min-h-0 flex flex-col overflow-hidden';
       } else {
         if (tabKey === 'stage') {
-          stageSec.className = 'flex flex-col gap-1.5 min-h-0 h-full overflow-hidden';
-          if (stageMainCard) stageMainCard.className = 'manga-panel flex-1 min-h-0 flex flex-col overflow-hidden';
+          stageSec.className = 'flex flex-col gap-1.5 min-h-0 h-full overflow-y-auto lg:overflow-hidden mobile-stage-scroll';
+          if (stageMainCard) stageMainCard.className = 'manga-panel flex-1 min-h-0 flex flex-col overflow-y-auto lg:overflow-hidden mobile-stage-scroll pb-14 lg:pb-0';
           opsCard.className = 'hidden';
           rightCol.className = 'hidden';
         } else if (tabKey === 'ops') {
@@ -5043,7 +5614,7 @@
         'birthModal', 'decisionModal', 'migrationModal', 'deathSummaryModal',
         'moreMenuModal', 'roomPetShopModal', 'relationshipFamilyModal',
         'cutsceneTheaterOverlay', 'cutsceneGalleryModal', 'wealthSpendModal', 'gachaGearModal',
-        'planetaryEarthHubModal', 'businessTycoonModal'
+        'planetaryEarthHubModal', 'businessTycoonModal', 'pastelDecorModal'
       ];
       return modalIds.some(id => {
         const el = document.getElementById(id);
@@ -5210,6 +5781,10 @@
         pauseSimulationLoop();
         return;
       }
+      if (gameState.casualPastelMode) {
+        stepOneMonthCasual(c);
+        return;
+      }
 
       playMangaSfx('tick');
       c.timeOfDayIdx = (c.timeOfDayIdx + 1) % 4;
@@ -5238,6 +5813,8 @@
       // Mid-year interactive event at Month 6 (Respects questionMode!)
       if (c.month === 6) {
         c.month += 1;
+        generateDailyRoutineForMonth(c);
+        c.speechText = `[เดือนที่ ${c.month}/12 • ${c.currentRoutineTime}] ${c.currentRoutineText}`;
         // In 'destiny' or 'milestone' mode, resolve mid-year crisis silently without popup interruption!
         if (gameState.questionMode === 'destiny' || gameState.questionMode === 'milestone') {
           const qData = generateMidYearInteractiveQuestion(c);
@@ -5268,6 +5845,7 @@
 
       if (c.month < 12) {
         c.month += 1;
+        generateDailyRoutineForMonth(c);
         c.speechText = `[เดือนที่ ${c.month}/12 • ${c.currentRoutineTime}] ${c.currentRoutineText}`;
         updateCharacterUI();
       } else {
@@ -6867,6 +7445,8 @@
           clearDecisionAutoTimer();
           document.getElementById('decisionModal').classList.add('hidden');
           applyMilestoneChoice(c.age, choice, false, isMidYear);
+          ensurePhaserCanvasAlive();
+          setTimeout(ensurePhaserCanvasAlive, 60);
           setSimSpeed(gameState.prevSpeedBeforeModal || 1);
         });
         container.appendChild(btn);
@@ -6925,7 +7505,9 @@
     function triggerMilestoneQuestion(age) {
       const c = gameState.activeChar;
       if (!c || !c.alive) return;
-      const qData = generateAnnualInteractiveQuestion(age, c);
+      const qData = (gameState.casualPastelMode && CASUAL_CONCISE_QUESTIONS[age])
+        ? CASUAL_CONCISE_QUESTIONS[age]
+        : generateAnnualInteractiveQuestion(age, c);
       openInteractiveDecisionModal(qData, false);
     }
 
@@ -7010,7 +7592,8 @@
       addLifeLog(age, 'milestone', prefix + choice.log);
       c.sfxWord = isMidYear ? `選択! กลางปี ${age}!` : `決断! วัย ${age} ปี!`;
       c.speechText = choice.log;
-      spawnFloatingPopup(`★ พัฒนาสู่อนาคต!`, '#ffd166');
+      c.casualShortStatus = `★ ${choice.log}`;
+      spawnFloatingPopup(`★ พัฒนาสู่อนาคต!`, '#ec4899');
       updateCharacterUI();
     }
 
@@ -8028,26 +8611,45 @@
       if (todBadge) todBadge.textContent = c.currentRoutineTime || '🌅 ยามเช้า';
       const actText = document.getElementById('dailyActivityText');
       if (actText) {
-        const rawText = (c.crisisFlashTimer && c.crisisFlashTimer > 0 && c.speechText)
-          ? c.speechText
-          : (c.currentRoutineText || c.speechText || 'กำลังดำเนินชีวิตประจำวัน...');
-        // Strip redundant "[เดือนที่ X/12 • ...]" prefix and English city parentheses for clean reading
-        const cleanStory = rawText
-          .replace(/^\[เดือนที่ \d+\/12 • [^\]]+\]\s*/, '')
-          .replace(/\s*\([A-Za-z0-9\s\-]+\)/g, '');
-        actText.textContent = cleanStory;
-        actText.className = (c.crisisFlashTimer && c.crisisFlashTimer > 0)
-          ? 'text-[12px] sm:text-[13px] text-rose-300 font-semibold leading-snug line-clamp-2 break-words'
-          : 'text-[12px] sm:text-[13px] text-white font-medium leading-snug line-clamp-2 break-words';
+        if (gameState.casualPastelMode) {
+          const rawCasual = c.casualShortStatus || getEthnicFamilyDailyMessage(c);
+          const cleanCasual = rawCasual.replace(/^\[วัย \d+ ปี[^\]]*\]\s*/, '');
+          actText.textContent = cleanCasual;
+          actText.className = 'text-[13px] sm:text-[13.5px] text-purple-950 font-semibold leading-snug whitespace-normal break-words h-[66px] min-h-[66px] max-h-[66px] overflow-y-auto';
+        } else {
+          const rawText = (c.crisisFlashTimer && c.crisisFlashTimer > 0 && c.speechText)
+            ? c.speechText
+            : (c.currentRoutineText || c.speechText || 'กำลังดำเนินชีวิตประจำวัน...');
+          const cleanStory = rawText
+            .replace(/^\[เดือนที่ \d+\/12 • [^\]]+\]\s*/, '')
+            .replace(/\s*\([A-Za-z0-9\s\-]+\)/g, '');
+          actText.textContent = cleanStory;
+          actText.className = (c.crisisFlashTimer && c.crisisFlashTimer > 0)
+            ? 'text-[12px] sm:text-[13px] text-rose-300 font-semibold leading-snug break-words h-[66px] min-h-[66px] max-h-[66px] overflow-y-auto'
+            : 'text-[12px] sm:text-[13px] text-white font-medium leading-snug break-words h-[66px] min-h-[66px] max-h-[66px] overflow-y-auto';
+        }
       }
 
       const mBar = document.getElementById('yearMonthProgressBar');
       if (mBar) mBar.style.width = `${Math.min(100, Math.round(((c.month || 1) / 12) * 100))}%`;
 
-      // Update Aptitudes & Future Trajectory Outlook
+      // Update Aptitudes & Future Trajectory Outlook (In Casual Mode, show concise Family Class + Annual Income!)
       const dom = getDominantAptitudeInfo(c);
       const fpBadge = document.getElementById('futurePathBadge');
-      if (fpBadge) fpBadge.textContent = `${dom.label}`;
+      if (fpBadge) {
+        if (gameState.casualPastelMode) {
+          const tierLabel = c.familyTier === 'poor'
+            ? '🏚️ บ้านยากจน'
+            : c.familyTier === 'wealthy'
+            ? '🏰 ตระกูลรวย'
+            : '🏢 ชนชั้นกลาง';
+          fpBadge.textContent = `${tierLabel} (₡${(c.familyIncome || 0).toLocaleString()}/ปี)`;
+          fpBadge.className = 'text-[10.5px] sm:text-[11px] font-display font-bold text-pink-900 bg-pink-100 border border-pink-300 px-2 py-0.5 rounded truncate min-w-0 max-w-[58%] text-right';
+        } else {
+          fpBadge.textContent = `${dom.label}`;
+          fpBadge.className = 'text-[10.5px] sm:text-[11px] font-display font-bold text-emerald-200 bg-emerald-950/90 border border-emerald-400/50 px-2 py-0.5 rounded truncate min-w-0 max-w-[58%] text-right';
+        }
+      }
       const outlookEl = document.getElementById('statFutureOutlook');
       if (outlookEl) outlookEl.textContent = dom.label;
 
@@ -8064,6 +8666,9 @@
         if (elBiz) elBiz.textContent = String(c.aptitudes.biz);
       }
 
+      if (typeof updateAgeAppropriateCasualButtons === 'function') {
+        updateAgeAppropriateCasualButtons(c);
+      }
       checkAndUnlockTitles(c);
       updateShopHudBadges();
       updateSocialHudBadges();
@@ -8516,6 +9121,8 @@
       const overlay = document.getElementById('cutsceneTheaterOverlay');
       if (overlay) overlay.classList.add('hidden');
 
+      ensurePhaserCanvasAlive();
+      setTimeout(ensurePhaserCanvasAlive, 60);
       if (st) {
         if (typeof st.onComplete === 'function') {
           st.onComplete();
@@ -12440,42 +13047,46 @@
           });
         }
 
-        const textDpr = Math.min(2, window.devicePixelRatio || 1);
         this.sfxText = this.add.text(10, 8, '転生! COSMIC DESTINY', {
           fontFamily: 'Kanit, Chakra Petch, sans-serif',
           fontSize: '13px',
           fontStyle: 'bold',
           color: '#ffd166',
           stroke: '#000000',
-          strokeThickness: 3.5
-        }).setResolution(textDpr);
+          strokeThickness: 3,
+          wordWrap: { width: Math.max(160, w * 0.55) }
+        });
 
-        this.planetLabelText = this.add.text(w * 0.79, h * 0.12, '🔍 เรดาร์ดาวบ้านเกิด', {
+        this.planetLabelText = this.add.text(w * 0.78, h * 0.13, '🔍 เรดาร์ดาวบ้านเกิด', {
           fontFamily: 'Kanit, sans-serif',
           fontSize: '10.5px',
           fontStyle: 'bold',
           color: '#7dd3fc',
           backgroundColor: '#090d1ce6',
-          padding: { x: 6, y: 2.5 },
+          padding: { x: 5, y: 2 },
           align: 'center',
           stroke: '#000000',
-          strokeThickness: 2.5,
-          wordWrap: { width: 148 }
-        }).setOrigin(0.5).setResolution(textDpr).setInteractive({ useHandCursor: true });
+          strokeThickness: 2,
+          wordWrap: { width: 132 }
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
         this.planetLabelText.on('pointerdown', () => {
           playMangaSfx('milestone');
-          openPlanetaryEarthHubModal('overview');
+          if (gameState.casualPastelMode) {
+            openBirthCertificateSnapshot();
+          } else {
+            openPlanetaryEarthHubModal('overview');
+          }
         });
 
-        this.earthNodeLabel = this.add.text(w * 0.79, h * 0.62, '🌍 เยือนดาวโลก', {
+        this.earthNodeLabel = this.add.text(w * 0.78, h * 0.62, '🌍 เยือนดาวโลก', {
           fontFamily: 'Kanit, sans-serif',
           fontSize: '10.5px',
           fontStyle: 'bold',
           color: '#ffffff',
           backgroundColor: '#1e3a8a',
-          padding: { x: 6, y: 2.5 }
-        }).setOrigin(0.5).setResolution(textDpr).setInteractive({ useHandCursor: true });
+          padding: { x: 5, y: 2 }
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
         this.earthNodeLabel.on('pointerdown', () => {
           if (gameState.activeChar && gameState.activeChar.alive) {
@@ -12547,10 +13158,14 @@
             }
           }
 
-          // If player tapped the 2D Space Window / Home Planet radar area on the right, open Planetary & Earth Hub Modal!
+          // If player tapped the 2D Space Window / Home Planet area on the right:
           if (pointer.x >= w * 0.63 && pointer.y <= h * 0.66) {
             playMangaSfx('milestone');
-            openPlanetaryEarthHubModal('overview');
+            if (gameState.casualPastelMode) {
+              openBirthCertificateSnapshot();
+            } else {
+              openPlanetaryEarthHubModal('overview');
+            }
             return;
           }
 
@@ -12591,12 +13206,12 @@
 
         const labelObj = this.add.text(x, y, labels[type] || '💎', {
           fontFamily: 'Kanit, sans-serif',
-          fontSize: '10.5px',
+          fontSize: '10px',
           fontStyle: 'bold',
           color: '#ffffff',
           backgroundColor: type === 'leech' ? '#991b1b' : '#0f172a',
-          padding: { x: 5, y: 2 }
-        }).setOrigin(0.5).setResolution(Math.min(2, window.devicePixelRatio || 1));
+          padding: { x: 4, y: 1.5 }
+        }).setOrigin(0.5);
 
         this.interactiveObjs.push({
           type,
@@ -12718,32 +13333,39 @@
         }
         const txt = this.add.text(w * 0.32 + (Math.random() * 40 - 20), h * 0.26, msg, {
           fontFamily: 'Kanit, sans-serif',
-          fontSize: '12px',
+          fontSize: '11.5px',
           fontStyle: 'bold',
           color: colorStr || '#ffd166',
           stroke: '#000000',
-          strokeThickness: 3.5
-        }).setOrigin(0.5).setResolution(Math.min(2, window.devicePixelRatio || 1));
+          strokeThickness: 3
+        }).setOrigin(0.5);
         this.floatingTexts.push({ obj: txt, life: 1.0 });
       }
 
-      repositionLayout(w, h) {
+      repositionLayout(rawW, rawH) {
         if (!this.planetLabelText || !this.earthNodeLabel || !this.speechBubbleText || !this.sfxText) return;
+        const w = Math.max(280, rawW || 360);
+        const h = Math.max(175, rawH || 205);
         const isCompact = w < 440;
-        this.sfxText.setFontSize(isCompact ? '12.5px' : '15px');
+        this.sfxText.setFontSize(isCompact ? '11.5px' : '14px');
         this.sfxText.setPosition(10, 6);
+        this.sfxText.setWordWrapWidth(Math.max(150, Math.floor(w * 0.55)));
 
-        this.planetLabelText.setFontSize(isCompact ? '10px' : '11.5px');
-        this.planetLabelText.setPosition(w * 0.78, h * 0.12);
-        this.planetLabelText.setWordWrapWidth(Math.max(115, w * 0.34));
+        const rightColX = Math.min(w - (isCompact ? 56 : 78), Math.floor(w * 0.78));
+        this.planetLabelText.setFontSize(isCompact ? '9.5px' : '11px');
+        this.planetLabelText.setPosition(rightColX, Math.floor(h * 0.13));
+        this.planetLabelText.setWordWrapWidth(isCompact ? 108 : Math.max(120, Math.floor(w * 0.32)));
 
-        this.earthNodeLabel.setFontSize(isCompact ? '9.5px' : '11px');
-        this.earthNodeLabel.setPosition(w * 0.78, h * 0.63);
+        this.earthNodeLabel.setFontSize(isCompact ? '9.5px' : '10.5px');
+        this.earthNodeLabel.setPosition(rightColX, Math.floor(h * 0.62));
       }
 
       update(time, delta) {
-        const w = this.scale.width;
-        const h = this.scale.height;
+        if (this.scale.width < 120 || this.scale.height < 120) {
+          ensurePhaserCanvasAlive();
+        }
+        const w = Math.max(280, this.scale.width || 360);
+        const h = Math.max(175, this.scale.height || 205);
         const isCompact = w < 440;
         const c = gameState.activeChar;
         const speedMult = gameState.simSpeed > 0 ? Math.min(8, gameState.simSpeed) : 0.35;
@@ -12760,24 +13382,34 @@
         // 1. Cozy Tamagotchi Living Room Wallpaper + Equipped Room Theme!
         const todIdx = c ? (c.timeOfDayIdx || 0) : 0;
         const roomTheme = getEquippedRoomThemeObj();
+        const isPastelMode = !!gameState.casualPastelMode;
+        const pastelWallMap = {
+          room_strawberry_milk: { top: 0xffe4ef, bot: 0xfbcfe8, trim: 0xf472b6 },
+          room_cozy_pastel:     { top: 0xfce7f3, bot: 0xf9a8d4, trim: 0xec4899 },
+          room_cyber_lab:       { top: 0xe0f2fe, bot: 0xbae6fd, trim: 0x38bdf8 },
+          room_zen_garden:      { top: 0xd1fae5, bot: 0xa7f3d0, trim: 0x10b981 },
+          room_royal_palace:    { top: 0xfef3c7, bot: 0xfde68a, trim: 0xf59e0b },
+          room_default:         { top: 0xf3e8ff, bot: 0xe9d5ff, trim: 0xc084fc }
+        };
+        const pRoom = pastelWallMap[roomTheme.id] || pastelWallMap.room_strawberry_milk;
         const wallTopCols = roomTheme.wallTopCols || [0x2c224d, 0x262854, 0x36204c, 0x1c1738];
         const wallBotCols = roomTheme.wallBotCols || [0x3d2c63, 0x31386e, 0x4a295f, 0x241d46];
-        this.bgGraphics.fillStyle(wallTopCols[todIdx % 4], 1);
+        this.bgGraphics.fillStyle(isPastelMode ? pRoom.top : wallTopCols[todIdx % 4], 1);
         this.bgGraphics.fillRect(0, 0, w, h);
 
-        // Theme-specific wallpaper pattern
-        this.bgGraphics.fillStyle(roomTheme.trimCol || 0xffffff, 0.08);
-        for (let wx = 28; wx < w; wx += 54) {
-          for (let wy = 24; wy < h * 0.65; wy += 48) {
-            this.bgGraphics.fillCircle(wx + ((wy % 96 === 0) ? 14 : 0), wy, 2.5);
+        // Cute polka-dot / heart wallpaper pattern
+        this.bgGraphics.fillStyle(isPastelMode ? 0xffffff : (roomTheme.trimCol || 0xffffff), isPastelMode ? 0.55 : 0.08);
+        for (let wx = 28; wx < w; wx += 48) {
+          for (let wy = 22; wy < h * 0.65; wy += 42) {
+            this.bgGraphics.fillCircle(wx + ((wy % 84 === 0) ? 14 : 0), wy, isPastelMode ? 4 : 2.5);
           }
         }
 
         // Cozy Tamagotchi Room Floor & Baseboard Trim (Unobstructed full room!)
         const floorY = h * 0.70;
-        this.bgGraphics.fillStyle(wallBotCols[todIdx % 4], 1);
+        this.bgGraphics.fillStyle(isPastelMode ? pRoom.bot : wallBotCols[todIdx % 4], 1);
         this.bgGraphics.fillRect(0, floorY, w, h - floorY);
-        this.bgGraphics.lineStyle(3, roomTheme.trimCol || 0xf9a8d4, 0.75);
+        this.bgGraphics.lineStyle(4, isPastelMode ? 0xffffff : (roomTheme.trimCol || 0xf9a8d4), 0.95);
         this.bgGraphics.lineBetween(0, floorY, w, floorY);
 
         // Draw Equipped 2D Room Furniture (Neatly placed along walls/corners)
@@ -12790,9 +13422,22 @@
         const winW = Math.min(w * 0.33, (isCompact ? 132 : 196) * hRatio);
         const winH = Math.min(h * 0.44, (isCompact ? 105 : 142) * hRatio);
 
-        // Window Deep Space Backdrop
-        this.bgGraphics.fillStyle(0x090d1c, 0.95);
+        // Window Backdrop (Dreamy Pastel Sky in Casual Mode, Deep Space in Full Mode)
+        this.bgGraphics.fillStyle(isPastelMode ? 0xdbeafe : 0x090d1c, 0.96);
         this.bgGraphics.fillRoundedRect(winX - winW / 2, winY - winH / 2, winW, winH, 20);
+        if (isPastelMode) {
+          // Soft Pastel Rainbow & Fluffy White Clouds inside Window
+          this.bgGraphics.lineStyle(4, 0xf9a8d4, 0.75);
+          this.bgGraphics.strokeCircle(winX, winY + winH * 0.28, winW * 0.36);
+          this.bgGraphics.lineStyle(4, 0xfde047, 0.75);
+          this.bgGraphics.strokeCircle(winX, winY + winH * 0.28, winW * 0.32);
+          this.bgGraphics.lineStyle(4, 0x6ee7b7, 0.75);
+          this.bgGraphics.strokeCircle(winX, winY + winH * 0.28, winW * 0.28);
+          this.bgGraphics.fillStyle(0xffffff, 0.92);
+          this.bgGraphics.fillCircle(winX - winW * 0.26, winY + winH * 0.25, 12 * hRatio);
+          this.bgGraphics.fillCircle(winX - winW * 0.16, winY + winH * 0.27, 10 * hRatio);
+          this.bgGraphics.fillCircle(winX + winW * 0.24, winY + winH * 0.25, 12 * hRatio);
+        }
 
         // Twinkling Stars inside the window & subtle sparkles in room
         this.bgGraphics.fillStyle(0xffffff, 0.8);
@@ -12818,11 +13463,14 @@
         this.bgGraphics.lineStyle(1.5, 0xffffff, 0.32);
         this.bgGraphics.lineBetween(winX, winY - winH / 2, winX, winY + winH / 2);
 
-        // 3. Cute Home Planet & Earth inside/near the Space Window
+        // 3. Cute Home Planet inside the Space Window (Earth node hidden in Casual Pastel Mode!)
+        if (this.earthNodeLabel) {
+          this.earthNodeLabel.setVisible(!isPastelMode);
+        }
         const pColor1 = c ? c.planet.colorPrimary : 0xf472b6;
         const pColor2 = c ? c.planet.colorSecondary : 0x3b82f6;
-        const planetX = winX - winW * 0.14;
-        const planetY = winY - 3;
+        const planetX = isPastelMode ? winX : (winX - winW * 0.14);
+        const planetY = winY - 2;
         const planetRadius = Math.min(winW * 0.24, winH * 0.28);
 
         this.planetGraphics.fillStyle(pColor1, 0.22);
@@ -12842,49 +13490,47 @@
         this.planetGraphics.fillStyle(0xfde047, 1);
         this.planetGraphics.fillCircle(shipX, shipY, 4.2);
 
-        // Visually render completed Planetary Mega-Projects around the Home Planet in the 2D Window!
-        if (c && c.completedMegaProjects) {
-          if (c.completedMegaProjects['mega_planetary_shield']) {
-            // Cyan-Gold Aegis Planetary Shield Aura around planet
-            this.planetGraphics.lineStyle(2.5, 0x00f0ff, 0.85);
-            this.planetGraphics.strokeCircle(planetX, planetY, planetRadius * 1.22 + Math.sin(this.pulseTime * 4) * 1.5);
+        if (!isPastelMode) {
+          // Visually render completed Planetary Mega-Projects around the Home Planet in Full Mode
+          if (c && c.completedMegaProjects) {
+            if (c.completedMegaProjects['mega_planetary_shield']) {
+              this.planetGraphics.lineStyle(2.5, 0x00f0ff, 0.85);
+              this.planetGraphics.strokeCircle(planetX, planetY, planetRadius * 1.22 + Math.sin(this.pulseTime * 4) * 1.5);
+            }
+            if (c.completedMegaProjects['mega_child_hospital']) {
+              const medX = planetX + Math.cos(-this.orbitAngle * 1.6) * (planetRadius * 1.18);
+              const medY = planetY + Math.sin(-this.orbitAngle * 1.6) * (planetRadius * 1.18);
+              this.planetGraphics.fillStyle(0x10b981, 1);
+              this.planetGraphics.fillCircle(medX, medY, 4.5);
+              this.planetGraphics.lineStyle(1.5, 0xffffff, 1);
+              this.planetGraphics.strokeCircle(medX, medY, 4.5);
+            }
+            if (c.completedMegaProjects['mega_utopia_terraforming']) {
+              this.planetGraphics.lineStyle(2.5, 0xfde047, 0.95);
+              this.planetGraphics.strokeEllipse(planetX, planetY, planetRadius * 2.75, planetRadius * 1.1);
+              this.planetGraphics.fillStyle(0xfef08a, 0.95);
+              this.planetGraphics.fillCircle(planetX - planetRadius * 0.3, planetY + planetRadius * 0.2, 2.2);
+              this.planetGraphics.fillCircle(planetX + planetRadius * 0.25, planetY - planetRadius * 0.15, 2.2);
+            }
           }
-          if (c.completedMegaProjects['mega_child_hospital']) {
-            // Orbiting Emerald Medical Station Satellite
-            const medX = planetX + Math.cos(-this.orbitAngle * 1.6) * (planetRadius * 1.18);
-            const medY = planetY + Math.sin(-this.orbitAngle * 1.6) * (planetRadius * 1.18);
-            this.planetGraphics.fillStyle(0x10b981, 1);
-            this.planetGraphics.fillCircle(medX, medY, 4.5);
-            this.planetGraphics.lineStyle(1.5, 0xffffff, 1);
-            this.planetGraphics.strokeCircle(medX, medY, 4.5);
-          }
-          if (c.completedMegaProjects['mega_utopia_terraforming']) {
-            // Golden Utopia Ring & Sparkling City Lights on Planet
-            this.planetGraphics.lineStyle(2.5, 0xfde047, 0.95);
-            this.planetGraphics.strokeEllipse(planetX, planetY, planetRadius * 2.75, planetRadius * 1.1);
-            this.planetGraphics.fillStyle(0xfef08a, 0.95);
-            this.planetGraphics.fillCircle(planetX - planetRadius * 0.3, planetY + planetRadius * 0.2, 2.2);
-            this.planetGraphics.fillCircle(planetX + planetRadius * 0.25, planetY - planetRadius * 0.15, 2.2);
-          }
-        }
 
-        const earthX = winX + winW * 0.26;
-        const earthY = winY + winH * 0.22;
-        const earthR = (isCompact ? 11 : 13.5) * hRatio;
-        this.planetGraphics.fillStyle(0x38bdf8, 1);
-        this.planetGraphics.fillCircle(earthX, earthY, earthR);
-        this.planetGraphics.fillStyle(0x34d399, 0.95);
-        this.planetGraphics.fillCircle(earthX - 3, earthY - 2, earthR * 0.42);
-        this.planetGraphics.fillCircle(earthX + 4, earthY + 3, earthR * 0.34);
-        this.planetGraphics.lineStyle(2, 0xffffff, 0.9);
-        this.planetGraphics.strokeCircle(earthX, earthY, earthR);
+          const earthX = winX + winW * 0.26;
+          const earthY = winY + winH * 0.22;
+          const earthR = (isCompact ? 11 : 13.5) * hRatio;
+          this.planetGraphics.fillStyle(0x38bdf8, 1);
+          this.planetGraphics.fillCircle(earthX, earthY, earthR);
+          this.planetGraphics.fillStyle(0x34d399, 0.95);
+          this.planetGraphics.fillCircle(earthX - 3, earthY - 2, earthR * 0.42);
+          this.planetGraphics.fillCircle(earthX + 4, earthY + 3, earthR * 0.34);
+          this.planetGraphics.lineStyle(2, 0xffffff, 0.9);
+          this.planetGraphics.strokeCircle(earthX, earthY, earthR);
 
-        // Draw Quantum Bridge Beam between Home Planet and Earth when Alliance >= 25%!
-        if (c && (c.earthRelation || 0) >= 25) {
-          const bridgeAlpha = (c.earthRelation || 0) >= 100 ? 0.85 : 0.45;
-          const bridgeCol = (c.earthRelation || 0) >= 100 ? 0xfde047 : 0x00f0ff;
-          this.planetGraphics.lineStyle(2, bridgeCol, bridgeAlpha);
-          this.planetGraphics.lineBetween(planetX + planetRadius * 0.7, planetY + planetRadius * 0.3, earthX - earthR * 0.7, earthY - earthR * 0.3);
+          if (c && (c.earthRelation || 0) >= 25) {
+            const bridgeAlpha = (c.earthRelation || 0) >= 100 ? 0.85 : 0.45;
+            const bridgeCol = (c.earthRelation || 0) >= 100 ? 0xfde047 : 0x00f0ff;
+            this.planetGraphics.lineStyle(2, bridgeCol, bridgeAlpha);
+            this.planetGraphics.lineBetween(planetX + planetRadius * 0.7, planetY + planetRadius * 0.3, earthX - earthR * 0.7, earthY - earthR * 0.3);
+          }
         }
 
         // Draw Collectible Earth Souvenir Shelf below the Space Window sill if souvenirs collected!
@@ -13036,7 +13682,8 @@
         if (c) {
           this.sfxText.setText(c.sfxWord || '転生! COSMIC LIFE');
           const cleanCity = (c.city || '').split(' (')[0];
-          this.planetLabelText.setText(`🔍 ${c.planet.shortName} • ${cleanCity}`);
+          const cleanPlanet = isCompact ? c.planet.shortName.split(' (')[0] : c.planet.shortName;
+          this.planetLabelText.setText(isCompact ? `🔍 ${cleanPlanet}\n${cleanCity}` : `🔍 ${cleanPlanet} • ${cleanCity}`);
           const domStoryTxt = document.getElementById('stageStoryOverlayText');
           if (domStoryTxt && domStoryTxt.textContent !== (c.speechText || 'กำลังดำเนินชีวิต...')) {
             domStoryTxt.textContent = c.speechText || 'กำลังดำเนินชีวิต...';
@@ -13262,9 +13909,9 @@
           }
         }
 
-        // Equipped Gacha Weapon (Visible at ALL ages!) OR Default Stage 2+ Path Tool
+        // Equipped Gacha Weapon (Visible from Childhood stageIdx >= 1 so Newborn Babies don't hold swords!) OR Default Stage 2+ Path Tool
         const eqWpnGear = typeof getEquippedGearInSlot === 'function' ? getEquippedGearInSlot('weapon') : null;
-        if (eqWpnGear && alive) {
+        if (eqWpnGear && alive && stageIdx >= 1) {
           const toolX = cx - bodyW * 0.72;
           const toolY = bodyY - 4 * scale - armWave;
           const rToolX = cx + bodyW * 0.72;
@@ -13505,8 +14152,8 @@
           // Draw Eyes according to evolved eyeStyle & DNA seed!
           const eyeColor = pKey === 'sci' ? 0x00f0ff : pKey === 'vit' ? 0xfb7185 : pKey === 'biz' ? 0xfde047 : pKey === 'emp' ? 0x34d399 : auraColor;
 
-          if (evo.eyeStyle === 'fierce_slit') {
-            // Sharp Battle Eyes + Bold Eyebrows
+          if (evo.eyeStyle === 'fierce_slit' && stageIdx >= 1) {
+            // Sharp Battle Eyes + Bold Eyebrows (Only for Childhood+ so Babies stay adorable!)
             g.fillStyle(0x090a0f, 1);
             g.fillEllipse(cx - eyeOffsetX, eyeY, 13 * scale, 11 * scale);
             g.fillEllipse(cx + eyeOffsetX, eyeY, 13 * scale, 11 * scale);
@@ -13887,6 +14534,179 @@
           g.fillStyle(0x34d399, 1);
           g.fillRect(gx + 9 * s, gy - 8 * s, 5 * s, 16 * s);
         }
+
+        // 6. ☁️ Fluffy Pastel Cloud Bed (Upper-Left Floor/Wall Corner)
+        if (eqMap['furn_cloud_bed']) {
+          const cxBed = isCompact ? 56 : 86;
+          const cyBed = floorY - 4 * hRatio;
+          g.fillStyle(0xf9a8d4, 0.35);
+          g.fillEllipse(cxBed, cyBed + 8 * hRatio, 74 * hRatio, 16 * hRatio);
+          // Pastel Pink Bed Base & Blanket
+          g.fillStyle(0xfbcfe8, 1);
+          g.fillRoundedRect(cxBed - 34 * hRatio, cyBed - 14 * hRatio, 68 * hRatio, 20 * hRatio, 9);
+          g.lineStyle(2.5, 0xf472b6, 1);
+          g.strokeRoundedRect(cxBed - 34 * hRatio, cyBed - 14 * hRatio, 68 * hRatio, 20 * hRatio, 9);
+          // Fluffy White Cloud Headboard puffs
+          g.fillStyle(0xffffff, 1);
+          g.fillCircle(cxBed - 20 * hRatio, cyBed - 16 * hRatio, 13 * hRatio);
+          g.fillCircle(cxBed, cyBed - 20 * hRatio, 16 * hRatio);
+          g.fillCircle(cxBed + 20 * hRatio, cyBed - 16 * hRatio, 13 * hRatio);
+          // Cute Star Pillow
+          g.fillStyle(0xfef08a, 1);
+          g.fillCircle(cxBed - 12 * hRatio, cyBed - 9 * hRatio, 7 * hRatio);
+        }
+
+        // 7. 🧸 Giant Pastel Teddy Bear (Sitting cozily on Left side of Rug)
+        if (eqMap['furn_teddy_bear']) {
+          const tx = isCompact ? w * 0.16 : w * 0.21;
+          const ty = floorY + 14 * hRatio;
+          // Shadow
+          g.fillStyle(0xf472b6, 0.25);
+          g.fillEllipse(tx, ty + 14 * hRatio, 38 * hRatio, 9 * hRatio);
+          // Round Ears
+          g.fillStyle(0xfdba74, 1);
+          g.fillCircle(tx - 11 * hRatio, ty - 20 * hRatio, 6.5 * hRatio);
+          g.fillCircle(tx + 11 * hRatio, ty - 20 * hRatio, 6.5 * hRatio);
+          g.fillStyle(0xfef3c7, 1);
+          g.fillCircle(tx - 11 * hRatio, ty - 20 * hRatio, 3.2 * hRatio);
+          g.fillCircle(tx + 11 * hRatio, ty - 20 * hRatio, 3.2 * hRatio);
+          // Plump Body & Head
+          g.fillStyle(0xfdba74, 1);
+          g.fillEllipse(tx, ty + 3 * hRatio, 28 * hRatio, 24 * hRatio);
+          g.fillCircle(tx, ty - 11 * hRatio, 13 * hRatio);
+          g.lineStyle(2, 0x9a3412, 0.65);
+          g.strokeCircle(tx, ty - 11 * hRatio, 13 * hRatio);
+          // Cute Snout & Eyes
+          g.fillStyle(0xfffbeb, 1);
+          g.fillEllipse(tx, ty - 9 * hRatio, 9 * hRatio, 6.5 * hRatio);
+          g.fillStyle(0x451a03, 1);
+          g.fillCircle(tx - 4.5 * hRatio, ty - 13 * hRatio, 2 * hRatio);
+          g.fillCircle(tx + 4.5 * hRatio, ty - 13 * hRatio, 2 * hRatio);
+          g.fillCircle(tx, ty - 10 * hRatio, 2.2 * hRatio);
+          // Pink Ribbon Bow
+          g.fillStyle(0xf472b6, 1);
+          g.fillTriangle(tx, ty - 1 * hRatio, tx - 7 * hRatio, ty - 5 * hRatio, tx - 7 * hRatio, ty + 3 * hRatio);
+          g.fillTriangle(tx, ty - 1 * hRatio, tx + 7 * hRatio, ty - 5 * hRatio, tx + 7 * hRatio, ty + 3 * hRatio);
+        }
+
+        // 8. 🍰 Strawberry Shortcake & Boba Tea Table (Front-Right of Rug)
+        if (eqMap['furn_sweet_table']) {
+          const stx = isCompact ? w * 0.64 : w * 0.58;
+          const sty = floorY + 24 * hRatio;
+          // Table Legs & Pastel Top
+          g.fillStyle(0xf9a8d4, 0.3);
+          g.fillEllipse(stx, sty + 10 * hRatio, 46 * hRatio, 10 * hRatio);
+          g.fillStyle(0xfde68a, 1);
+          g.fillRect(stx - 4 * hRatio, sty - 4 * hRatio, 8 * hRatio, 13 * hRatio);
+          g.fillStyle(0xffffff, 1);
+          g.fillEllipse(stx, sty - 6 * hRatio, 46 * hRatio, 16 * hRatio);
+          g.lineStyle(2.5, 0xf472b6, 1);
+          g.strokeEllipse(stx, sty - 6 * hRatio, 46 * hRatio, 16 * hRatio);
+          // Strawberry Cake Slice on Left
+          g.fillStyle(0xfce7f3, 1);
+          g.fillRoundedRect(stx - 14 * hRatio, sty - 15 * hRatio, 12 * hRatio, 9 * hRatio, 2);
+          g.fillStyle(0xf43f5e, 1);
+          g.fillCircle(stx - 8 * hRatio, sty - 17 * hRatio, 3.5 * hRatio);
+          // Boba Milk Tea Cup on Right
+          g.fillStyle(0xfed7aa, 1);
+          g.fillRoundedRect(stx + 4 * hRatio, sty - 17 * hRatio, 9 * hRatio, 12 * hRatio, 2);
+          g.lineStyle(2, 0xec4899, 1);
+          g.lineBetween(stx + 8.5 * hRatio, sty - 17 * hRatio, stx + 11 * hRatio, sty - 23 * hRatio);
+        }
+
+        // 9. 🎈 Floating Pastel Balloons (Gently bobbing above Left side of Room)
+        if (eqMap['furn_heart_balloons']) {
+          const bx = isCompact ? w * 0.26 : w * 0.29;
+          const by = floorY - 58 * hRatio + Math.sin(this.pulseTime * 3) * 4 * hRatio;
+          g.lineStyle(1.5, 0xd8b4fe, 0.9);
+          g.lineBetween(bx - 10 * hRatio, by + 10 * hRatio, bx, by + 38 * hRatio);
+          g.lineBetween(bx + 10 * hRatio, by + 6 * hRatio, bx, by + 38 * hRatio);
+          g.lineBetween(bx, by - 4 * hRatio, bx, by + 38 * hRatio);
+          // 3 Pastel Balloons (Pink, Mint, Butter)
+          g.fillStyle(0xf472b6, 0.95);
+          g.fillEllipse(bx - 11 * hRatio, by, 18 * hRatio, 22 * hRatio);
+          g.fillStyle(0x6ee7b7, 0.95);
+          g.fillEllipse(bx + 11 * hRatio, by - 3 * hRatio, 18 * hRatio, 22 * hRatio);
+          g.fillStyle(0xfef08a, 0.95);
+          g.fillEllipse(bx, by - 12 * hRatio, 19 * hRatio, 23 * hRatio);
+          g.fillStyle(0xffffff, 0.7);
+          g.fillCircle(bx - 4 * hRatio, by - 16 * hRatio, 3 * hRatio);
+        }
+
+        // 10. 🌈 Pastel Rainbow Neon Arch Lamp (Upper Center Wall)
+        if (eqMap['furn_rainbow_lamp']) {
+          const rx = w * 0.43;
+          const ry = floorY - 68 * hRatio;
+          const rw = 34 * hRatio;
+          g.lineStyle(4 * hRatio, 0xf9a8d4, 0.95);
+          g.beginPath();
+          g.arc(rx, ry, rw, Math.PI, 0, false);
+          g.strokePath();
+          g.lineStyle(4 * hRatio, 0xfef08a, 0.95);
+          g.beginPath();
+          g.arc(rx, ry, rw - 5 * hRatio, Math.PI, 0, false);
+          g.strokePath();
+          g.lineStyle(4 * hRatio, 0x7dd3fc, 0.95);
+          g.beginPath();
+          g.arc(rx, ry, rw - 10 * hRatio, Math.PI, 0, false);
+          g.strokePath();
+          // Little Clouds at Rainbow ends
+          g.fillStyle(0xffffff, 1);
+          g.fillEllipse(rx - rw + 4 * hRatio, ry + 2 * hRatio, 18 * hRatio, 11 * hRatio);
+          g.fillEllipse(rx + rw - 4 * hRatio, ry + 2 * hRatio, 18 * hRatio, 11 * hRatio);
+        }
+
+        // 11. 🎠 Pastel Carousel Music Box (Mid-Left Shelf/Floor)
+        if (eqMap['furn_music_carousel']) {
+          const mx = isCompact ? w * 0.30 : w * 0.32;
+          const my = floorY - 12 * hRatio;
+          g.fillStyle(0xfef08a, 1);
+          g.fillRoundedRect(mx - 16 * hRatio, my, 32 * hRatio, 10 * hRatio, 4);
+          g.lineStyle(2.5, 0xf472b6, 1);
+          g.lineBetween(mx, my, mx, my - 22 * hRatio);
+          // Carousel Canopy
+          g.fillStyle(0xf9a8d4, 1);
+          g.fillTriangle(mx - 18 * hRatio, my - 18 * hRatio, mx + 18 * hRatio, my - 18 * hRatio, mx, my - 32 * hRatio);
+          // Orbiting Mini Pony
+          const ponyX = mx + Math.sin(this.pulseTime * 3.5) * 10 * hRatio;
+          g.fillStyle(0xffffff, 1);
+          g.fillCircle(ponyX, my - 9 * hRatio, 4.5 * hRatio);
+        }
+
+        // 12. 🐱 Peach Cat Condo Tower (Right side near Window)
+        if (eqMap['furn_cat_condo']) {
+          const ccx = w * 0.62;
+          const ccy = floorY - 6 * hRatio;
+          g.fillStyle(0xfed7aa, 1);
+          g.fillRoundedRect(ccx - 16 * hRatio, ccy - 6 * hRatio, 32 * hRatio, 12 * hRatio, 4);
+          g.fillRect(ccx - 4 * hRatio, ccy - 36 * hRatio, 8 * hRatio, 30 * hRatio);
+          g.fillStyle(0xf9a8d4, 1);
+          g.fillRoundedRect(ccx - 14 * hRatio, ccy - 42 * hRatio, 28 * hRatio, 8 * hRatio, 4);
+          // Dangling Star Toy
+          const swingX = ccx + 11 * hRatio + Math.sin(this.pulseTime * 4) * 3 * hRatio;
+          g.lineStyle(1.5, 0xfde047, 1);
+          g.lineBetween(ccx + 11 * hRatio, ccy - 34 * hRatio, swingX, ccy - 22 * hRatio);
+          g.fillStyle(0xfde047, 1);
+          g.fillCircle(swingX, ccy - 21 * hRatio, 3.5 * hRatio);
+        }
+
+        // 13. 🌸 Mini Blooming Sakura Tree (Right of Window / Back Corner)
+        if (eqMap['furn_sakura_pot']) {
+          const skx = isCompact ? w * 0.54 : w * 0.53;
+          const sky = floorY - 8 * hRatio;
+          g.fillStyle(0xffffff, 1);
+          g.fillRoundedRect(skx - 12 * hRatio, sky - 8 * hRatio, 24 * hRatio, 12 * hRatio, 4);
+          g.lineStyle(2, 0xf472b6, 1);
+          g.strokeRoundedRect(skx - 12 * hRatio, sky - 8 * hRatio, 24 * hRatio, 12 * hRatio, 4);
+          g.lineStyle(3.5 * hRatio, 0x9d174d, 1);
+          g.lineBetween(skx, sky - 8 * hRatio, skx, sky - 26 * hRatio);
+          // Pink Sakura Blossom Puff
+          g.fillStyle(0xfbcfe8, 0.96);
+          g.fillCircle(skx, sky - 33 * hRatio, 14 * hRatio);
+          g.fillStyle(0xf9a8d4, 0.96);
+          g.fillCircle(skx - 10 * hRatio, sky - 27 * hRatio, 10 * hRatio);
+          g.fillCircle(skx + 10 * hRatio, sky - 27 * hRatio, 10 * hRatio);
+        }
       }
 
       drawVisitingNpcAvatar(nx, ny, npc, isCompact, hRatio = 1) {
@@ -14060,6 +14880,35 @@
           g.fillEllipse(px, py + 3.5 * s, 10 * s, 6.5 * s);
           g.fillStyle(0x38bdf8, 1);
           g.fillTriangle(px - 5 * s, py - r * 0.6, px + 5 * s, py - r * 0.6, px, py - r * 1.15);
+        } else if (pet.id === 'pet_pastel_bunny') {
+          // Cute Pastel Macaron Bunny with Long Floppy Ears
+          const earWiggle = Math.sin(this.pulseTime * 4.5) * 2.5 * s;
+          g.fillStyle(0xfbcfe8, 1);
+          g.fillEllipse(px - 8 * s, py - r * 1.25 + earWiggle, 7.5 * s, 18 * s);
+          g.fillEllipse(px + 8 * s, py - r * 1.25 - earWiggle, 7.5 * s, 18 * s);
+          g.lineStyle(2, 0xf472b6, 1);
+          g.strokeEllipse(px - 8 * s, py - r * 1.25 + earWiggle, 7.5 * s, 18 * s);
+          g.strokeEllipse(px + 8 * s, py - r * 1.25 - earWiggle, 7.5 * s, 18 * s);
+          g.fillStyle(0xfef08a, 0.9);
+          g.fillEllipse(px - 8 * s, py - r * 1.25 + earWiggle, 3.5 * s, 11 * s);
+          g.fillEllipse(px + 8 * s, py - r * 1.25 - earWiggle, 3.5 * s, 11 * s);
+          g.fillStyle(0xfff1f2, 1);
+          g.fillCircle(px, py, r);
+          g.lineStyle(2.5, 0xf472b6, 1);
+          g.strokeCircle(px, py, r);
+        } else if (pet.id === 'pet_pudding_hamster') {
+          // Cute Caramel Pudding Hamster with Round Ears & Caramel Beret Cap
+          g.fillStyle(0xfde68a, 1);
+          g.fillCircle(px - 12 * s, py - 11 * s, 6 * s);
+          g.fillCircle(px + 12 * s, py - 11 * s, 6 * s);
+          g.fillCircle(px, py, r * 1.05);
+          g.lineStyle(2.5, 0xb45309, 0.85);
+          g.strokeCircle(px, py, r * 1.05);
+          // Caramel pudding top glaze + cherry
+          g.fillStyle(0xb45309, 0.9);
+          g.fillEllipse(px, py - r * 0.72, r * 1.4, 7 * s);
+          g.fillStyle(0xf43f5e, 1);
+          g.fillCircle(px, py - r * 1.05, 4 * s);
         } else if (pet.id === 'pet_star_dragon') {
           // Nebula Mini-Dragon with Flapping Golden Wings & Horns
           const wingY = Math.sin(this.pulseTime * 6) * 4.5 * s;
@@ -14156,11 +15005,1138 @@
     // -----------------------------------------------------------------------
     let phaserGameInstance = null;
 
+    // =======================================================================
+    // 🌸 PASTEL CASUAL TAMAGOTCHI MODE CONTROLLER & 1-TAP CARE ACTIONS
+    // =======================================================================
+    let activePastelDecorTab = 'furniture';
+
+    // 5-Stage Age-Realistic & Socio-Economically Grounded Button Labels & Activities
+    const CASUAL_STAGE_CONFIG = {
+      0: {
+        stageTag: '🍼 วัยเบบี๋ (0-4 ปี)',
+        growIcon: '🎂', growLabel: '+1 ปี (โตขึ้น)',
+        feedIcon: '🍼', feedLabel: 'ป้อนนม/อาหารบด',
+        bathIcon: '🛁', bathLabel: 'อาบน้ำ/กอด',
+        playIcon: '🧸', playLabel: 'ชวนเล่นของเล่น'
+      },
+      1: {
+        stageTag: '🎒 วัยเด็กประถม (5-12 ปี)',
+        growIcon: '🎒', growLabel: '+1 ปี (เลื่อนชั้น)',
+        feedIcon: '🍱', feedLabel: 'กินข้าวบ้าน/ขนม',
+        bathIcon: '🚿', bathLabel: 'อาบน้ำ/เข้านอน',
+        playIcon: '🎨', playLabel: 'เรียน/ช่วยงานบ้าน'
+      },
+      2: {
+        stageTag: '🎧 วัยรุ่น (13-19 ปี)',
+        growIcon: '🌟', growLabel: '+1 ปี (เติบโต)',
+        feedIcon: '🧋', feedLabel: 'กินของอร่อย',
+        bathIcon: '💆‍♀️', bathLabel: 'ดูแลตัวเอง/ชิลๆ',
+        playIcon: '🎸', playLabel: 'ฝึกทักษะ/พาร์ทไทม์'
+      },
+      3: {
+        stageTag: '💼 วัยผู้ใหญ่ (20-54 ปี)',
+        growIcon: '🥂', growLabel: '+1 ปี (ก้าวหน้า)',
+        feedIcon: '☕', feedLabel: 'มื้อพิเศษ/กาแฟ',
+        bathIcon: '🏖️', bathLabel: 'พักผ่อน/สปา',
+        playIcon: '💼', playLabel: 'ลุยงาน/หารายได้'
+      },
+      4: {
+        stageTag: '🍵 วัยอาวุโส (55+ ปี)',
+        growIcon: '⏳', growLabel: '+1 ปี (สุขสงบ)',
+        feedIcon: '🍵', feedLabel: 'จิบชา/อาหารบำรุง',
+        bathIcon: '♨️', bathLabel: 'แช่น้ำอุ่น/สมาธิ',
+        playIcon: '🪴', playLabel: 'เลี้ยงหลาน/ทำสวน'
+      }
+    };
+
+    function getCasualStageConfigForChar(c) {
+      const age = c ? (c.age || 0) : 0;
+      const stageIdx = age < 5 ? 0 : age < 13 ? 1 : age < 20 ? 2 : age < 55 ? 3 : 4;
+      return CASUAL_STAGE_CONFIG[stageIdx] || CASUAL_STAGE_CONFIG[0];
+    }
+
+    // Calculate realistic starting household savings based on Planet, Species & Family Tier!
+    function calculateRealisticStartingWealth(c) {
+      if (!c) return 200;
+      const tier = c.familyTier || 'middle';
+      const famInc = c.familyIncome || 600;
+      const inherited = gameState.inheritedWealth || 0;
+      if (tier === 'poor') {
+        // Poor / slum family (e.g., Kryos-V Sub-Glacier Slum): very tight household cash (₡60 - ₡260)
+        return Math.max(45, Math.min(280, Math.floor(famInc * 0.22))) + inherited;
+      } else if (tier === 'wealthy') {
+        // Wealthy / elite family (e.g., Solaria Celestia, Aethelgard): generous trust fund
+        return Math.max(2500, Math.floor(famInc * 0.72)) + inherited;
+      }
+      // Middle-class family: modest savings (₡350 - ₡1,600)
+      return Math.max(300, Math.floor(famInc * 0.42)) + inherited;
+    }
+
+    // Calculate realistic net annual income (after living expenses) based on Age, Family Tier, Planet & Career!
+    function calculateRealisticAnnualNetIncome(c) {
+      if (!c) return 50;
+      const tier = c.familyTier || 'middle';
+      const famInc = c.familyIncome || 600;
+      const pMin = (c.planet && c.planet.incomeRange) ? c.planet.incomeRange[0] : 300;
+      const pMax = (c.planet && c.planet.incomeRange) ? c.planet.incomeRange[1] : 2000;
+
+      // 1. Childhood (Ages 0 - 12): Dependent on parents' socio-economic class
+      if (c.age <= 12) {
+        if (tier === 'poor') {
+          // Parents struggle with rent and food; only tiny pocket change saved per year (₡25 - ₡75)
+          return Math.max(20, Math.floor(famInc * 0.06));
+        } else if (tier === 'wealthy') {
+          // Wealthy family gives generous annual allowance (₡900 - ₡3,200)
+          return Math.max(800, Math.floor(famInc * 0.18));
+        }
+        // Middle class parents save a modest allowance (₡120 - ₡380/yr)
+        return Math.max(100, Math.floor(famInc * 0.11));
+      }
+
+      // 2. Teenager (Ages 13 - 19): Family allowance + youth part-time/scholarship
+      if (c.age <= 19) {
+        const skillMult = 0.08 + (c.intellect || 50) * 0.0015 + ((c.aptitudes && c.aptitudes.biz) || 0) * 0.004;
+        const baseTeen = Math.floor(famInc * skillMult);
+        return tier === 'poor' ? Math.max(55, baseTeen) : tier === 'wealthy' ? Math.max(950, baseTeen) : Math.max(180, baseTeen);
+      }
+
+      // 3. Working Adult (Ages 20 - 54): Earned from own Career, Intellect, Aptitudes & Planet Economy!
+      if (c.age <= 54) {
+        const aptTotal = c.aptitudes ? (c.aptitudes.sci + c.aptitudes.art + c.aptitudes.vit + c.aptitudes.emp + c.aptitudes.biz) : 0;
+        const careerProgress = Math.min(1.0, ((c.intellect || 50) / 100) * 0.55 + Math.min(0.45, aptTotal / 140));
+        const grossSalary = Math.floor(pMin + (pMax - pMin) * careerProgress);
+        const livingCost = Math.floor(grossSalary * (tier === 'poor' ? 0.62 : tier === 'wealthy' ? 0.45 : 0.54));
+        return Math.max(90, grossSalary - livingCost);
+      }
+
+      // 4. Senior / Retired (Ages 55+): Pension & family support
+      const pension = Math.floor((pMin + famInc * 0.5) * 0.25);
+      return Math.max(80, pension);
+    }
+
+    // Generate clear, complete, non-truncated daily descriptions tailored to Age, Species/Planet & Family Class!
+    function getEthnicFamilyDailyMessage(c) {
+      if (!c) return 'กำลังเริ่มต้นชีวิตในห้องพักทามาก็อตจิ...';
+      const tier = c.familyTier || 'middle';
+      const cityShort = (c.city || '').split(' (')[0];
+      const planetShort = (c.planet && c.planet.shortName) ? c.planet.shortName.split(' (')[0] : 'ดวงดาว';
+      const speciesShort = (c.planet && c.planet.species) ? c.planet.species.split(' (')[0] : 'พลเมือง';
+      const idx = ((c.month || 1) + (c.timeOfDayIdx || 0)) % 3;
+
+      if (c.age <= 4) {
+        if (tier === 'poor') {
+          const msgs = [
+            `🍼 แม่ชงนมผสมธัญพืชอุ่นๆ ป้อนให้ในห้องเช่าเล็กๆ เขต${cityShort} ถึงครอบครัวจะยากจนแต่พ่อแม่ก็ดูแลอย่างอบอุ่น`,
+            `🧸 หัดคลานเตาะแตะเล่นตุ๊กตาผ้าที่แม่เย็บให้เองบนพรมในห้องพัก (${planetShort} • เงินบ้าน ₡${c.wealth.toLocaleString()})`,
+            `🤱 นอนหลับปุ๋ยซุกอกแม่หลังพ่อกลับมาจากทำงานกะดึกในเขต${cityShort} ด้วยความเหน็ดเหนื่อย`
+          ];
+          return msgs[idx];
+        } else if (tier === 'wealthy') {
+          const msgs = [
+            `🍼 ดื่มนมเสริมวิตามินเกรดพรีเมียมของ${speciesShort} ในห้องเนิร์สเซอรีสุดหรูเขต${cityShort} มีพี่เลี้ยงดูแลใกล้ชิด`,
+            `🧸 คลานเล่นของเล่นโฮโลแกรมและตุ๊กตาหมีพาสเทลในคฤหาสน์ตระกูลมั่งคั่งบน ${planetShort}`,
+            `✨ นอนฟังเพลงบรรเลงกล่อมเด็กบนเตียงปุยเมฆอุ่นสบาย พร้อมกองทุนครอบครัว ₡${c.wealth.toLocaleString()}`
+          ];
+          return msgs[idx];
+        }
+        const msgs = [
+          `🍼 พ่อกับแม่ผลัดกันป้อนนมอุ่นๆ และอาหารบดให้คุณก่อนออกไปทำงานประจำในเขต${cityShort} (${planetShort})`,
+          `🧸 หัดคลานและเกาะยืนเล่นกับสัตว์เลี้ยงคู่หูบนพรมในห้องพักชนชั้นกลางอย่างร่าเริง`,
+          `🌙 นอนฟังแม่เล่านิทานพื้นบ้านของ${speciesShort} จนหลับปุ๋ยไปอย่างมีความสุข`
+        ];
+        return msgs[idx];
+      }
+
+      if (c.age <= 12) {
+        if (tier === 'poor') {
+          const msgs = [
+            `🎒 กินข้าวเช้าฝีมือแม่แล้วเดินไปโรงเรียนชุมชนในเขต${cityShort} ตั้งใจเรียนเพื่อหวังทุนการศึกษาช่วยที่บ้าน`,
+            `🧹 หลังเลิกเรียนรีบกลับมาช่วยพ่อแม่ทำงานบ้านและแบ่งเบาภาระครอบครัว${speciesShort}อย่างขยันขันแข็ง`,
+            `🪙 หยอดเหรียญค่าขนมอันน้อยนิดลงกระปุกออมสิน รู้จักประหยัดอดออมตามฐานะครอบครัว`
+          ];
+          return msgs[idx];
+        } else if (tier === 'wealthy') {
+          const msgs = [
+            `🎒 เดินทางไปโรงเรียนชั้นนำในเขต${cityShort} เรียนวิชาวิทยาการและศิลปะของ${speciesShort}พร้อมเพื่อนๆ`,
+            `🎨 เรียนพิเศษดนตรีและวาดภาพในห้องพักสุดหรู โดยมีทรัพยากรของตระกูลสนับสนุนเต็มที่`,
+            `🍱 ทานมื้อเย็นสุดพิเศษพร้อมหน้าครอบครัวและพูดคุยเรื่องความฝันในอนาคต`
+          ];
+          return msgs[idx];
+        }
+        const msgs = [
+          `🎒 แต่งชุดนักเรียนสะพายกระเป๋าไปโรงเรียนประถมในเขต${cityShort} เรียนหนังสือและเล่นกับเพื่อนๆ อย่างสนุกสนาน`,
+          `📚 นั่งทำการบ้านทบทวนบทเรียนบนพรมในห้อง แล้วแบ่งขนมกินกับสัตว์เลี้ยงคู่หู`,
+          `🏠 ช่วยพ่อแม่จัดโต๊ะอาหารเย็นและพูดคุยเล่าเรื่องสนุกๆ ที่โรงเรียนให้ฟัง`
+        ];
+        return msgs[idx];
+      }
+
+      if (c.age <= 19) {
+        if (tier === 'poor' || c.wealth < 300) {
+          const msgs = [
+            `📚 ตั้งใจอ่านหนังสือเตรียมสอบควบคู่กับรับงานพาร์ทไทม์หลังเลิกเรียนในเขต${cityShort} เพื่อช่วยค่าใช้จ่ายที่บ้าน`,
+            `🍜 แวะกินบะหมี่ร้อนๆ ราคาประหยัดกับเพื่อนสนิทหลังเลิกเรียน ถึงเงินจะน้อยแต่เต็มไปด้วยรอยยิ้ม`,
+            `💪 ฝึกฝนทักษะของ${speciesShort}อย่างมุ่งมั่น เพื่อยกระดับฐานะครอบครัวให้ดีขึ้นในอนาคต`
+          ];
+          return msgs[idx];
+        } else if (tier === 'wealthy') {
+          const msgs = [
+            `🎧 เข้าเรียนสถาบันชั้นนำของ ${planetShort} และแวะคาเฟ่สุดชิคในเขต${cityShort} กับกลุ่มเพื่อนวัยรุ่น`,
+            `🌟 ฝึกฝนทักษะความเป็นผู้นำและบริหารพอร์ตเงินออมของตระกูลเตรียมก้าวสู่วัยผู้ใหญ่`,
+            `🎸 จัดปาร์ตี้ติวหนังสือและซ้อมดนตรีในห้องพักอย่างสนุกสนาน`
+          ];
+          return msgs[idx];
+        }
+        const msgs = [
+          `🎧 ใส่หูฟังเดินไปเรียนมัธยมในเขต${cityShort} และทำกิจกรรมชมรมกับเพื่อนๆ วัยรุ่นอย่างร่าเริง`,
+          `🧋 แบ่งเงินค่าขนมไปแวะร้านชานมไข่มุกและอ่านหนังสือเตรียมสอบเข้าสายอาชีพที่ฝันไว้`,
+          `🎸 ฝึกฝนความถนัดยามเย็นในห้องพักพาสเทลเพื่อค้นหาเส้นทางอนาคตของตัวเอง`
+        ];
+        return msgs[idx];
+      }
+
+      if (c.age <= 54) {
+        const msgs = [
+          `💼 ออกไปทำงานในฐานะ "${c.career}" ณ เขต${cityShort} (${planetShort}) สร้างรายได้ตามความสามารถและเศรษฐกิจของดาว`,
+          `☕ บริหารจัดการรายได้และค่าครองชีพของครอบครัว พร้อมแบ่งเวลาพักผ่อนดูแลสุขภาพในห้องพัก`,
+          `🌟 สั่งสมประสบการณ์วัยผู้ใหญ่ของ${speciesShort} และเก็บออมทรัพย์สิน (ปัจจุบันมี ₡${c.wealth.toLocaleString()})`
+        ];
+        return msgs[idx];
+      }
+
+      const msgs = [
+        `🍵 ใช้ชีวิตวัยอาวุโสอย่างสงบในเขต${cityShort} จิบชาอุ่นๆ ชมวิว ${planetShort} จากหน้าต่างห้องพัก`,
+        `🪴 ดูแลต้นไม้ในห้องและถ่ายทอดประสบการณ์ชีวิตของ${speciesShort}ให้ลูกหลานฟังด้วยความอบอุ่น`,
+        `📖 ทบทวนบันทึกการเดินทางตั้งแต่เยาว์วัยและเตรียมส่งต่อมรดกตระกูลให้ทายาทรุ่นถัดไป`
+      ];
+      return msgs[idx];
+    }
+
+    function updateAgeAppropriateCasualButtons(c) {
+      const cfg = getCasualStageConfigForChar(c);
+      const tier = c ? (c.familyTier || 'middle') : 'middle';
+      const age = c ? (c.age || 0) : 0;
+
+      // Adapt button labels not only by age, but also by family economic reality!
+      let feedLabel = cfg.feedLabel;
+      let bathLabel = cfg.bathLabel;
+      let playLabel = cfg.playLabel;
+
+      if (age >= 13 && age <= 19) {
+        const mealCost = tier === 'poor' ? 15 : tier === 'wealthy' ? 80 : 35;
+        feedLabel = `กินของอร่อย (-₡${mealCost})`;
+        playLabel = `ฝึกทักษะ/พาร์ทไทม์`;
+      } else if (age >= 20 && age <= 54) {
+        const dineCost = tier === 'poor' ? 35 : tier === 'wealthy' ? 180 : 80;
+        const spaCost = tier === 'poor' ? 50 : tier === 'wealthy' ? 250 : 110;
+        feedLabel = `มื้อพิเศษ (-₡${dineCost})`;
+        bathLabel = `พักผ่อน/สปา (-₡${spaCost})`;
+        playLabel = `ลุยงาน (+รายได้)`;
+      } else if (age >= 55) {
+        feedLabel = `อาหารบำรุง (-₡40)`;
+        playLabel = `เลี้ยงหลาน/ทำสวน`;
+      }
+
+      const setTxt = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && el.textContent !== val) el.textContent = val;
+      };
+      setTxt('casualGrowIcon', cfg.growIcon);
+      setTxt('casualGrowLabel', cfg.growLabel);
+      setTxt('casualFeedIcon', cfg.feedIcon);
+      setTxt('casualFeedLabel', feedLabel);
+      setTxt('casualBathIcon', cfg.bathIcon);
+      setTxt('casualBathLabel', bathLabel);
+      setTxt('casualPlayIcon', cfg.playIcon);
+      setTxt('casualPlayLabel', playLabel);
+
+      const hintEl = document.getElementById('casualQuickStatusHint');
+      if (hintEl && c) {
+        const nextMilestone = CASUAL_MILESTONE_AGES.find(a => a > c.age);
+        const estNet = calculateRealisticAnnualNetIncome(c);
+        const tierShort = tier === 'poor' ? 'ฐานะยากจน' : tier === 'wealthy' ? 'ตระกูลร่ำรวย' : 'ชนชั้นกลาง';
+        hintEl.textContent = nextMilestone
+          ? `${cfg.stageTag} • ${tierShort} (เงินออมสุทธิ ~+₡${estNet.toLocaleString()}/ปี) • คำถามถัดไปที่อายุ ${nextMilestone} ปี ⭐`
+          : `${cfg.stageTag} • ${tierShort} • วัยปัจฉิมวัย เตรียมสร้างตำนานบทสรุปชีวิต 👑`;
+      }
+    }
+
+    // Key Milestone Ages where important life questions pop up in Casual Pastel Mode!
+    const CASUAL_MILESTONE_AGES = [5, 10, 15, 20, 25, 30, 40, 50, 60, 70];
+
+    // Concise, socio-economically grounded Milestone Questions for Casual Pastel Mode (No "Visit Earth" forced choices!)
+    const CASUAL_CONCISE_QUESTIONS = {
+      5: {
+        tag: '🐣 วัยอนุบาล 5 ขวบ • ก้าวแรกของชีวิต',
+        title: 'วัย 5 ขวบ: กิจกรรมโปรดในวัยอนุบาล!',
+        prompt: 'น้องอายุครบ 5 ขวบและเติบโตขึ้นท่ามกลางการดูแลของครอบครัว! วันนี้น้องชอบทำสิ่งใดมากที่สุด?',
+        choices: [
+          {
+            label: '🔍 แกะดูกลไกของเล่นและถามคำถามพ่อแม่ด้วยความอยากรู้อยากเห็น',
+            effect: { int: 15, mind: 5, fame: 5, careerHint: 'เด็กน้อยช่างสังเกต', apt: { sci: 12 } },
+            futurePreview: '✨ +15 🧠 ไอคิว • ปูทางสู่สายวิชาการและเทคโนโลยี',
+            log: 'วัย 5 ขวบ: ช่างสังเกตและเรียนรู้ไวกว่าเด็กวัยเดียวกัน'
+          },
+          {
+            label: '🤝 แบ่งของเล่นและช่วยเหลือเพื่อนๆ ในละแวกบ้าน',
+            effect: { health: 6, mind: 15, fame: 10, careerHint: 'ขวัญใจวัยอนุบาล', apt: { emp: 12, art: 6 } },
+            futurePreview: '✨ +15 😊 ความสุข • เป็นที่รักของครอบครัวและเพื่อนบ้าน',
+            log: 'วัย 5 ขวบ: แบ่งปันน้ำใจให้เพื่อนๆ จนเป็นที่เอ็นดูของทุกคนในชุมชน'
+          },
+          {
+            label: '🪙 ช่วยพ่อแม่หยิบจับงานบ้านและเก็บออมเหรียญใส่กระปุก',
+            effect: { int: 6, mind: 6, wealth: 120, careerHint: 'เด็กน้อยกตัญญูรู้ค่าเงิน', apt: { biz: 12 } },
+            futurePreview: '✨ +₡120 เงินออมกระปุก • รู้จักคุณค่าของเงินตั้งแต่วัยเด็ก',
+            log: 'วัย 5 ขวบ: ช่วยงานบ้านพ่อแม่และเริ่มเก็บออมเงินใส่กระปุกออมสิน'
+          }
+        ]
+      },
+      10: {
+        tag: '🎒 วัยประถม 10 ขวบ • ชมรมในฝัน',
+        title: 'วัย 10 ขวบ: เลือกชมรมและทักษะที่โรงเรียน!',
+        prompt: 'น้องขึ้นชั้นประถมปีที่ 4 แล้ว คุณครูให้เลือกเข้าชมรมประจำโรงเรียน น้องจะเลือกชมรมไหน?',
+        choices: [
+          {
+            label: '🎨 ชมรมศิลปะ ดนตรี และการแสดงประจำโรงเรียน',
+            effect: { mind: 12, fame: 12, wealth: 150, apt: { art: 14 } },
+            futurePreview: '✨ +12 🌟 ป๊อปปูลาร์ & รางวัลประกวดศิลปะ +₡150',
+            log: 'วัย 10 ขวบ: ฉายแววศิลปินตัวน้อยและคว้ารางวัลประกวดของโรงเรียน'
+          },
+          {
+            label: '🤖 ชมรมวิทยาศาสตร์และสิ่งประดิษฐ์ชิงทุนการศึกษา',
+            effect: { int: 14, wealth: 250, apt: { sci: 14 } },
+            futurePreview: '✨ +14 🧠 ไอคิว & ทุนการศึกษาเด็กเรียนดี +₡250',
+            log: 'วัย 10 ขวบ: ตั้งใจเรียนจนคว้าทุนการศึกษาช่วยแบ่งเบาภาระพ่อแม่สำเร็จ'
+          },
+          {
+            label: '🥋 ชมรมกีฬาและฝึกความแข็งแกร่งของร่างกาย',
+            effect: { health: 14, mind: 8, fame: 8, apt: { vit: 14 } },
+            futurePreview: '✨ +14 ❤️ สุขภาพแข็งแรง • มีภูมิคุ้มกันโรคภัยไข้เจ็บ',
+            log: 'วัย 10 ขวบ: ฝึกซ้อมกีฬาจนร่างกายแข็งแกร่งและมีวินัยยอดเยี่ยม'
+          }
+        ]
+      },
+      15: {
+        tag: '🌟 วัยรุ่น 15 ปี • ทางแยกสู่อนาคต',
+        title: 'วัย 15 ปี: เลือกเส้นทางวัยรุ่นและช่วยฐานะทางบ้าน!',
+        prompt: 'ก้าวสู่วัยรุ่น! เมื่อมองดูฐานะทางบ้านและสภาพสังคมบนดาวเกิด น้องจะเลือกมุ่งหน้าไปทางใด?',
+        choices: [
+          {
+            label: '📚 มุ่งมั่นสอบชิงทุนเข้าสถาบันวิชาชีพชั้นสูงของดวงดาว',
+            effect: { int: 18, mind: 6, fame: 12, career: 'นักเรียนทุนเกียรตินิยม', apt: { sci: 14, emp: 6 } },
+            futurePreview: '✨ +18 🧠 ไอคิว • ปูทางสู่อาชีพรายได้สูงเมื่อเป็นผู้ใหญ่',
+            log: 'วัย 15 ปี: สอบติดทุนการศึกษาเกียรตินิยม สร้างความภูมิใจให้ครอบครัว!'
+          },
+          {
+            label: '🎤 สร้างสรรค์ผลงานโฮโลแกรมและทำงานพาร์ทไทม์สายครีเอเตอร์',
+            effect: { int: 8, mind: 14, wealth: 650, fame: 20, career: 'ครีเอเตอร์ดาวรุ่งประจำเมือง', apt: { art: 14, biz: 8 } },
+            futurePreview: '✨ รายได้เสริม +₡650 & +20 🌟 ชื่อเสียงในเมืองเกิด',
+            log: 'วัย 15 ปี: หาเงินพิเศษจากการสร้างสรรค์ผลงานและช่วยค่าใช้จ่ายที่บ้าน!'
+          },
+          {
+            label: '💼 ลุยทำงานค้าขายช่วยครอบครัวและฝึกทักษะผู้ประกอบการ',
+            effect: { health: -5, wealth: 1100, fame: 10, career: 'นักสู้ชีวิตวัยรุ่น', apt: { biz: 14, vit: 10 } },
+            futurePreview: '✨ รายได้ก้อนแรก +₡1,100 (เหนื่อยเล็กน้อย -5 ❤️)',
+            log: 'วัย 15 ปี: ขยันทำงานหนักช่วยครอบครัวหาเงินจนฐานะทางบ้านเริ่มดีขึ้น'
+          }
+        ]
+      },
+      20: {
+        tag: '🎓 วัยหนุ่มสาว 20 ปี • ก้าวแรกสู่วัยทำงาน',
+        title: 'วัย 20 ปี: เริ่มต้นอาชีพหาเลี้ยงตัวเองและครอบครัว!',
+        prompt: 'อายุครบ 20 ปีบริบูรณ์! ถึงเวลาทำงานหาเงินด้วยลำแข้งของตัวเอง น้องจะเลือกเส้นทางอาชีพใด?',
+        choices: [
+          {
+            label: '💼 เปิดกิจการค้าขายและลงทุนสร้างธุรกิจในเมืองเกิด',
+            effect: { wealth: 2200, int: 8, fame: 15, career: 'ผู้ประกอบการรุ่นใหม่', apt: { biz: 15 } },
+            futurePreview: '✨ กำไรธุรกิจ +₡2,200 • ยกระดับรายได้ประจำปี',
+            log: 'วัย 20 ปี: เริ่มต้นธุรกิจของตัวเองและสร้างรายได้มั่นคงให้ครอบครัว'
+          },
+          {
+            label: '🔬 ทำงานสายวิทยาการและวิศวกรรมประจำเซกเตอร์',
+            effect: { int: 16, health: 8, wealth: 1600, fame: 18, career: 'นักวิจัยและวิศวกรประจำดาว', apt: { sci: 15 } },
+            futurePreview: '✨ +16 🧠 ไอคิว & เงินเดือนตั้งต้น +₡1,600',
+            log: 'วัย 20 ปี: เข้าทำงานสายเทคโนโลยีและวิศวกรรมด้วยเงินเดือนที่มั่นคง'
+          },
+          {
+            label: '💘 ทำงานประจำควบคู่การดูแลครอบครัวและออกเดตกับคนรู้ใจ',
+            effect: { health: 12, mind: 20, wealth: 950, partner: 'คนรักผู้ร่วมสร้างอนาคต', apt: { emp: 15 } },
+            futurePreview: '✨ พบรักแท้ 💕, +20 😊 ความสุข & เงินออม +₡950',
+            log: 'วัย 20 ปี: มีงานทำที่มั่นคงและได้พบรักกับคนรู้ใจที่คอยเกื้อกูลกัน'
+          }
+        ]
+      },
+      25: {
+        tag: '✨ วัย 25 ปี • ก้าวข้ามกำแพงชนชั้น',
+        title: 'วัย 25 ปี: โอกาสสำคัญในการยกระดับฐานะและชีวิต!',
+        prompt: 'ในวัยเบญจเพส 25 ปี น้องสั่งสมประสบการณ์ทำงานมาพอสมควร ปีนี้จะเลือกโฟกัสสิ่งใด?',
+        choices: [
+          {
+            label: '🌟 เป็นผู้นำโครงการพัฒนาคุณภาพชีวิตและสวัสดิการในบ้านเกิด',
+            effect: { fame: 24, mind: 14, wealth: 1800, karmaBonus: 5, apt: { emp: 14, art: 8 } },
+            futurePreview: '✨ +24 🌟 ชื่อเสียง, +₡1,800 & +5✦ แต้มกรรมช่วยเหลือสังคม',
+            log: 'วัย 25 ปี: เป็นผู้นำพัฒนาชุมชนบ้านเกิดจนได้รับการยกย่องทั่วเซกเตอร์'
+          },
+          {
+            label: '🏆 ทุ่มเททำผลงานชิ้นเอกเพื่อเลื่อนตำแหน่งและรับโบนัสก้อนใหญ่',
+            effect: { int: 12, wealth: 3400, fame: 22, apt: { sci: 10, biz: 14 } },
+            futurePreview: '✨ โบนัสความสำเร็จ +₡3,400 & เลื่อนขั้นรายได้!',
+            log: 'วัย 25 ปี: คว้ารางวัลผลงานยอดเยี่ยมพร้อมเงินโบนัสก้อนโตยกระดับฐานะ!'
+          },
+          {
+            label: '🏖️ นำเงินออมไปปรับปรุงบ้านและพาพ่อแม่ไปพักผ่อนฟื้นฟูสุขภาพ',
+            effect: { health: 20, mind: 22, wealth: -400, lifespanBonus: 5, apt: { vit: 12 } },
+            futurePreview: '✨ จ่าย ₡400 แลก +20 ❤️ สุขภาพ, +22 😊 ความสุข & อายุขัย +5 ปี',
+            log: 'วัย 25 ปี: ใช้เงินที่หามาได้ปรับปรุงบ้านให้พ่อแม่อยู่สบายและสุขภาพแข็งแรง'
+          }
+        ]
+      },
+      30: {
+        tag: '💍 วัยผู้ใหญ่ 30 ปี • จุดสูงสุดของอาชีพและครอบครัว',
+        title: 'วัย 30 ปี: สร้างครอบครัวและหลักปักฐานที่มั่นคง!',
+        prompt: 'อายุครบ 30 ปี! น้องเป็นผู้ใหญ่เต็มตัวและเป็นเสาหลักของบ้าน ก้าวสำคัญในปีนี้คืออะไร?',
+        choices: [
+          {
+            label: '💍 จัดพิธีแต่งงานตามฐานะและสร้างครอบครัวที่อบอุ่น',
+            effect: { health: 10, mind: 25, wealth: 1200, fame: 15, partner: 'คู่สมรสคู่ชีวิตผู้แสนดี', apt: { emp: 15 } },
+            futurePreview: '✨ แต่งงาน 💍 +25 😊 ความสุข, เงินช่วยงานแต่ง +₡1,200 & พร้อมมีทายาท',
+            log: 'วัย 30 ปี: เข้าพิธีวิวาห์แสนอบอุ่นและช่วยกันทำมาหากินสร้างครอบครัว!'
+          },
+          {
+            label: '👑 ก้าวขึ้นเป็นผู้บริหารระดับสูง / ขยายกิจการของตระกูล',
+            effect: { int: 12, wealth: 5200, fame: 28, career: 'ผู้อำนวยการใหญ่ประจำเซกเตอร์', apt: { biz: 16 } },
+            futurePreview: '✨ รายได้พุ่ง +₡5,200 & ก้าวสู่ชนชั้นมั่งคั่ง!',
+            log: 'วัย 30 ปี: ก้าวขึ้นเป็นผู้บริหารระดับสูง พลิกฐานะครอบครัวสู่ความมั่งคั่ง!'
+          },
+          {
+            label: '🧬 วิจัยและพัฒนานวัตกรรมการแพทย์ช่วยเหลือผู้คนบนดวงดาว',
+            effect: { int: 20, health: 18, mind: 15, wealth: 2600, fame: 28, lifespanBonus: 8, career: 'หัวหน้าสถาปนิกชีวเวท', apt: { sci: 16 } },
+            futurePreview: '✨ ยืดอายุขัย +8 ปี, +₡2,600 & +28 🌟 เกียรติยศสูงสุด',
+            log: 'วัย 30 ปี: สร้างนวัตกรรมทางการแพทย์ที่ช่วยยืดอายุขัยให้ผู้คนทั้งดวงดาว!'
+          }
+        ]
+      },
+      40: {
+        tag: '🌟 วัย 40 ปี • บารมีและความมั่นคงของตระกูล',
+        title: 'วัย 40 ปี: บริหารทรัพย์สินและวางรากฐานให้ลูกหลาน!',
+        prompt: 'เข้าสู่วัย 40 ปี น้องจะบริหารจัดการชีวิตและทรัพย์สินที่สั่งสมมาอย่างไร?',
+        choices: [
+          {
+            label: '🏛️ สะสมกองทุนมรดกตระกูลและสนับสนุนการศึกษาของทายาท',
+            effect: { wealth: 4200, mind: 15, fame: 18, karmaBonus: 6, apt: { biz: 12, emp: 10 } },
+            futurePreview: '✨ ปันผล +₡4,200 & +6✦ แต้มกรรม • มรดกตระกูลมั่นคง',
+            log: 'วัย 40 ปี: สร้างความมั่นคงทางการเงินให้ตระกูลเพื่อส่งต่อให้ลูกหลาน'
+          },
+          {
+            label: '🛡️ บริจาคทรัพย์สร้างโรงพยาบาลและช่วยเหลือครอบครัวที่ยากไร้',
+            effect: { health: 12, mind: 22, wealth: -1000, fame: 32, karmaBonus: 12, apt: { emp: 15, sci: 10 } },
+            futurePreview: '✨ ใช้เงิน ₡1,000 สร้างกุศล รับ +32 🌟 ชื่อเสียง & +12✦ แต้มกรรม!',
+            log: 'วัย 40 ปี: แบ่งปันทรัพย์สินช่วยเหลือคนยากจนในบ้านเกิดจนได้รับความศรัทธา'
+          },
+          {
+            label: '🎨 สร้างสรรค์ผลงานระดับตำนานที่สะท้อนอัตลักษณ์ของเผ่าพันธุ์',
+            effect: { int: 12, mind: 20, wealth: 3000, fame: 28, apt: { art: 18 } },
+            futurePreview: '✨ +28 🌟 ชื่อเสียง & รายได้ลิขสิทธิ์ +₡3,000',
+            log: 'วัย 40 ปี: ผลงานระดับมาสเตอร์พีซสร้างชื่อเสียงและรายได้งดงามให้ตระกูล!'
+          }
+        ]
+      },
+      50: {
+        tag: '⏳ วัย 50 ปี • สุขภาพและเกียรติยศวัยกลางคน',
+        title: 'วัย 50 ปี: ดูแลสุขภาพและเก็บเกี่ยวผลสำเร็จ!',
+        prompt: 'อายุครบ 50 ปี ร่างกายเริ่มต้องการการดูแลมากขึ้น น้องจะเลือกให้ความสำคัญกับสิ่งใด?',
+        choices: [
+          {
+            label: '🏥 ใช้เงินออมเข้ารับการฟื้นฟูสุขภาพระดับพรีเมียมเพื่อยืดอายุขัย',
+            effect: { health: 30, mind: 15, wealth: -1200, lifespanBonus: 12, apt: { vit: 12 } },
+            futurePreview: '✨ จ่าย ₡1,200 แลก +30 ❤️ สุขภาพ & ยืดอายุขัย +12 ปี!',
+            log: 'วัย 50 ปี: ลงทุนดูแลสุขภาพร่างกายจนแข็งแรงสดใสและอายุยืนยาวขึ้น!'
+          },
+          {
+            label: '🕊️ ดำรงตำแหน่งที่ปรึกษาอาวุโสและผู้นำชุมชนแห่งดวงดาว',
+            effect: { int: 12, mind: 18, wealth: 3500, fame: 38, karmaBonus: 10, career: 'รัฐบุรุษอาวุโสประจำดวงดาว' },
+            futurePreview: '✨ +38 🌟 ชื่อเสียง, เงินประจำตำแหน่ง +₡3,500 & +10✦ แต้มกรรม',
+            log: 'วัย 50 ปี: ได้รับการยกย่องเป็นผู้นำอาวุโสผู้เป็นที่พึ่งของคนในเซกเตอร์!'
+          },
+          {
+            label: '🌿 ลดภาระงานหนักมาใช้ชีวิตเรียบง่ายอบอุ่นกับครอบครัว',
+            effect: { health: 18, mind: 28, wealth: 900, fame: 15, lifespanBonus: 6 },
+            futurePreview: '✨ +28 😊 ความสุขเต็มเปี่ยม & อายุขัย +6 ปี',
+            log: 'วัย 50 ปี: ใช้ชีวิตวัยกลางคนอย่างสมดุลและอบอุ่นท่ามกลางคนที่รัก'
+          }
+        ]
+      },
+      60: {
+        tag: '🌸 วัยเกษียณ 60 ปี • ร่มโพธิ์ร่มไทรของตระกูล',
+        title: 'วัย 60 ปี: ชีวิตวัยเกษียณแสนสงบ!',
+        prompt: 'ก้าวสู่วัยเกษียณ 60 ปี น้องอยากใช้เวลาช่วงนี้ทำสิ่งใดมากที่สุด?',
+        choices: [
+          {
+            label: '👶 เลี้ยงดูหลานๆ และเขียนบันทึกประวัติศาสตร์ของครอบครัว',
+            effect: { health: 12, mind: 25, int: 10, karmaBonus: 8, lifespanBonus: 6 },
+            futurePreview: '✨ +25 😊 ความสุข, +8✦ แต้มกรรม & อายุขัย +6 ปี',
+            log: 'วัย 60 ปี: เป็นร่มโพธิ์ร่มไทรที่อบอุ่นและถ่ายทอดเรื่องราวของตระกูลให้ลูกหลาน'
+          },
+          {
+            label: '🌿 พักผ่อนชมธรรมชาติบนดวงดาวและดูแลสวนพฤกษาในบ้าน',
+            effect: { health: 16, mind: 25, fame: 18, lifespanBonus: 6 },
+            futurePreview: '✨ +16 ❤️ สุขภาพแข็งแรง & อายุขัย +6 ปี',
+            log: 'วัย 60 ปี: ใช้ชีวิตวัยเกษียณอย่างรื่นรมย์และมีสุขภาพกายใจที่แข็งแรง!'
+          }
+        ]
+      },
+      70: {
+        tag: '👑 ปัจฉิมวัย 70 ปี • มรดกอมตะแห่งชีวิต',
+        title: 'วัย 70 ปี: ฝากตำนานและมรดกไว้ให้คนรุ่นหลัง!',
+        prompt: 'น้องมีอายุยืนยาวถึง 70 ปี! น้องอยากฝากสิ่งใดไว้เป็นบทสรุปแห่งชีวิตนี้?',
+        choices: [
+          {
+            label: '🌌 จารึกเรื่องราวการต่อสู้ชีวิตของตระกูลไว้ในหอจดหมายเหตุดวงดาว',
+            effect: { int: 15, health: 10, mind: 25, fame: 50, karmaBonus: 18, lifespanBonus: 8 },
+            futurePreview: '✨ +50 🌟 ชื่อเสียง & +18✦ แต้มกรรม • ปลดล็อกฉากจบระดับตำนาน!',
+            log: 'วัย 70 ปี: ชื่อและเรื่องราวการสู้ชีวิตของคุณได้รับการจารึกเป็นตำนานของดวงดาว!'
+          },
+          {
+            label: '🎁 แบ่งปันทรัพย์สินช่วยเหลือเด็กยากไร้และส่งมอบมรดกให้ทายาท',
+            effect: { health: 12, mind: 30, fame: 45, karmaBonus: 22, lifespanBonus: 8 },
+            futurePreview: '✨ +22✦ แต้มกรรมสูงสุด & ส่งต่อมรดกให้ลูกหลานสืบทอดตระกูล!',
+            log: 'วัย 70 ปี: สร้างกุศลครั้งสุดท้ายและส่งมอบมรดกทั้งหมดให้ทายาทรุ่นต่อไป!'
+          }
+        ]
+      }
+    };
+
+    function toggleCasualPastelMode() {
+      gameState.casualPastelMode = !gameState.casualPastelMode;
+      applyCasualPastelModeUI();
+      if (gameState.casualPastelMode) {
+        showToast('🌸 สลับสู่ "โหมดพาสเทล Casual": เศรษฐกิจสมจริงตามครอบครัว คำอธิบายอ่านง่าย ครบทุกช่วงวัย!');
+      } else {
+        showToast('🌌 สลับสู่ "โหมดเต็มรูปแบบ": เปิดระบบปฏิบัติการอวกาศ ธุรกิจ และเรดาร์ดาวครบทุกเมนู!');
+      }
+    }
+
+    function applyCasualPastelModeUI() {
+      const isCasual = !!gameState.casualPastelMode;
+      document.body.classList.toggle('pastel-casual-mode', isCasual);
+      const iconEl = document.getElementById('casualModeBtnIcon');
+      const txtEl = document.getElementById('casualModeBtnText');
+      if (iconEl) iconEl.textContent = isCasual ? '🌸' : '🌌';
+      if (txtEl) txtEl.textContent = isCasual ? 'โหมดพาสเทล Casual (สลับโหมด)' : 'โหมดเต็มรูปแบบ (กลับโหมดพาสเทล)';
+
+      const subHdr = document.getElementById('stageSubHeaderLocation');
+      if (subHdr) {
+        subHdr.textContent = isCasual
+          ? 'ดูแลตามวัย 🍼➔💼 / เศรษฐกิจตามฐานะครอบครัวจริง / แตะหน้าต่างขวาเพื่อดูสูติบัตร 📜'
+          : 'แตะลูบหัวน้อง 💖 / เก็บขนมดาว 💎 / ปัดเป่าฝุ่นมืด 👾 ในห้องได้เลย!';
+      }
+
+      if (isCasual) {
+        gameState.questionMode = 'milestone';
+      }
+      updateCharacterUI();
+      setTimeout(ensurePhaserCanvasAlive, 50);
+    }
+
+    function startCasualPastelLifeImmediately() {
+      rollNewBirthCandidate();
+      gameState.questionMode = 'milestone';
+      gameState.autoMode = false;
+      const savedMode = cutsceneFrequencyMode;
+      cutsceneFrequencyMode = 'all';
+      confirmStartLife(false);
+      cutsceneFrequencyMode = savedMode;
+      setSimSpeed(1);
+
+      if (gameState.activeChar) {
+        const c = gameState.activeChar;
+        // Set realistic starting money based on family socio-economic class & planet!
+        c.wealth = calculateRealisticStartingWealth(c);
+        c.maxWealth = c.wealth;
+        const archTag = c.familyArchetype ? c.familyArchetype.tag : c.planet.classLabel;
+        c.sfxWord = `誕! กำเนิด ณ ${c.planet.shortName.split(' (')[0]}!`;
+        c.casualShortStatus = `🐣 กำเนิดเป็น${c.planet.species.split(' (')[0]} ณ เขต${c.city.split(' (')[0]} (${c.planet.shortName}) • พื้นเพ${archTag} เงินออมครอบครัวเริ่มต้น ₡${c.wealth.toLocaleString()}`;
+        c.speechText = c.casualShortStatus;
+      }
+      document.getElementById('birthModal').classList.add('hidden');
+      applyCasualPastelModeUI();
+    }
+
+    function stepOneMonthCasual(c) {
+      playMangaSfx('tick');
+      c.timeOfDayIdx = (c.timeOfDayIdx + 1) % 4;
+      generateDailyRoutineForMonth(c);
+
+      // Realistic monthly cashflow scaled to 1/12th of annual net income
+      const annualNet = calculateRealisticAnnualNetIncome(c);
+      const monthlyNet = Math.max(1, Math.round(annualNet / 12));
+      c.wealth = Math.max(0, c.wealth + monthlyNet);
+      if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+
+      if (c.month % 4 === 0) {
+        c.intellect = Math.min(100, c.intellect + 1);
+      }
+
+      c.casualShortStatus = getEthnicFamilyDailyMessage(c);
+
+      if (c.month < 12) {
+        c.month += 1;
+        updateCharacterUI();
+      } else {
+        completeYearCasual(c);
+      }
+    }
+
+    function completeYearCasual(c) {
+      if (!c || !c.alive) return;
+      c.age += 1;
+      c.month = 1;
+      c.timeOfDayIdx = 0;
+      generateDailyRoutineForMonth(c);
+
+      // Apply realistic annual net income based on family background (childhood) or career/planet (adulthood)
+      const annualNet = calculateRealisticAnnualNetIncome(c);
+      c.wealth = Math.max(0, c.wealth + annualNet);
+      if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+
+      c.intellect = Math.min(100, c.intellect + 1);
+      if (c.age > 55) {
+        const ageWear = Math.max(1, Math.floor((c.age - 50) / 10));
+        c.health = Math.max(0, c.health - ageWear);
+      }
+
+      applyRoomAndPetAnnualBuffs(c);
+      ensureAgeAppropriateRelationships(c);
+
+      // Update career milestones automatically
+      const dom = getDominantAptitudeInfo(c);
+      if (c.age === 6) {
+        c.career = dom.career6;
+        addLifeLog(c.age, 'milestone', `🎒 อายุครบ 6 ขวบ! เข้าเรียนชั้นประถมในฐานะ "${c.career}"`);
+      } else if (c.age === 18) {
+        c.career = dom.career18;
+        addLifeLog(c.age, 'milestone', `🎓 อายุครบ 18 ปี! เริ่มต้นทำงานหาเลี้ยงตัวเองในฐานะ "${c.career}"`);
+      } else if (c.age === 30 && !c.futureFlags.customCareerLocked) {
+        c.career = dom.career30;
+        addLifeLog(c.age, 'milestone', `🌟 อายุครบ 30 ปี! เลื่อนตำแหน่งขึ้นเป็น "${c.career}"`);
+      }
+
+      // Check end-of-life (lifespan or 0 health) so player gets the full Ending Cutscene & Summary Modal!
+      if (c.health <= 0 || (c.age >= c.expectedLifespan && Math.random() < 0.35) || c.age >= c.expectedLifespan + 10) {
+        const reason = c.health <= 0
+          ? `สิ้นอายุขัยในวัย ${c.age} ปี จากปัญหาสุขภาพบน ${c.planet.shortName}`
+          : `สิ้นอายุขัยอย่างสงบในวัย ${c.age} ปี (อายุขัยคาดการณ์ ${c.expectedLifespan} ปี) ณ เขต${c.city.split(' (')[0]} บน ${c.planet.shortName}`;
+        triggerCharacterDeath(reason);
+        updateCharacterUI();
+        return;
+      }
+
+      const evo = getCharacterEvolutionForm(c);
+      const incSource = c.age <= 12 ? 'เงินออมครอบครัว' : c.age <= 19 ? 'เงินออมวัยเรียน' : 'รายได้สุทธิจากอาชีพ';
+      c.casualShortStatus = `🎂 เติบโตสู่อายุ ${c.age} ปี (${evo.formName}) • อาชีพ: ${c.career} • ${incSource} +₡${annualNet.toLocaleString()}`;
+      spawnFloatingPopup(`🎂 อายุ ${c.age} ปี (+₡${annualNet.toLocaleString()})`, '#ec4899');
+
+      const priorSimSpeed = gameState.simSpeed > 0 ? gameState.simSpeed : (gameState.prevSpeedBeforeModal || 1);
+      c._deferEvoCutscene = true;
+      updateCharacterUI();
+      c._deferEvoCutscene = false;
+
+      const checkMilestonePopup = () => {
+        if (!c || !c.alive) return;
+        if (CASUAL_MILESTONE_AGES.includes(c.age)) {
+          gameState.prevSpeedBeforeModal = priorSimSpeed;
+          const qData = CASUAL_CONCISE_QUESTIONS[c.age] || generateAnnualInteractiveQuestion(c.age, c);
+          openInteractiveDecisionModal(qData, false);
+        } else if (c.alive && priorSimSpeed > 0 && !isAnyBlockingModalOpen() && !activeCutsceneState) {
+          setSimSpeed(priorSimSpeed);
+        }
+      };
+
+      if (c._pendingEvoFormName) {
+        const evoFormName = c._pendingEvoFormName;
+        c._pendingEvoFormName = null;
+        playCutscene('evolution', {
+          savedSpeed: priorSimSpeed,
+          subTag: `เติบโตสู่อายุ ${c.age} ปี • ${dom.label}`,
+          title: `🧬 วิวัฒนาการสู่ "${evoFormName}"!`,
+          desc: `น้องเติบโตเปลี่ยนรูปลักษณ์สู่ช่วงวัยใหม่ตามเส้นทางที่คุณดูแล!`
+        }, checkMilestonePopup);
+      } else {
+        checkMilestonePopup();
+      }
+    }
+
+    function casualFeedSnack() {
+      const c = gameState.activeChar;
+      if (!c || !c.alive) return;
+      playMangaSfx('start');
+      const tier = c.familyTier || 'middle';
+      const cityShort = (c.city || '').split(' (')[0];
+      const speciesShort = (c.planet && c.planet.species) ? c.planet.species.split(' (')[0] : 'พลเมือง';
+
+      if (c.age <= 4) {
+        // Infant/Toddler: Parents feed the baby according to household class (No magic money gained!)
+        c.health = Math.min(100, c.health + 15);
+        c.mind = Math.min(100, c.mind + 14);
+        c.currentRoutineProp = 'heart';
+        if (tier === 'poor') {
+          c.sfxWord = '🍼 หม่ำนมอุ่นๆ~';
+          c.casualShortStatus = `🍼 แม่ป้อนนมอุ่นผสมธัญพืชและข้าวบดทำเองในห้องพักเขต${cityShort} อิ่มท้องอบอุ่นใจ (+15❤️ +14✨)`;
+        } else if (tier === 'wealthy') {
+          c.sfxWord = '🍼 นมพรีเมียม~!';
+          c.casualShortStatus = `🍼 ดื่มนมเสริมวิตามินเกรดพรีเมียมและพุดดิ้งเนื้อเนียนของตระกูล${speciesShort} (+15❤️ +14✨)`;
+        } else {
+          c.sfxWord = '🍼 หม่ำนมแม่~!';
+          c.casualShortStatus = `🍼 ดื่มนมอุ่นๆ จากขวดและอาหารบดผลไม้ที่พ่อแม่เตรียมไว้ให้จนอิ่มแปล้ (+15❤️ +14✨)`;
+        }
+        spawnFloatingPopup('🍼 อิ่มท้อง! +15❤️ +14✨', '#ec4899');
+      } else if (c.age <= 12) {
+        // School child: Home meal provided by parents (₡0 cost)
+        c.health = Math.min(100, c.health + 15);
+        c.mind = Math.min(100, c.mind + 15);
+        c.currentRoutineProp = 'heart';
+        if (tier === 'poor') {
+          c.sfxWord = '🍱 ข้าวฝีมือแม่!';
+          c.casualShortStatus = `🍱 กินข้าวคลุกซุปอุ่นๆ และไข่เจียวฝีมือแม่ในบ้านเขต${cityShort} อร่อยและมีแรงไปโรงเรียน (+15❤️ +15✨)`;
+        } else if (tier === 'wealthy') {
+          c.sfxWord = '🍱 เบนโตะพรีเมียม!';
+          c.casualShortStatus = `🍱 ทานชุดอาหารกลางวันเกรดพรีเมียมและขนมหวานพาสเทลที่เชฟประจำบ้านจัดให้ (+15❤️ +15✨)`;
+        } else {
+          c.sfxWord = '🍱 ข้าวกล่องคุณแม่!';
+          c.casualShortStatus = `🍱 กินข้าวกล่องเบนโตะฝีมือคุณแม่และผลไม้สดหลังเลิกเรียนจนหมดเกลี้ยง (+15❤️ +15✨)`;
+        }
+        spawnFloatingPopup('🍱 อิ่มอร่อย! +15❤️ +15✨', '#ec4899');
+      } else if (c.age <= 19) {
+        // Teenager: Spends pocket money on food/cafe according to class
+        const cost = tier === 'poor' ? 15 : tier === 'wealthy' ? 80 : 35;
+        if (c.wealth >= cost) {
+          c.wealth -= cost;
+          c.health = Math.min(100, c.health + 16);
+          c.mind = Math.min(100, c.mind + 18);
+          c.sfxWord = '🧋 อร่อยฟิน~!';
+          c.casualShortStatus = tier === 'poor'
+            ? `🍜 แวะกินบะหมี่ร้อนๆ และน้ำหวานริมทางในเขต${cityShort} กับเพื่อนสนิท (จ่าย ₡${cost} • +16❤️ +18✨)`
+            : `🧋 แวะคาเฟ่สั่งชานมไข่มุกและชาบูกับแก๊งเพื่อนวัยรุ่นในเขต${cityShort} (จ่าย ₡${cost} • +16❤️ +18✨)`;
+          spawnFloatingPopup(`🧋 -₡${cost} / +16❤️ +18✨`, '#ec4899');
+        } else {
+          c.health = Math.min(100, c.health + 12);
+          c.mind = Math.min(100, c.mind + 10);
+          c.sfxWord = '🍚 กินข้าวบ้านประหยัด!';
+          c.casualShortStatus = `🍚 เงินค่าขนมมีน้อย จึงทำกับข้าวง่ายๆ กินเองที่บ้านเพื่อประหยัดเงินช่วยครอบครัว (+12❤️ +10✨)`;
+          spawnFloatingPopup('🍚 กินข้าวบ้าน +12❤️ +10✨', '#ec4899');
+        }
+      } else if (c.age <= 54) {
+        // Adult: Spends earned money on coffee/dining out
+        const cost = tier === 'poor' ? 35 : tier === 'wealthy' ? 180 : 80;
+        if (c.wealth >= cost) {
+          c.wealth -= cost;
+          c.health = Math.min(100, c.health + 18);
+          c.mind = Math.min(100, c.mind + 20);
+          c.fame = Math.min(100, c.fame + 1);
+          c.sfxWord = '☕ มื้อพิเศษเติมพลัง!';
+          c.casualShortStatus = `☕ ดริปกาแฟหอมกรุ่นและทานมื้อพิเศษในเขต${cityShort} ให้รางวัลตัวเองหลังทำงาน (จ่าย ₡${cost} • +18❤️ +20✨)`;
+          spawnFloatingPopup(`☕ -₡${cost} / +18❤️ +20✨`, '#ec4899');
+        } else {
+          c.health = Math.min(100, c.health + 12);
+          c.mind = Math.min(100, c.mind + 10);
+          c.sfxWord = '🍳 ทำอาหารกินเอง!';
+          c.casualShortStatus = `🍳 ช่วงนี้ต้องประหยัดค่าครองชีพ จึงเข้าครัวทำอาหารทานเองที่บ้านอย่างเรียบง่าย (+12❤️ +10✨)`;
+          spawnFloatingPopup('🍳 ทำกินเอง +12❤️ +10✨', '#ec4899');
+        }
+      } else {
+        // Senior (55+): Healthy tea & longevity soup
+        const cost = c.wealth >= 40 ? 40 : 0;
+        c.wealth -= cost;
+        c.health = Math.min(100, c.health + 18);
+        c.mind = Math.min(100, c.mind + 18);
+        c.sfxWord = '🍵 ชาอุ่นๆ บำรุงกาย~';
+        c.casualShortStatus = `🍵 จิบชาสมุนไพรอุ่นๆ คู่กับอาหารย่อยง่ายบำรุงสุขภาพวัยอาวุโสในเขต${cityShort} (${cost > 0 ? 'จ่าย ₡40 • ' : ''}+18❤️ +18✨)`;
+        spawnFloatingPopup('🍵 สุขภาพดี! +18❤️ +18✨', '#ec4899');
+      }
+      updateCharacterUI();
+    }
+
+    function casualBathAndPet() {
+      const c = gameState.activeChar;
+      if (!c || !c.alive) return;
+      playMangaSfx('milestone');
+      if (gameState.phaserScene) {
+        gameState.phaserScene.purgeAllLeeches();
+      }
+      const tier = c.familyTier || 'middle';
+      const cityShort = (c.city || '').split(' (')[0];
+      c.overworkLevel = 0;
+      c.currentRoutineProp = 'star';
+
+      if (c.age <= 4) {
+        c.health = 100;
+        c.mind = 100;
+        c.sfxWord = '🛁 อาบน้ำตัวหอม~!';
+        c.casualShortStatus = tier === 'poor'
+          ? `🛁 แม่ต้มน้ำอุ่นเช็ดตัวอาบน้ำให้ในกะละมังใบเล็ก ทาแป้งเด็กหอมฟุ้งและห่มผ้าให้นอนหลับสบาย (❤️100% ✨100%)`
+          : `🛁 อาบน้ำอุ่นตีฟองสบู่พาสเทลตัวหอมฟุ้ง แล้วนอนซุกในอ้อมกอดพ่อแม่อย่างอบอุ่นปลอดภัย (❤️100% ✨100%)`;
+        spawnFloatingPopup('🛁 สดชื่นอบอุ่น! ❤️100% ✨100%', '#38bdf8');
+      } else if (c.age <= 12) {
+        c.health = 100;
+        c.mind = 100;
+        c.sfxWord = '🚿 อาบน้ำเข้านอน!';
+        c.casualShortStatus = `🚿 อาบน้ำสระผมจนสะอาด แปรงฟันใส่ชุดนอนตัวโปรดและเข้านอนแต่หัวค่ำ ตื่นมาสดชื่นเต็มร้อย (❤️100% ✨100%)`;
+        spawnFloatingPopup('🚿 พักผ่อนเต็มอิ่ม! ❤️100% ✨100%', '#38bdf8');
+      } else if (c.age <= 19) {
+        c.health = 100;
+        c.mind = 100;
+        c.sfxWord = '💆‍♀️ สดชื่นผ่อนคลาย!';
+        c.casualShortStatus = `💆‍♀️ อาบน้ำอุ่นดูแลตัวเองและนอนฟังเพลงโปรดพักสายตาจากเรื่องเรียน ความเหนื่อยล้าหายเป็นปลิดทิ้ง (❤️100% ✨100%)`;
+        spawnFloatingPopup('💆‍♀️ หายเหนื่อย! ❤️100% ✨100%', '#38bdf8');
+      } else if (c.age <= 54) {
+        const spaCost = tier === 'poor' ? 50 : tier === 'wealthy' ? 250 : 110;
+        if (c.wealth >= spaCost) {
+          c.wealth -= spaCost;
+          c.health = 100;
+          c.mind = 100;
+          c.sfxWord = '🏖️ พักร้อนชาร์จพลัง!';
+          c.casualShortStatus = `🏖️ ใช้วันลาพักผ่อนไปนวดสปาและแช่น้ำอุ่นคลายความล้าจากการทำงานในเขต${cityShort} (จ่าย ₡${spaCost} • ฟื้นฟู ❤️100% ✨100%)`;
+          spawnFloatingPopup(`🏖️ -₡${spaCost} / ❤️100% ✨100%`, '#38bdf8');
+        } else {
+          c.health = Math.min(100, c.health + 22);
+          c.mind = Math.min(100, c.mind + 25);
+          c.sfxWord = '🛌 นอนพักอยู่บ้าน!';
+          c.casualShortStatus = `🛌 นอนหลับพักผ่อนเต็มอิ่มอยู่บ้านในวันหยุดเพื่อประหยัดค่าใช้จ่าย ฟื้นฟูแรงกายแรงใจ (+22❤️ +25✨)`;
+          spawnFloatingPopup('🛌 พักผ่อนอยู่บ้าน +22❤️ +25✨', '#38bdf8');
+        }
+      } else {
+        c.health = 100;
+        c.mind = 100;
+        c.sfxWord = '♨️ แช่น้ำอุ่นสบายตัว~';
+        c.casualShortStatus = `♨️ แช่น้ำแร่อุ่นๆ คลายปวดเมื่อยตามวัยและนั่งสมาธิรับลมเย็นๆ ในห้องพัก (❤️100% ✨100%)`;
+        spawnFloatingPopup('♨️ สงบสดชื่น! ❤️100% ✨100%', '#38bdf8');
+      }
+      updateCharacterUI();
+    }
+
+    function casualPlayToy() {
+      const c = gameState.activeChar;
+      if (!c || !c.alive) return;
+      playMangaSfx('roll');
+      const tier = c.familyTier || 'middle';
+      const cityShort = (c.city || '').split(' (')[0];
+      const keys = ['art', 'emp', 'sci', 'biz', 'vit'];
+      const boostKey = keys[Math.floor(Math.random() * keys.length)];
+      c.aptitudes[boostKey] += 5;
+
+      if (c.age <= 4) {
+        // Infant/Toddler: Playing with toys develops brain & mood (₡0 money)
+        c.mind = Math.min(100, c.mind + 18);
+        c.intellect = Math.min(100, c.intellect + 5);
+        c.currentRoutineProp = 'star';
+        c.sfxWord = '🧸 เล่นสนุกจัง~!';
+        c.casualShortStatus = tier === 'poor'
+          ? `🧸 นั่งเล่นตุ๊กตาผ้าและต่อบล็อกไม้เก่าๆ กับพ่อแม่ในห้องเช่าเขต${cityShort} พัฒนาสมองวัยเตาะแตะ (+18✨ +5🧠)`
+          : `🧸 คลานไปกอดตุ๊กตาหมีพาสเทลและต่อบล็อกไม้เสริมพัฒนาการอย่างอารมณ์ดี (+18✨ +5🧠)`;
+        spawnFloatingPopup('🧸 พัฒนาสมอง! +18✨ +5🧠', '#f59e0b');
+      } else if (c.age <= 12) {
+        // School child: Study & help parents with chores -> small realistic allowance
+        const allowance = tier === 'poor' ? 15 : tier === 'wealthy' ? 140 : 45;
+        c.wealth += allowance;
+        if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+        c.mind = Math.min(100, c.mind + 15);
+        c.intellect = Math.min(100, c.intellect + 6);
+        c.currentRoutineProp = 'book';
+        c.sfxWord = '🎨 ตั้งใจเรียน & ช่วยบ้าน!';
+        c.casualShortStatus = `🎨 ตั้งใจทำการบ้านและช่วยพ่อแม่ทำงานบ้านในเขต${cityShort} ได้รับค่าขนมเก็บออม +₡${allowance} (+15✨ +6🧠)`;
+        spawnFloatingPopup(`🎨 +6🧠 +15✨ (+₡${allowance})`, '#f59e0b');
+      } else if (c.age <= 19) {
+        // Teenager: Skill training & youth part-time work
+        const partTimePay = Math.max(35, Math.floor(calculateRealisticAnnualNetIncome(c) * 0.35));
+        c.wealth += partTimePay;
+        if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+        c.mind = Math.min(100, c.mind + 12);
+        c.intellect = Math.min(100, c.intellect + 6);
+        c.fame = Math.min(100, c.fame + 3);
+        c.currentRoutineProp = 'book';
+        c.sfxWord = '🎸 ฝึกทักษะ & พาร์ทไทม์!';
+        c.casualShortStatus = `🎸 ฝึกฝนความถนัดและรับงานพาร์ทไทม์วัยรุ่นในเขต${cityShort} ได้เงินเก็บเพิ่ม +₡${partTimePay.toLocaleString()} (+6🧠 +12✨)`;
+        spawnFloatingPopup(`🎸 พาร์ทไทม์ +₡${partTimePay.toLocaleString()} / +6🧠`, '#f59e0b');
+      } else if (c.age <= 54) {
+        // Working Adult: Works in their career to earn realistic income based on planet & skills!
+        const workEarned = Math.max(85, Math.floor(calculateRealisticAnnualNetIncome(c) * 0.45));
+        c.wealth += workEarned;
+        if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+        c.health = Math.max(20, c.health - 4);
+        c.intellect = Math.min(100, c.intellect + 4);
+        c.fame = Math.min(100, c.fame + 5);
+        c.currentRoutineProp = 'coin';
+        c.sfxWord = '💼 ลุยงานสร้างผลงาน!';
+        c.casualShortStatus = `💼 ลุยงานในอาชีพ "${c.career}" ณ เขต${cityShort} สำเร็จงดงาม ได้รับค่าตอบแทน +₡${workEarned.toLocaleString()} (+4🧠 +5🌟 -4❤️)`;
+        spawnFloatingPopup(`💼 รายได้ +₡${workEarned.toLocaleString()} / +5🌟`, '#f59e0b');
+      } else {
+        // Senior (55+): Gardening, mentoring grandchildren, earning karma & family gift
+        const gift = tier === 'poor' ? 30 : tier === 'wealthy' ? 300 : 90;
+        c.wealth += gift;
+        if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+        c.mind = Math.min(100, c.mind + 20);
+        c.fame = Math.min(100, c.fame + 4);
+        gameState.karmaPoints += 1;
+        saveKarmaPoints();
+        c.currentRoutineProp = 'heart';
+        c.sfxWord = '🪴 อบอุ่นใจวัยเกษียณ~';
+        c.casualShortStatus = `🪴 ดูแลสวนบอนไซและเล่านิทานประสบการณ์ชีวิตให้ลูกหลานฟัง ลูกหลานมอบเงินดูแล +₡${gift} (+20✨ +1✦ แต้มกรรม)`;
+        spawnFloatingPopup(`🪴 +20✨ +1✦ (+₡${gift})`, '#f59e0b');
+      }
+      updateCharacterUI();
+    }
+
+    function casualGrowOneYear() {
+      const c = gameState.activeChar;
+      if (!c) return;
+      if (!c.alive) {
+        openBirthScreenModal();
+        return;
+      }
+      playMangaSfx('start');
+      completeYearCasual(c);
+    }
+
+    function casualQuickGacha() {
+      const c = gameState.activeChar;
+      if (!c) return;
+      const gachaCost = c.familyTier === 'poor' ? 120 : 250;
+      if (c.wealth < gachaCost) {
+        showToast(`🪙 ต้องใช้เงิน ₡${gachaCost} เพื่อสุ่มของขวัญ (ปัจจุบันมี ₡${c.wealth.toLocaleString()} • กดโตขึ้นหรือทำงานเพื่อเก็บเงินเพิ่มนะ!)`);
+        return;
+      }
+      playMangaSfx('start');
+      c.wealth -= gachaCost;
+      const res = rollOneGachaGearItem('sacred_karma', true);
+      gameState.gachaGearState.equippedSlots[res.item.slot] = res.item.id;
+      saveGachaGearState();
+      c.sfxWord = `🎰 ได้รับ ${res.item.shortName}!`;
+      c.casualShortStatus = `🎰 ใช้เงินเก็บ ₡${gachaCost} สุ่มเปิดกล่องของขวัญได้ "${res.item.shortName}" [${res.rarity}] สวมใส่ให้น้องเรียบร้อย!`;
+      spawnFloatingPopup(`🎰 -₡${gachaCost} ได้รับ ${res.item.shortName}!`, '#a855f7');
+      showToast(`🎉 สุ่มได้ "${res.item.shortName}" [${res.rarity}] และสวมใส่ให้น้องเรียบร้อย!`);
+      updateCharacterUI();
+    }
+
+    function casualNewCutePet() {
+      playMangaSfx('start');
+      startCasualPastelLifeImmediately();
+      showToast('🥚 ฟักไข่น้องทามาก็อตจิตัวใหม่เรียบร้อยแล้ว~!');
+    }
+
+    function openPastelDecorModal(defaultTab) {
+      pauseAndSaveSpeedForModal();
+      if (defaultTab) activePastelDecorTab = defaultTab;
+      switchPastelDecorTab(activePastelDecorTab || 'furniture');
+      document.getElementById('pastelDecorModal').classList.remove('hidden');
+    }
+
+    function closePastelDecorModal() {
+      document.getElementById('pastelDecorModal').classList.add('hidden');
+    }
+
+    function claimFreePastelCoins() {
+      const c = gameState.activeChar;
+      if (!c) return;
+      if (c.lastPartTimeClaimAge === c.age) {
+        showToast(`คุณรับเงินช่วยงานครอบครัว/งานพิเศษในวัย ${c.age} ปีไปแล้ว! กด "+1 ปี" เพื่อเติบโตและรับรายได้ปีถัดไปได้เลย`);
+        return;
+      }
+      c.lastPartTimeClaimAge = c.age;
+      playMangaSfx('start');
+      const bonus = calculateRealisticAnnualNetIncome(c);
+      c.wealth += bonus;
+      if (c.wealth > c.maxWealth) c.maxWealth = c.wealth;
+      renderPastelDecorGrid();
+      updateCharacterUI();
+      showToast(`🪙 รับเงินออมช่วยงานครอบครัว/รายได้พิเศษประจำปี +₡${bonus.toLocaleString()} ตามฐานะจริง!`);
+    }
+
+    function switchPastelDecorTab(tabKey) {
+      activePastelDecorTab = tabKey;
+      ['furniture', 'pets', 'gear', 'rooms'].forEach(k => {
+        const btn = document.getElementById('pastelTabBtn_' + k);
+        if (!btn) return;
+        btn.className = (k === tabKey)
+          ? 'pastel-toy-btn py-1.5 px-2 bg-pink-400 text-white text-center'
+          : 'pastel-toy-btn py-1.5 px-2 bg-white text-pink-800 text-center';
+      });
+      renderPastelDecorGrid();
+    }
+
+    function renderPastelDecorGrid() {
+      const grid = document.getElementById('pastelDecorGridContainer');
+      const coinEl = document.getElementById('pastelModalCoinsVal');
+      const eqCountEl = document.getElementById('pastelModalEquippedCount');
+      if (!grid) return;
+
+      const c = gameState.activeChar;
+      const coins = c ? c.wealth : 0;
+      if (coinEl) coinEl.textContent = coins.toLocaleString();
+
+      const eqFurnCount = Object.keys(gameState.shopState.equippedFurniture || {}).filter(k => gameState.shopState.equippedFurniture[k]).length;
+      if (eqCountEl) eqCountEl.textContent = `วางของแต่งห้องแล้ว ${eqFurnCount} ชิ้น`;
+
+      if (activePastelDecorTab === 'furniture') {
+        grid.innerHTML = TAMA_FURNITURE_ITEMS.map(item => {
+          const isOwned = !!gameState.shopState.ownedFurniture[item.id];
+          const isEq = !!gameState.shopState.equippedFurniture[item.id];
+          const icon = item.name.split(' ')[0];
+          const cleanName = item.name.replace(/^[^\s]+\s*/, '');
+          const casualPrice = Math.min(500, item.costCredits || 300);
+          return `
+            <div class="pastel-card-item ${isEq ? 'equipped' : ''} p-3 flex flex-col justify-between gap-2 text-center">
+              <div>
+                <div class="text-3xl mb-1">${icon}</div>
+                <strong class="text-xs sm:text-sm font-extrabold text-pink-950 block leading-snug">${cleanName}</strong>
+                <span class="text-[10px] text-purple-700 font-bold block mt-0.5">${item.slot}</span>
+              </div>
+              <button onclick="pastelToggleOrBuy('furniture', '${item.id}', ${casualPrice})" class="pastel-toy-btn w-full py-1.5 text-xs ${isEq ? 'bg-emerald-400 text-white' : isOwned ? 'bg-pink-200 text-pink-900' : 'bg-amber-200 text-amber-950'}">
+                ${isEq ? '✓ วางในห้องแล้ว (ถอด)' : isOwned ? '🎀 วางในห้องเลย!' : `🪙 ซื้อ (${casualPrice})`}
+              </button>
+            </div>
+          `;
+        }).join('');
+      } else if (activePastelDecorTab === 'pets') {
+        grid.innerHTML = TAMA_COMPANION_PETS.map(item => {
+          const isOwned = !!gameState.shopState.ownedPets[item.id];
+          const isEq = gameState.shopState.equippedPet === item.id;
+          const icon = item.shortName.split(' ')[0];
+          const cleanName = item.shortName.replace(/^[^\s]+\s*/, '');
+          const casualPrice = Math.min(500, item.costCredits || 350);
+          return `
+            <div class="pastel-card-item ${isEq ? 'equipped' : ''} p-3 flex flex-col justify-between gap-2 text-center">
+              <div>
+                <div class="text-3xl mb-1">${icon}</div>
+                <strong class="text-xs sm:text-sm font-extrabold text-pink-950 block leading-snug">${cleanName}</strong>
+                <span class="text-[10px] text-purple-700 font-bold block mt-0.5">เดินดุ๊กดิ๊กข้างน้อง</span>
+              </div>
+              <button onclick="pastelToggleOrBuy('pets', '${item.id}', ${casualPrice})" class="pastel-toy-btn w-full py-1.5 text-xs ${isEq ? 'bg-emerald-400 text-white' : isOwned ? 'bg-pink-200 text-pink-900' : 'bg-amber-200 text-amber-950'}">
+                ${isEq ? '✓ อยู่กับน้องแล้ว' : isOwned ? '🐾 เรียกมาเล่น!' : `🪙 รับเลี้ยง (${casualPrice})`}
+              </button>
+            </div>
+          `;
+        }).join('');
+      } else if (activePastelDecorTab === 'gear') {
+        grid.innerHTML = COSMIC_GEAR_CATALOG.map(item => {
+          const isOwned = getGearLevel(item.id) > 0;
+          const isEq = gameState.gachaGearState.equippedSlots[item.slot] === item.id;
+          const icon = item.shortName.split(' ')[0];
+          const cleanName = item.shortName.replace(/^[^\s]+\s*/, '');
+          const casualPrice = 400;
+          return `
+            <div class="pastel-card-item ${isEq ? 'equipped' : ''} p-3 flex flex-col justify-between gap-2 text-center">
+              <div>
+                <div class="text-3xl mb-1">${icon}</div>
+                <strong class="text-xs sm:text-sm font-extrabold text-pink-950 block leading-snug">${cleanName}</strong>
+                <span class="text-[10px] text-purple-700 font-bold block mt-0.5">${item.slotLabel}</span>
+              </div>
+              <button onclick="pastelToggleOrBuy('gear', '${item.id}', ${casualPrice})" class="pastel-toy-btn w-full py-1.5 text-xs ${isEq ? 'bg-emerald-400 text-white' : isOwned ? 'bg-pink-200 text-pink-900' : 'bg-amber-200 text-amber-950'}">
+                ${isEq ? '✓ สวมใส่อยู่ (ถอด)' : isOwned ? '👑 สวมใส่ให้น้อง' : `🪙 ปลดล็อก (${casualPrice})`}
+              </button>
+            </div>
+          `;
+        }).join('');
+      } else {
+        grid.innerHTML = TAMA_ROOM_THEMES.map(item => {
+          const isOwned = !!gameState.shopState.ownedRooms[item.id];
+          const isEq = gameState.shopState.equippedRoom === item.id;
+          const icon = item.name.split(' ')[0];
+          const cleanName = item.name.split(' (')[0].replace(/^[^\s]+\s*/, '');
+          const casualPrice = Math.min(400, item.costCredits || 300);
+          return `
+            <div class="pastel-card-item ${isEq ? 'equipped' : ''} p-3 flex flex-col justify-between gap-2 text-center">
+              <div>
+                <div class="text-3xl mb-1">${icon}</div>
+                <strong class="text-xs sm:text-sm font-extrabold text-pink-950 block leading-snug">${cleanName}</strong>
+                <span class="text-[10px] text-purple-700 font-bold block mt-0.5">เปลี่ยนสีห้องทันที</span>
+              </div>
+              <button onclick="pastelToggleOrBuy('rooms', '${item.id}', ${casualPrice})" class="pastel-toy-btn w-full py-1.5 text-xs ${isEq ? 'bg-emerald-400 text-white' : isOwned ? 'bg-pink-200 text-pink-900' : 'bg-amber-200 text-amber-950'}">
+                ${isEq ? '✓ ใช้วอลเปเปอร์นี้อยู่' : isOwned ? '🏠 เปลี่ยนสีห้อง!' : `🪙 ซื้อ (${casualPrice})`}
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function pastelToggleOrBuy(category, itemId, price) {
+      const c = gameState.activeChar;
+      if (category === 'furniture') {
+        if (!gameState.shopState.ownedFurniture[itemId]) {
+          if (!c || c.wealth < price) {
+            showToast(`🪙 เงินออมยังไม่พอ (ต้องการ ₡${price} • ปัจจุบันมี ₡${c ? c.wealth.toLocaleString() : 0})`);
+            return;
+          }
+          c.wealth -= price;
+          gameState.shopState.ownedFurniture[itemId] = true;
+          gameState.shopState.equippedFurniture[itemId] = true;
+          playMangaSfx('start');
+        } else {
+          gameState.shopState.equippedFurniture[itemId] = !gameState.shopState.equippedFurniture[itemId];
+          playMangaSfx('roll');
+        }
+        saveShopState();
+      } else if (category === 'pets') {
+        if (!gameState.shopState.ownedPets[itemId]) {
+          if (!c || c.wealth < price) {
+            showToast(`🪙 เงินออมยังไม่พอรับเลี้ยง (ต้องการ ₡${price} • ปัจจุบันมี ₡${c ? c.wealth.toLocaleString() : 0})`);
+            return;
+          }
+          c.wealth -= price;
+          gameState.shopState.ownedPets[itemId] = true;
+          gameState.shopState.equippedPet = itemId;
+          playMangaSfx('start');
+        } else {
+          gameState.shopState.equippedPet = (gameState.shopState.equippedPet === itemId) ? null : itemId;
+          playMangaSfx('roll');
+        }
+        saveShopState();
+      } else if (category === 'gear') {
+        const gearObj = COSMIC_GEAR_CATALOG.find(g => g.id === itemId);
+        if (!gearObj) return;
+        if (!gameState.gachaGearState.ownedGear[itemId]) {
+          if (!c || c.wealth < price) {
+            showToast(`🪙 เงินออมยังไม่พอปลดล็อก (ต้องการ ₡${price} • ปัจจุบันมี ₡${c ? c.wealth.toLocaleString() : 0})`);
+            return;
+          }
+          c.wealth -= price;
+          gameState.gachaGearState.ownedGear[itemId] = 1;
+          gameState.gachaGearState.equippedSlots[gearObj.slot] = itemId;
+          playMangaSfx('start');
+        } else {
+          const curEq = gameState.gachaGearState.equippedSlots[gearObj.slot];
+          gameState.gachaGearState.equippedSlots[gearObj.slot] = (curEq === itemId) ? null : itemId;
+          playMangaSfx('roll');
+        }
+        saveGachaGearState();
+      } else if (category === 'rooms') {
+        if (!gameState.shopState.ownedRooms[itemId]) {
+          if (!c || c.wealth < price) {
+            showToast(`🪙 เงินออมยังไม่พอซื้อวอลเปเปอร์ (ต้องการ ₡${price} • ปัจจุบันมี ₡${c ? c.wealth.toLocaleString() : 0})`);
+            return;
+          }
+          c.wealth -= price;
+          gameState.shopState.ownedRooms[itemId] = true;
+        }
+        gameState.shopState.equippedRoom = itemId;
+        playMangaSfx('start');
+        saveShopState();
+      }
+
+      renderPastelDecorGrid();
+      updateCharacterUI();
+    }
+
     window.addEventListener('load', () => {
       saveKarmaPoints();
       updateShopHudBadges();
       rollNewBirthCandidate();
       switchHudTab('stage');
+      if (gameState.casualPastelMode) {
+        setTimeout(() => {
+          startCasualPastelLifeImmediately();
+        }, 60);
+      }
 
       // Allow clicking outside modal content on the dark backdrop to close utility modals
       [
@@ -14179,21 +16155,52 @@
       });
 
       const container = document.getElementById('phaserMangaContainer');
+      const initRect = container ? container.getBoundingClientRect() : { width: 360, height: 205 };
       const config = {
         type: Phaser.CANVAS,
         parent: 'phaserMangaContainer',
-        width: container.clientWidth || 640,
-        height: container.clientHeight || 300,
+        width: Math.max(300, Math.floor(initRect.width || container.clientWidth || 640)),
+        height: Math.max(185, Math.floor(initRect.height || container.clientHeight || 220)),
         backgroundColor: '#0b0c14',
         scale: {
           mode: Phaser.Scale.RESIZE,
-          autoCenter: Phaser.Scale.CENTER_BOTH
+          autoCenter: Phaser.Scale.NO_CENTER
         },
         scene: [CosmicMangaScene]
       };
 
       phaserGameInstance = new Phaser.Game(config);
+
+      if (typeof ResizeObserver !== 'undefined' && container) {
+        const ro = new ResizeObserver(() => {
+          ensurePhaserCanvasAlive();
+        });
+        ro.observe(container);
+      }
+      setTimeout(ensurePhaserCanvasAlive, 120);
     });
+
+    function ensurePhaserCanvasAlive() {
+      const container = document.getElementById('phaserMangaContainer');
+      const box = document.getElementById('phaserStageBox');
+      if (!container || !phaserGameInstance || !phaserGameInstance.scale) return;
+      const rect = (box || container).getBoundingClientRect();
+      const targetW = Math.max(280, Math.floor(rect.width || container.clientWidth || 360));
+      const targetH = Math.max(180, Math.floor(rect.height || container.clientHeight || 205));
+      if (Math.abs(phaserGameInstance.scale.width - targetW) > 2 || Math.abs(phaserGameInstance.scale.height - targetH) > 2) {
+        phaserGameInstance.scale.resize(targetW, targetH);
+      }
+      const cvs = container.querySelector('canvas');
+      if (cvs) {
+        cvs.style.margin = '0px';
+        cvs.style.width = '100%';
+        cvs.style.height = '100%';
+        cvs.style.display = 'block';
+      }
+      if (gameState.phaserScene && gameState.phaserScene.repositionLayout) {
+        gameState.phaserScene.repositionLayout(targetW, targetH);
+      }
+    }
   </script>
 </body>
 </html>
